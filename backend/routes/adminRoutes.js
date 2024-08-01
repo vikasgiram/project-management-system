@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
 const {isAdmin} = require('../middlewares/auth');
-const { route } = require('./authRoutes');
+const companyController = require('../controllers/companyController');
 
-router.get('/admin', isAdmin, adminController.getAdmin);
+router.get('/', isAdmin, adminController.getAdmin);
 
-router.post('/admin',isAdmin, adminController.admin);
+router.get('/company',isAdmin, companyController.showAll);
 
-router.delete('/admin/:id',isAdmin,adminController.deleteAdmin);
+router.post('/',isAdmin, adminController.admin);
+
+router.delete('/:id',isAdmin,adminController.deleteAdmin);
 
 module.exports=router;

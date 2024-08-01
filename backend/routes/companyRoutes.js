@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const companyController = require('../controllers/companyController');
-const { isAdmin } = require('../middlewares/auth');
+const { isAdmin, isCompany } = require('../middlewares/auth');
+const comDashbordController = require('../controllers/comDashbordController');
 
 
-router.get('/companys',isAdmin, companyController.showAll);
+router.get('/',isAdmin, companyController.showAll);
 
-router.post('/company',isAdmin, companyController.createCompany);
+router.post('/',isAdmin, companyController.createCompany);
 
-router.put('/company/:id',isAdmin, companyController.updateCompany);
+router.get('/dashbord', isCompany,comDashbordController.dashboard );
 
-router.delete('/company/:id',isAdmin, companyController.deleteCompany);
+router.put('/:id',isAdmin, companyController.updateCompany);
+
+router.delete('/:id',isAdmin, companyController.deleteCompany);
 
 module.exports = router;

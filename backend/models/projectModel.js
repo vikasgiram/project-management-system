@@ -10,6 +10,10 @@ const projectSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: Customer,
   },
+  name:{
+    type:String,
+    required:true
+  },
   company:{
     type: mongoose.Schema.Types.ObjectId,
     ref:Company
@@ -52,11 +56,6 @@ const projectSchema = new mongoose.Schema({
     ],
     required: true,
   },
-  developers:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref: Employee,
-    default:[]
-  }],
   startDate: {
     // Start date of the project
     type: Date,
@@ -66,6 +65,10 @@ const projectSchema = new mongoose.Schema({
     // End date of the project
     type: Date,
     required: true,
+  },
+  prize:{
+    type: Number,
+    required:true,
   },
   advancePay: {
     // Advance payment percentage 
@@ -97,7 +100,7 @@ const projectSchema = new mongoose.Schema({
     // Status of the project
     type: String,
     required: true,
-    enum: ['upcoming', 'in process', 'finished'], // Allowed values
+    enum: ['upcoming', 'inprocess', 'finished'], // Allowed values
     default:'upcoming'
   },
   completeLevel: {

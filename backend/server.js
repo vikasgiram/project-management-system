@@ -11,6 +11,7 @@ const companyRoutes = require('./routes/companyRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const devRoutes = require('./routes/developerRoutes');
 
 dotenv.config();
 connectDB();
@@ -20,19 +21,21 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api', employeeRoutes);
+app.use('/api/employee', employeeRoutes);
 
 app.use('/api', authRoutes);
 
-app.use('/api', adminRoutes);
+app.use('/api/admin', adminRoutes);
 
-app.use('/api', companyRoutes);
+app.use('/api/company', companyRoutes);
 
-app.use('/api', customerRoutes);
+app.use('/api/customer', customerRoutes);
 
-app.use('/api', projectRoutes);
+app.use('/api/project', projectRoutes);
 
-app.use('/api', taskRoutes);
+app.use('/api/task', taskRoutes);
+
+app.use('/api/dev',devRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);

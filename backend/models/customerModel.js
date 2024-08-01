@@ -20,34 +20,24 @@ const customerSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  billingAddress: {
-    // Billing address of the customer
-    type: String,
-    required: true,
-  },
-  city: {
-    // City of the customer
-    type: String,
-    required: true,
-  },
-  state: {
-    // State of the customer
-    type: String,
-    required: true,
-  },
-  country: {
-    // Country of the customer
-    type: String,
-    required: true,
+  BillingAddress:{
+    add:String,
+    city:String,
+    state:String,
+    country:String,
+    pincode:Number
   },
   company:{
     type: mongoose.Schema.Types.ObjectId,
     ref:Company
   },
-  deliveryAddress: {
+  DeliveryAddress: {
     // Delivery address of the customer
-    type: String,
-    required: true,
+    add:String,
+    city:String,
+    state:String,
+    country:String,
+    pincode:Number,
   },
   GSTNo: {
     // GST number of the customer

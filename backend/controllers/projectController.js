@@ -21,11 +21,11 @@ exports.create = async (req, res)=>{
         const newProject= await Project({
             custId,
             purchaseOrderNo,
-            purchaseOrderDate,
+            purchaseOrderDate:new Date(purchaseOrderDate),
             purchaseOrderValue,
             category,
-            startDate,
-            endDate,
+            startDate:new Date(startDate),
+            endDate: new Date(endDate),
             advancePay,
             payAgainstDelivery,
             payfterCompletion,
@@ -64,6 +64,7 @@ exports.update= async (req, res)=>{
         if(!project){
             res.status(400).json({error:"Project not found"});
         }
+        res.status(200).json({message:"Project Updated sucessfully..."});
     } catch (error) {
         res.status(500).json({error:"Error while Updating the upating: "+error.message});
     }

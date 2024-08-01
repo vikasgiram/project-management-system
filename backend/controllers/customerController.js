@@ -20,7 +20,7 @@ exports.showAll= async (req, res)=>{
 exports. createCustomer= async(req, res)=>{
     try{
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const {custName, billingAddress, city, state, country,email, deliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
+        const {custName, BillingAddress, city, state, country,email, DeliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
         const user = await Employee.findById(decoded.userId);
 
         const customer= await Customer.find({company:user ? user.company : decoded.userId, email:email});
@@ -30,11 +30,7 @@ exports. createCustomer= async(req, res)=>{
         
         const newCust = Customer({
             custName,
-            billingAddress,
-            city, 
-            state, 
-            country,
-            deliveryAddress, 
+            DeliveryAddress, 
             GSTNo,
             company:user&& user.company ? user.company:decoded.userId,
             email,
@@ -44,6 +40,18 @@ exports. createCustomer= async(req, res)=>{
             customerContactPersonName2, 
             phoneNumber2
         });
+
+        newCust.BillingAddress.add=BillingAddress.add;
+        newCust.BillingAddress.city=BillingAddress.city;
+        newCust.BillingAddress.state=BillingAddress.state;
+        newCust.BillingAddress.pincode=BillingAddress.pincode;
+        newCust.BillingAddress.country=BillingAddress.country;
+
+        newCust.DeliveryAddress.add=DeliveryAddress.add;
+        newCust.DeliveryAddress.city=DeliveryAddress.city;
+        newCust.DeliveryAddress.state=DeliveryAddress.state;
+        newCust.DeliveryAddress.pincode=DeliveryAddress.pincode;
+        newCust.DeliveryAddress.country=DeliveryAddress.country;
 
         // if(user && user.company)
         //     newCust=user.company;

@@ -6,7 +6,7 @@ const Company = require('./companyModel');
 
 // Define the taskSheet schema
 const taskSheetSchema = new Schema({
-  empId:[ {
+  employees:[ {
     type: mongoose.Schema.Types.ObjectId,
     ref: Employee, // Reference to the Employee schema
   }],
@@ -25,12 +25,8 @@ const taskSheetSchema = new Schema({
   },
   taskStatus: {
     type: String,
-    enum: ['upcomming','inprocess', 'finish', 'stop'], // taskStatus can only be one of these values
+    enum: ['upcoming','inprocess', 'finished'], // taskStatus can only be one of these values
     default:'upcoming'
-  },
-  actionDate: {
-    type: Date, // Date when the action is performed
-    required: true // actionDate is required
   },
   actionStartDate: {
     type: Date, // Start time of the action in HH:MM format
@@ -40,9 +36,10 @@ const taskSheetSchema = new Schema({
     type: String, // End time of the action in HH:MM format
     required: true // actionEndTime is required
   },
-  action: {
-    type: String, // Description of the action performed
-  },
+  action: [{
+    type: String,
+    required: true,
+  }],
   remark: {
     type: String // Additional remarks or comments about the task
   },
