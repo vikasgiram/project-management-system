@@ -84,7 +84,7 @@ exports.updateCompany = async (req, res)=>{
         if(!company){
             res.status(404).json({error:"Company not found"});  
         }
-        res.status(200).json({message:"Company Data Updated Sucessfully: "+company.email});
+        res.status(200).json({message:"Company Data Updated Sucessfully: "});
     } catch (error) {
         res.status(500).json({error:"Error while updating Company Data: "+error.message});
     }

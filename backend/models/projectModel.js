@@ -30,7 +30,7 @@ const projectSchema = new mongoose.Schema({
     default: Date.now(),
   },
   purchaseOrderValue: {
-    // Value of the purchase order
+    // Value of the purchase order / cost of the project
     type: Number,
     required: true,
   },
@@ -59,16 +59,12 @@ const projectSchema = new mongoose.Schema({
   startDate: {
     // Start date of the project
     type: Date,
-    default: Date.now
+    required: true
   },
   endDate: {
     // End date of the project
     type: Date,
     required: true,
-  },
-  prize:{
-    type: Number,
-    required:true,
   },
   advancePay: {
     // Advance payment percentage 

@@ -34,6 +34,32 @@ exports.manDashbord = async (req, res)=>{
     }
 }
 
+exports.projectUpdate = async (req, res)=>{
+    try {
+
+        const project= await Project.findById(req.params.id);
+        const {completeLevel}= req.body;
+
+        if(project){
+            if(project.completeLevel!==100){
+                if(completeLevel>0 && completeLevel < 100){
+                    project.projectStatus='inprocess';
+                }
+                else if(completeLevel == 100){
+                    project.projectStatus='finished';
+                }
+            }
+            else{
+                res.status(400).json({error:"Project allredy complated "});
+            }
+        }
+        else 
+            res.status(400).json({error:"Project not found"});
+    } catch (error) {
+        res.status(500).json({error:"Error while updating the project status"});
+    }
+}
+
 exports.salesDashbord = async (req, res)=>{
     try {
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);

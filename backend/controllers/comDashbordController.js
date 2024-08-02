@@ -5,6 +5,47 @@ const Customer = require('../models/customerModel');
 exports.dashboard = async (req, res) => {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
+    async function getValueWiseProjectData() {
+      try {
+        const ranges = [
+          { min: 0, max: 100000 },
+          { min: 100000, max: 1000000 },
+          { min: 1000000, max: 5000000 },
+          { min: 5000000, max: 10000000 },
+          { min: 10000000, max: Infinity }
+        ];
+    
+        const promises = ranges.map(async (range) => {
+          const inprocess = await Project.countDocuments({
+            company: decoded.userId,
+            projectStatus: 'inprocess',
+            purchaseOrderValue: { $gte: range.min, $lt: range.max }
+          });
+          const upcoming = await Project.countDocuments({
+            company: decoded.userId,
+            projectStatus: 'upcoming',
+            purchaseOrderValue: { $gte: range.min, $lt: range.max }
+          });
+          const finished = await Project.countDocuments({
+            company: decoded.userId,
+            projectStatus: 'finished',
+            purchaseOrderValue: { $gte: range.min, $lt: range.max }
+          });
+          return {
+            range: `${range.min} - ${range.max}`,
+            inprocess,
+            upcoming,
+            finished
+          };
+        });
+    
+        const result = await Promise.all(promises);
+        return result;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function getCategoryCounts() {
         try {
           const categories = await Project.distinct('category');
@@ -26,12 +67,13 @@ exports.dashboard = async (req, res) => {
      
       
       const category=await getCategoryCounts();
-
+      const valueWiseProjectData = await getValueWiseProjectData();
       console.log(category);
       res.status(200).json(
         {
             category,
             "customers":customers,
+            valueWiseProjectData
         });
     } catch (error) {
       // handle error

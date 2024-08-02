@@ -12,6 +12,7 @@ const customerRoutes = require('./routes/customerRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const devRoutes = require('./routes/developerRoutes');
+const managerRoutes = require('./routes/managerRouters');
 
 dotenv.config();
 connectDB();
@@ -36,6 +37,8 @@ app.use('/api/project', projectRoutes);
 app.use('/api/task', taskRoutes);
 
 app.use('/api/dev',devRoutes);
+
+app.use('/api/manager',managerRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);
