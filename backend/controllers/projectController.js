@@ -5,8 +5,10 @@ const jwt = require('jsonwebtoken');
 exports.showAll = async (req, res) => {
     try {
       const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-      const loggedUser= await Employee.findById(decoded.userId);
-      const projects = await Project.find({ company: loggedUser ? loggedUser.company : decoded.userId});
+      const projects = await Project.find({ company: decoded.user.company? decoded.user.company:decoded.user._id});
+      if(projects.length<=0){
+        return res.status(400).json({error:"No Projects Found"});
+      }
       res.status(200).json(projects);
     } catch (error) {
       res.status(500).json({ error: "Error while fetching projects: " + error.message });
@@ -15,11 +17,11 @@ exports.showAll = async (req, res) => {
 
 exports.create = async (req, res)=>{
     try {
-        const {custId, purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, projectStatus, POCopy}= req.body;
+        const {name,custId, purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, projectStatus, POCopy}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const emp= await Employee.findById(decoded.userId);
         const newProject= await Project({
             custId,
+            name,
             purchaseOrderNo,
             purchaseOrderDate:new Date(purchaseOrderDate),
             purchaseOrderValue,
@@ -32,7 +34,7 @@ exports.create = async (req, res)=>{
             remark,
             completeLevel:0,
             POCopy,
-            company: emp && emp.company ? emp.company : decoded.userId,
+            company: decoded.user.company? decoded.user.company:decoded.user._id
         });
 
         if(newProject){

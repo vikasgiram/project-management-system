@@ -9,7 +9,7 @@ router.get('/',isAdmin, companyController.showAll);
 
 router.post('/',isAdmin, companyController.createCompany);
 
-router.get('/dashbord', isCompany,comDashbordController.dashboard );
+router.get('/dashboard', isCompany,comDashbordController.dashboard );
 
 router.put('/:id',isAdmin, companyController.updateCompany);
 

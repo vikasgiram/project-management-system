@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const projectController = require('../controllers/projectController');
-const { isLoggedIn, isSales } = require("../middlewares/auth");
+const { isLoggedIn, permissionMiddleware, isCompany, } = require("../middlewares/auth");
 
-router.get('/', isLoggedIn, projectController.showAll);
+router.get('/', permissionMiddleware(['viewProject']), projectController.showAll);
 
-router.post('/',isSales, projectController.create);
+router.post('/', permissionMiddleware(['createProject']) ,projectController.create);
 
-router.put('/:id',isSales, projectController.update);
+router.put('/:id', permissionMiddleware(['updateProject']), projectController.update);
+
+router.delete('/:id', isCompany, projectController.delete);
 
 
 module.exports = router;

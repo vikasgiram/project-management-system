@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt');
 exports.showAll = async (req, res) =>{
     try {
         const company = await Company.find();
+
+        if(company.length<=0){
+          return res.status(400).json({error:"No company found "});
+        }
         res.status(200).json(company);
         
     } catch (error) {
@@ -13,7 +17,7 @@ exports.showAll = async (req, res) =>{
 
 exports.createCompany= async (req, res)=>{
     try {
-      const {name, email, GST, Address, admin, mobileNo, password, subDate,subAmount, confirmPassword} = req.body;
+      const {name, email, GST, Address, admin, mobileNo,logo, password, subDate,subAmount, confirmPassword} = req.body;
   
       if(password !== confirmPassword){
         return res.status(400).json({error:`Password desen't match!!!`});
@@ -35,7 +39,8 @@ exports.createCompany= async (req, res)=>{
         admin:admin,
         mobileNo:mobileNo,
         password:hashPassword,
-        subDate:subDate,
+        subDate:new Date(subDate),
+        logo,
       });
 
       newComp.Address.add=Address.add;

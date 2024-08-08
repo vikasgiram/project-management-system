@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Company = require("./companyModel");
+const Department = require('./departmentModel');
+const Role = require('./roleModel');
 
 const employeeSchema = new mongoose.Schema({
   empName: {
@@ -7,9 +9,15 @@ const employeeSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  department:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Department,
+    required:true
+  },
   company:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:Company
+    ref:Company,
+    required:true
   },
   empMobileNo: {
     type: String,
@@ -21,9 +29,9 @@ const employeeSchema = new mongoose.Schema({
     required: true,
   },
   role: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref:Role,
     required: true,
-    enum: ['developer', 'sales', 'manager'],
   },email: {
     type: String,
     required: true,

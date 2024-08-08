@@ -1,17 +1,65 @@
 const Employee = require('../models/employeeModel');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 // show all employees
 exports.showAll = async (req, res) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    const loggedUser = await Employee.findById(decoded.userId);
-    console.log(loggedUser);
-    const employees = await Employee.find({company:loggedUser && loggedUser.company ? loggedUser.company: decoded.userId});
+  
+    const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id});
+    if(employees.length<=0){
+      return res.status(400).json({error:"No employees found "});
+    }
     res.status(200).json(employees);
   } catch (error) {
     res.status(500).json({ error: "Error while fetching employees: " + error.message });
   }
+};
+
+exports.create=async (req, res) => {
+  try {
+    const {empName, empMobileNo, hourlyRate,role, email, password,department, confirmPassword}=req.body;
+    if(password !== confirmPassword){
+      return res.status(400).json({error:`Password desen\'t match!!!`});
+    }
+
+    const emp= await Employee.findOne({email});
+
+    if(emp){
+      console.log(emp);
+      return res.status(400).json({error:"User already exists"});
+    }
+
+    const salt=await bcrypt.genSalt(10);
+    const hashPassword=await bcrypt.hash(password,salt);
+
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const newEmp=Employee({
+      empName:empName,
+      empMobileNo:empMobileNo,
+      hourlyRate:hourlyRate,
+      role:role,
+      company:decoded.user._id,
+      department,
+      email:email,
+      password:hashPassword,
+    });
+
+    if(newEmp){
+      console.log(newEmp.email+" Created:");
+      await newEmp.save();
+      res.status(201).json(newEmp);
+    }
+    else{
+      res.status(400).json({error:"Invalid Employee Data!!!"});
+    }
+
+
+  } catch (error) {
+    res.status(400).json({ error: "Error in authController: "+error.message });
+  }
+
 };
 
 // Delete an employee

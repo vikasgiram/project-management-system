@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const employeeController = require('../controllers/employeeController');
-const empDashbord= require('../controllers/empDashbordController');
-const {isCompany, isLoggedIn, isManager, isSales} = require('../middlewares/auth');
+const dashboardController= require('../controllers/dashboardController');
+const {isCompany, permissionMiddleware} = require('../middlewares/auth');
 
+
+router.get('/dashboard', dashboardController.dashboard);
 
 // get all employess (Admin and manager Only)
-router.get('/',isLoggedIn,employeeController.showAll);
+router.get('/',permissionMiddleware(['viewEmployee']),employeeController.showAll);
+
+router.post('/',isCompany,employeeController.create);
 
 // Delete an employee (Admin only)
 router.delete('/:id', isCompany, employeeController.deleteEmployee);
 
-router.get('/manager',isManager,empDashbord.manDashbord);
-
-router.get('/sales',isSales,empDashbord.salesDashbord);
-
 // Update an employee (Admin only)
 router.put('/:id', isCompany, employeeController.updateEmployee);   
+
 
 module.exports = router;

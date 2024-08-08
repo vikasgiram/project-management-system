@@ -17,17 +17,17 @@ exports.dashboard = async (req, res) => {
     
         const promises = ranges.map(async (range) => {
           const inprocess = await Project.countDocuments({
-            company: decoded.userId,
+            company: decoded.user._id,
             projectStatus: 'inprocess',
             purchaseOrderValue: { $gte: range.min, $lt: range.max }
           });
           const upcoming = await Project.countDocuments({
-            company: decoded.userId,
+            company: decoded.user._id,
             projectStatus: 'upcoming',
             purchaseOrderValue: { $gte: range.min, $lt: range.max }
           });
           const finished = await Project.countDocuments({
-            company: decoded.userId,
+            company: decoded.user._id,
             projectStatus: 'finished',
             purchaseOrderValue: { $gte: range.min, $lt: range.max }
           });
@@ -50,9 +50,9 @@ exports.dashboard = async (req, res) => {
         try {
           const categories = await Project.distinct('category');
           const categoryPromises = categories.map(async (name) => {
-            const inprocess = await Project.countDocuments({ company: decoded.userId, projectStatus: 'inprocess', category:name });
-            const upcoming = await Project.countDocuments({ company: decoded.userId, projectStatus: 'upcoming', category:name });
-            const finished = await Project.countDocuments({ company: decoded.userId, projectStatus: 'finished', category:name });
+            const inprocess = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'inprocess', category:name });
+            const upcoming = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'upcoming', category:name });
+            const finished = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'finished', category:name });
             return [name, { inprocess, upcoming, finished }];
           });
           const category = Object.fromEntries(await Promise.all(categoryPromises));

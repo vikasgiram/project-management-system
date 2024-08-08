@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const Employee = require("../models/employeeModel");
 const Company = require('../models/companyModel');
 const Admin = require('../models/adminModel');
+const Role = require('../models/roleModel');
 
 module.exports.isLoggedIn = async (req, res, next) => {
   const token = req.cookies.jwt;
@@ -16,9 +17,8 @@ module.exports.isCompany = async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
     // This is the company ID of the logged in user
-    req.id = decoded.userId;
-    const company = await Company.findById(req.id);
-    if (req.id && company) {
+    const company = await Company.findById(decoded.user._id);
+    if (company) {
       return next();
     } else {
       return res.status(403).json({ error: 'Access denied. Companies only.' });
@@ -33,10 +33,9 @@ module.exports.isAdmin = async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
     // This is the employee ID of the logged in user
-    req.userId = decoded.userId;
-    const emp=await Admin.findById(req.userId);
+    const user=await Admin.findById(decoded.user._id);
   
-    if (req.userId && emp) {
+    if (user) {
       return next();
     } else {
       return res.status(403).json({ error: 'Access denied. Admins only.' });
@@ -46,74 +45,24 @@ module.exports.isAdmin = async (req, res, next) => {
   }
 };
 
-
-module.exports.isDeveloper = async (req, res, next) => {
-  try {
+module.exports.permissionMiddleware = (permissions) => {
+  return async (req, res, next) => {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    // This is the employee ID of the logged in user
-    req.id = decoded.userId;
-    let emp=await Employee.findById(req.id);
-    if (emp && emp.role.toLowerCase() === 'developer') {
-      console.log("Developer is loggedIn");
+    const user = await Company.findById(decoded.user._id);
+    if(user){
       return next();
-    } else {
-      emp = await Company.findById(req.id);
-      if(emp){
-        console.log("Company is loggedIn");
-        return next();
-      }
-      else
-        return res.status(403).json({ error: 'Access denied. Developers only.' });
     }
-  } catch (err) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
+    const userRole= await Role.findById(decoded.user.role)
+    const employeePermissions = userRole.permissions; // assuming employee has a permissions array
+    const hasPermissions = permissions.every((permission) => {
+      return employeePermissions.includes(permission);
+    });
+
+    if (!hasPermissions) {
+      return res.status(403).json({ error: 'You do not have the required permissions' });
+    }
+
+    next(); // if employee has the required permissions, continue to the next middleware
+  };
 };
 
-module.exports.isSales = async (req, res, next) => {
-  try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    // This is the employee ID of the logged in user
-    req.id = decoded.userId;
-    let emp=await Employee.findById(req.id);
-    if (emp && emp.role.toLowerCase() === 'sales') {
-      console.log("logged user is sales");
-      return next();
-    } else {
-      emp=await Company.findById(req.id);
-      if(emp){
-        console.log("logged user is Company");
-        return next();
-      }
-      else
-        return res.status(403).json({ error: 'Access denied. Sales only.' });
-    }
-  } catch (err) {
-    return res.status(401).json({ error: 'Error in auth isSales: '+err.message });
-  }
-};
-
-module.exports.isManager = async (req, res, next) => {
-
-  try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    // This is the employee ID of the logged in user
-    req.id = decoded.userId;
-    let emp=await Employee.findById(req.id);
-    if (emp && emp.role.toLowerCase() === 'manager') {
-      console.log("Manager is LoggedIn");
-      return next();
-    } else {
-      emp=await Company.findById(req.id);
-      console.log(req.id);
-      if(emp){
-        console.log("Company is LoggedIn");
-        return next();
-      }
-      else
-        return res.status(403).json({ error: 'Access denied. Managers only.' });
-    }
-  } catch (err) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-};

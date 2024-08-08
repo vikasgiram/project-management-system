@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 
 const dotenv = require('dotenv');
 
+
 const employeeRoutes = require('./routes/employeeRoutes');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -11,14 +12,15 @@ const companyRoutes = require('./routes/companyRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
-const devRoutes = require('./routes/developerRoutes');
-const managerRoutes = require('./routes/managerRouters');
+const departmentRoutes = require('./routes/departmentRoutes');
+const roleRoutes = require('./routes/roleRoutes');
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -36,9 +38,9 @@ app.use('/api/project', projectRoutes);
 
 app.use('/api/task', taskRoutes);
 
-app.use('/api/dev',devRoutes);
+app.use('/api/role',roleRoutes);
 
-app.use('/api/manager',managerRoutes);
+app.use('/api/department',departmentRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);

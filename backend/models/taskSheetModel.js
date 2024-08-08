@@ -25,21 +25,30 @@ const taskSheetSchema = new Schema({
   },
   taskStatus: {
     type: String,
-    enum: ['upcoming','inprocess', 'finished'], // taskStatus can only be one of these values
-    default:'upcoming'
+    enum: ['stuck','inprocess', 'finished'], // taskStatus can only be one of these values
   },
-  actionStartDate: {
-    type: Date, // Start time of the action in HH:MM format
-    required: true // actionStartTime is required
+  startDate:{
+    type: Date,
+    required: true
   },
-  actionEndDate: {
-    type: String, // End time of the action in HH:MM format
-    required: true // actionEndTime is required
+  endDate:{
+    type: Date,
+    required: true
   },
-  action: [{
-    type: String,
-    required: true,
+  Action: [{
+    action: {
+      type: String
+    },
+    startTime: {
+      type: Date,
+      required:false
+    },
+    endTime: {
+      type: Date,
+      required:false
+    },
   }],
+
   remark: {
     type: String // Additional remarks or comments about the task
   },

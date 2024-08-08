@@ -4,9 +4,6 @@ const authController = require('../controllers/authController');
 const {isLoggedIn, isCompany } = require('../middlewares/auth');
 
 
-// Create an employee (Admin only)
-router.post('/signup',isCompany, authController.signup);
-
 // Login route
 router.post('/login',authController.login);
 

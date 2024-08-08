@@ -7,8 +7,10 @@ const { compare } = require('bcrypt');
 exports.showAll= async (req, res)=>{
     try{
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const loggedUser=await Employee.findById(decoded.userId);
-        const customer= await Customer.find({company:loggedUser&&loggedUser.company?loggedUser.company:decoded.userId});
+        const customer= await Customer.find({company:decoded.user.company?decoded.user.company:decoded.user._id});
+        if(customer.length<=0){
+            return res.status(400).json({error:"No Customer Found "});
+        }
         res.status(200).json(customer);
     }catch(error){
         res.status(500).json({error:"Error while fetching customers: "+error.message});
@@ -20,21 +22,19 @@ exports.showAll= async (req, res)=>{
 exports. createCustomer= async(req, res)=>{
     try{
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const {custName, BillingAddress, city, state, country,email, DeliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
-        const user = await Employee.findById(decoded.userId);
+        const {custName, BillingAddress,email, DeliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
 
-        const customer= await Customer.find({company:user ? user.company : decoded.userId, email:email});
+        const customer= await Customer.find({company:decoded.user.company?decoded.user.company:decoded.user._id, email:email});
         if(customer.length>0){
             return res.status(400).json("Customer already exist please use different email Id");
         }
         
         const newCust = Customer({
             custName,
-            DeliveryAddress, 
             GSTNo,
-            company:user&& user.company ? user.company:decoded.userId,
+            company:decoded.user.company?decoded.user.company:decoded.user._id,
             email,
-            createdBy: decoded.userId,
+            createdBy: decoded.user._id,
             customerContactPersonName1, 
             phoneNumber1, 
             customerContactPersonName2, 

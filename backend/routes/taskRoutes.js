@@ -2,15 +2,15 @@ const express = require('express');
 const router= express.Router();
 
 const taskController= require('../controllers/taskSheetController');
-const { isManager, isLoggedIn, isDeveloper } = require('../middlewares/auth');
+const { isLoggedIn, permissionMiddleware } = require('../middlewares/auth');
 
 
-router.get('/',isLoggedIn, taskController.showAll);
+router.get('/',permissionMiddleware(['viewTask']), taskController.showAll);
 
-router.post('/',isManager, taskController.create);
+router.post('/',permissionMiddleware(['createTask']),taskController.create);
 
-router.put('/:id',isManager, taskController.update);
+router.put('/:id', permissionMiddleware(['updateTask']), taskController.update);
 
-router.delete('/:id',isManager, taskController.delete);
+router.delete('/:id',permissionMiddleware(['deleteTask']), taskController.delete);
 
 module.exports= router;
