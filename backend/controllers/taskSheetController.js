@@ -10,7 +10,21 @@ exports.showAll = async (req, res)=>{
         }
         res.status(200).json(task);
     } catch (error) {
-        req.status(500).json({error:"Error while featching the Task Sheets: "+error.message});
+        res.status(500).json({error:"Error while featching the Task Sheets: "+error.message});
+    }
+};
+
+exports.myTask= async (req, res)=>{
+    try {
+        const decoded = jwt.verify(req.cookies.jwt,process.env.JWT_SECRET);
+        const task = await TaskSheet.find({company:decoded.user.company,employees:decoded.user._id });
+
+        if(task.length <=0){
+            return res.status(400).json({error:"Their is no task"});
+        }
+        res.status(200).json(task);
+    } catch (error) {
+        res.status(500).json({error:"Error in myTask controller: "+error.message});
     }
 };
 

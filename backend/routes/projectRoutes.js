@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const projectController = require('../controllers/projectController');
-const { isLoggedIn, permissionMiddleware, isCompany, } = require("../middlewares/auth");
+const {permissionMiddleware, isCompany, } = require("../middlewares/auth");
 
 router.get('/', permissionMiddleware(['viewProject']), projectController.showAll);
 

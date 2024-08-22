@@ -1,4 +1,3 @@
-const Employee = require('../models/employeeModel');
 const Project = require('../models/projectModel');
 const jwt = require('jsonwebtoken');
 
