@@ -62,7 +62,7 @@ const projectSchema = new mongoose.Schema({
     required: true
   },
   endDate: {
-    // End date of the project
+    // Estimate End date of the project
     type: Date,
     required: true,
   },

@@ -4,11 +4,27 @@ const jwt = require('jsonwebtoken');
 exports.showAll = async ( req, res)=>{
     try {
         const decoded = jwt.verify(req.cookies.jwt,process.env.JWT_SECRET);
-        const roles= await Role.find({company:decoded.user.company?decoded.user.company:decoded.user._id});
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1)*limit;
+
+        const roles= await Role.find({company:decoded.user.company?decoded.user.company:decoded.user._id})
+        .skip(skip)
+        .limit(limit);
+
         if(roles.length<=0){
           return res.status(400).json({ error: 'No Roles Found ' });
         }
-        res.status(200).json({ roles });
+
+        const totalRecords= await Role.countDocuments({company:decoded.user.company?decoded.user.company:decoded.user._id});
+
+        res.status(200).json({
+            roles,
+            currentPage:page,
+            totalPages:Math.ceil(totalRecords/limit),
+            totalRecords
+        });
     } catch (error) {
         res.status(500).json({error:"Error while Getting Roles: "+error.message});
     }

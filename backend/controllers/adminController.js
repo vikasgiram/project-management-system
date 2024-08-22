@@ -4,10 +4,21 @@ const bcrypt = require('bcrypt');
 
 exports.getAdmin = async (req, res)=>{
     try {
-        const admin = await Admin.find();
-        res.status(200).json(admin);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+      const skip = (page - 1) * limit;
+      
+      const admin = await Admin.find().skip(skip).limit(limit);
+
+      const totalRecords = await Admin.countDocuments();
+      res.status(200).json({
+        admin,
+        currentPage:page,
+        totalPages: Math.ceil(totalRecords / limit),
+        totalRecords
+      });
     } catch (error) {
-        res.status(500).json({error:"Error while featching Admins: "+error.message});
+      res.status(500).json({error:"Error while featching Admins: "+error.message});
     }
 };
 
@@ -26,7 +37,7 @@ exports.admin = async (req, res)=>{
   
       const user = await Admin({
         name:name,
-        email:email,
+        email:email.toLowerCase(),
         password:hashPassword,
       });
   

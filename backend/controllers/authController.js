@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const Employee= require('../models/employeeModel.js');
 const {generateTokenAndSetCookie} = require('../utils/generateToken.js');
+const {formatDate}= require ('../utils/formatDate.js');
 const Company = require('../models/companyModel.js');
 const Admin = require('../models/adminModel.js');
 
@@ -9,14 +10,23 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     let user;
+    const date = new Date(Date.now()); // Create a Date object from the current timestamp
+
 
     // Check if username exists in Employee model
-    user = await Employee.findOne({ email });
+    user = await Employee.findOne({ email }).populate('company','subDate');
     if (user) {
+      
       const isPasswordCorrect = await bcrypt.compare(password, user.password || '');
       if (!isPasswordCorrect) {
         return res.status(400).json({ error: 'Invalid username or password' });
       }
+
+      if(user.company.subDate <= date){
+        return res.status(400).json({ error: 'Your account has been deactivated on: '+ formatDate(user.company.subDate )});
+      }
+
+
       generateTokenAndSetCookie(user, res);
       res.status(200).json({
         user
@@ -26,7 +36,6 @@ exports.login = async (req, res) => {
       // If not found in Employee model, check if it exists in Company model
       user = await Company.findOne({ email });
       if (user) {
-        const date = new Date(Date.now()); // Create a Date object from the current timestamp
         
         const isPasswordCorrect = await bcrypt.compare(password, user.password || '');
         if (!isPasswordCorrect) {
@@ -34,7 +43,7 @@ exports.login = async (req, res) => {
         }
 
         if(user.subDate <= date){
-          return res.status(400).json({ error: 'Your account has been deactivated on:'+user.subDate });
+          return res.status(400).json({ error: 'Your account has been deactivated on: '+ formatDate(user.subDate) });
         }
 
         generateTokenAndSetCookie(user, res); 

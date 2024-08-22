@@ -1,18 +1,28 @@
 const Company = require('../models/companyModel');
 const bcrypt = require('bcrypt');
 
-exports.showAll = async (req, res) =>{
-    try {
-        const company = await Company.find();
+exports.showAll = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-        if(company.length<=0){
-          return res.status(400).json({error:"No company found "});
-        }
-        res.status(200).json(company);
-        
-    } catch (error) {
-        res.status(500).json({error:"Error while fetching employees: " + error.message })
+    const companies = await Company.find().skip(skip).limit(limit);
+
+    if (companies.length <= 0) {
+      return res.status(400).json({ error: "No company found" });
     }
+
+    const totalRecords = await Company.countDocuments();
+    res.status(200).json({
+      companies,
+      currentPage: page,
+      totalPages: Math.ceil(totalRecords / limit),
+      totalRecords,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error while fetching companies: " + error.message });
+  }
 };
 
 exports.createCompany= async (req, res)=>{
@@ -33,7 +43,7 @@ exports.createCompany= async (req, res)=>{
       
       const newComp=Company({
         name:name,
-        email:email,
+        email:email.toLowerCase(),
         subAmount:subAmount,
         GST:GST,
         admin:admin,

@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
-const Employee = require("../models/employeeModel");
 const Company = require('../models/companyModel');
 const Admin = require('../models/adminModel');
 const Role = require('../models/roleModel');
+const { formatDate } = require('../utils/formatDate');
+
 
 module.exports.isLoggedIn = async (req, res, next) => {
   const token = req.cookies.jwt;
@@ -49,11 +50,23 @@ module.exports.permissionMiddleware = (permissions) => {
   return async (req, res, next) => {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
     const user = await Company.findById(decoded.user._id);
+
+    const date = new Date(Date.now()); // Create a Date object from the current timestamp
+
     if(user){
+      // check sub
+      if(user.subDate <= date){
+        return res.status(400).json({ error: 'Your account has been deactivated on: '+ formatDate(user.subDate )});
+      }
       return next();
     }
-    const userRole= await Role.findById(decoded.user.role)
-    const employeePermissions = userRole.permissions; // assuming employee has a permissions array
+    const company= await Company.find(decoded.user.company);
+    if(company.subDate <= date){
+      return res.status(400).json({ error: 'Your account has been deactivated on: '+ formatDate(company.subDate )});
+    }
+    const userRole= await Role.findById(decoded.user.role);
+
+    const employeePermissions = userRole.permissions; 
     const hasPermissions = permissions.every((permission) => {
       return employeePermissions.includes(permission);
     });

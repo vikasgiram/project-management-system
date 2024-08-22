@@ -1,21 +1,36 @@
 const Customer = require('../models/customerModel');
 const jwt = require('jsonwebtoken');
-const Employee = require('../models/employeeModel');
-const { compare } = require('bcrypt');
 
-// show all customers
-exports.showAll= async (req, res)=>{
-    try{
-        const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const customer= await Customer.find({company:decoded.user.company?decoded.user.company:decoded.user._id});
-        if(customer.length<=0){
-            return res.status(400).json({error:"No Customer Found "});
-        }
-        res.status(200).json(customer);
-    }catch(error){
-        res.status(500).json({error:"Error while fetching customers: "+error.message});
+
+// show all customers with pagination
+// end point /customers?page=1&limit=10
+exports.showAll = async (req, res) => {
+    try {
+      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+      const skip = (page - 1) * limit;
+  
+      const customer = await Customer.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id })
+        .skip(skip)
+        .limit(limit);
+  
+      if (customer.length <= 0) {
+        return res.status(400).json({ error: "No Customer Found" });
+      }
+  
+      const count = await Customer.countDocuments({ company: decoded.user.company ? decoded.user.company : decoded.user._id });
+  
+      res.status(200).json({
+        customers: customer,
+        currentPage: page,
+        totalPages: Math.ceil(count / limit),
+        totalRecords: count,
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Error while fetching customers: " + error.message });
     }
-};
+  };
 
 
 // create customer
@@ -33,7 +48,7 @@ exports. createCustomer= async(req, res)=>{
             custName,
             GSTNo,
             company:decoded.user.company?decoded.user.company:decoded.user._id,
-            email,
+            email:email.toLowerCase(),
             createdBy: decoded.user._id,
             customerContactPersonName1, 
             phoneNumber1, 

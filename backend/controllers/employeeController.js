@@ -6,12 +6,25 @@ const bcrypt = require('bcrypt');
 exports.showAll = async (req, res) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
   
-    const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id});
+    const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id})
+    .skip(skip)
+    .limit(limit);
+
     if(employees.length<=0){
       return res.status(400).json({error:"No employees found "});
     }
-    res.status(200).json(employees);
+
+    const totalRecords = await Employee.countDocuments({company:decoded.user.company? decoded.user.company: decoded.user._id});
+    res.status(200).json({
+      employees,
+      currentPage:page,
+      totalPages:Math.ceil(totalRecords / limit),
+      totalRecords
+    });
   } catch (error) {
     res.status(500).json({ error: "Error while fetching employees: " + error.message });
   }
@@ -42,7 +55,7 @@ exports.create=async (req, res) => {
       role:role,
       company:decoded.user._id,
       department,
-      email:email,
+      email:email.toLowerCase(),
       password:hashPassword,
     });
 
