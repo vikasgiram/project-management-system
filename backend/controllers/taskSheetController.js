@@ -4,11 +4,15 @@ const jwt = require('jsonwebtoken');
 exports.showAll = async (req, res)=>{
     try {
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const task= await TaskSheet.find({company: decoded.user.company? decoded.user.company: decoded.user._id});
+        const task= await TaskSheet.find({company: decoded.user.company ? decoded.user.company : decoded.user._id }).populate('project','name');
+        
         if(task.length<=0){
             return res.status(400).json({error:"No Task Found "});
         }
-        res.status(200).json(task);
+        res.status(200).json({
+            task,
+            totalRecord:task.length
+        });
     } catch (error) {
         res.status(500).json({error:"Error while featching the Task Sheets: "+error.message});
     }
@@ -17,12 +21,15 @@ exports.showAll = async (req, res)=>{
 exports.myTask= async (req, res)=>{
     try {
         const decoded = jwt.verify(req.cookies.jwt,process.env.JWT_SECRET);
-        const task = await TaskSheet.find({company:decoded.user.company,employees:decoded.user._id });
+        const task = await TaskSheet.find({company:decoded.user.company,employees:decoded.user._id }).populate('project','name');
 
         if(task.length <=0){
             return res.status(400).json({error:"Their is no task"});
         }
-        res.status(200).json(task);
+        res.status(200).json({
+            task,
+            totalRecord:task.length
+        });
     } catch (error) {
         res.status(500).json({error:"Error in myTask controller: "+error.message});
     }
@@ -30,11 +37,11 @@ exports.myTask= async (req, res)=>{
 
 exports.create= async (req, res)=>{
     try {
-        const {projectId,employees, taskName, startDate, endDate, remark}= req.body;
+        const {project,employees, taskName, startDate, endDate, remark}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
         const task= await TaskSheet.create({
             employees,
-            projectId,
+            project,
             taskName,
             startDate: new Date(startDate),
             endDate: new Date(endDate),

@@ -1,4 +1,5 @@
 const Project = require('../models/projectModel');
+const Tasksheet = require('../models/taskSheetModel');
 const jwt = require('jsonwebtoken');
 
 exports.showAll = async (req, res) => {
@@ -65,6 +66,7 @@ exports.create = async (req, res)=>{
 exports.delete = async (req, res)=>{
     try {
         const project= await Project.findByIdAndDelete(req.params.id);
+        await Tasksheet.deleteMany({ project: req.params.id });
         if(!project){
             res.status(400).json({error:"Project not found"});
         }

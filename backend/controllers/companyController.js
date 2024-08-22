@@ -1,5 +1,11 @@
 const Company = require('../models/companyModel');
 const bcrypt = require('bcrypt');
+const Customer = require('../models/customerModel');
+const Project = require('../models/projectModel');
+const Employee = require('../models/employeeModel');
+const Department = require('../models/departmentModel');
+const Role = require('../models/roleModel');
+const TaskSheet = require('../models/taskSheetModel');
 
 exports.showAll = async (req, res) => {
   try {
@@ -74,12 +80,20 @@ exports.createCompany= async (req, res)=>{
 
 exports.deleteCompany = async (req, res)=>{
     try {
-        const company = await Company.findByIdAndDelete(req.params.id);
-        console.log(company);
-        if(!company){
-            res.status(404).json({error:"Company not found"});
-        }
-        res.status(200).json({message:"Company Deleted Sucessfully: "+company.email});
+      const company = await Company.findByIdAndDelete(req.params.id);
+
+      if(!company){
+          res.status(404).json({error:"Company not found"});
+      }
+
+      await Customer.deleteMany({ company: req.params.id });
+      await Project.deleteMany({ company: req.params.id });
+      await Employee.deleteMany({ company: req.params.id });
+      await Department.deleteMany({ company: req.params.id });
+      await Role.deleteMany({ company: req.params.id });
+      await TaskSheet.deleteMany({company:req.params.id});
+      res.status(200).json({message:"Company Deleted Sucessfully: "+company.email});
+
     } catch (error) {
         res.status(500).json({error:"Error in while Deleting Company: "+error.message});
     }

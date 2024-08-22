@@ -14,7 +14,7 @@ const taskSheetSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:Company
   },
-  projectId: {
+  project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Project, // Reference to the Project schema
     required: true // projectId is required
