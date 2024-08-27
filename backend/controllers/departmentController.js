@@ -17,7 +17,7 @@ exports.showAll = async (req, res)=>{
 
         const totalRecords = await Department.countDocuments({company:decoded.user.company? decoded.user.company: decoded.user._id});
 
-        if(dep.length<=0){
+        if(department.length<=0){
             return res.status(400).json({error:"Department not found"});
         }
         res.status(200).json({

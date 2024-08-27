@@ -10,6 +10,8 @@ router.get('/dashboard', dashboardController.dashboard);
 // get all employess (Admin and manager Only)
 router.get('/',permissionMiddleware(['viewEmployee']),employeeController.showAll);
 
+router.get('/search',permissionMiddleware(['viewEmployee']), employeeController.search);
+
 router.post('/',isCompany,employeeController.create);
 
 // Delete an employee (Admin only)

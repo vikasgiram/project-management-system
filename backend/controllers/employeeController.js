@@ -30,6 +30,42 @@ exports.showAll = async (req, res) => {
   }
 };
 
+exports.search = async (req, res) => {
+  try {
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const query = req.query.search;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const filter = {
+      company: decoded.user.company ? decoded.user.company : decoded.user._id,
+      $or: [
+        { empName: { $regex: query, $options: 'i' } },
+        { email: { $regex: query, $options: 'i' } }
+      ]
+    };
+
+    const employees = await Employee.find(filter)
+      .skip(skip)
+      .limit(limit);
+
+    if (employees.length <= 0) {
+      return res.status(400).json({ error: "No employees found" });
+    }
+
+    const totalRecords = await Employee.countDocuments(filter);
+    res.status(200).json({
+      employees,
+      currentPage: page,
+      totalPages: Math.ceil(totalRecords / limit),
+      totalRecords
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error while searching employees: " + error.message });
+  }
+};
+
 exports.create=async (req, res) => {
   try {
     const {empName, empMobileNo, hourlyRate,role, email, password,department, confirmPassword}=req.body;

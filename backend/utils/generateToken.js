@@ -13,3 +13,26 @@ exports.generateTokenAndSetCookie=(user,res)=>{
         secure: process.env !== 'development'
     });
 };
+
+
+exports.resetTokenLink=(user)=>{
+    const secret= process.env.JWT_SECRET+user.password;
+    const payload = {
+        email: user.email,
+        id:user._id
+    }
+    const token = jwt.sign(payload, secret,{ expiresIn: '15m' });
+    
+    const link=`http://localhost:5000/api/reset-password/${user._id}/${token}`;
+    return link;
+};
+
+exports.verifyResetToken=(user,token)=>{
+    try {
+        const secret = process.env.JWT_SECRET+user.password;
+        const payload = jwt.verify(token,secret);
+        return true;
+    } catch (error) {   
+        return false;
+    }
+};

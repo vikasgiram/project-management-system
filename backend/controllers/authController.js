@@ -1,9 +1,11 @@
-const bcrypt = require('bcrypt');
 const Employee= require('../models/employeeModel.js');
-const {generateTokenAndSetCookie} = require('../utils/generateToken.js');
-const {formatDate}= require ('../utils/formatDate.js');
 const Company = require('../models/companyModel.js');
 const Admin = require('../models/adminModel.js');
+
+const {formatDate}= require ('../utils/formatDate.js');
+const { comparePassword, changePassword, validateEmail } = require('../utils/login.js');
+const { sendMail } = require('../utils/email.js');
+const {generateTokenAndSetCookie, resetTokenLink, verifyResetToken} = require('../utils/generateToken.js');
 
 
 exports.login = async (req, res) => {
@@ -17,8 +19,7 @@ exports.login = async (req, res) => {
     user = await Employee.findOne({ email }).populate('company','subDate');
     if (user) {
       
-      const isPasswordCorrect = await bcrypt.compare(password, user.password || '');
-      if (!isPasswordCorrect) {
+      if (!comparePassword(user,password)) {
         return res.status(400).json({ error: 'Invalid username or password' });
       }
 
@@ -37,8 +38,7 @@ exports.login = async (req, res) => {
       user = await Company.findOne({ email });
       if (user) {
         
-        const isPasswordCorrect = await bcrypt.compare(password, user.password || '');
-        if (!isPasswordCorrect) {
+        if (!comparePassword(user,password)) {
           return res.status(400).json({ error: 'Invalid username or password' });
         }
 
@@ -54,10 +54,8 @@ exports.login = async (req, res) => {
       else {
         user= await Admin.findOne({email});
         if (user) {
-        
-          const isPasswordCorrect = await bcrypt.compare(password, user.password || '');
-          
-          if (!isPasswordCorrect) {
+                  
+          if (!comparePassword(user,password)) {
             return res.status(400).json({ error: 'Invalid username or password' });
           }
           generateTokenAndSetCookie(user, res);
@@ -75,6 +73,69 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.forgetPassword = async (req, res)=>{
+  try {
+    const {email}=req.body;
+  
+    if(!email || !validateEmail(email)){
+      return res.status(400).json("Invalid Email...");
+    }
+    
+    const [employee, company, admin] = await Promise.all([
+      Employee.findOne({ email }),
+      Company.findOne({ email }),
+      Admin.findOne({email},)
+    ]);
+
+    const user = employee || company || admin;
+
+    if (!user) {
+      return res.status(400).json({ error: "User not found..." });
+    }
+
+    const link = resetTokenLink(user);
+    sendMail(res,user,link);
+  } catch (error) {
+    console.log("Error in the forget-password: "+error.message);
+    res.status(500).json({ error: "Error while sending reset password link: " + error.message });
+  }
+};
+
+
+exports.resetPassword = async (req, res)=>{
+  try {
+    const {id,token}=req.params;
+    const {password,confirmPassword}=req.body;
+
+    const [employee, company, admin] = await Promise.all([
+      Employee.findById(id),
+      Company.findById(id),
+      Admin.findById(id)
+    ]);
+
+    const user = employee || company || admin;
+
+    if(user){
+      if(verifyResetToken(user,token)){
+        if(password === confirmPassword){
+          return changePassword(res,user,password);
+        }
+        else{
+          return res.status(400).json({error:"Password dosen't match "});
+        }
+      }
+      else{
+        return res.status(400).json({error:"Invalid token "});
+      } 
+    }
+
+    else{
+      return res.status(400).json({error:"User not found..."});
+    }
+  } catch (error) {
+    res.status(500).json({error:"Error while reseting password: "+error.message});
+  }
+};
 
 
 exports.logout=async (req,res)=>{

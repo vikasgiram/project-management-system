@@ -31,6 +31,26 @@ exports.showAll = async (req, res) => {
     }
   };
 
+exports.search = async (req, res) => {
+    try {
+        const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+        const query = req.query.search;
+
+        const projects = await Project.find({
+        company: decoded.user.company ? decoded.user.company : decoded.user._id,
+        name: { $regex: query, $options: 'i' }
+        });
+        
+        if (projects.length <= 0) {
+        return res.status(400).json({ error: "No Projects Found" });
+        }
+
+        res.status(200).json(projects);
+    } catch (error) {
+        res.status(500).json({ error: "Error while searching projects: " + error.message });
+    }
+};
+
 exports.create = async (req, res)=>{
     try {
         const {name,custId, purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, projectStatus, POCopy}= req.body;
