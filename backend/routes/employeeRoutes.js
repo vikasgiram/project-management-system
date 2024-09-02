@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const employeeController = require('../controllers/employeeController');
-const dashboardController= require('../controllers/dashboardController');
 const {isCompany, permissionMiddleware} = require('../middlewares/auth');
 
 
-router.get('/dashboard', dashboardController.dashboard);
+router.get('/dashboard', employeeController.dashboard);
 
 // get all employess (Admin and manager Only)
 router.get('/',permissionMiddleware(['viewEmployee']),employeeController.showAll);
