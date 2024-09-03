@@ -36,28 +36,7 @@ const AllRoutes = () => {
                     <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
-
-
-
 
 
                 </Routes>
