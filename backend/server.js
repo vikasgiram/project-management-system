@@ -44,7 +44,7 @@ app.use('/api/department',departmentRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);
-    res.status(500).json({ error: 'Internal Server Error'+err.message });
+    res.status(500).json({ error: 'Internal Server Error:'+err.message });
   });
 
 app.use('*', (req, res, next) => {
