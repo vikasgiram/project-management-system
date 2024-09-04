@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
     user = await Employee.findOne({ email }).populate('company','subDate');
     if (user) {
       
-      if (!comparePassword(user,password)) {
+      if (!(await comparePassword(user,password))) {
         return res.status(400).json({ error: 'Invalid username or password' });
       }
 
@@ -30,7 +30,8 @@ exports.login = async (req, res) => {
 
       generateTokenAndSetCookie(user, res);
       res.status(200).json({
-        user
+        message:"login success",
+        user: "employee"
       });
     } 
     else {
@@ -38,7 +39,7 @@ exports.login = async (req, res) => {
       user = await Company.findOne({ email });
       if (user) {
         
-        if (!comparePassword(user,password)) {
+        if (!(await comparePassword(user,password))) {
           return res.status(400).json({ error: 'Invalid username or password' });
         }
 
@@ -48,19 +49,20 @@ exports.login = async (req, res) => {
 
         generateTokenAndSetCookie(user, res); 
         res.status(200).json({
-          user
+          message:"login success",
+          user: "company"
         });
       } 
       else {
         user= await Admin.findOne({email});
         if (user) {
-                  
-          if (!comparePassword(user,password)) {
+          if (!(await comparePassword(user,password))) {
             return res.status(400).json({ error: 'Invalid username or password' });
           }
           generateTokenAndSetCookie(user, res);
           res.status(200).json({
-           user
+            message:"login success",
+            user: "admin"
           });
         }
         else
