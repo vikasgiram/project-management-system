@@ -26,19 +26,13 @@ const AllRoutes = () => {
 
                     <Route exact path="/MainDashboard" element={<MainDashboard />} />
 
-
-
-
-                    {/* master */}
+                 {/* master */}
 
                     <Route exact path="/EmployeeMasterGrid" element={<EmployeeMasterGrid />} />
                     <Route exact path="/CustomerMasterGrid" element={<CustomerMasterGrid />} />
                     <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
 
-
                     <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
-
-
                 </Routes>
             </Router>
         </>
