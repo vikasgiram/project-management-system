@@ -28,12 +28,12 @@ export const LogIn = () => {
         return alert(data.error);
       }
       if(data.user==="employee"){
-        navigation("/employee");
+        navigation("/employeeDashboard");
       }
       else if(data.user==="company")
         navigation("/MainDashboard");
       else if(data.user==="admin"){
-        navigation("/admin");
+        navigation("/adminDashboard");
       }
     } catch (error) {
       console.error(error);
