@@ -37,6 +37,7 @@ export const LogIn = () => {
       }
     } catch (error) {
       console.error(error);
+      alert(error.error);
       // You might want to display the error to the user here
     }
   };
