@@ -118,7 +118,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                         </li>
                                     </span>
                                 </Link>
-                                <Link to='/' className="nav-link ">
+                                <Link to='/TaskMasterChart' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "EmployeeMaster" ? "nav-item activeli" : "nav-item"}>
                                             <span className={subMenu === "EmployeeMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i>

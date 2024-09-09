@@ -4,7 +4,7 @@ const Department = require('./departmentModel');
 const Role = require('./roleModel');
 
 const employeeSchema = new mongoose.Schema({
-  empName: {
+  name: {
     type: String,
     required: true,
     trim: true,
@@ -19,7 +19,7 @@ const employeeSchema = new mongoose.Schema({
     ref:Company,
     required:true
   },
-  empMobileNo: {
+  mobileNo: {
     type: String,
     required: true,
     trim: true,

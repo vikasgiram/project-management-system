@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "././login.css";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
 export const LogIn = () => {
@@ -16,30 +18,33 @@ export const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log(username+" "+password);
     try {
       const res = await fetch("api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email:username, password }),
+        body: JSON.stringify({ email: username, password }),
       });
       
-      const data = await res.json();
-      // console.log(data);
 
-      if(data.error){
+      const data = await res.json();
+      console.log(data);
+      if (data.error) {
         return alert(data.error);
       }
-      if(data.user==="employee"){
+      if (data.user === "employee") {
         navigation("/employeeDashboard");
       }
-      else if(data.user==="company")
+      else if (data.user === "company")
         navigation("/MainDashboard");
-      else if(data.user==="admin"){
+      else if (data.user === "admin") {
+        alert("welcome Admin");
         navigation("/adminDashboard");
       }
     } catch (error) {
-      console.error(error);
-      alert(error.error);
+      // console.error(error);
+      // alert('error');
+      toast.error("invalid");
       // You might want to display the error to the user here
     }
   };
@@ -91,7 +96,17 @@ export const LogIn = () => {
                       className="form-control"
                       autoComplete="new-Password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+
+                      onChange={(e) => {
+                        setPassword(e.target.value)
+                        showPassEncrypt()
+                      }}
+                      
+                      // onChange={(e) => 
+                      //   setPassword(e.target.value)
+                        
+                        
+                      // }
                     />
                     <span class="input-group-text">
                       {" "}
@@ -128,6 +143,11 @@ export const LogIn = () => {
                     />
                   </span>
                 </form>
+
+                
+                <ToastContainer />
+
+
               </div>
               <div
                 className="col-12 text-center pb-1 pt-4 mb-5  pt-lg-3"
