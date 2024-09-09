@@ -9,6 +9,7 @@ import { LogIn } from "./Components/Public/Login";
 import { EmployeeMasterGrid } from "./Components/Private/MainDashboard/EmployeeMaster/EmployeeMasterGrid";
 import { CustomerMasterGrid } from "./Components/Private/MainDashboard/CustomerMaster/CustomerMasterGrid";
 import { ProjectMasterGrid } from "./Components/Private/MainDashboard/ProjectMaster/ProjectMasterGrid";
+import { TaskMasterChart } from "./Components/Private/MainDashboard/TaskMaster/TaskMasterChart";
 
 
 const AllRoutes = () => {
@@ -28,6 +29,7 @@ const AllRoutes = () => {
                     <Route exact path="/EmployeeMasterGrid" element={<EmployeeMasterGrid />} />
                     <Route exact path="/CustomerMasterGrid" element={<CustomerMasterGrid />} />
                     <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
+                    <Route exact path="/TaskMasterChart" element={<TaskMasterChart />} />
 
                     <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
                 </Routes>
