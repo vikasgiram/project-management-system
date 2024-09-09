@@ -83,13 +83,19 @@ exports.dashboard = async (req, res) => {
     try {
       const categories = await Project.distinct('category');
       const categoryPromises = categories.map(async (name) => {
-        const inprocess = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'inprocess', category:name });
-        const upcoming = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'upcoming', category:name });
-        const finished = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'finished', category:name });
+        const inprocess = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'inprocess', category: name });
+        const upcoming = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'upcoming', category: name });
+        const finished = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'finished', category: name });
         return [name, { inprocess, upcoming, finished }];
       });
       const category = Object.fromEntries(await Promise.all(categoryPromises));
-      return category;
+  
+      // Calculate total counts
+      const totalInprocess = Object.values(category).reduce((acc, curr) => acc + curr.inprocess, 0);
+      const totalUpcoming = Object.values(category).reduce((acc, curr) => acc + curr.upcoming, 0);
+      const totalFinished = Object.values(category).reduce((acc, curr) => acc + curr.finished, 0);
+  
+      return { category, total: { inprocess: totalInprocess, upcoming: totalUpcoming, finished: totalFinished } };
     } catch (err) {
       console.error(err);
     }

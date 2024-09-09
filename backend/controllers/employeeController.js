@@ -90,7 +90,7 @@ exports.dashboard= async(req , res)=>{
 
 exports.create=async (req, res) => {
   try {
-    const {empName, empMobileNo, hourlyRate,role, email, password,department, confirmPassword}=req.body;
+    const {name, mobileNo, hourlyRate,role, email, password,department, confirmPassword}=req.body;
     if(password !== confirmPassword){
       return res.status(400).json({error:`Password desen\'t match!!!`});
     }
@@ -107,10 +107,10 @@ exports.create=async (req, res) => {
 
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
     const newEmp=Employee({
-      empName:empName,
-      empMobileNo:empMobileNo,
-      hourlyRate:hourlyRate,
-      role:role,
+      name,
+      mobileNo,
+      hourlyRate,
+      role,
       company:decoded.user._id,
       department,
       email:email.toLowerCase(),
