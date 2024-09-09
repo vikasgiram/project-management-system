@@ -1,241 +1,149 @@
-
 import { Chart } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useState, useEffect } from "react";
 
+// Customize chart legend (if needed)
 Chart.Legend.prototype.afterFit = function () {
   this.height = this.height + 40;
 };
+
+
 export const Valuewiseproject = () => {
 
+    const [forBarData, setForBarData] = useState([]);
+  
+ 
+  useEffect(() => {
+    fetchValuewise();
+  }, []); 
+
+  const fetchValuewise=async()=>{          
+    const data =await fetch("api/company/dashboard");
+                            
+    const json =await data.json();
+    // console.log("valueWiseProjectData",json.valueWiseProjectData);
+    setForBarData(json.valueWiseProjectData);   
+}
+    // console.log("chart",forBarData);
+  
+const rangeData=forBarData.map((data) => data.range);
+const inProcessData=forBarData.map((data) => data.inprocess);
+const completedData=forBarData.map((data) => data.finished);
+const upcomingData=forBarData.map((data) => data.upcoming);
+
+// console.log("rangeData",rangeData,"inProcess", inProcessData, "completed",completedData,"upcoming", upcomingData);
+
   const FirstCompdata = {
-
-    labels: ['0-1 lakh', '1 lakh-5 lakh', '5 lakh-10 lakh', '10 lakh-15 lakh', '15 lakh-20 lakh' ],
+    labels: rangeData,
     datasets: [
-        // {
-        //     label: 'Paddy',
-        //     data: [500, 150, 105, 175, 100, 100, 185, 200],
-
-        //     fill: true,
-        //     backgroundColor: [
-        //         '#990099',
-        //         '#4067ae',
-        //         '#4067ae',
-        //         '#4067ae',
-        //         '#4067ae',
-        //         '#4067ae',
-        //         '#4067ae',
-        //         '#dc3912',
-
-
-        //     ],
-        //     borderWidth: 1,
-        //     bevelWidth: 3,
-
-        //     bevelHighlightColor: 'rgba(255, 255, 255, 0.75)',
-      
-        //     bevelShadowColor: 'rgba(0, 0, 0, 0.5)',
-        //     options: {
-
-        //         tooplips: {
-            
-        //           bevelWidth: 3,
-            
-        //           bevelHighlightColor: 'rgba(255, 255, 255, 0.75)',
-            
-        //           bevelShadowColor: 'rgba(0, 0, 0, 0.5)'
-            
-        //         }
-            
-        //       }
-
-        // },
-
-        {
-            label: 'Inprocess ',
-            data: [20, 20, 10, 18, 22 ],
-
-            fill: true,
-            backgroundColor: [
-                '#4791FF',
-                '#4791FF',
-                '#4791FF',
-                '#4791FF',
-                '#4791FF',
-
-
-            ],
-
-
-        },
-        {
-            label: 'Complted',
-            data: [30, 20, 10, 11, 22  ],
-
-            fill: true,
-            backgroundColor: [
-                '#02BC77',
-                '#02BC77',
-                '#02BC77',
-                '#02BC77',
-                '#02BC77',
-                '#02BC77',
-
-
-            ],
-
-
-        },
-        {
-            label: 'Upcoming',
-            data: [40, 20, 30, 8, 12 ],
-
-            fill: true,
-            backgroundColor: [
-                '#FF9123',
-                '#FF9123',
-                '#FF9123',
-                '#FF9123',
-                '#FF9123',
-                '#FF9123',
-
-
-            ],
-            // borderColor: [
-            //     '#109618',
-            //     '#109618',
-            //     '#109618',
-            //     '#109618',
-            //     '#109618',
-            //     '#109618',
-            //     '#109618',
-            //     '#109618',
-
-            // ],
-            // borderWidth: 1,
-
-
-        },
-      
-        
-
-    ],
-};
-
-const FirstCompBar = {
-  responsive: true,
-  maintainAspectRatio: true,
-  layout: {
-      padding: {
-          top: 15,
-          bottom: 0,
-          // left: 20,
-          // right: 20
+      {
+        label: 'Inprocess',
+        data: inProcessData,
+        fill: true,
+        backgroundColor: '#4791FF',
       },
-  },
-  legend: {
+      {
+        label: 'Completed',
+        data: completedData,
+        fill: true,
+        backgroundColor: '#02BC77',
+      },
+      {
+        label: 'Upcoming',
+        data: upcomingData,
+        fill: true,
+        backgroundColor: '#FF9123',
+      },
+    ],
+  };
+
+  const FirstCompBar = {
+    responsive: true,
+    maintainAspectRatio: true,
+    layout: {
+      padding: {
+        top: 15,
+        bottom: 0,
+      },
+    },
+    legend: {
       display: true,
       position: 'top',
       align: 'start',
-      // fit: {
-      //     height: 10
-      // }
-  },
-
-  plugins: {
+    },
+    plugins: {
       datalabels: {
-          anchor: 'end',
-          align: 'end',
-          rotation: -90, // Rotate the labels to be vertical
-          color: 'black',
-          // font: {
-          //     // weight: 'bold'
-          //     size: OutlabelsFontSize
-          // }
-      }
-      ,
+        anchor: 'end',
+        align: 'end',
+        rotation: -90, // Rotate the labels to be vertical
+        color: 'black',
+      },
       labels: {
-          render: 'value',
-          fontColor: 'black',
-
+        render: 'value',
+        fontColor: 'black',
       },
-   
       outlabels: {
-          color: "black",
-          // text: "%l\n%v (%p)",
-          stretch: 25,
-          font: {
-              resizable: true,
-              minSize: 12,
-              maxSize: 16
-          }
+        color: "black",
+        stretch: 25,
+        font: {
+          resizable: true,
+          minSize: 12,
+          maxSize: 16,
+        },
       },
-  },
-
-
-  
-
-  scales: {
-
-      xAxes: [{
-          stacked: false,
-          gridLines: {
-              drawOnChartArea: false,
-              color: '#1b4b7b',
-              zeroLineColors: '#1b4b7b',
-              // borderDash : [5,5]
+    },
+    scales: {
+      x: {
+        stacked: false,
+        grid: {
+          drawOnChartArea: false,
+          color: '#1b4b7b',
+          zeroLineColor: '#1b4b7b',
+        },
+        barThickness: 15,
+        barPercentage: 0.9,
+        categoryPercentage: 0.9,
+        ticks: {
+          autoSkip: false,
+          font: {
+            size: 13,
+            color: '#1b4b7b',
           },
-          barThickness : 15,
-          barPercentage: 9.0,
-          categoryPercentage: 9.0,
-          ticks: {
-              autoSkip: false,
-              // fontStyle: 'bold',
-              fontSize: '13',
-              fontColor: '#1b4b7b',
-              maxRotation: 90,
-              minRotation: 90
-          }
-      }],
-
-      yAxes: [{
-          stacked: false,
-          gridLines: {
-              drawOnChartArea: false,
-              color: '#1b4b7b',
-              zeroLineColors: '#1b4b7b',
-              // borderDash : [5,5]
+          maxRotation: 90,
+          minRotation: 90,
+        },
+      },
+      y: {
+        stacked: false,
+        grid: {
+          drawOnChartArea: false,
+          color: '#1b4b7b',
+          zeroLineColor: '#1b4b7b',
+        },
+        ticks: {
+          beginAtZero: true,
+          font: {
+            size: 12,
+            color: '#1b4b7b',
           },
-          ticks: {
-              beginAtZero: true,
-              // fontStyle: 'bold',
-              fontSize: '12',
-              fontColor: '#1b4b7b',
-              // stepSize: 100,
-              // callback:(value, index, values)=>{
-              //     return `${value} %`
-              // }
-          }
-      }]
-  }
-}
+        },
+      },
+    },
+  };
 
+  // Render the component
   return (
-    <div className="row  bg-white p-2 m-1 border " >
-      <div className="col-12 col-lg-8 py-1 " >
-
-        <span className="text-dark  py-4 heading_fontsize_first">Value wise project</span>
-      
+    <div className="row bg-white p-2 m-1 border">
+      <div className="col-12 col-lg-8 py-1">
+        <span className="text-dark py-4 heading_fontsize_first">Value wise project</span>
       </div>
-      
-      <div className="col-12 col-lg-12 p-2 mx-auto" style={{overflowX:'auto'}}>
-       <Bar
-              options={FirstCompBar}
-              data={FirstCompdata}
-              height={'200px'}
-            />
-       </div>
-
-
+      <div className="col-12 col-lg-12 p-2 mx-auto" style={{ overflowX: 'auto' }}>
+        <Bar
+          options={FirstCompBar}
+          data={FirstCompdata}
+          height={'200px'}
+        />
+      </div>
     </div>
-  )
-}
+  );
+};

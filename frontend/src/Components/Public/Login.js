@@ -11,6 +11,7 @@ export const LogIn = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // const dispatch = useAuthDispatch();
   // const { loading, errorMessage } = useAuthState();
@@ -24,6 +25,7 @@ export const LogIn = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: username, password }),
       });
+      
 
       const data = await res.json();
       console.log(data);
@@ -47,27 +49,9 @@ export const LogIn = () => {
     }
   };
 
-  // const notify = () => toast("Wow so easy!");
-
-  const showPass = () => {
-    var x = document.getElementById("pass");
-    var y = document.getElementById("eye");
-    //console.log("X", y)
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
-    }
-    if (y.className === "fas fa-eye") {
-      y.className = "fas fa-eye-slash";
-    } else {
-      y.className = "fas fa-eye";
-    }
-  };
-
-  const showPassEncrypt = () => {
-    var x = document.getElementById("pass");
-    x.type = "password";
+  
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -108,7 +92,7 @@ export const LogIn = () => {
                       placeholder="Password"
                       id="password"
                       name="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       className="form-control"
                       autoComplete="new-Password"
                       value={password}
@@ -126,11 +110,15 @@ export const LogIn = () => {
                     />
                     <span class="input-group-text">
                       {" "}
+
                       <i
-                        onClick={() => showPass()}
-                        id="eye"
-                        className="fas fa-eye"
-                      ></i>
+                      onClick={toggleShowPassword}
+                      className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
+                      style={{ cursor: "pointer" }}
+                    ></i>
+
+
+                    
                     </span>
                   </div>
                   <div className=" mb-2 text-start">
