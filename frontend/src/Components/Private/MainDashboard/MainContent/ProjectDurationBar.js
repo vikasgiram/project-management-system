@@ -25,8 +25,8 @@ export const ProjectDurationBar = () => {
     }
 
 
-    const rangeData = forBarData.length > 0 ? forBarData.map(data => data.range) : [];
-    const delayData = forBarData.length > 0 ? forBarData.map(data => data.delayedProjects) : [];
+    const rangeData = forBarData.map(data => data.range);
+    const delayData = forBarData.map(data => data.delayedProjects);
 
     const FirstCompdata = {
         labels: rangeData,  

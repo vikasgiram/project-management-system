@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "./Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { DashboardGroupBtn } from "./MainContent/DashboardGroupBtn";
@@ -10,6 +10,7 @@ import { ProjectDuration } from "./MainContent/ProjectDuration";
 
 function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
+  
   const toggle = () => {
     setIsOpen(!isopen);
   };

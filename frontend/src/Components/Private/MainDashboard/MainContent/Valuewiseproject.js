@@ -8,23 +8,23 @@ Chart.Legend.prototype.afterFit = function () {
 };
 
 
-export const Valuewiseproject = () => {
+export const Valuewiseproject = ({forBarData}) => {
 
-    const [forBarData, setForBarData] = useState([]);
+  
   
  
-  useEffect(() => {
-    fetchValuewise();
-  }, []); 
+//   useEffect(() => {
+//     fetchValuewise();
+//   }, []); 
 
-  const fetchValuewise=async()=>{          
-    const data =await fetch("api/company/dashboard");
+//   const fetchValuewise=async()=>{          
+//     const data =await fetch("api/company/dashboard");
                             
-    const json =await data.json();
-    // console.log("valueWiseProjectData",json.valueWiseProjectData);
-    setForBarData(json.valueWiseProjectData);   
-}
-    // console.log("chart",forBarData);
+//     const json =await data.json();
+//     // console.log("valueWiseProjectData",json.valueWiseProjectData);
+//     setForBarData(json.valueWiseProjectData);   
+// }
+//     // console.log("chart",forBarData);
   
 const rangeData=forBarData.map((data) => data.range);
 const inProcessData=forBarData.map((data) => data.inprocess);
