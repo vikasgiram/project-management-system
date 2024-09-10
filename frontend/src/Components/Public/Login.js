@@ -99,7 +99,7 @@ export const LogIn = () => {
 
                       onChange={(e) => {
                         setPassword(e.target.value)
-                        showPassEncrypt()
+                        toggleShowPassword()
                       }}
                       
                       // onChange={(e) => 

@@ -6,10 +6,35 @@ import { CompanyInfo } from "./MainContent/CompanyInfo";
 import { ProjectBar } from "./MainContent/ProjectBar";
 import { ProjectDuration } from "./MainContent/ProjectDuration";
 
+import { HDashboard } from "../../../Hooks/Company/HDashboard";
+
+
+
 
 
 function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
+  const [custCount, setCustCount] = useState([]);
+  const [categorywise, setCategorywise] = useState({});
+
+
+  useEffect(()=>{
+    barChart();
+  },[]);
+  // console.log(HDashboard,"data");
+  const barChart = async () => {          
+    try {
+        const response = await fetch("api/company/dashboard");
+        const data = await response.json();
+        setCategorywise(data.category.total|| []); 
+        setCustCount(data.customerCount|| []); 
+        // setValueWise(json.valueWiseProjectData|| []);
+        // console.log(categorywise);
+    } catch (error) {
+        console.error("Error fetching data", error);
+    }
+  }
+
   
   const toggle = () => {
     setIsOpen(!isopen);
@@ -38,10 +63,10 @@ function MainDashboard() {
               
               {/* MainContent */}
 
-                <DashboardGroupBtn />
+                <DashboardGroupBtn custCount={custCount}/>
 
                 {/* CompanyInfo */}
-                <CompanyInfo />
+                <CompanyInfo categorywise={categorywise}/>
 
 
                 {/* ProjectBar */}

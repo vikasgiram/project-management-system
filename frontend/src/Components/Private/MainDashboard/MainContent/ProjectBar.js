@@ -19,7 +19,7 @@ export const ProjectBar = () => {
     try {
         const response = await fetch("api/company/dashboard");
         const json = await response.json();
-        setCategorywise(json.category|| []);  
+        setCategorywise(json.category.category|| []);  
         setValueWise(json.valueWiseProjectData|| []);
     } catch (error) {
         console.error("Error fetching data", error);

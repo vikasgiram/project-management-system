@@ -3,7 +3,7 @@
 
 
 
-export const DashboardGroupBtn = () => {
+export const DashboardGroupBtn = ({custCount}) => {
     return (
 
         <div className="row p-2   ">
@@ -20,7 +20,8 @@ export const DashboardGroupBtn = () => {
                         className="customer_img"
                         alt="logo"
                     />
-                    <span className="Customer_fs ps-3 text-white">Customer | <span className="Customer_count">3000</span></span>
+                    <span className="Customer_fs ps-3 text-white">Customer |
+                         <span className="Customer_count">{custCount}</span></span>
                 </span>
                
                
