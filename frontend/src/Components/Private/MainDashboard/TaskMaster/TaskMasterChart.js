@@ -87,7 +87,7 @@ export const TaskMasterChart = () => {
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
-                        <Sidebar isopen={isopen} active="dashboard" />
+                        <Sidebar isopen={isopen} active="TaskMasterChart" />
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
@@ -111,8 +111,8 @@ export const TaskMasterChart = () => {
 
                                 </div>
 
-                                <div className="row  bg-white p-2 m-1 border rounded" >
-                                    <div className="col-12 py-2">
+                                <div className="row  bg-white p-2 m-1 border rounded"  >
+                                    <div className="col-12 py-2 div_scroll" >
 
                                         {/* <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
@@ -155,7 +155,7 @@ export const TaskMasterChart = () => {
                                         </div> */}
 
 
-                                        <div>
+                                        <div >
                                             <ViewSwitcher
                                                 onViewModeChange={(viewMode) => setView(viewMode)}
                                                 onViewListChange={setIsChecked}
@@ -163,12 +163,12 @@ export const TaskMasterChart = () => {
                                             />
                                             <Gantt
                                                 tasks={tasks}
-                                                // viewMode={view}
+                                                viewMode={view}
                                                 // onDateChange={handleTaskChange}
-                                                // onDelete={handleTaskDelete}
-                                                // onProgressChange={handleProgressChange}
-                                                // onDoubleClick={handleDblClick}
-                                                // onSelect={handleSelect}
+                                                onDelete={handleTaskDelete}
+                                                onProgressChange={handleProgressChange}
+                                                onDoubleClick={handleDblClick}
+                                                onSelect={handleSelect}
                                                 onExpanderClick={handleExpanderClick}
                                                 listCellWidth={isChecked ? "155px" : ""}
                                                 columnWidth={columnWidth}

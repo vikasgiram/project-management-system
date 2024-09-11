@@ -54,7 +54,7 @@ export const EmployeeMasterGrid = () => {
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
-                        <Sidebar isopen={isopen} active="dashboard" />
+                        <Sidebar isopen={isopen} active="EmployeeMasterGrid" />
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 

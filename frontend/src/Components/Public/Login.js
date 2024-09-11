@@ -93,7 +93,7 @@ export const LogIn = () => {
 
                       onChange={(e) => {
                         setPassword(e.target.value)
-                        toggleShowPassword()
+                        // showPassEncrypt()
                       }}
                       
                       // onChange={(e) => 

@@ -70,6 +70,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                         </Link>
                     </li>
 
+                    
+
                     <li className={ReportOpen || active === "Master" ? " nav-item active" : "nav-item sidebar_item"}>
 
 
