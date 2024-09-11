@@ -15,11 +15,10 @@ function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
   const [custCount, setCustCount] = useState([]);
   const [categorywise, setCategorywise] = useState({});
-  const [dashboardData, setDashboardData] = useState(null);
   const [valueWise, setValueWise] = useState([]);
   const [forbar, setForbar] = useState({});
   const [duration, setDuration] = useState([]);
-  
+
   
 
 
@@ -28,8 +27,7 @@ function MainDashboard() {
     const fetchData = async () => {
       const data = await getDashboardData();
       if (data) {
-        setDashboardData(data);
-        console.log(data,"data from useEffect");
+        // console.log(data,"data from useEffect");
         
        
         setCustCount(data.customerCount || []);
@@ -37,11 +35,11 @@ function MainDashboard() {
         setForbar(data.category.category|| []);  
         setValueWise(data.valueWiseProjectData|| []);
         setDuration(data.delayedProjectCountsByRange || []);  
-        
+
       }
     };
 
-    fetchData();  // Fetch data on component mount
+    fetchData(); 
   }, []);
 
   // console.log("dashboard",dashboardData);
@@ -64,8 +62,8 @@ function MainDashboard() {
           <Header
             // Language={Language}
             // setLanguage={setLanguage}
-
-            toggle={toggle} isopen={isopen} />
+            toggle={toggle} isopen={isopen} 
+          />
           <div className="container-fluid page-body-wrapper">
             <Sidebar isopen={isopen} active="dashboard" />
             <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
