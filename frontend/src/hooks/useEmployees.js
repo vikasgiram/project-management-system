@@ -1,9 +1,10 @@
 import axios from 'axios';
-const url="api/company";
 
-const getDashboardData = async () => {
+const url="api/employee";
+
+const getEmployees = async () => {
   try {
-    const response = await axios.get(`${url}/dashboard`);
+    const response = await axios.get(`${url}`);
     const data = response.data;
 
     if (data.error) {
@@ -18,4 +19,4 @@ const getDashboardData = async () => {
   }
 };
 
-  export { getDashboardData };
+  export { getEmployees };

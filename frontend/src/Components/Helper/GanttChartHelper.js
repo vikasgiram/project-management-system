@@ -8,7 +8,8 @@ export function initTasks() {
         id: "ProjectSample",
         // progress: 25,
         type: "project",
-        hideChildren: false
+        hideChildren: false,
+        
       },
       {
         start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
@@ -23,7 +24,8 @@ export function initTasks() {
         id: "Task 0",
         // progress: 45,
         type: "task",
-        project: "ProjectSample"
+        project: "ProjectSample",
+        styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' }, 
       },
       {
         start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 2),
@@ -47,7 +49,7 @@ export function initTasks() {
       },
       {
         start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 9, 0, 0),
+        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 9),
         name: "Developing",
         id: "Task 3",
         // progress: 2,
