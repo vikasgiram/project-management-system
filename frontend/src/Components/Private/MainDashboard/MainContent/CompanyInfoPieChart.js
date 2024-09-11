@@ -3,13 +3,13 @@ import Chart from "react-google-charts"
 
 
 
-export const CompanyInfoPieChart = () =>{
+export const CompanyInfoPieChart = ({categorywise}) =>{
 
     const data = [
         ["Projects", "Hours per Day"],
-        ["Finish", 11],
-        ["Inprocess", 2],
-        ["Upcoming", 2]
+        ["Finish", categorywise.finished],
+        ["Inprocess", categorywise.inprocess],
+        ["Upcoming", categorywise.upcoming],
       ];
       
      const options = {

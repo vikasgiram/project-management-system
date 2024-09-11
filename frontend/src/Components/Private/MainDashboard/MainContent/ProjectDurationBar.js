@@ -6,27 +6,11 @@ Chart.Legend.prototype.afterFit = function () {
   this.height = this.height + 40;
 };
 
-export const ProjectDurationBar = () => {
-
-    const [forBarData, setForBarData] = useState([]);
-
-    useEffect(()=>{
-        fetchProjectDuration();
-    },[]);
-
-    const fetchProjectDuration = async () => {          
-        try {
-            const response = await fetch("api/company/dashboard");
-            const json = await response.json();
-            setForBarData(json.delayedProjectCountsByRange || []);  
-        } catch (error) {
-            console.error("Error fetching data", error);
-        }
-    }
+export const ProjectDurationBar = ({duration}) => {
 
 
-    const rangeData = forBarData.length > 0 ? forBarData.map(data => data.range) : [];
-    const delayData = forBarData.length > 0 ? forBarData.map(data => data.delayedProjects) : [];
+    const rangeData = duration.map(data => data.range);
+    const delayData = duration.map(data => data.delayedProjects);
 
     const FirstCompdata = {
         labels: rangeData,  

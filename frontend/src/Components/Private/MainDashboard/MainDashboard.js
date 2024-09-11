@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "./Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { DashboardGroupBtn } from "./MainContent/DashboardGroupBtn";
@@ -6,10 +6,46 @@ import { CompanyInfo } from "./MainContent/CompanyInfo";
 import { ProjectBar } from "./MainContent/ProjectBar";
 import { ProjectDuration } from "./MainContent/ProjectDuration";
 
+import { getDashboardData } from "../../../hooks/useCompany";
+
+
 
 
 function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
+  const [custCount, setCustCount] = useState([]);
+  const [categorywise, setCategorywise] = useState({});
+  const [dashboardData, setDashboardData] = useState(null);
+  const [valueWise, setValueWise] = useState([]);
+  const [forbar, setForbar] = useState({});
+  const [duration, setDuration] = useState([]);
+  
+  
+
+
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      const data = await getDashboardData();
+      if (data) {
+        setDashboardData(data);
+        console.log(data,"data from useEffect");
+        
+       
+        setCustCount(data.customerCount || []);
+        setCategorywise(data.category.total|| []);
+        setForbar(data.category.category|| []);  
+        setValueWise(data.valueWiseProjectData|| []);
+        setDuration(data.delayedProjectCountsByRange || []);  
+        
+      }
+    };
+
+    fetchData();  // Fetch data on component mount
+  }, []);
+
+  // console.log("dashboard",dashboardData);
+  
   const toggle = () => {
     setIsOpen(!isopen);
   };
@@ -37,17 +73,17 @@ function MainDashboard() {
               
               {/* MainContent */}
 
-                <DashboardGroupBtn />
+                <DashboardGroupBtn custCount={custCount}/>
 
                 {/* CompanyInfo */}
-                <CompanyInfo />
+                <CompanyInfo categorywise={categorywise} />
 
 
                 {/* ProjectBar */}
-                <ProjectBar />
+                <ProjectBar forbar={forbar} valueWise={valueWise}/>
 
                 {/* ProjectDuration */}
-                <ProjectDuration />
+                <ProjectDuration duration={duration}/>
                
 
               </div>

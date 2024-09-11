@@ -53,20 +53,10 @@ exports. createCustomer= async(req, res)=>{
             customerContactPersonName1, 
             phoneNumber1, 
             customerContactPersonName2, 
-            phoneNumber2
+            phoneNumber2,
+            DeliveryAddress,
+            BillingAddress
         });
-
-        newCust.BillingAddress.add=BillingAddress.add;
-        newCust.BillingAddress.city=BillingAddress.city;
-        newCust.BillingAddress.state=BillingAddress.state;
-        newCust.BillingAddress.pincode=BillingAddress.pincode;
-        newCust.BillingAddress.country=BillingAddress.country;
-
-        newCust.DeliveryAddress.add=DeliveryAddress.add;
-        newCust.DeliveryAddress.city=DeliveryAddress.city;
-        newCust.DeliveryAddress.state=DeliveryAddress.state;
-        newCust.DeliveryAddress.pincode=DeliveryAddress.pincode;
-        newCust.DeliveryAddress.country=DeliveryAddress.country;
 
         // if(user && user.company)
         //     newCust=user.company;
