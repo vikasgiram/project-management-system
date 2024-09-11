@@ -6,34 +6,31 @@ import { CompanyInfo } from "./MainContent/CompanyInfo";
 import { ProjectBar } from "./MainContent/ProjectBar";
 import { ProjectDuration } from "./MainContent/ProjectDuration";
 
-import { HDashboard } from "../../../Hooks/Company/HDashboard";
 
+import { getDashboardData } from "../../../hooks/useCompany";
 
 
 
 
 function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
-  const [custCount, setCustCount] = useState([]);
-  const [categorywise, setCategorywise] = useState({});
+  const [data , setData]= useState({});
+
 
 
   useEffect(()=>{
-    barChart();
-  },[]);
-  // console.log(HDashboard,"data");
-  const barChart = async () => {          
     try {
-        const response = await fetch("api/company/dashboard");
-        const data = await response.json();
-        setCategorywise(data.category.total|| []); 
-        setCustCount(data.customerCount|| []); 
-        // setValueWise(json.valueWiseProjectData|| []);
-        // console.log(categorywise);
+      async function fetchData() {
+        const dashboard=await getDashboardData();
+        setData(dashboard);
+        console.log(data);
+      }
+      fetchData();
     } catch (error) {
-        console.error("Error fetching data", error);
+      console.log(error);
     }
-  }
+  },[]);
+
 
   
   const toggle = () => {
@@ -63,10 +60,10 @@ function MainDashboard() {
               
               {/* MainContent */}
 
-                <DashboardGroupBtn custCount={custCount}/>
+              {data && <DashboardGroupBtn custCount={data.customerCount}/>}
 
                 {/* CompanyInfo */}
-                <CompanyInfo categorywise={categorywise}/>
+              {data && <CompanyInfo categorywise={data.category}/>}
 
 
                 {/* ProjectBar */}

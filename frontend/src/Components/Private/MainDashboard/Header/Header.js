@@ -83,7 +83,7 @@ export const Header = (props) => {
 
 									</div>
 								</Link>
-								<Link to="/" className="dropdown-item">
+								<Link to="/api/logout" className="dropdown-item">
 
 									<div className="drop_item_two my-1">
 										Log Out
