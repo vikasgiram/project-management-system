@@ -5,37 +5,19 @@ import { Valuewiseproject } from "./Valuewiseproject";
 import { useState, useEffect } from "react";
 
 
-export const ProjectBar = () => {
+export const ProjectBar = ({forbar,valueWise}) => {
 
-  const [valueWise, setValueWise] = useState([]);
-  const [categorywise, setCategorywise] = useState({});
-
-
-  useEffect(()=>{
-    barChart();
-  },[]);
-  
-  const barChart = async () => {          
-    try {
-        const response = await fetch("api/company/dashboard");
-        const json = await response.json();
-        setCategorywise(json.category.category|| []);  
-        setValueWise(json.valueWiseProjectData|| []);
-    } catch (error) {
-        console.error("Error fetching data", error);
-    }
-  }
 
   return (
     <div className="row  bg-white p-2 mx-1 mt-4 border rounded" >
 
       <div className="col-12 col-md-6">
-         <Categorywiseproject categorywise={categorywise}/>
+         <Categorywiseproject categorywise={forbar}/>
       </div>
 
       <div className="col-12 col-md-6">
 
-         <Valuewiseproject forBarData={valueWise}/>
+         <Valuewiseproject valueWise={valueWise}/>
       </div>
     
 

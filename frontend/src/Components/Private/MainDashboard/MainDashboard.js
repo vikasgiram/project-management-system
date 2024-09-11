@@ -6,8 +6,7 @@ import { CompanyInfo } from "./MainContent/CompanyInfo";
 import { ProjectBar } from "./MainContent/ProjectBar";
 import { ProjectDuration } from "./MainContent/ProjectDuration";
 
-import { HDashboard } from "../../../Hooks/Company/HDashboard";
-
+import { getDashboardData } from "../../../hooks/useCompany";
 
 
 
@@ -16,25 +15,36 @@ function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
   const [custCount, setCustCount] = useState([]);
   const [categorywise, setCategorywise] = useState({});
+  const [dashboardData, setDashboardData] = useState(null);
+  const [valueWise, setValueWise] = useState([]);
+  const [forbar, setForbar] = useState({});
+  const [duration, setDuration] = useState([]);
+  
+  
 
 
-  useEffect(()=>{
-    barChart();
-  },[]);
-  // console.log(HDashboard,"data");
-  const barChart = async () => {          
-    try {
-        const response = await fetch("api/company/dashboard");
-        const data = await response.json();
-        setCategorywise(data.category.total|| []); 
-        setCustCount(data.customerCount|| []); 
-        // setValueWise(json.valueWiseProjectData|| []);
-        // console.log(categorywise);
-    } catch (error) {
-        console.error("Error fetching data", error);
-    }
-  }
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      const data = await getDashboardData();
+      if (data) {
+        setDashboardData(data);
+        console.log(data,"data from useEffect");
+        
+       
+        setCustCount(data.customerCount || []);
+        setCategorywise(data.category.total|| []);
+        setForbar(data.category.category|| []);  
+        setValueWise(data.valueWiseProjectData|| []);
+        setDuration(data.delayedProjectCountsByRange || []);  
+        
+      }
+    };
 
+    fetchData();  // Fetch data on component mount
+  }, []);
+
+  // console.log("dashboard",dashboardData);
   
   const toggle = () => {
     setIsOpen(!isopen);
@@ -66,14 +76,14 @@ function MainDashboard() {
                 <DashboardGroupBtn custCount={custCount}/>
 
                 {/* CompanyInfo */}
-                <CompanyInfo categorywise={categorywise}/>
+                <CompanyInfo categorywise={categorywise} />
 
 
                 {/* ProjectBar */}
-                <ProjectBar />
+                <ProjectBar forbar={forbar} valueWise={valueWise}/>
 
                 {/* ProjectDuration */}
-                <ProjectDuration />
+                <ProjectDuration duration={duration}/>
                
 
               </div>
