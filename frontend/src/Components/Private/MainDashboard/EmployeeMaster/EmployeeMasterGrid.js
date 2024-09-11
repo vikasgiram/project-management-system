@@ -99,8 +99,8 @@ export const EmployeeMasterGrid = () => {
                                                         <td>{index + 1}</td>
                                                         <td>{employee.name}</td>
                                                         <td>{employee.email}</td>
-                                                        <td>{employee.department}</td>
-                                                        <td>{employee.role}</td>
+                                                        <td>{employee.department.name}</td>
+                                                        <td>{employee.role.name}</td>
                                                         <td>
                                                         <span
                                                             onClick={() => handleAdd(employee.id)}

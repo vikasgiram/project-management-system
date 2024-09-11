@@ -12,7 +12,10 @@ exports.showAll = async (req, res) => {
   
     const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id})
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate('department', 'name') 
+    .populate('role', 'name');
+
 
     if(employees.length<=0){
       return res.status(400).json({error:"No employees found "});

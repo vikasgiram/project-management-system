@@ -13,6 +13,7 @@ import { getDashboardData } from "../../../hooks/useCompany";
 
 function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);
+  
   const [custCount, setCustCount] = useState([]);
   const [categorywise, setCategorywise] = useState({});
   const [valueWise, setValueWise] = useState([]);
@@ -71,7 +72,7 @@ function MainDashboard() {
               
               {/* MainContent */}
 
-              {data && <DashboardGroupBtn custCount={data.customerCount}/>}
+                <DashboardGroupBtn custCount={custCount}/>
 
                 {/* CompanyInfo */}
                 <CompanyInfo categorywise={categorywise} />
