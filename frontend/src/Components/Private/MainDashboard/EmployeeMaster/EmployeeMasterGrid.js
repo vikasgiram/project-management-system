@@ -93,7 +93,7 @@ export const EmployeeMasterGrid = () => {
                                                     <th>Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody className="broder my-4">
                                                     {employees && employees.map((employee, index) => (
                                                     <tr className="border my-4" key={employee.id}>
                                                         <td>{index + 1}</td>

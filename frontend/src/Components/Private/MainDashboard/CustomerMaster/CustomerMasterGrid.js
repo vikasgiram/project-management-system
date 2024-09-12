@@ -4,6 +4,9 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
 
+import { useEffect } from "react";
+
+import { getCustomers } from "../../../../hooks/useCustomer";
 
 export const CustomerMasterGrid = () => {
 
@@ -15,6 +18,8 @@ export const CustomerMasterGrid = () => {
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
 
+    const [customers, setCustomers]= useState([]);
+
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
@@ -23,6 +28,22 @@ export const CustomerMasterGrid = () => {
     const handelDeleteClosePopUpClick = () => {
         setdeletePopUpShow(false)
     }
+
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            const data = await getCustomers();
+            if (data) {
+
+                setCustomers(data.customers || []);
+                // console.log(employees,"data from useState");
+
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
     return (
@@ -66,33 +87,33 @@ export const CustomerMasterGrid = () => {
                                                     <th>Name</th>
                                                     <th>Email</th>
                                                     <th>Phone</th>
-                                                    <th>Date</th>
+                                                    <th>GST No</th>
                                                     <th>Action</th>
                                                 </tr>
-                                                <tr className="border my-4">
-                                                    <td>1</td>
-                                                    <td>Akash Shirke</td>
-                                                    <td>designer.daccess@gmail.com</td>
-                                                    <td>9975917840</td>
-                                                    <td>Oct 26, 2015</td>
-                                                    <td>
+                                                <tbody>
+                                                    {customers && customers.map((customer, index) => (
+                                                    <tr className="border my-4" key={customer.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{customer.custName}</td>
+                                                        <td>{customer.email}</td>
+                                                        <td>{customer.phoneNumber1}</td>
+                                                        <td>{customer.GSTNo}</td>
+                                                        <td>
                                                         <span
-                                                            onClick={() => {
-                                                                handleAdd()
-                                                            }}
-                                                            className="update ">
-                                                            <i class="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            onClick={() => handleAdd(customer.id)}
+                                                            className="update">
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
 
                                                         <span
-                                                            onClick={() => {
-                                                                setdeletePopUpShow(true)
-                                                            }}
+                                                            onClick={() => setdeletePopUpShow(true)}
                                                             className="update">
-                                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                    ))}
+                                                </tbody>
 
 
 
