@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
 
-export const ProjectMasterGrid = () => {
+import { getProjects } from "../../../../hooks/useProject";
 
+
+export const ProjectMasterGrid = () => {
     const [isopen, setIsOpen] = useState(false);
+
+    const [projects,setProjects]=useState([])
+
+useEffect(()=>{
+
+    const fetchData=async()=>{
+        const data=await getProjects();
+        if(data){
+            setProjects(data.projects || []);
+            // console.log(projects,"data from useState");
+        }
+    }    
+    fetchData();
+},[]);
+
+
+    
     const toggle = () => {
         setIsOpen(!isopen);
     };
@@ -60,20 +79,26 @@ export const ProjectMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
+                                                <thead>
                                                 <tr className="th_border" >
                                                     <th>Sr. No</th>
                                                     <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Date</th>
+                                                    <th>Project Status</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
                                                     <th>Action</th>
                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {projects.map((project, index) => (
+                                                        
+                                                    
                                                 <tr className="border my-4">
-                                                    <td>1</td>
-                                                    <td>Akash Shirke</td>
-                                                    <td>designer.daccess@gmail.com</td>
-                                                    <td>9975917840</td>
-                                                    <td>Oct 26, 2015</td>
+                                                    <td>{index+1}</td>
+                                                    <td>{project.name}</td>
+                                                    <td>{project.projectStatus}</td>
+                                                    <td>{project.startDate}</td>
+                                                    <td>{project.endDate}</td>
                                                     <td>
                                                         <span
                                                             onClick={() => {
@@ -92,9 +117,8 @@ export const ProjectMasterGrid = () => {
                                                         </span>
                                                     </td>
                                                 </tr>
-
-
-
+                                                ))}
+                                                </tbody>
                                             </table>
                                         </div>
 
