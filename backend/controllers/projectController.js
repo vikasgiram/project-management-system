@@ -12,7 +12,8 @@ exports.showAll = async (req, res) => {
 
       const projects = await Project.find({ company: decoded.user.company? decoded.user.company:decoded.user._id})
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .populate('custId','custName');
 
       if(projects.length<=0){
         return res.status(400).json({error:"No Projects Found"});

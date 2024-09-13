@@ -1,19 +1,14 @@
 import { useState } from "react";
 import { Header } from "../Header/Header";
-import axios from "axios";
 import { Sidebar } from "../Sidebar/Sidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
 
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-// import { EditCust } from "../../../../customCURD/custEdit";
-import { getCustomers } from "../../../../hooks/useCustomers";
 
+import { getCustomers } from "../../../../hooks/useCustomer";
 
 export const CustomerMasterGrid = () => {
-
-    const [customers, setCustomers] = useState([]);
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
@@ -22,6 +17,8 @@ export const CustomerMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
+
+    const [customers, setCustomers]= useState([]);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -32,68 +29,22 @@ export const CustomerMasterGrid = () => {
         setdeletePopUpShow(false)
     }
 
+
     useEffect(() => {
 
         const fetchData = async () => {
             const data = await getCustomers();
             if (data) {
+
                 setCustomers(data.customers || []);
-                // console.log(customers,"data from useState");
+                // console.log(employees,"data from useState");
+
             }
         };
+
         fetchData();
-    }, [])
+    }, []);
 
-    // console.log(customers);
-    // const EditBook = () => {
-
-    //     const[title,setTitle] = useState("");
-    //     const[author,setAuthor] = useState("");
-    //     const[publishYear,setPublishYear] = useState("");
-    //     const[loading,setLoading] = useState(false);
-    //     const navigate = useNavigate();
-    //     const {id}=useParams();
-    
-    //     useEffect(()=>{
-    //         setLoading(true);
-    //         axios
-    //         .get(`api/customer/${id}`)
-    //         .then((response)=>{
-    //             setTitle(response.data.title);
-    //             console.log(response.data.author);
-    //             setAuthor(response.data.author);
-    //             setPublishYear(response.data.publishYear);
-    //             setLoading(false);
-    //         })
-    //         .catch((error)=>{
-    //             setLoading(false);
-    //             alert("something went wrong");
-    //             console.log(error);
-    //         });
-    //     },[])
-    
-    //     const handleEditBook =()=>{
-    //         {
-    //             const data={
-    //                 title,
-    //                 author,
-    //                 publishYear 
-    //             };
-    //             setLoading(true);
-    //             axios
-    //             .put(`http://localhost:5555/books/${id}`,data)
-    //             .then((response)=>{
-    //                 setLoading(false);
-    //                 navigate("/");
-    //             })
-    //             .catch((error)=>{
-    //                 setLoading(false);
-    //                 alert("something went wrong");
-    //                 console.log(error);
-    //             });
-    //         }
-    //     };}
-    
 
     return (
         <>
@@ -131,53 +82,41 @@ export const CustomerMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                                <thead>
-                                                    <tr className="th_border" >
-                                                        <th>Sr. No</th>
-                                                        <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Phone</th>
-                                                        <th>Date</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
+                                                <tr className="th_border" >
+                                                    <th>Sr. No</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Phone</th>
+                                                    <th>GST No</th>
+                                                    <th>Action</th>
+                                                </tr>
                                                 <tbody>
-                                                    {customers && customers.map((customers, index) => (
-                                                        <tr className="border my-4" key={customers.id}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{customers.custName}</td>
-                                                            <td>{customers.email}</td>
-                                                            <td>{customers.phoneNumber1}</td>
-                                                            <td>{customers.createdAt}</td>
-                                                            <td>
-                                                                <span
-                                                                    onClick={() => {
-                                                                        handleAdd()
-                                                                    }}
-                                                                    className="update ">
-                                                                    {/* <i class="fa-solid fa-pen text-success cursor-pointer"
-                                                                to={`/api/customer/${customers._id}`
-                                                               
-                                                            }
-                                                            ></i> */}
+                                                    {customers && customers.map((customer, index) => (
+                                                    <tr className="border my-4" key={customer.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{customer.custName}</td>
+                                                        <td>{customer.email}</td>
+                                                        <td>{customer.phoneNumber1}</td>
+                                                        <td>{customer.GSTNo}</td>
+                                                        <td>
+                                                        <span
+                                                            onClick={() => handleAdd(customer.id)}
+                                                            className="update">
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                        </span>
 
-                                                                    <i className="fa-solid fa-pen text-success cursor-pointer"
-                                                                        onClick={() => console.log("bsbsbb",customers._id)} //its working
-                                                                    ></i>
-                                                                    
-
-                                                                </span>
-
-                                                                <span
-                                                                    onClick={() => {
-                                                                        setdeletePopUpShow(true)
-                                                                    }}
-                                                                    className="update">
-                                                                    <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                                </span>
-                                                            </td>
-                                                        </tr>))}
+                                                        <span
+                                                            onClick={() => setdeletePopUpShow(true)}
+                                                            className="update">
+                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                        </span>
+                                                        </td>
+                                                    </tr>
+                                                    ))}
                                                 </tbody>
+
+
+
                                             </table>
                                         </div>
 

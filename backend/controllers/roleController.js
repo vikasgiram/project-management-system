@@ -1,34 +1,29 @@
 const Role = require('../models/roleModel');
 const jwt = require('jsonwebtoken');
 
-exports.showAll = async ( req, res)=>{
+exports.showAll = async (req, res) => {
     try {
-        const decoded = jwt.verify(req.cookies.jwt,process.env.JWT_SECRET);
-
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1)*limit;
-
-        const roles= await Role.find({company:decoded.user.company?decoded.user.company:decoded.user._id})
-        .skip(skip)
-        .limit(limit);
-
-        if(roles.length<=0){
-          return res.status(400).json({ error: 'No Roles Found ' });
-        }
-
-        const totalRecords= await Role.countDocuments({company:decoded.user.company?decoded.user.company:decoded.user._id});
-
-        res.status(200).json({
-            roles,
-            currentPage:page,
-            totalPages:Math.ceil(totalRecords/limit),
-            totalRecords
-        });
+      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const departmentId = req.query.department; // Get departmentId from query params
+  
+      if (!departmentId) {
+        return res.status(400).json({ error: 'Department ID is required' });
+      }
+  
+      const roles = await Role.find({
+        company: decoded.user.company ? decoded.user.company : decoded.user._id,
+        department: departmentId
+      });
+  
+      if (roles.length <= 0) {
+        return res.status(400).json({ error: 'No Roles Found in this department' });
+      }
+  
+      res.status(200).json({ roles });
     } catch (error) {
-        res.status(500).json({error:"Error while Getting Roles: "+error.message});
+      res.status(500).json({ error: 'Error while Getting Roles: ' + error.message });
     }
-};
+  };
 
 exports.create = async (req, res)=>{
     try {

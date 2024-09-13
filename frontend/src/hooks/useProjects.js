@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const url="api/employee";
+const url="api/project";
 
-const getEmployees = async () => {
+const getProjects = async () => {
   try {
     const response = await axios.get(`${url}`);
     const data = response.data;
@@ -19,9 +19,9 @@ const getEmployees = async () => {
   }
 };
 
-const createEmployee = async (employeeData) => {
+const createProject = async (projectData) => {
   try {
-    const response = await axios.post(`${url}`, employeeData);
+    const response = await axios.post(`${url}`, projectData);
     const data = response.data;
 
     if (data.error) {
@@ -36,9 +36,9 @@ const createEmployee = async (employeeData) => {
   }
 };
 
-const updateEmployee = async (employeeId, updatedEmployeeData) => {
+const updateProject = async (Id, updatedData) => {
   try {
-    const response = await axios.put(`${url}/${employeeId}`, updatedEmployeeData);
+    const response = await axios.put(`${url}/${Id}`, updatedData);
     const data = response.data;
 
     if (data.error) {
@@ -53,9 +53,9 @@ const updateEmployee = async (employeeId, updatedEmployeeData) => {
   }
 };
 
-const deleteEmployee = async (employeeId) => {
+const deleteProject = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${employeeId}`);
+    const response = await axios.delete(`${url}/${Id}`);
     const data = response.data;
 
     if (data.error) {
@@ -69,5 +69,5 @@ const deleteEmployee = async (employeeId) => {
     return null;
   }
 };
-  
-export { getEmployees , createEmployee,  updateEmployee, deleteEmployee };
+
+export { getProjects,  createProject, updateProject, deleteProject };
