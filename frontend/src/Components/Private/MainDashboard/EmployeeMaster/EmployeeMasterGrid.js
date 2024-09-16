@@ -79,9 +79,13 @@ export const EmployeeMasterGrid = () => {
                                                         <span
                                                             onClick={() => {
                                                                 handleAdd()
+                                                                {<AddEmployeePopup/>}
                                                             }}
                                                             className="update ">
                                                             <i class="fa-solid fa-pen text-success cursor-pointer"></i>
+
+
+
                                                         </span>
 
                                                         <span
@@ -112,7 +116,8 @@ export const EmployeeMasterGrid = () => {
             </div>
 
 
-            {deletePopUpShow ?
+            {
+            deletePopUpShow ?
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}
                     cancelBtnCallBack={handelDeleteClosePopUpClick}
@@ -122,14 +127,14 @@ export const EmployeeMasterGrid = () => {
             }
 
 
-            {AddPopUpShow ?
+            {/* {AddPopUpShow ?
                 <AddEmployeePopup
                     message="Create New Employee"
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
-            }
+            } */}
 
         </>
     )

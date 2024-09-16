@@ -68,6 +68,7 @@ export const CustomerMasterGrid = () => {
                                                     <th>Phone</th>
                                                     <th>Date</th>
                                                     <th>Action</th>
+                                                    
                                                 </tr>
                                                 <tr className="border my-4">
                                                     <td>1</td>
