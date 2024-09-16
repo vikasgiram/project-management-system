@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "././login.css";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { data } from "jquery";
+import axios from 'axios';
+import { loginUser } from "../../hooks/useAuth";
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
 export const LogIn = () => {
@@ -13,39 +16,30 @@ export const LogIn = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // const dispatch = useAuthDispatch();
-  // const { loading, errorMessage } = useAuthState();
-
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(username+" "+password);
+    console.log(username + " " + password);
+  
     try {
-      const res = await fetch("api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: username, password }),
-      });
-      
-
-      const data = await res.json();
-      console.log(data);
+      const data = await loginUser(username, password);
+      console.log(data,"login data");
       if (data.error) {
-        return alert(data.error);
+        return toast.error(data.error); 
       }
+  
+     
       if (data.user === "employee") {
         navigation("/employeeDashboard");
-      }
-      else if (data.user === "company")
+      } else if (data.user === "company") {
         navigation("/MainDashboard");
-      else if (data.user === "admin") {
-        alert("welcome Admin");
+      } else if (data.user === "admin") {
+        alert("Welcome Admin");
         navigation("/adminDashboard");
       }
+  
     } catch (error) {
-      // console.error(error);
-      // alert('error');
-      toast.error("invalid");
-      // You might want to display the error to the user here
+      console.error(error);
+      toast.error("An error occurred while logging in."); // Show error message using toast
     }
   };
 

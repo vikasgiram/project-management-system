@@ -4,6 +4,11 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
 
+import { useEffect } from "react";
+
+import { getProjects } from "../../../../hooks/useProjects";
+import { formatDate } from "../../../../utils/formatDate";
+
 export const ProjectMasterGrid = () => {
 
     const [isopen, setIsOpen] = useState(false);
@@ -14,6 +19,8 @@ export const ProjectMasterGrid = () => {
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
 
+    const [projects, setProjects]= useState([]);
+
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
@@ -23,6 +30,21 @@ export const ProjectMasterGrid = () => {
         setdeletePopUpShow(false)
     }
 
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            const data = await getProjects();
+            if (data) {
+
+                setProjects(data.projects || []);
+                // console.log(employees,"data from useState");
+
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -63,35 +85,37 @@ export const ProjectMasterGrid = () => {
                                                 <tr className="th_border" >
                                                     <th>Sr. No</th>
                                                     <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
-                                                <tr className="border my-4">
-                                                    <td>1</td>
-                                                    <td>Akash Shirke</td>
-                                                    <td>designer.daccess@gmail.com</td>
-                                                    <td>9975917840</td>
-                                                    <td>Oct 26, 2015</td>
-                                                    <td>
+                                                <tbody className="broder my-4">
+                                                    {projects && projects.map((project, index) => (
+                                                    <tr className="border my-4" key={project.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{project.name}</td>
+                                                        <td>{project.custId.custName}</td>
+                                                        <td>{formatDate(project.startDate)}</td>
+                                                        <td>{formatDate(project.endDate)}</td>
+                                                        <td>{project.projectStatus}</td>
+                                                        <td>
                                                         <span
-                                                            onClick={() => {
-                                                                handleAdd()
-                                                            }}
-                                                            className="update ">
-                                                            <i class="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            onClick={() => handleAdd(project.id)}
+                                                            className="update">
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
 
                                                         <span
-                                                            onClick={() => {
-                                                                setdeletePopUpShow(true)
-                                                            }}
+                                                            onClick={() => setdeletePopUpShow(true)}
                                                             className="update">
-                                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                    ))}
+                                                </tbody>
 
 
 

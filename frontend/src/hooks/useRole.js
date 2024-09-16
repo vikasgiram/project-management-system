@@ -1,9 +1,10 @@
 import axios from 'axios';
-const url="api/company";
 
-const getDashboardData = async () => {
+const url="api/role";
+
+const getRole = async (dep) => {
   try {
-    const response = await axios.get(`${url}/dashboard`);
+    const response = await axios.get(`${url}?department=${dep}`);
     const data = response.data;
 
     if (data.error) {
@@ -18,4 +19,4 @@ const getDashboardData = async () => {
   }
 };
 
-  export { getDashboardData };
+  export { getRole };

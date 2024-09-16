@@ -4,6 +4,10 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 
+import { useEffect } from "react"; 
+
+import {getEmployees} from "../../../../hooks/useEmployees"
+
 
 export const EmployeeMasterGrid = () => {
 
@@ -15,6 +19,8 @@ export const EmployeeMasterGrid = () => {
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
 
+    const [employees, setEmployees] = useState([])
+
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
@@ -23,6 +29,22 @@ export const EmployeeMasterGrid = () => {
     const handelDeleteClosePopUpClick = () => {
         setdeletePopUpShow(false)
     }
+
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            const data = await getEmployees();
+            if (data) {
+
+                setEmployees(data.employees || []);
+                // console.log(employees,"data from useState");
+
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
     return (
@@ -61,46 +83,41 @@ export const EmployeeMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                                <tr className="th_border" >
+                                                <thead>
+                                                    <tr className="th_border">
                                                     <th>Sr. No</th>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Date</th>
+                                                    <th>Department</th>
+                                                    <th>Role</th>
                                                     <th>Action</th>
-                                                </tr>
-                                                <tr className="border my-4">
-                                                    <td>1</td>
-                                                    <td>Akash Shirke</td>
-                                                    <td>designer.daccess@gmail.com</td>
-                                                    <td>9975917840</td>
-                                                    <td>Oct 26, 2015</td>
-                                                    <td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="broder my-4">
+                                                    {employees && employees.map((employee, index) => (
+                                                    <tr className="border my-4" key={employee.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{employee.name}</td>
+                                                        <td>{employee.email}</td>
+                                                        <td>{employee.department.name}</td>
+                                                        <td>{employee.role.name}</td>
+                                                        <td>
                                                         <span
-                                                            onClick={() => {
-                                                                handleAdd()
-                                                                {<AddEmployeePopup/>}
-                                                            }}
-                                                            className="update ">
-                                                            <i class="fa-solid fa-pen text-success cursor-pointer"></i>
-
-
-
-                                                        </span>
-
-                                                        <span
-                                                            onClick={() => {
-                                                                setdeletePopUpShow(true)
-                                                            }}
+                                                            onClick={() => handleAdd(employee.id)}
                                                             className="update">
-                                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
-                                                    </td>
-                                                </tr>
 
-
-
-                                            </table>
+                                                        <span
+                                                            onClick={() => setdeletePopUpShow(true)}
+                                                            className="update">
+                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                        </span>
+                                                        </td>
+                                                    </tr>
+                                                    ))}
+                                                </tbody>
+                                                </table>
                                         </div>
 
 

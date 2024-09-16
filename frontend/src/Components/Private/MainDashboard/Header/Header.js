@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Link } from "react-router-dom";
 import { LanguageDDL } from "../../CommanDDL/LanguageDDL";
 import { useTranslation } from "react-i18next";
@@ -83,7 +83,7 @@ export const Header = (props) => {
 
 									</div>
 								</Link>
-								<Link to="/" className="dropdown-item">
+								<Link to="/api/logout" className="dropdown-item">
 
 									<div className="drop_item_two my-1">
 										Log Out
