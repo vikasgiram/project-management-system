@@ -1,6 +1,6 @@
 
-const DeletePopUP = ({ cancelBtnCallBack, confirmBtnCallBack, deleteRecord, message, heading }) => {
-
+const DeletePopUP = ({ cancelBtnCallBack, confirmBtnCallBack, deleteRecord, message, heading, id }) => {
+console.log("current project Id in delete popu:"+id);
     return (<>
         <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000055" }}>
             <div className="modal-dialog dialog_width" role="document" >
