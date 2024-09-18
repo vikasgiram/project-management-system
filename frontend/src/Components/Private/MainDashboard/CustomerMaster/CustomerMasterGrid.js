@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
+import { toast } from "react-toastify";
+
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
 
 import { useEffect } from "react";
 
-import { getCustomers } from "../../../../hooks/useCustomer";
+import { getCustomers, deleteCustomer } from "../../../../hooks/useCustomer";
 
 export const CustomerMasterGrid = () => {
 
@@ -17,7 +19,8 @@ export const CustomerMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-
+    
+    const [selectedId, setSelecteId]= useState(null);
     const [customers, setCustomers]= useState([]);
 
     const handleAdd = () => {
@@ -25,9 +28,15 @@ export const CustomerMasterGrid = () => {
     }
 
 
-    const handelDeleteClosePopUpClick = () => {
-        setdeletePopUpShow(false)
+    const handelDeleteClosePopUpClick = (id) => {
+        setSelecteId(id);
+        setdeletePopUpShow(!deletePopUpShow);
     }
+
+    const handelDeleteClick = async () => {
+        await deleteCustomer(selectedId);
+        setdeletePopUpShow(false);
+    };
 
 
     useEffect(() => {
@@ -43,7 +52,7 @@ export const CustomerMasterGrid = () => {
         };
 
         fetchData();
-    }, []);
+    }, [customers]);
 
 
     return (
@@ -106,8 +115,8 @@ export const CustomerMasterGrid = () => {
                                                         </span>
 
                                                         <span
-                                                            onClick={() => setdeletePopUpShow(true)}
-                                                            className="update">
+                                                            onClick={() => handelDeleteClosePopUpClick(customer._id)}
+                                                            className="delete">
                                                             <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
                                                         </td>
@@ -137,7 +146,7 @@ export const CustomerMasterGrid = () => {
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}
                     cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    // confirmBtnCallBack={handelDeleteClick}
+                    confirmBtnCallBack={handelDeleteClick}
                     heading="Delete"
                 /> : <></>
             }

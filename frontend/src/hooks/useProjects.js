@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const url="api/project";
 
@@ -15,7 +16,7 @@ const getProjects = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -32,7 +33,7 @@ const createProject = async (projectData) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -49,7 +50,7 @@ const updateProject = async (Id, updatedData) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -66,7 +67,7 @@ const deleteProject = async (Id) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 

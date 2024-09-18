@@ -171,7 +171,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <option>Select Role</option>
                         {roles &&
                           roles.map((role) => (
-                            <option value={role.id}>{role.name}</option>
+                            <option value={role._id}>{role.name}</option>
                           ))}
                       </select>
                     </div>

@@ -2,6 +2,21 @@ const Customer = require('../models/customerModel');
 const jwt = require('jsonwebtoken');
 
 
+
+
+exports.getCustomer = async (req, res)=>{
+    try {
+        const  customer = await Customer.findById(req.params.id);
+        if(!customer) {
+            return res.status(404).json({ error: 'Customer not found' });
+        }
+        res.status(200).json(customer);
+
+    } catch (error) {
+        res.status(500).json({error:"Error in getting a customer: "+error.message});
+    }
+};
+
 // show all customers with pagination
 // end point /customers?page=1&limit=10
 exports.showAll = async (req, res) => {
@@ -84,7 +99,7 @@ exports. createCustomer= async(req, res)=>{
 // delete customer 
 exports.deleteCustomer=async(req,res)=>{
     try{
-        const customer= await Customers.findByIdAndDelete(req.params.id);
+        const customer= await Customer.findByIdAndDelete(req.params.id);
 
         if(!customer){
             res.status(400).json({error:"Customer Not found !!"});
@@ -98,7 +113,7 @@ exports.deleteCustomer=async(req,res)=>{
 // update customer 
 exports.updateCustomer= async(req,res)=>{
     try{
-        const customer=await Customers.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        const customer=await Customer.findByIdAndUpdate(req.params.id,req.body,{new:true});
 
         if(!customer){
             res.status(400).json({error:"Customer Not found !!"});

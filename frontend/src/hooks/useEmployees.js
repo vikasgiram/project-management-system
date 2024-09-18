@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const url="api/employee";
 
@@ -15,7 +16,7 @@ const getEmployees = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -32,7 +33,7 @@ const createEmployee = async (employeeData) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -49,7 +50,7 @@ const updateEmployee = async (employeeId, updatedEmployeeData) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -66,7 +67,7 @@ const deleteEmployee = async (employeeId) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
   
