@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+
+
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
 
-import { useEffect } from "react";
-
-import { getProjects } from "../../../../hooks/useProjects";
+import { getProjects,deleteProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 
 export const ProjectMasterGrid = () => {
@@ -19,16 +21,30 @@ export const ProjectMasterGrid = () => {
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
 
+    const [selectedId, setSelecteId]= useState(null);
     const [projects, setProjects]= useState([]);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
+    // const handleUpdate = (id) => {
+    //     setCurrentProjectId(id);
+    // }
 
-    const handelDeleteClosePopUpClick = () => {
-        setdeletePopUpShow(false)
+    const handelDeleteClosePopUpClick = (id) => {
+        setSelecteId(id);
+        setdeletePopUpShow(!deletePopUpShow);
     }
+
+    const handelDeleteClick = async () => {
+        const data = await deleteProject(selectedId);
+        if (data) {
+            handelDeleteClosePopUpClick();
+            return toast.success("Project Deleted sucessfully...");
+        }
+        toast.error(data.error);
+    };
 
 
     useEffect(() => {
@@ -44,7 +60,7 @@ export const ProjectMasterGrid = () => {
         };
 
         fetchData();
-    }, []);
+    }, [projects]);
 
     return (
         <>
@@ -102,15 +118,15 @@ export const ProjectMasterGrid = () => {
                                                         <td>{project.projectStatus}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handleAdd(project.id)}
+                                                            onClick={() => handelDeleteClosePopUpClick(project.id)}
                                                             className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
 
                                                         <span
-                                                            onClick={() => setdeletePopUpShow(true)}
+                                                            onClick={() => handelDeleteClosePopUpClick(project._id)}
                                                             className="update">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                            <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
                                                         </td>
                                                     </tr>
@@ -139,7 +155,7 @@ export const ProjectMasterGrid = () => {
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}
                     cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    // confirmBtnCallBack={handelDeleteClick}
+                    confirmBtnCallBack={handelDeleteClick}
                     heading="Delete"
                 /> : <></>
             }
@@ -157,4 +173,3 @@ export const ProjectMasterGrid = () => {
         </>
     )
 }
-

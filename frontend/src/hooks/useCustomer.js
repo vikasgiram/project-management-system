@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const url="api/customer";
 
@@ -9,13 +10,13 @@ const getCustomers = async () => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -26,13 +27,13 @@ const createCustomer = async (customerData) => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
-
+    toast.success("New Customer Created...");
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -43,13 +44,13 @@ const updateCustomer = async (Id, updatedData) => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
-
+    toast.success("Customer Updated successfully");
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 
@@ -59,14 +60,13 @@ const deleteCustomer = async (Id) => {
     const data = response.data;
 
     if (data.error) {
-      console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
-    return data;
+    toast.success("Customer Deleted sucessfully...");
   } catch (error) {
-    console.error(error);
-    return null;
+    console.log(error.response.data);
+    toast.error(error.response.data.error);
   }
 };
 

@@ -5,8 +5,9 @@ import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 
 import { useEffect } from "react"; 
+import toast from "react-hot-toast";
 
-import {getEmployees} from "../../../../hooks/useEmployees"
+import {getEmployees, deleteEmployee} from "../../../../hooks/useEmployees"
 
 
 export const EmployeeMasterGrid = () => {
@@ -18,6 +19,8 @@ export const EmployeeMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
+    const [selectedId, setSelecteId]= useState(null);
+
 
     const [employees, setEmployees] = useState([])
 
@@ -26,9 +29,19 @@ export const EmployeeMasterGrid = () => {
     }
 
 
-    const handelDeleteClosePopUpClick = () => {
-        setdeletePopUpShow(false)
+    const handelDeleteClosePopUpClick = (id) => {
+        setSelecteId(id);
+        setdeletePopUpShow(!deletePopUpShow);
     }
+
+    const handelDeleteClick = async () => {
+        const data = await deleteEmployee(selectedId);
+        if (data) {
+            handelDeleteClosePopUpClick();
+            return toast.success("Employee Deleted sucessfully...");
+        }
+        toast.error(data.error);
+    };
 
 
     useEffect(() => {
@@ -44,7 +57,7 @@ export const EmployeeMasterGrid = () => {
         };
 
         fetchData();
-    }, []);
+    }, [employees]);
 
 
     return (
@@ -109,8 +122,8 @@ export const EmployeeMasterGrid = () => {
                                                         </span>
 
                                                         <span
-                                                            onClick={() => setdeletePopUpShow(true)}
-                                                            className="update">
+                                                            onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                            className="delete">
                                                             <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
                                                         </td>
@@ -138,7 +151,7 @@ export const EmployeeMasterGrid = () => {
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}
                     cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    // confirmBtnCallBack={handelDeleteClick}
+                    confirmBtnCallBack={handelDeleteClick}
                     heading="Delete"
                 /> : <></>
             }

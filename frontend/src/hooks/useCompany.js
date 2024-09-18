@@ -1,4 +1,6 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
+
 const url="api/company";
 
 const getDashboardData = async () => {
@@ -14,7 +16,8 @@ const getDashboardData = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
+
   }
 };
 

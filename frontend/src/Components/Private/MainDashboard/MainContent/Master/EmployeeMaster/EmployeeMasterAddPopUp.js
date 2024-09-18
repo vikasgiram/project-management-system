@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DesignationName } from "../../../../CommonLabel/DesignationName";
 import Select from 'react-select'
 import { EmployeeName } from "../../../../CommonLabel/EmployeeName";
@@ -7,8 +7,15 @@ import { MobileNumber } from "../../../../CommonLabel/MobileNumber";
 import { JoiningDate } from "../../../../CommonLabel/JoiningDate";
 import { EmailID } from "../../../../CommonLabel/EmailID";
 
+import axios from 'axios';
+
+
 const EmployeeMasterAddPopUp = ({ cancelBtnCallBack, confirmBtnCallBack, deleteRecord, message, heading }) => {
     // DDL
+
+
+
+
 
     const [DDLID, setDDLID] = useState({
         DDL: [],
@@ -20,6 +27,7 @@ const EmployeeMasterAddPopUp = ({ cancelBtnCallBack, confirmBtnCallBack, deleteR
         { id: 1, value: 1, label: '1' },
         { id: 2, value: 2, label: '2' },
     ]
+    // console.log(DDLID, "DDLID");
     return (<>
         <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
             <div className="modal-dialog modal-lg">
@@ -36,7 +44,13 @@ const EmployeeMasterAddPopUp = ({ cancelBtnCallBack, confirmBtnCallBack, deleteR
                             <div className="row " >
                                 <div class="col-12 col-lg-6 pt-3">
                                     <DesignationName />
-                                    <input type="text" placeholder="" name="email" className="form-control" id="email" required />
+                                    <input type="text" 
+                                    value={email}
+                                    onChange={(e)=>setEmail(e.target.value)}
+                                    
+                                     name="email" 
+                                     className="form-control"
+                                      id="email" required />
                                 </div>
 
                                 <div class="col-12 col-lg-6 pt-3">

@@ -7,9 +7,9 @@ export const CompanyInfoPieChart = ({categorywise}) =>{
 
     const data = [
         ["Projects", "Hours per Day"],
-        ["Finish", 1],
-        ["Inprocess", 2],
-        ["Upcoming", 1],
+        ["Finish", categorywise.finished],
+        ["Inprocess", categorywise.inprocess],
+        ["Upcoming", categorywise.upcoming],
       ];
       
      const options = {

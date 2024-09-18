@@ -1,13 +1,14 @@
 
 import AllRoutes from './AllRoutes';
+import {Toaster} from 'react-hot-toast'
 import './App.css';
 
 function App() {
   return (
-    // <AuthProvider>
-    <AllRoutes />
-  // </AuthProvider>
- 
+    <>
+      <AllRoutes />
+      <Toaster/>
+    </>
   );
 }
 

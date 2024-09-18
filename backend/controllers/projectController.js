@@ -91,7 +91,7 @@ exports.delete = async (req, res)=>{
         const project= await Project.findByIdAndDelete(req.params.id);
         await Tasksheet.deleteMany({ project: req.params.id });
         if(!project){
-            res.status(400).json({error:"Project not found"});
+            return res.status(400).json({error:"Project not found"});
         }
         res.status(200).json({message:"Project Deleted sucessfylly"});
 

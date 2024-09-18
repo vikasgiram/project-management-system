@@ -4,8 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "././login.css";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { data } from "jquery";
-import axios from 'axios';
 import { loginUser } from "../../hooks/useAuth";
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
