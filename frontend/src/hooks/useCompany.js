@@ -21,4 +21,4 @@ const getDashboardData = async () => {
   }
 };
 
-  export { getDashboardData };
+export { getDashboardData };

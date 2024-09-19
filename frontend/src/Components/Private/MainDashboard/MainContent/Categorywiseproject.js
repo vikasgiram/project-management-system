@@ -51,7 +51,7 @@ export const Categorywiseproject = ({ categorywise }) => {
         grid: {
           drawOnChartArea: false,
         },
-        barThickness: 15,
+        barThickness: 10,
         ticks: {
           autoSkip: false,
           fontSize: 13,

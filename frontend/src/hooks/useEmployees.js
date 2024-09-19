@@ -27,10 +27,10 @@ const createEmployee = async (employeeData) => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
-    return data;
+    toast.success("Employee Created");
   } catch (error) {
     console.error(error);
     toast.error(error.response.data.error);

@@ -1,21 +1,14 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Select from 'react-select'
+
 
 const AddCustomerPopUp = ({ handleAdd }) => {
 
-    const { t } = useTranslation()
+    const [name, setName]= useState(null);
+    const [mobileNo, setMobileNo]= useState(null);
+    const [email, setEmail]= useState(null);
+    const [SecondaryPersonName, setSecondaryPersonName]= useState(null);
 
-    // const [DDLID, setDDLID] = useState({
-    //     DDL: [],
-    //     ID: 0,
-    //     Label: "Select...",
-    // })
-
-    // const options = [
-    //     { id: 1, value: 1, label: '1' },
-    //     { id: 2, value: 2, label: '2' },
-    // ]
 
     return (
         <>
@@ -81,8 +74,8 @@ const AddCustomerPopUp = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="exampleInputEmail1" className="form-label label_text">Mobile Number</label>
-                                                    <input type="email" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                                    <label for="exampleInputEmail1" className="form-label label_text">Secondary Person Name</label>
+                                                    <input type="text" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
                                                 </div>
 
                                             </form>
@@ -93,8 +86,8 @@ const AddCustomerPopUp = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="exampleInputEmail1" className="form-label label_text">Email</label>
-                                                    <input type="email" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                                    <label for="exampleInputEmail1" className="form-label label_text">Mobile No</label>
+                                                    <input type="number" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
                                                 </div>
 
                                             </form>

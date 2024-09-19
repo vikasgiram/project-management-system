@@ -20,12 +20,17 @@ export const EmployeeMasterGrid = () => {
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId]= useState(null);
+    const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
 
 
     const [employees, setEmployees] = useState([])
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
+    }
+
+    const handleUpdate = () => {
+        setUpdatePopUpShow(!updatePopUpShow);
     }
 
 
@@ -116,7 +121,7 @@ export const EmployeeMasterGrid = () => {
                                                         <td>{employee.role.name}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handleAdd(employee.id)}
+                                                            onClick={() => handleAdd(employee._id)}
                                                             className="update">
                                                             <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>

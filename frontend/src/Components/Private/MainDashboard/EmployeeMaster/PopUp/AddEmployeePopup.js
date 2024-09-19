@@ -4,10 +4,8 @@ import { useEffect } from "react";
 
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getRole } from "../../../../../hooks/useRole";
-
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
+import { createEmployee } from "../../../../../hooks/useEmployees";
+import toast from "react-hot-toast";
 
 const AddEmployeePopup = ({ handleAdd }) => {
   const { t } = useTranslation();
@@ -15,25 +13,14 @@ const AddEmployeePopup = ({ handleAdd }) => {
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
   const [roles, setRoles] = useState([]);
-  
 
-  
-  const[name,setName] = useState("");
-  const[mobileNo,setMobileNo] = useState("");
-  const[email,setEmail] = useState("");
-  const[password,setPassword] = useState("");
-  const[confirmPassword,setConfirmPassword] = useState("");
-  const[hourlyRate,setHourlyRate] = useState();
-  const[role,setRole] = useState();
-  const navigate = useNavigate();
-  const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
-  };
-
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
-
+  const [name, setName] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [hourlyRate, setHourlyRate] = useState();
+  const [role, setRole] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +43,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
         // console.log(data,"data")
         if (data) {
           setRoles(data.roles || []);
-          console.log(data.roles,"roles");
+          console.log(data.roles, "roles");
         }
       };
 
@@ -64,42 +51,26 @@ const AddEmployeePopup = ({ handleAdd }) => {
     }
   }, [department]);
 
-
-
-  
-  const handleEmployeeAdd =()=>{
-    {
-        const data={
-            name,
-            mobileNo,
-            email,
-            hourlyRate,
-            password,
-            confirmPassword,
-            department,
-            role
-
-        };
-       
-        axios
-        .post("/api/employee",data,{ headers: {
-          'Content-Type': 'application/json'
-        }})
-        .then((response)=>{
-            
-            navigate("/MainDashboard");
-        })
-        .catch((error)=>{
-      
-            alert("something went wrong");
-            console.log(error);
-        });
+  const handleEmployeeAdd = async () => {
+    const data = {
+      name,
+      mobileNo,
+      email,
+      hourlyRate,
+      password,
+      confirmPassword,
+      department,
+      role,
+    };
+    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !role){
+      return toast.error("Please fill all fields");
     }
-};
-// console.log(role+'name')
-// console.log(selectedDepartmentId+'select department'); //worked id of department
-// console.log(department,'department'); //worked data of departments
-
+    if(password!==confirmPassword){
+      return toast.error("Password desen't match");
+    }
+    await createEmployee(data);
+    handleAdd();
+  };
 
   return (
     <>
@@ -141,7 +112,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="text"
                         value={name}
-                        onChange={(e)=>(setName(e.target.value))}
+                        onChange={(e) => setName(e.target.value)}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -162,7 +133,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="text"
                         value={mobileNo}
-                        onChange={(e)=>(setMobileNo(e.target.value))}
+                        onChange={(e) => setMobileNo(e.target.value)}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -183,7 +154,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="email"
                         value={email}
-                        onChange={(e)=>(setEmail(e.target.value))}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -204,7 +175,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={handleDepartmentChange}
+                        onChange={(e) => setDepartment(e.target.value)}
                       >
                         <option value="">Select Department</option>
                         {getDepartments &&
@@ -230,7 +201,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={handleRoleChange}   //S
+                        onChange={(e) => setRole(e.target.value)} //S
                       >
                         <option>Select Role</option>
                         {roles &&
@@ -261,7 +232,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <input
                           type="text"
                           value={hourlyRate}
-                          onChange={(e)=>setHourlyRate(e.target.value)}
+                          onChange={(e) => setHourlyRate(e.target.value)}
                           className="form-control rounded-0 border-0"
                           placeholder="eg. 10,000"
                           aria-label="Username"
@@ -285,7 +256,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <input
                           type="password"
                           value={password}
-                          onChange={(e)=>setPassword(e.target.value)}
+                          onChange={(e) => setPassword(e.target.value)}
                           className="form-control rounded-0"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
@@ -306,7 +277,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <input
                           type="password"
                           value={confirmPassword}
-                          onChange={(e)=>setConfirmPassword(e.target.value)}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                           className="form-control rounded-0"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
