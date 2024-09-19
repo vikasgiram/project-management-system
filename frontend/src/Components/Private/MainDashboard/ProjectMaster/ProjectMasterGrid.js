@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
+import UpdateProjectPopup from "./PopUp/UpdateProjectPopup";
+
 
 import { getProjects,deleteProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
@@ -20,12 +22,17 @@ export const ProjectMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
+    const [UpdatePopUpShow,setUpdatePopUpShow]=useState(false)
 
     const [selectedId, setSelecteId]= useState(null);
     const [projects, setProjects]= useState([]);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
+    }
+
+    const handleUpdate=()=>{
+        setUpdatePopUpShow(!UpdatePopUpShow)
     }
 
     // const handleUpdate = (id) => {
@@ -118,14 +125,14 @@ export const ProjectMasterGrid = () => {
                                                         <td>{project.projectStatus}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handelDeleteClosePopUpClick(project.id)}
+                                                            onClick={() => handleUpdate(project.id)}
                                                             className="update">
                                                             <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
 
                                                         <span
                                                             onClick={() => handelDeleteClosePopUpClick(project._id)}
-                                                            className="update">
+                                                            className="delete">
                                                             <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
                                                         </td>
@@ -165,6 +172,16 @@ export const ProjectMasterGrid = () => {
                 <AddProjectPopup
                     message="Create New Employee"
                     handleAdd={handleAdd}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
+
+
+            {UpdatePopUpShow ?
+
+                <UpdateProjectPopup
+                    handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>

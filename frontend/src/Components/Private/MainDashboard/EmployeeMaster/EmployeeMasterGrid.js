@@ -3,11 +3,12 @@ import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
 
-import { useEffect } from "react"; 
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-import {getEmployees, deleteEmployee} from "../../../../hooks/useEmployees"
+import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
 
 
 export const EmployeeMasterGrid = () => {
@@ -19,13 +20,18 @@ export const EmployeeMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [selectedId, setSelecteId]= useState(null);
+    const [selectedId, setSelecteId] = useState(null);
+    const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false)
 
 
     const [employees, setEmployees] = useState([])
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
+    }
+
+    const handleUpdate = () => {
+        setUpdatePopUpShow(!UpdatePopUpShow)
     }
 
 
@@ -98,39 +104,39 @@ export const EmployeeMasterGrid = () => {
                                             <table className="table table-striped table-class" id="table-id">
                                                 <thead>
                                                     <tr className="th_border">
-                                                    <th>Sr. No</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Role</th>
-                                                    <th>Action</th>
+                                                        <th>Sr. No</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Department</th>
+                                                        <th>Role</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="broder my-4">
                                                     {employees && employees.map((employee, index) => (
-                                                    <tr className="border my-4" key={employee.id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{employee.name}</td>
-                                                        <td>{employee.email}</td>
-                                                        <td>{employee.department.name}</td>
-                                                        <td>{employee.role.name}</td>
-                                                        <td>
-                                                        <span
-                                                            onClick={() => handleAdd(employee.id)}
-                                                            className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
-                                                        </span>
+                                                        <tr className="border my-4" key={employee.id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{employee.name}</td>
+                                                            <td>{employee.email}</td>
+                                                            <td>{employee.department.name}</td>
+                                                            <td>{employee.role.name}</td>
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleUpdate(employee.id)}
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                                </span>
 
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(employee._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                        </td>
-                                                    </tr>
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                    className="delete">
+                                                                    <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
-                                                </table>
+                                            </table>
                                         </div>
 
 
@@ -155,7 +161,7 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
-
+            
             {AddPopUpShow ?
                 <AddEmployeePopup
                     message="Create New Employee"
@@ -165,6 +171,14 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
+                {UpdatePopUpShow ?
+                <UpdateEmployeePopUp
+                    message="Create New Employee"
+                    handleUpdate={handleUpdate}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
         </>
     )
 }

@@ -9,7 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-const AddEmployeePopup = ({ handleAdd }) => {
+const UpdateEmployeePopUp = ({ handleUpdate }) => {
   const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
@@ -102,11 +102,11 @@ const AddEmployeePopup = ({ handleAdd }) => {
           <div className="modal-content p-3">
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                Create New Employee
+                Update Employee
                 {/* Forward */}
               </h5>
               <button
-                onClick={() => handleAdd()}
+                onClick={() => handleUpdate()}
                 type="button"
                 className="close px-3"
                 style={{ marginLeft: "auto" }}
@@ -259,50 +259,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   </form>
                 </div>
 
-                <div className="row">
-                  <div className="col-12 col-lg-6 mt-2">
-                    <form>
-                      <div className="mb-3">
-                        <label
-                          for="exampleInputEmail1"
-                          className="form-label label_text"
-                        >
-                          Password
-                        </label>
-                        <input
-                          type="password"
-                          value={password}
-                          onChange={(e)=>setPassword(e.target.value)}
-                          className="form-control rounded-0"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                        />
-                      </div>
-                    </form>
-                  </div>
-
-                  <div className="col-12 col-lg-6 mt-2">
-                    <form>
-                      <div className="mb-3">
-                        <label
-                          for="exampleInputEmail1"
-                          className="form-label label_text"
-                        >
-                          Confirm Password
-                        </label>
-                        <input
-                          type="password"
-                          value={confirmPassword}
-                          onChange={(e)=>setConfirmPassword(e.target.value)}
-                          className="form-control rounded-0"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                        />
-                      </div>
-                    </form>
-                  </div>
-                </div>
-
+                
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
@@ -311,11 +268,11 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       // onClick={() => confirmBtnCallBack(deleteRecord)}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
-                      Add
+                      Update
                     </button>
                     <button
                       type="button"
-                      onClick={handleAdd}
+                      onClick={handleUpdate}
                       className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
                     >
                       Cancel
@@ -331,4 +288,4 @@ const AddEmployeePopup = ({ handleAdd }) => {
   );
 };
 
-export default AddEmployeePopup;
+export default UpdateEmployeePopUp;

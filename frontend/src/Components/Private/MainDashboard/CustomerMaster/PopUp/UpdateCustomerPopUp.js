@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 
-const AddCustomerPopUp = ({ handleAdd }) => {
+
+const UpdateCustomerPopUp = ({ handleUpdate }) => {
 
     const [name, setName] = useState("");
     const [mobileNo, setMobileNo] = useState("");
@@ -27,10 +27,10 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         <div className="modal-header pt-0">
 
                             <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                                Create New Customer
+                                Update Customer
                                 {/* Forward */}
                             </h5>
-                            <button onClick={() => handleAdd()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
+                            <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -236,11 +236,11 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                                             type='button'
                                             // onClick={() => confirmBtnCallBack(deleteRecord)}
                                             className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                                            Add
+                                            Update
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={handleAdd}
+                                            onClick={handleUpdate}
                                             className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
                                             Cancel
 
@@ -256,4 +256,4 @@ const AddCustomerPopUp = ({ handleAdd }) => {
         </>);
 }
 
-export default AddCustomerPopUp;
+export default UpdateCustomerPopUp;
