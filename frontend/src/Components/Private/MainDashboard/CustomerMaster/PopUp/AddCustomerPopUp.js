@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const AddCustomerPopUp = ({ handleAdd }) => {
 
+<<<<<<< HEAD
     const [name, setName] = useState("");
     const [mobileNo, setMobileNo] = useState("");
     const [email, setEmail] = useState("");
@@ -18,6 +19,13 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     const [delCity,setDelCity] =useState("");
     const [delAddress,setDelAddress] =useState("");
     const [gstNo,setGstNo] =useState("");
+=======
+    const [name, setName]= useState(null);
+    const [mobileNo, setMobileNo]= useState(null);
+    const [email, setEmail]= useState(null);
+    const [SecondaryPersonName, setSecondaryPersonName]= useState(null);
+
+>>>>>>> dca4c0188c04731a927ca6d347b0905d31de8422
 
     return (
         <>
@@ -83,8 +91,13 @@ const AddCustomerPopUp = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
+<<<<<<< HEAD
                                                     <label for="exampleInputEmail1" className="form-label label_text">Mobile Number</label>
                                                     <input type="email" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setSecMobileNo(e.target.value)} value={secMobileNo} aria-describedby="mobileNoHelp" />
+=======
+                                                    <label for="exampleInputEmail1" className="form-label label_text">Secondary Person Name</label>
+                                                    <input type="text" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
+>>>>>>> dca4c0188c04731a927ca6d347b0905d31de8422
                                                 </div>
 
                                             </form>
@@ -95,8 +108,13 @@ const AddCustomerPopUp = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
+<<<<<<< HEAD
                                                     <label for="exampleInputEmail1" className="form-label label_text">Email</label>
                                                     <input type="email" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setSecEmail(e.target.value)} value={secEmail} aria-describedby="secemailHelp" />
+=======
+                                                    <label for="exampleInputEmail1" className="form-label label_text">Mobile No</label>
+                                                    <input type="number" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
+>>>>>>> dca4c0188c04731a927ca6d347b0905d31de8422
                                                 </div>
 
                                             </form>

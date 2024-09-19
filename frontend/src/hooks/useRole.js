@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const url="api/role";
 
@@ -15,7 +16,7 @@ const getRole = async (dep) => {
     return data;
   } catch (error) {
     console.error(error);
-    return null;
+    toast.error(error.response.data.error);
   }
 };
 

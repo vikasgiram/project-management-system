@@ -20,8 +20,8 @@ export const EmployeeMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [selectedId, setSelecteId] = useState(null);
-    const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false)
+    const [selectedId, setSelecteId]= useState(null);
+    const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
 
 
     const [employees, setEmployees] = useState([])
@@ -31,7 +31,7 @@ export const EmployeeMasterGrid = () => {
     }
 
     const handleUpdate = () => {
-        setUpdatePopUpShow(!UpdatePopUpShow)
+        setUpdatePopUpShow(!updatePopUpShow);
     }
 
 
@@ -114,18 +114,18 @@ export const EmployeeMasterGrid = () => {
                                                 </thead>
                                                 <tbody className="broder my-4">
                                                     {employees && employees.map((employee, index) => (
-                                                        <tr className="border my-4" key={employee.id}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{employee.name}</td>
-                                                            <td>{employee.email}</td>
-                                                            <td>{employee.department.name}</td>
-                                                            <td>{employee.role.name}</td>
-                                                            <td>
-                                                                <span
-                                                                    onClick={() => handleUpdate(employee.id)}
-                                                                    className="update">
-                                                                    <i className="fa-solid fa-pen text-success cursor-pointer"></i>
-                                                                </span>
+                                                    <tr className="border my-4" key={employee.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{employee.name}</td>
+                                                        <td>{employee.email}</td>
+                                                        <td>{employee.department.name}</td>
+                                                        <td>{employee.role.name}</td>
+                                                        <td>
+                                                        <span
+                                                            onClick={() => handleAdd(employee._id)}
+                                                            className="update">
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                        </span>
 
                                                                 <span
                                                                     onClick={() => handelDeleteClosePopUpClick(employee._id)}
@@ -171,7 +171,7 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
-                {UpdatePopUpShow ?
+                {updatePopUpShow ?
                 <UpdateEmployeePopUp
                     message="Create New Employee"
                     handleUpdate={handleUpdate}
