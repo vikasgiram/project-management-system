@@ -13,8 +13,6 @@ const getProjects = async () => {
       return alert(data.error);
     }
 
-    console.log("data in the useHook "+data)
-
     return data;
   } catch (error) {
     console.error(error);

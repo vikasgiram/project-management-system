@@ -12,7 +12,6 @@ const getCustomers = async () => {
       console.error(data.error);
       return toast.error(data.error);
     }
-
     return data;
   } catch (error) {
     console.error(error);

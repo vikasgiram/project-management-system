@@ -57,7 +57,7 @@ export const CustomerMasterGrid = () => {
         };
 
         fetchData();
-    }, [customers]);
+    }, [deletePopUpShow, AddPopUpShow, UpdatePopUpShow]);
 
 
     return (

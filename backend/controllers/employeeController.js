@@ -33,6 +33,18 @@ exports.showAll = async (req, res) => {
   }
 };
 
+exports.getEmployee = async (req, res)=>{
+  try {
+    const employee = await Employee.findByIdAndDelete(req.params.id);
+    if(!employee){
+      return res.status(400).json({error:"Employee not found"});
+    }
+    res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({error:"Error in getCustomer: "+error.message});
+  }
+};
+
 exports.search = async (req, res) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);

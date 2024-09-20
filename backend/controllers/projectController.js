@@ -33,6 +33,18 @@ exports.showAll = async (req, res) => {
     }
   };
 
+  exports.getProject = async (req, res)=>{
+    try {
+      const project = await Project.findByIdAndDelete(req.params.id);
+      if(!project){
+        return res.status(400).json({error:"Project not found"});
+      }
+      res.status(200).json(project);
+    } catch (error) {
+      res.status(500).json({error:"Error in getProject: "+error.message});
+    }
+  };
+
 exports.search = async (req, res) => {
     try {
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
@@ -55,9 +67,9 @@ exports.search = async (req, res) => {
 
 exports.create = async (req, res)=>{
     try {
-        const {name,custId, completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, POCopy}= req.body;
+        let {name,custId, completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, POCopy}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        console.log("in the server",completeLevel);
+        completeLevel=completeLevel===undefined?0:completeLevel;
         const newProject= await Project({
             custId,
             name,
@@ -71,9 +83,9 @@ exports.create = async (req, res)=>{
             payAgainstDelivery,
             payfterCompletion,
             remark,
-            completeLevel:completeLevel===undefined?0:completeLevel,    
+            completeLevel:completeLevel,
             POCopy,
-            projectStatus:completeLevel<=0?"upcomming":completeLevel<100?"inprocess":"finished",
+            projectStatus:completeLevel<=0?"upcoming":completeLevel<100?"inprocess":"finished",
             company: decoded.user.company? decoded.user.company:decoded.user._id
         });
         

@@ -63,7 +63,7 @@ export const EmployeeMasterGrid = () => {
         };
 
         fetchData();
-    }, [employees]);
+    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 
 
     return (
