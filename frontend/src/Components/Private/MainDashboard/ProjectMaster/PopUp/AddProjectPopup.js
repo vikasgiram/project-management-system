@@ -57,9 +57,9 @@ const AddProjectPopup = ({ handleAdd }) => {
 
 
         };
-        // if(!custId || !name || !email || !hourlyRate || !password || !confirmPassword|| !department || !role){
-        //   return toast.error("Please fill all fields");
-        // }
+        if(!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category|| !startDate || !endDate || !advancePay|| !payAgainstDelivery || !payfterCompletion || !remark){
+          return toast.error("Please fill all fields");
+        }
 
         console.log(data, "data");
         await createProject(data);
@@ -110,8 +110,8 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                 <form>
                                     <div className="mb-3">
-                                        <label for="exampleInputEmail1" className="form-label label_text">Project Name</label>
-                                        <input type="text" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setName(e.target.value)} value={name} aria-describedby="emailHelp" />
+                                        <label for="ProjectName" className="form-label label_text">Project Name</label>
+                                        <input type="text" className="form-control rounded-0" id="ProjectName" onChange={(e) => setName(e.target.value)} value={name} aria-describedby="emailHelp" />
                                     </div>
 
                                 </form>
@@ -140,8 +140,8 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                     <form>
                                         <div className="mb-3">
-                                            <label for="exampleInputEmail1" className="form-label label_text">Purchase Order Number</label>
-                                            <input type="number" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setPurchaseOrderNo(e.target.value)} value={purchaseOrderNo} aria-describedby="emailHelp" />
+                                            <label for="purchaseOrderNo" className="form-label label_text">Purchase Order Number</label>
+                                            <input type="number" className="form-control rounded-0" id="purchaseOrderNo" onChange={(e) => setPurchaseOrderNo(e.target.value)} value={purchaseOrderNo} aria-describedby="emailHelp" />
                                         </div>
 
                                     </form>
@@ -151,9 +151,9 @@ const AddProjectPopup = ({ handleAdd }) => {
                                 <div className="col-12 col-lg-6 mt-2" >
                                     <form>
                                         <div className="mb-3">
-                                            <label for="exampleInputEmail1" className="form-label label_text">Purchase Order Value (Rs/USD)
+                                            <label for="purchaseOrderValue" className="form-label label_text">Purchase Order Value (Rs/USD)
                                             </label>
-                                            <input type="number" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setPurchaseOrderValue(e.target.value)} value={purchaseOrderValue} aria-describedby="emailHelp" />
+                                            <input type="number" className="form-control rounded-0" id="purchaseOrderValue" onChange={(e) => setPurchaseOrderValue(e.target.value)} value={purchaseOrderValue} aria-describedby="emailHelp" />
                                         </div>
 
                                     </form>
@@ -164,7 +164,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                 <form>
             <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label label_text">Category of Project</label>
+                <label htmlFor="CategoryofProject" className="form-label label_text">Category of Project</label>
                 <select
                     className="form-select rounded-0"
                     aria-label="Default select example"
@@ -203,14 +203,14 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                     <form>
                                         <div className="mb-3">
-                                            <label htmlFor="purchaseOrderDate" className="form-label label_text">Project Start Date
+                                            <label htmlFor="ProjectStartDate" className="form-label label_text">Project Start Date
                                             </label>
                                             <input
                                                 onChange={(e) => setStartDate(e.target.value)}
                                                 value={startDate}
                                                 type="date"
                                                 className="form-control rounded-0"
-                                                id="purchaseOrderDate"
+                                                id="ProjectStartDate"
                                                 aria-describedby="dateHelp"
                                             />
                                         </div>
@@ -222,14 +222,14 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                     <form>
                                         <div className="mb-3">
-                                            <label htmlFor="purchaseOrderDate" className="form-label label_text">Project End Date
+                                            <label htmlFor="ProjectEndDate" className="form-label label_text">Project End Date
                                             </label>
                                             <input
                                                 onChange={(e) => setEndDate(e.target.value)}
                                                 value={endDate}
                                                 type="date"
                                                 className="form-control rounded-0"
-                                                id="purchaseOrderDate"
+                                                id="ProjectEndDate"
                                                 aria-describedby="dateHelp"
                                             />
                                         </div>
@@ -253,9 +253,9 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="exampleInputEmail1" className="form-label label_text">     Advance Payment
+                                                    <label for="AdvancePayment" className="form-label label_text">     Advance Payment
                                                     </label>
-                                                    <input type="number" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setAdvancePayment(e.target.value)} value={advancePay} aria-describedby="mobileNoHelp" />
+                                                    <input type="number" className="form-control rounded-0" id="AdvancePayment" onChange={(e) => setAdvancePayment(e.target.value)} value={advancePay} aria-describedby="mobileNoHelp" />
                                                 </div>
 
                                             </form>
@@ -265,10 +265,10 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="exampleInputEmail1" className="form-label label_text">          Pay Against Delivery
+                                                    <label for="PayAgainstDelivery" className="form-label label_text">          Pay Against Delivery
 
                                                     </label>
-                                                    <input type="number" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setPayAgainstDelivery(e.target.value)} value={payAgainstDelivery} aria-describedby="mobileNoHelp" />
+                                                    <input type="number" className="form-control rounded-0" id="PayAgainstDelivery" onChange={(e) => setPayAgainstDelivery(e.target.value)} value={payAgainstDelivery} aria-describedby="mobileNoHelp" />
                                                 </div>
 
                                             </form>
@@ -279,9 +279,9 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="exampleInputEmail1" className="form-label label_text">     Pay After Completion
+                                                    <label for="PayAfterCompletion" className="form-label label_text">     Pay After Completion
                                                     </label>
-                                                    <input type="number" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setPayfterCompletion(e.target.value)} value={payfterCompletion} aria-describedby="secemailHelp" />
+                                                    <input type="number" className="form-control rounded-0" id="PayAfterCompletion" onChange={(e) => setPayfterCompletion(e.target.value)} value={payfterCompletion} aria-describedby="secemailHelp" />
                                                 </div>
 
                                             </form>
@@ -300,10 +300,10 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                     <form onSubmit={(e)=>e.preventDefault()}>
                                         <div className="mb-3">
-                                            <label for="exampleInputEmail1" className="form-label label_text">     Purchase Order Copy
+                                            <label for="PurchaseOrderCopy" className="form-label label_text">     Purchase Order Copy
 
                                             </label>
-                                            <input type="file" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="secemailHelp"
+                                            <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp"
                                             
                                                 onChange={(e)=>setPOCopy(e.target.files[0])} files={POCopy}
                                             />
@@ -318,9 +318,9 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                     <form>
                                         <div className="mb-3">
-                                            <label for="exampleInputEmail1" className="form-label label_text">     remark
+                                            <label for="remark" className="form-label label_text">     remark
                                             </label>
-                                            <input type="text" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setRemark(e.target.value)} value={remark} aria-describedby="secemailHelp" />
+                                            <input type="text" className="form-control rounded-0" id="remark" onChange={(e) => setRemark(e.target.value)} value={remark} aria-describedby="secemailHelp" />
                                         </div>
 
                                     </form>
