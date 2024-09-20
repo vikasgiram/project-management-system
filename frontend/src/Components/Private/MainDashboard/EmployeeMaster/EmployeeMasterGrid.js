@@ -3,11 +3,12 @@ import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
 
-import { useEffect } from "react"; 
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-import {getEmployees, deleteEmployee} from "../../../../hooks/useEmployees"
+import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
 
 
 export const EmployeeMasterGrid = () => {
@@ -103,12 +104,12 @@ export const EmployeeMasterGrid = () => {
                                             <table className="table table-striped table-class" id="table-id">
                                                 <thead>
                                                     <tr className="th_border">
-                                                    <th>Sr. No</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Role</th>
-                                                    <th>Action</th>
+                                                        <th>Sr. No</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Department</th>
+                                                        <th>Role</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="broder my-4">
@@ -121,21 +122,21 @@ export const EmployeeMasterGrid = () => {
                                                         <td>{employee.role.name}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handleAdd(employee._id)}
+                                                            onClick={() => handleUpdate(employee._id)}
                                                             className="update">
                                                             <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
 
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(employee._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                        </td>
-                                                    </tr>
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                    className="delete">
+                                                                    <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
-                                                </table>
+                                            </table>
                                         </div>
 
 
@@ -160,7 +161,7 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
-
+            
             {AddPopUpShow ?
                 <AddEmployeePopup
                     message="Create New Employee"
@@ -170,6 +171,14 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
+                {updatePopUpShow ?
+                <UpdateEmployeePopUp
+                    message="Create New Employee"
+                    handleUpdate={handleUpdate}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
         </>
     )
 }

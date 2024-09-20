@@ -57,6 +57,7 @@ exports.create = async (req, res)=>{
     try {
         const {name,custId, completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, POCopy}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+        console.log("in the server",completeLevel);
         const newProject= await Project({
             custId,
             name,
@@ -70,12 +71,12 @@ exports.create = async (req, res)=>{
             payAgainstDelivery,
             payfterCompletion,
             remark,
-            completeLevel:completeLevel===undefined?0:completeLevel,
+            completeLevel:completeLevel===undefined?0:completeLevel,    
             POCopy,
             projectStatus:completeLevel<=0?"upcomming":completeLevel<100?"inprocess":"finished",
             company: decoded.user.company? decoded.user.company:decoded.user._id
         });
-
+        
 
         if(newProject){
             console.log('New Project Created');

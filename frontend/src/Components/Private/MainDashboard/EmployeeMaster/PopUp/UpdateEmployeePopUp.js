@@ -1,27 +1,38 @@
-
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getRole } from "../../../../../hooks/useRole";
-import { createEmployee } from "../../../../../hooks/useEmployees";
-import toast from "react-hot-toast";
 
-const AddEmployeePopup = ({ handleAdd }) => {
+
+
+
+const UpdateEmployeePopUp = ({ handleUpdate }) => {
   const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
   const [roles, setRoles] = useState([]);
+  
 
-  const [name, setName] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [hourlyRate, setHourlyRate] = useState();
-  const [role, setRole] = useState();
+  
+  const[name,setName] = useState("");
+  const[mobileNo,setMobileNo] = useState("");
+  const[email,setEmail] = useState("");
+  const[password,setPassword] = useState("");
+  const[confirmPassword,setConfirmPassword] = useState("");
+  const[hourlyRate,setHourlyRate] = useState();
+  const[role,setRole] = useState();
+
+  const handleDepartmentChange = (event) => {
+    setDepartment(event.target.value);
+  };
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +55,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
         // console.log(data,"data")
         if (data) {
           setRoles(data.roles || []);
-          console.log(data.roles, "roles");
+          console.log(data.roles,"roles");
         }
       };
 
@@ -52,26 +63,29 @@ const AddEmployeePopup = ({ handleAdd }) => {
     }
   }, [department]);
 
-  const handleEmployeeAdd = async () => {
-    const data = {
-      name,
-      mobileNo,
-      email,
-      hourlyRate,
-      password,
-      confirmPassword,
-      department,
-      role,
-    };
-    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !role){
-      return toast.error("Please fill all fields");
+
+
+  
+  const handleEmployeeAdd =()=>{
+    {
+        const data={
+            name,
+            mobileNo,
+            email,
+            hourlyRate,
+            password,
+            confirmPassword,
+            department,
+            role
+
+        };
+       
     }
-    if(password!==confirmPassword){
-      return toast.error("Password desen't match");
-    }
-    await createEmployee(data);
-    handleAdd();
-  };
+};
+// console.log(role+'name')
+// console.log(selectedDepartmentId+'select department'); //worked id of department
+// console.log(department,'department'); //worked data of departments
+
 
   return (
     <>
@@ -87,11 +101,11 @@ const AddEmployeePopup = ({ handleAdd }) => {
           <div className="modal-content p-3">
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                Create New Employee
+                Update Employee
                 {/* Forward */}
               </h5>
               <button
-                onClick={() => handleAdd()}
+                onClick={() => handleUpdate()}
                 type="button"
                 className="close px-3"
                 style={{ marginLeft: "auto" }}
@@ -113,7 +127,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e)=>(setName(e.target.value))}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -134,7 +148,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="text"
                         value={mobileNo}
-                        onChange={(e) => setMobileNo(e.target.value)}
+                        onChange={(e)=>(setMobileNo(e.target.value))}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -155,7 +169,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e)=>(setEmail(e.target.value))}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -176,7 +190,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={(e) => setDepartment(e.target.value)}
+                        onChange={handleDepartmentChange}
                       >
                         <option value="">Select Department</option>
                         {getDepartments &&
@@ -202,7 +216,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={(e) => setRole(e.target.value)} //S
+                        onChange={handleRoleChange}   //S
                       >
                         <option>Select Role</option>
                         {roles &&
@@ -233,7 +247,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <input
                           type="text"
                           value={hourlyRate}
-                          onChange={(e) => setHourlyRate(e.target.value)}
+                          onChange={(e)=>setHourlyRate(e.target.value)}
                           className="form-control rounded-0 border-0"
                           placeholder="eg. 10,000"
                           aria-label="Username"
@@ -244,50 +258,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   </form>
                 </div>
 
-                <div className="row">
-                  <div className="col-12 col-lg-6 mt-2">
-                    <form>
-                      <div className="mb-3">
-                        <label
-                          for="exampleInputEmail1"
-                          className="form-label label_text"
-                        >
-                          Password
-                        </label>
-                        <input
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          className="form-control rounded-0"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                        />
-                      </div>
-                    </form>
-                  </div>
-
-                  <div className="col-12 col-lg-6 mt-2">
-                    <form>
-                      <div className="mb-3">
-                        <label
-                          for="exampleInputEmail1"
-                          className="form-label label_text"
-                        >
-                          Confirm Password
-                        </label>
-                        <input
-                          type="password"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          className="form-control rounded-0"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                        />
-                      </div>
-                    </form>
-                  </div>
-                </div>
-
+                
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
@@ -296,11 +267,11 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       // onClick={() => confirmBtnCallBack(deleteRecord)}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
-                      Add
+                      Update
                     </button>
                     <button
                       type="button"
-                      onClick={handleAdd}
+                      onClick={handleUpdate}
                       className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
                     >
                       Cancel
@@ -316,4 +287,4 @@ const AddEmployeePopup = ({ handleAdd }) => {
   );
 };
 
-export default AddEmployeePopup;
+export default UpdateEmployeePopUp;

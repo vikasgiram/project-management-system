@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 
-const AddCustomerPopUp = ({ handleAdd }) => {
+
+const UpdateCustomerPopUp = ({ handleUpdate }) => {
 
     const [name, setName] = useState("");
     const [mobileNo, setMobileNo] = useState("");
     const [email, setEmail] = useState("");
     const [secMobileNo, setSecMobileNo] = useState("");
+    const [secEmail, setSecEmail] = useState("");
     const [pincode, setPincode] = useState("");
     const [state, setState] = useState("");
     const [city, setCity] = useState("");
@@ -26,10 +27,10 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         <div className="modal-header pt-0">
 
                             <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                                Create New Customer
+                                Update Customer
                                 {/* Forward */}
                             </h5>
-                            <button onClick={() => handleAdd()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
+                            <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -82,8 +83,8 @@ const AddCustomerPopUp = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="exampleInputEmail1" className="form-label label_text">Secondary Person Name</label>
-                                                    <input type="text" className="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                                    <label for="exampleInputEmail1" className="form-label label_text">Mobile Number</label>
+                                                    <input type="email" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setSecMobileNo(e.target.value)} value={secMobileNo} aria-describedby="mobileNoHelp" />
                                                 </div>
 
                                             </form>
@@ -94,8 +95,8 @@ const AddCustomerPopUp = ({ handleAdd }) => {
 
                                             <form>
                                                 <div className="mb-3">
-                                                    <label for="mobileNo" className="form-label label_text">Mobile No</label>
-                                                    <input type="number" className="form-control rounded-0" id="mobileNo" aria-describedby="MobileNoHelp" />
+                                                    <label for="exampleInputEmail1" className="form-label label_text">Email</label>
+                                                    <input type="email" className="form-control rounded-0" id="exampleInputEmail1" onChange={(e) => setSecEmail(e.target.value)} value={secEmail} aria-describedby="secemailHelp" />
                                                 </div>
 
                                             </form>
@@ -235,11 +236,11 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                                             type='button'
                                             // onClick={() => confirmBtnCallBack(deleteRecord)}
                                             className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                                            Add
+                                            Update
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={handleAdd}
+                                            onClick={handleUpdate}
                                             className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
                                             Cancel
 
@@ -255,4 +256,4 @@ const AddCustomerPopUp = ({ handleAdd }) => {
         </>);
 }
 
-export default AddCustomerPopUp;
+export default UpdateCustomerPopUp;
