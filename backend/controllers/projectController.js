@@ -13,7 +13,8 @@ exports.showAll = async (req, res) => {
       const projects = await Project.find({ company: decoded.user.company? decoded.user.company:decoded.user._id})
       .skip(skip)
       .limit(limit)
-      .populate('custId','custName');
+      .populate('custId','custName')
+      .populate('tasks');
 
       if(projects.length<=0){
         return res.status(400).json({error:"No Projects Found"});
@@ -54,7 +55,7 @@ exports.search = async (req, res) => {
 
 exports.create = async (req, res)=>{
     try {
-        const {name,custId, completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, projectStatus, POCopy}= req.body;
+        const {name,custId, completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, POCopy}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
         const newProject= await Project({
             custId,
@@ -86,19 +87,21 @@ exports.create = async (req, res)=>{
     }
 };
 
-exports.delete = async (req, res)=>{
+exports.delete = async (req, res) => {
     try {
-        const project= await Project.findByIdAndDelete(req.params.id);
-        await Tasksheet.deleteMany({ project: req.params.id });
-        if(!project){
-            return res.status(400).json({error:"Project not found"});
-        }
-        res.status(200).json({message:"Project Deleted sucessfylly"});
-
+      const project = await Project.findByIdAndDelete(req.params.id);
+      if (!project) {
+        return res.status(400).json({ error: "Project not found" });
+      }
+  
+      // Delete tasksheets associated with the project
+      await Tasksheet.deleteMany({ _id: { $in: project.tasks } });
+  
+      res.status(200).json({ message: "Project Deleted successfully" });
     } catch (error) {
-        res.status(500).json({error:"Error while deleting project: "+error.message});
+      res.status(500).json({ error: "Error while deleting project: " + error.message });
     }
-};
+  };
 
 exports.update= async (req, res)=>{
     try {

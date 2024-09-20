@@ -1,9 +1,9 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/project";
+const url="api/task";
 
-const getProjects = async () => {
+const getAllTask = async () => {
   try {
     const response = await axios.get(`${url}`);
     const data = response.data;
@@ -12,9 +12,6 @@ const getProjects = async () => {
       console.error(data.error);
       return alert(data.error);
     }
-
-    console.log("data in the useHook "+data)
-
     return data;
   } catch (error) {
     console.error(error);
@@ -22,9 +19,9 @@ const getProjects = async () => {
   }
 };
 
-const createProject = async (projectData) => {
+const createTask = async (taskData) => {
   try {
-    const response = await axios.post(`${url}`, projectData);
+    const response = await axios.post(`${url}`, taskData);
     const data = response.data;
 
     if (data.error) {
@@ -39,7 +36,7 @@ const createProject = async (projectData) => {
   }
 };
 
-const updateProject = async (Id, updatedData) => {
+const updateTask = async (Id, updatedData) => {
   try {
     const response = await axios.put(`${url}/${Id}`, updatedData);
     const data = response.data;
@@ -56,7 +53,7 @@ const updateProject = async (Id, updatedData) => {
   }
 };
 
-const deleteProject = async (Id) => {
+const deleteTask = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`);
     const data = response.data;
@@ -73,4 +70,4 @@ const deleteProject = async (Id) => {
   }
 };
 
-export { getProjects,  createProject, updateProject, deleteProject };
+export { getAllTask,  createTask, updateTask, deleteTask };

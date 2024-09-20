@@ -1,3 +1,4 @@
+const Project = require('../models/projectModel');
 const TaskSheet = require('../models/taskSheetModel');
 const jwt = require('jsonwebtoken');
 
@@ -39,9 +40,9 @@ exports.create= async (req, res)=>{
     try {
         const {project,employees, taskName, startDate, endDate, remark}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+        const pro= await Project.findById(project);
         const task= await TaskSheet.create({
             employees,
-            project,
             taskName,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
@@ -51,7 +52,8 @@ exports.create= async (req, res)=>{
 
         if(task){
             console.log("TaskSheet created for "+task.taskName);
-            // task.save(); 
+            pro.tasks.push(task);
+            await pro.save();
             res.status(200).json(task);
         }
     } catch (error) {
