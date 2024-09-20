@@ -22,14 +22,16 @@ const getProjects = async () => {
 
 const createProject = async (projectData) => {
   try {
+    console.log("project Data in api",projectData);
     const response = await axios.post(`${url}`, projectData);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
+    toast.success("New Project Created successfully");
     return data;
   } catch (error) {
     console.error(error);

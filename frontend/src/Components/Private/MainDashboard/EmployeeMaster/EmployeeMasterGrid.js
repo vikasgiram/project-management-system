@@ -122,7 +122,7 @@ export const EmployeeMasterGrid = () => {
                                                         <td>{employee.role.name}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handleAdd(employee._id)}
+                                                            onClick={() => handleUpdate(employee._id)}
                                                             className="update">
                                                             <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>

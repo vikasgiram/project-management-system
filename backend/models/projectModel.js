@@ -109,7 +109,6 @@ const projectSchema = new mongoose.Schema({
   POCopy: {
     // Copy of the purchase order
     type: String,
-    required: true,
   },
 }, {
   timestamps: true, // Automatically add createdAt and updatedAt timestamps

@@ -5,8 +5,7 @@ import { useEffect } from "react";
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getRole } from "../../../../../hooks/useRole";
 
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 
 
 const UpdateEmployeePopUp = ({ handleUpdate }) => {
