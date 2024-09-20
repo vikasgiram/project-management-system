@@ -67,7 +67,7 @@ export const ProjectMasterGrid = () => {
         };
 
         fetchData();
-    }, [projects]);
+    }, [AddPopUpShow,UpdatePopUpShow,deletePopUpShow]);
 
     return (
         <>

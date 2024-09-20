@@ -1,4 +1,3 @@
-
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { ViewMode, Gantt } from "gantt-task-react";
@@ -232,4 +231,3 @@ export const TaskMasterChart = () => {
         </>
     )
 }
-

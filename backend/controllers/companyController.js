@@ -31,6 +31,18 @@ exports.showAll = async (req, res) => {
   }
 };
 
+exports.getCompany = async (req, res)=>{
+  try {
+    const company = await Company.findByIdAndDelete(req.params.id);
+    if(!company){
+      return res.status(400).json({error:"Company not found"});
+    }
+    res.status(200).json(company);
+  } catch (error) {
+    res.status(500).json({error:"Error in getCompany: "+error.message});
+  }
+};
+
 exports.createCompany= async (req, res)=>{
     try {
       const {name, email, GST, Address, admin, mobileNo,logo, password, subDate,subAmount, confirmPassword} = req.body;
