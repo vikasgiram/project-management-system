@@ -7,7 +7,7 @@ const comDashbordController = require('../controllers/comDashbordController');
 
 router.get('/',isAdmin, companyController.showAll);
 
-router.get('/:id', isAdmin, companyController.getCompany);
+// router.get('/:id', isAdmin, companyController.getCompany);
 
 router.post('/',isAdmin, companyController.createCompany);
 

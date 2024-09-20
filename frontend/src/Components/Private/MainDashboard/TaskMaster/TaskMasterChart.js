@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { ViewMode, Gantt } from "gantt-task-react";
@@ -5,6 +6,7 @@ import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChart
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
+import {getProjects} from "../../../../hooks//useProjects";
 
 export const TaskMasterChart = () => {
 
@@ -76,6 +78,47 @@ export const TaskMasterChart = () => {
     const handleExpanderClick = (task) => {
         setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
         console.log("On expander click Id:" + task.id);
+    };
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getProjects(); // Get project data from API
+                const transformedTasks = transformProjectsToTasks(response.projects); // Transform the data
+                setTasks(transformedTasks);
+            } catch (error) {
+                console.error("Error fetching projects: ", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const transformProjectsToTasks = (projects) => {
+        return projects.flatMap((project) => {
+            const projectTask = {
+                id: project._id,
+                name: project.name,
+                start: new Date(project.startDate),
+                end: new Date(project.endDate),
+                progress: project.completeLevel,
+                type: "project",
+                hideChildren: false,
+            };
+
+            // Map tasks within each project
+            const taskList = project.tasks.map((task) => ({
+                id: task._id,
+                name: task.taskName,
+                start: new Date(task.startDate),
+                end: new Date(task.endDate),
+                project: project._id,
+                type: "task",
+                progress: task.taskLevel,
+            }));
+
+            return [projectTask, ...taskList];
+        });
     };
 
 

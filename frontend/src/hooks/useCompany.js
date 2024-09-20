@@ -10,7 +10,7 @@ const getDashboardData = async () => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
     return data;
