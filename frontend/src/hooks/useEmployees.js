@@ -20,6 +20,25 @@ const getEmployees = async () => {
   }
 };
 
+const getEmployee = async (id) => {
+  try {
+    const response = await axios.get(`${url}/${id}`);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return toast.error(data.error);
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);
+  }
+};
+
+
+
 const createEmployee = async (employeeData) => {
   try {
     const response = await axios.post(`${url}`, employeeData);
@@ -71,4 +90,4 @@ const deleteEmployee = async (employeeId) => {
   }
 };
   
-export { getEmployees , createEmployee,  updateEmployee, deleteEmployee };
+export { getEmployees , getEmployee, createEmployee,  updateEmployee, deleteEmployee };

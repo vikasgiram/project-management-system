@@ -4,6 +4,8 @@ import { useEffect } from "react";
 
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getRole } from "../../../../../hooks/useRole";
+import { useParams } from "react-router-dom";
+import { getEmployee,updateEmployee } from "../../../../../hooks/useEmployees";
 
 
 
@@ -24,6 +26,10 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
   const[confirmPassword,setConfirmPassword] = useState("");
   const[hourlyRate,setHourlyRate] = useState();
   const[role,setRole] = useState();
+
+  const[getEmployee,setGetEmployee]=useState("");
+
+  const {id}=useParams();
 
   const handleDepartmentChange = (event) => {
     setDepartment(event.target.value);
@@ -62,6 +68,21 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
       fetchRoles();
     }
   }, [department]);
+
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      const data=await getEmployee(id);
+      if (data) {
+
+        setGetEmployee(data.employees || []);
+        // console.log(employees,"data from useState");
+
+    }
+    } 
+    
+
+  },[])
 
 
 
