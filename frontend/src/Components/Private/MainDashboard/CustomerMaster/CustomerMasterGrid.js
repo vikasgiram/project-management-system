@@ -24,12 +24,14 @@ export const CustomerMasterGrid = () => {
 
     const [selectedId, setSelecteId] = useState(null);
     const [customers, setCustomers] = useState([]);
+    const [selectedCust, setSelectedCust]= useState(null);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = () => {
+    const handleUpdate = (customer) => {
+        setSelectedCust(customer);
         setUpdatePopUpShow(!UpdatePopUpShow)
     }
 
@@ -114,7 +116,7 @@ export const CustomerMasterGrid = () => {
                                                             <td>{customer.GSTNo}</td>
                                                             <td>
                                                                 <span
-                                                                    onClick={() => handleUpdate(customer.id)}
+                                                                    onClick={() => handleUpdate(customer)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                                 </span>
@@ -159,7 +161,6 @@ export const CustomerMasterGrid = () => {
 
             {AddPopUpShow ?
                 <AddCustomerPopUp
-                    message="Create New Employee"
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
@@ -168,7 +169,7 @@ export const CustomerMasterGrid = () => {
 
             {UpdatePopUpShow ?
                 <UpdateCustomerPopUp
-                    message="Create New Employee"
+                    selectedCust={selectedCust}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

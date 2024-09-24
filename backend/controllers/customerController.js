@@ -52,12 +52,15 @@ exports.showAll = async (req, res) => {
 exports. createCustomer= async(req, res)=>{
     try{
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        const {custName, BillingAddress,email, DeliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
+        const {custName, billingAddress,email, deliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
 
         const customer= await Customer.find({company:decoded.user.company?decoded.user.company:decoded.user._id, email:email});
         if(customer.length>0){
             return res.status(400).json("Customer already exist please use different email Id");
         }
+
+        console.log("billing address:",billingAddress);
+        console.log("delevery address:",deliveryAddress);
         
         const newCust = Customer({
             custName,
@@ -69,8 +72,8 @@ exports. createCustomer= async(req, res)=>{
             phoneNumber1, 
             customerContactPersonName2, 
             phoneNumber2,
-            DeliveryAddress,
-            BillingAddress
+            deliveryAddress,
+            billingAddress
         });
 
         // if(user && user.company)
@@ -81,6 +84,7 @@ exports. createCustomer= async(req, res)=>{
         if(newCust){
             console.log("New customer Created");
             await newCust.save();
+            console.log(newCust);
             res.status(201).json(newCust);
         }else{
             res.status(400).json({error:"Invalid customer data"});

@@ -9,7 +9,6 @@ router.get('/dashboard', employeeController.dashboard);
 // get all employess (Admin and manager Only)
 router.get('/',permissionMiddleware(['viewEmployee']),employeeController.showAll);
 
-router.get('/:id', permissionMiddleware(['viewEmployee']), employeeController.getEmployee);
 
 router.get('/search',permissionMiddleware(['viewEmployee']), employeeController.search);
 
@@ -21,5 +20,6 @@ router.delete('/:id', isCompany, employeeController.deleteEmployee);
 // Update an employee (Admin only)
 router.put('/:id', isCompany, employeeController.updateEmployee);   
 
+router.get('/:id', permissionMiddleware(['viewEmployee']), employeeController.getEmployee);
 
 module.exports = router;

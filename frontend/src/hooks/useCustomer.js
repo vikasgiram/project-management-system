@@ -36,9 +36,9 @@ const createCustomer = async (customerData) => {
   }
 };
 
-const updateCustomer = async (Id, updatedData) => {
+const updateCustomer = async (updatedData) => {
   try {
-    const response = await axios.put(`${url}/${Id}`, updatedData);
+    const response = await axios.put(`${url}/${updateCustomer._id}`, updatedData);
     const data = response.data;
 
     if (data.error) {
