@@ -56,9 +56,9 @@ const createEmployee = async (employeeData) => {
   }
 };
 
-const updateEmployee = async (employeeId, updatedEmployeeData) => {
+const updateEmployee = async (updatedEmployeeData) => {
   try {
-    const response = await axios.put(`${url}/${employeeId}`, updatedEmployeeData);
+    const response = await axios.put(`${url}/${updatedEmployeeData._id}`, updatedEmployeeData);
     const data = response.data;
 
     if (data.error) {

@@ -35,7 +35,7 @@ exports.showAll = async (req, res) => {
 
 exports.getEmployee = async (req, res)=>{
   try {
-    const employee = await Employee.findByIdAndDelete(req.params.id);
+    const employee = await Employee.findById(req.params.id);
     if(!employee){
       return res.status(400).json({error:"Employee not found"});
     }
@@ -167,7 +167,7 @@ exports.updateEmployee = async (req, res) => {
   try {
     const updateData = {};
     for (const key in req.body) {
-      if (key !== 'username' && key !== 'password') {
+      if (key !== 'username' && key !== 'password' && key!== '_id') {
         updateData[key] = req.body[key];
       }
     }

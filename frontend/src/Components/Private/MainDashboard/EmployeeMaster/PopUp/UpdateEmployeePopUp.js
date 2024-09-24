@@ -1,111 +1,29 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-
-import { getDepartment } from "../../../../../hooks/useDepartment";
-import { getRole } from "../../../../../hooks/useRole";
-import { useParams } from "react-router-dom";
-import { getEmployee,updateEmployee } from "../../../../../hooks/useEmployees";
+import {updateEmployee } from "../../../../../hooks/useEmployees";
+import toast from "react-hot-toast";
 
 
 
 
-const UpdateEmployeePopUp = ({ handleUpdate }) => {
-  const { t } = useTranslation();
+const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
 
-  const [getDepartments, setGetDepartments] = useState([]);
-  const [department, setDepartment] = useState(null);
-  const [roles, setRoles] = useState([]);
-  
+  const [employee, setEmployee] = useState(selectedEmp);
 
-  
-  const[name,setName] = useState("");
-  const[mobileNo,setMobileNo] = useState("");
-  const[email,setEmail] = useState("");
-  const[password,setPassword] = useState("");
-  const[confirmPassword,setConfirmPassword] = useState("");
-  const[hourlyRate,setHourlyRate] = useState();
-  const[role,setRole] = useState();
-
-  const[getEmployee,setGetEmployee]=useState("");
-
-  const {id}=useParams();
-
-  const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
   };
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDepartment();
-      // console.log(data);
-      if (data) {
-        setGetDepartments(data.department || []);
-        // console.log(employees,"data from useState");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (department) {
-      const fetchRoles = async () => {
-        console.log("Fetch role called");
-        const data = await getRole(department);
-        // console.log(data,"data")
-        if (data) {
-          setRoles(data.roles || []);
-          console.log(data.roles,"roles");
-        }
-      };
-
-      fetchRoles();
+  
+  const handleEmpUpdate = async () => {
+    try {
+      await updateEmployee(employee);
+      handleUpdate();
+    } catch (error) {
+      toast.error(error);
     }
-  }, [department]);
-
-
-  useEffect(()=>{
-    const fetchData = async ()=>{
-      const data=await getEmployee(id);
-      if (data) {
-
-        setGetEmployee(data.employees || []);
-        // console.log(employees,"data from useState");
-
-    }
-    } 
     
-
-  },[])
-
-
-
-  
-  const handleEmployeeAdd =()=>{
-    {
-        const data={
-            name,
-            mobileNo,
-            email,
-            hourlyRate,
-            password,
-            confirmPassword,
-            department,
-            role
-
-        };
-       
-    }
-};
-// console.log(role+'name')
-// console.log(selectedDepartmentId+'select department'); //worked id of department
-// console.log(department,'department'); //worked data of departments
+  };
 
 
   return (
@@ -146,9 +64,10 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                         Full Name
                       </label>
                       <input
+                        name="name"
                         type="text"
-                        value={name}
-                        onChange={(e)=>(setName(e.target.value))}
+                        value={employee.name}
+                        onChange={handleChange}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -168,8 +87,9 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                       </label>
                       <input
                         type="text"
-                        value={mobileNo}
-                        onChange={(e)=>(setMobileNo(e.target.value))}
+                        name="mobileNo"
+                        value={employee.mobileNo}
+                        onChange={handleChange}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -189,8 +109,9 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                       </label>
                       <input
                         type="email"
-                        value={email}
-                        onChange={(e)=>(setEmail(e.target.value))}
+                        name="email"
+                        value={employee.email}
+                        onChange={handleChange}
                         className="form-control rounded-0"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -211,15 +132,10 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={handleDepartmentChange}
+                        disabled
                       >
-                        <option value="">Select Department</option>
-                        {getDepartments &&
-                          getDepartments.map((department) => (
-                            <option value={department._id}>
-                              {department.name}
-                            </option>
-                          ))}
+                        <option >{employee.department.name}</option>
+                       
                       </select>{" "}
                     </div>
                   </form>
@@ -237,13 +153,9 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={handleRoleChange}   //S
+                        disabled
                       >
-                        <option>Select Role</option>
-                        {roles &&
-                          roles.map((role) => (
-                            <option value={role._id}>{role.name}</option>
-                          ))}
+                        <option>{employee.role.name}</option>
                       </select>
                     </div>
                   </form>
@@ -267,8 +179,9 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                         </span>
                         <input
                           type="text"
-                          value={hourlyRate}
-                          onChange={(e)=>setHourlyRate(e.target.value)}
+                          name="hourlyRate"
+                          value={employee.hourlyRate}
+                          onChange={handleChange}
                           className="form-control rounded-0 border-0"
                           placeholder="eg. 10,000"
                           aria-label="Username"
@@ -284,7 +197,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <div className="col-12 pt-3 mt-2">
                     <button
                       type="button"
-                      onClick={handleEmployeeAdd}
+                      onClick={handleEmpUpdate}
                       // onClick={() => confirmBtnCallBack(deleteRecord)}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
