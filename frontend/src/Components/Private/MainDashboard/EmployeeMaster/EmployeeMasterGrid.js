@@ -8,7 +8,7 @@ import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
+import { getEmployees, getEmployee ,deleteEmployee } from "../../../../hooks/useEmployees"
 
 
 export const EmployeeMasterGrid = () => {
@@ -22,21 +22,24 @@ export const EmployeeMasterGrid = () => {
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId]= useState(null);
     const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
-
+    const [id, setId] = useState(null);
 
     const [employees, setEmployees] = useState([])
+
+
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = () => {
+    const handleUpdate = (employeeId) => {
+        setId(employeeId);
+        // fetchEmployee();
         setUpdatePopUpShow(!updatePopUpShow);
+        
     }
-
-
-    const handelDeleteClosePopUpClick = (id) => {
-        setSelecteId(id);
+    const handelDeleteClosePopUpClick = (employeeId) => {
+        setSelecteId(employeeId);
         setdeletePopUpShow(!deletePopUpShow);
     }
 
@@ -48,6 +51,28 @@ export const EmployeeMasterGrid = () => {
         }
         toast.error(data.error);
     };
+
+    // const fetchEmployee = async () => {
+    //     console.log("Fetching employee for id:", id); // Log the id
+    //     try {
+    //       const data = await getEmployee(id);
+    //       console.log("Employee data received:", data); // Log the response
+    //       if (data && data.employees) {
+    //         const employee = data.employees || {};
+    //         setName(employee.name || "");
+    //         setMobileNo(employee.mobileNo || "");
+    //         setEmail(employee.email || "");
+    //         setHourlyRate(employee.hourlyRate || "");
+    //         setRole(employee.role || "");
+    //         setDepartment(employee.department || "");
+    //       } else {
+    //         console.warn("No employee data found for id:", id); // Warn if no data
+    //       }
+    //     } catch (error) {
+    //       console.error("Error fetching employee data:", error);
+    //     }
+    //   };
+   
 
 
     useEffect(() => {
@@ -64,6 +89,8 @@ export const EmployeeMasterGrid = () => {
 
         fetchData();
     }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+
+    
 
 
     return (
@@ -125,6 +152,7 @@ export const EmployeeMasterGrid = () => {
                                                             onClick={() => handleUpdate(employee._id)}
                                                             className="update">
                                                             <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            {/* {console.log(employee._id)} */}
                                                         </span>
 
                                                                 <span
@@ -175,6 +203,8 @@ export const EmployeeMasterGrid = () => {
                 <UpdateEmployeePopUp
                     message="Create New Employee"
                     handleUpdate={handleUpdate}
+                    id={id}
+                 
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
@@ -182,4 +212,3 @@ export const EmployeeMasterGrid = () => {
         </>
     )
 }
-

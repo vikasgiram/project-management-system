@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getRole } from "../../../../../hooks/useRole";
-import { useParams } from "react-router-dom";
+
 import { getEmployee,updateEmployee } from "../../../../../hooks/useEmployees";
+import toast from "react-hot-toast";
 
 
 
 
-const UpdateEmployeePopUp = ({ handleUpdate }) => {
-  const { t } = useTranslation();
+
+const UpdateEmployeePopUp = ({ handleUpdate,handleUpdateClick,id }) => {
+
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
@@ -22,14 +23,12 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
   const[name,setName] = useState("");
   const[mobileNo,setMobileNo] = useState("");
   const[email,setEmail] = useState("");
-  const[password,setPassword] = useState("");
-  const[confirmPassword,setConfirmPassword] = useState("");
   const[hourlyRate,setHourlyRate] = useState();
   const[role,setRole] = useState();
 
-  const[getEmployee,setGetEmployee]=useState("");
+  const[getEmployeeId,setGetEmployeeId]=useState("");
 
-  const {id}=useParams();
+
 
   const handleDepartmentChange = (event) => {
     setDepartment(event.target.value);
@@ -56,12 +55,12 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
   useEffect(() => {
     if (department) {
       const fetchRoles = async () => {
-        console.log("Fetch role called");
+        // console.log("Fetch role called");
         const data = await getRole(department);
         // console.log(data,"data")
         if (data) {
           setRoles(data.roles || []);
-          console.log(data.roles,"roles");
+          // console.log(data.roles,"roles");
         }
       };
 
@@ -70,36 +69,61 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
   }, [department]);
 
 
-  useEffect(()=>{
-    const fetchData = async ()=>{
-      const data=await getEmployee(id);
-      if (data) {
-
-        setGetEmployee(data.employees || []);
-        // console.log(employees,"data from useState");
-
-    }
-    } 
-    
-
-  },[])
-
+  // useEffect(() => {
+  //   const fetchEmployee = async () => {
+  //     try {
+  //       const data = await getEmployee(id); // Fetch employee by ID
+  //       console.log(data, "employee data");
+  
+  //       if (data && data.employee) {
+  //         const employee = data.employee; // Assuming the response has employee data
+  //         // Set the fetched data into state
+  //         setName(employee.name || "");
+  //         setMobileNo(employee.mobileNo || "");
+  //         setEmail(employee.email || "");
+  //         setHourlyRate(employee.hourlyRate || "");
+  //         setRole(employee.role._id || "");  // Make sure this matches your API structure
+  //         setDepartment(employee.department._id || ""); // Assuming _id is sent
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching employee data:", error);
+  //     }
+  //   };
+  
+  //   if (id) { // Only fetch if id exists
+  //     fetchEmployee();
+  //   }
+  // }, [id]);
 
 
   
-  const handleEmployeeAdd =()=>{
+  
+  const handleUpdateEmployee = async()=>{
     {
-        const data={
+        const updatedEmployee={
             name,
             mobileNo,
             email,
             hourlyRate,
-            password,
-            confirmPassword,
             department,
             role
 
-        };
+        }
+        try {
+          const data = await updateEmployee(id, updatedEmployee);
+          console.log(data);
+          if (data) {
+            toast.success("Employee updated successfully!");
+            handleUpdate(); // Close modal
+          } else {
+            toast.error("Error updating employee.");
+          }
+        } catch (error) {
+          toast.error("Error updating employee.");
+          console.error(error);
+        }
+
+
        
     }
 };
@@ -284,7 +308,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <div className="col-12 pt-3 mt-2">
                     <button
                       type="button"
-                      onClick={handleEmployeeAdd}
+                      onClick={handleUpdateEmployee}
                       // onClick={() => confirmBtnCallBack(deleteRecord)}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
