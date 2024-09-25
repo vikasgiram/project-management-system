@@ -1,139 +1,29 @@
 import { useState } from "react";
 import {updateEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
-
-import { getDepartment } from "../../../../../hooks/useDepartment";
-import { getRole } from "../../../../../hooks/useRole";
-
-import { getEmployee,updateEmployee } from "../../../../../hooks/useEmployees";
-import toast from "react-hot-toast";
 
 
 
 
+const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
 
-const UpdateEmployeePopUp = ({ handleUpdate }) => {
-  const { t } = useTranslation();
+  const [employee, setEmployee] = useState(selectedEmp);
 
-  const [getDepartments, setGetDepartments] = useState([]);
-  const [department, setDepartment] = useState(null);
-  const [roles, setRoles] = useState([]);
-  
-
-  
-  const[name,setName] = useState("");
-  const[mobileNo,setMobileNo] = useState("");
-  const[email,setEmail] = useState("");
-  const[password,setPassword] = useState("");
-  const[confirmPassword,setConfirmPassword] = useState("");
-  const[hourlyRate,setHourlyRate] = useState();
-  const[role,setRole] = useState();
-
-  const[getEmployee,setGetEmployee]=useState("");
-
-  const {id}=useParams();
-
-  const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
   };
-
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
+  //  console.log(employee,"employee")
+  
+  const handleEmpUpdate = async () => {
+    try {
+      await updateEmployee(employee);
+      handleUpdate();
+    } catch (error) {
+      toast.error(error);
+    }
+    
   };
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDepartment();
-      // console.log(data);
-      if (data) {
-        setGetDepartments(data.department || []);
-        // console.log(employees,"data from useState");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (department) {
-      const fetchRoles = async () => {
-        // console.log("Fetch role called");
-        const data = await getRole(department);
-        // console.log(data,"data")
-        if (data) {
-          setRoles(data.roles || []);
-          // console.log(data.roles,"roles");
-        }
-      };
-
-      fetchRoles();
-    }
-  }, [department]);
-
-
-  // useEffect(() => {
-  //   const fetchEmployee = async () => {
-  //     try {
-  //       const data = await getEmployee(id); // Fetch employee by ID
-  //       console.log(data, "employee data");
-  
-  //       if (data && data.employee) {
-  //         const employee = data.employee; // Assuming the response has employee data
-  //         // Set the fetched data into state
-  //         setName(employee.name || "");
-  //         setMobileNo(employee.mobileNo || "");
-  //         setEmail(employee.email || "");
-  //         setHourlyRate(employee.hourlyRate || "");
-  //         setRole(employee.role._id || "");  // Make sure this matches your API structure
-  //         setDepartment(employee.department._id || ""); // Assuming _id is sent
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching employee data:", error);
-  //     }
-  //   };
-  
-  //   if (id) { // Only fetch if id exists
-  //     fetchEmployee();
-  //   }
-  // }, [id]);
-
-
-  
-  
-  const handleUpdateEmployee = async()=>{
-    {
-        const updatedEmployee={
-            name,
-            mobileNo,
-            email,
-            hourlyRate,
-            department,
-            role
-
-        }
-        try {
-          const data = await updateEmployee(id, updatedEmployee);
-          console.log(data);
-          if (data) {
-            toast.success("Employee updated successfully!");
-            handleUpdate(); // Close modal
-          } else {
-            toast.error("Error updating employee.");
-          }
-        } catch (error) {
-          toast.error("Error updating employee.");
-          console.error(error);
-        }
-
-
-       
-    }
-};
-// console.log(role+'name')
-// console.log(selectedDepartmentId+'select department'); //worked id of department
-// console.log(department,'department'); //worked data of departments
 
 
   return (
@@ -168,7 +58,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="name"
                         className="form-label label_text"
                       >
                         Full Name
@@ -179,7 +69,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                         value={employee.name}
                         onChange={handleChange}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="name"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -190,18 +80,18 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="mobileNo"
                         className="form-label label_text"
                       >
                         Mobile Number
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         name="mobileNo"
                         value={employee.mobileNo}
                         onChange={handleChange}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="mobileNo"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -212,7 +102,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="email"
                         className="form-label label_text"
                       >
                         Email
@@ -223,7 +113,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                         value={employee.email}
                         onChange={handleChange}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="email"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -234,7 +124,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Department"
                         className="form-label label_text"
                       >
                         Department
@@ -255,7 +145,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Role"
                         className="form-label label_text"
                       >
                         Role
@@ -275,7 +165,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="HourlyRate"
                         className="form-label label_text"
                       >
                         Hourly Rate
@@ -293,6 +183,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                           value={employee.hourlyRate}
                           onChange={handleChange}
                           className="form-control rounded-0 border-0"
+                          id="HourlyRate"
                           placeholder="eg. 10,000"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
@@ -307,7 +198,7 @@ const UpdateEmployeePopUp = ({ handleUpdate }) => {
                   <div className="col-12 pt-3 mt-2">
                     <button
                       type="button"
-                      onClick={handleUpdateEmployee}
+                      onClick={handleEmpUpdate}
                       // onClick={() => confirmBtnCallBack(deleteRecord)}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >

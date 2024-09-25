@@ -251,7 +251,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                       <form>
                         <div className="mb-3">
                           <input
-                            type="text"
+                            type="number"
                             className="form-control rounded-0"
                             placeholder="Pincode"
                             id="exampleInputEmail1"
@@ -413,7 +413,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                           <input
                             type="text"
                             className="form-control rounded-0"
-                            placeholder="City"
+                            placeholder="Contry"
                             id="exampleInputEmail1"
                             onChange={(e) => setBillingAddress({ ...deliveryAddress, country: e.target.value })}
                             value={deliveryAddress.country}
@@ -448,9 +448,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         GST Number
                       </label>
                       <input
-                        type="email"
+                        type="number"
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="GSTNumber"
                         onChange={(e) => setGSTNo(e.target.value)}
                         value={GSTNo}
                         aria-describedby="emailHelp"

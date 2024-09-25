@@ -39,9 +39,9 @@ const createProject = async (projectData) => {
   }
 };
 
-const updateProject = async (Id, updatedData) => {
+const updateProject = async (updatedProjectData) => {
   try {
-    const response = await axios.put(`${url}/${Id}`, updatedData);
+    const response = await axios.put(`${url}/${updatedProjectData._id}`, updatedProjectData);
     const data = response.data;
 
     if (data.error) {

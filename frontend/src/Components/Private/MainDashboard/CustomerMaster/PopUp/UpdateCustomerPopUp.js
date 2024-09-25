@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     const [customer, setCustomer] = useState(selectedCust);
-    console.log(selectedCust);
+    // console.log(selectedCust);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -29,7 +29,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
 
   const handleCustUpdate = async () => {
     try {
+      console.log("Updating customer...");
       await updateCustomer(customer);
+      console.log("Customer Updated successfully");
       handleUpdate();
     } catch (error) {
       toast.error(error);
@@ -68,7 +70,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                   <form>
                     <div className="">
                       <label
-                        for="exampleInputEmail1"
+                        for="FullName"
                         className="form-label label_text"
                       >
                         Full Name
@@ -76,7 +78,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       <input
                         type="text"
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="FullName"
                         name="custName"
                         value={customer.custName}
                         onChange={handleChange}
@@ -90,7 +92,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Email"
                         className="form-label label_text"
                       >
                         Email
@@ -99,7 +101,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                         type="email"
                         name="email"
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="Email"
                         value={customer.email}
                         onChange={handleChange}
                         aria-describedby="emailHelp"
@@ -118,7 +120,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       <form>
                         <div className="mb-3">
                           <label
-                            for="exampleInputEmail1"
+                            for="ContactPerson1"
                             className="form-label label_text"
                           >
                             Contact Person 1
@@ -126,7 +128,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                           <input
                             type="text"
                             className="form-control rounded-0"
-                            id="exampleInputEmail1"
+                            id="ContactPerson1"
                             name="customerContactPersonName1"
                             onChange={handleChange}
                             value={customer.customerContactPersonName1}
@@ -140,7 +142,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       <form>
                         <div className="mb-3">
                           <label
-                            for="exampleInputEmail1"
+                            for="phoneNumber1"
                             className="form-label label_text"
                           >
                             Contact no
@@ -148,7 +150,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                           <input
                             type="number"
                             className="form-control rounded-0"
-                            id="exampleInputEmail1"
+                            id="phoneNumber1"
                             name="phoneNumber1"
                             onChange={handleChange}
                             value={customer.phoneNumber1}
@@ -163,7 +165,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       <form>
                         <div className="mb-3">
                           <label
-                            for="exampleInputEmail1"
+                            for="ContactPerson2"
                             className="form-label label_text"
                           >
                             Contact Person 2
@@ -171,7 +173,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                           <input
                             type="text"
                             className="form-control rounded-0"
-                            id="exampleInputEmail1"
+                            id="ContactPerson2"
                             name="customerContactPersonName2"
                             onChange={handleChange}
                             value={customer.customerContactPersonName2}
@@ -185,7 +187,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       <form>
                         <div className="mb-3">
                           <label
-                            for="exampleInputEmail1"
+                            for="phoneNumber2"
                             className="form-label label_text"
                           >
                             Contact no 2
@@ -193,7 +195,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                           <input
                             type="number"
                             className="form-control rounded-0"
-                            id="exampleInputEmail1"
+                            id="phoneNumber2"
                             onChange={handleChange}
                             name="phoneNumber2"
                             value={customer.phoneNumber2}
@@ -218,7 +220,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="number"
                             className="form-control rounded-0"
                             placeholder="Pincode"
-                            id="exampleInputEmail1"
+                            id="Pincode"
                             name="billingAddress.pincode"
                             onChange={handleChange}
                             value={customer.billingAddress.pincode}
@@ -235,7 +237,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="State"
-                            id="exampleInputEmail1"
+                            id="State"
                             onChange={handleChange}
                             name="billingAddress.state"
                             value={customer.billingAddress.state}
@@ -252,7 +254,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="City"
-                            id="exampleInputEmail1"
+                            id="city"
                             onChange={handleChange}
                             name="billingAddress.city"
                             value={customer.billingAddress.city}
@@ -269,7 +271,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="Country"
-                            id="exampleInputEmail1"
+                            id="country"
                             onChange={handleChange}
                             value={customer.billingAddress.country}
                             aria-describedby="emailHelp"
@@ -283,7 +285,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
-                            id=""
+                            id="add"
                             name="billingAddress.add"
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
                             onChange={handleChange}
@@ -326,8 +328,8 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="number"
                             className="form-control rounded-0"
                             placeholder="Pincode"
-                            id="exampleInputEmail1"
-                            name="deliveryAddress.pincode"
+                            id="Pincode"
+                            name="deliveryAddresspincode"
                             onChange={handleChange}
                             value={customer.deliveryAddress.pincode}
                             aria-describedby="emailHelp"
@@ -343,7 +345,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="State"
-                            id="exampleInputEmail1"
+                            id="State"
                             onChange={handleChange}
                             name="deliveryAddress.state"
                             value={customer.deliveryAddress.state}
@@ -360,7 +362,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="City"
-                            id="exampleInputEmail1"
+                            id="city"
                             onChange={handleChange}
                             name="deliveryAddress.city"
                             value={customer.deliveryAddress.city}
@@ -377,7 +379,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="Country"
-                            id="exampleInputEmail1"
+                            id="country"
                             name="deliveryAddress.country"
                             onChange={handleChange}
                             value={customer.deliveryAddress.country}
@@ -392,7 +394,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
-                            id=""
+                            id="add"
                             name="deliveryAddress.add"
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
                             onChange={handleChange}
@@ -409,7 +411,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                   <form>
                     <div className="">
                       <label
-                        for="exampleInputEmail1"
+                        for="GSTNo"
                         className="form-label label_text"
                       >
                         GST Number
@@ -417,7 +419,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       <input
                         type="email"
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="GSTNo"
                         name="GSTNo"
                         onChange={handleChange}
                         value={customer.GSTNo}

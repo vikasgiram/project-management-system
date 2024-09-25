@@ -105,7 +105,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="name"
                         className="form-label label_text"
                       >
                         Full Name
@@ -115,7 +115,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="name"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -126,7 +126,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="MobileNumber"
                         className="form-label label_text"
                       >
                         Mobile Number
@@ -136,7 +136,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         value={mobileNo}
                         onChange={(e) => setMobileNo(e.target.value)}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="MobileNumber"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -147,7 +147,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Email"
                         className="form-label label_text"
                       >
                         Email
@@ -157,7 +157,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="Email"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -168,7 +168,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Department"
                         className="form-label label_text"
                       >
                         Department
@@ -218,7 +218,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="HourlyRate"
                         className="form-label label_text"
                       >
                         Hourly Rate
@@ -232,6 +232,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         </span>
                         <input
                           type="text"
+                          id="HourlyRate"
                           value={hourlyRate}
                           onChange={(e) => setHourlyRate(e.target.value)}
                           className="form-control rounded-0 border-0"
@@ -249,7 +250,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                     <form>
                       <div className="mb-3">
                         <label
-                          for="exampleInputEmail1"
+                          for="password"
                           className="form-label label_text"
                         >
                           Password
@@ -259,7 +260,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           className="form-control rounded-0"
-                          id="exampleInputEmail1"
+                          id="password"
                           aria-describedby="emailHelp"
                         />
                       </div>
@@ -270,7 +271,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                     <form>
                       <div className="mb-3">
                         <label
-                          for="exampleInputEmail1"
+                          for="ConfirmPassword"
                           className="form-label label_text"
                         >
                           Confirm Password
@@ -280,7 +281,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           className="form-control rounded-0"
-                          id="exampleInputEmail1"
+                          id="ConfirmPassword"
                           aria-describedby="emailHelp"
                         />
                       </div>

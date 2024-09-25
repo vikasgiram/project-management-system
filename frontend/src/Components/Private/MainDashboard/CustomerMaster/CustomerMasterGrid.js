@@ -20,7 +20,7 @@ export const CustomerMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false)
+    const [updatePopUpShow, setUpdatePopUpShow] = useState(false)
 
     const [selectedId, setSelecteId] = useState(null);
     const [customers, setCustomers] = useState([]);
@@ -32,7 +32,8 @@ export const CustomerMasterGrid = () => {
 
     const handleUpdate = (customer) => {
         setSelectedCust(customer);
-        setUpdatePopUpShow(!UpdatePopUpShow)
+        console.log("HandleUpdate CAlled");
+        setUpdatePopUpShow(!updatePopUpShow);
     }
 
     const handelDeleteClosePopUpClick = (id) => {
@@ -59,7 +60,7 @@ export const CustomerMasterGrid = () => {
         };
 
         fetchData();
-    }, [deletePopUpShow, AddPopUpShow, UpdatePopUpShow]);
+    }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
 
 
     return (
@@ -116,7 +117,7 @@ export const CustomerMasterGrid = () => {
                                                             <td>{customer.GSTNo}</td>
                                                             <td>
                                                                 <span
-                                                                    onClick={() => handleUpdate(customer)}
+                                                                    onClick={()=>handleUpdate(customer)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                                 </span>
@@ -167,7 +168,7 @@ export const CustomerMasterGrid = () => {
                 /> : <></>
             }
 
-            {UpdatePopUpShow ?
+            {updatePopUpShow ?
                 <UpdateCustomerPopUp
                     selectedCust={selectedCust}
                     handleUpdate={handleUpdate}
@@ -179,4 +180,3 @@ export const CustomerMasterGrid = () => {
         </>
     )
 }
-

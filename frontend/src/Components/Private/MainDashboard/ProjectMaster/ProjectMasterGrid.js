@@ -25,19 +25,20 @@ export const ProjectMasterGrid = () => {
     const [UpdatePopUpShow,setUpdatePopUpShow]=useState(false)
 
     const [selectedId, setSelecteId]= useState(null);
-    const [projects, setProjects]= useState([]);
+    const [project, setProject]= useState([]);
+
+    const [selectedProject, setSelectedProject]= useState(null);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate=()=>{
+    const handleUpdate=(projects=null)=>{
+        setSelectedProject(projects);
         setUpdatePopUpShow(!UpdatePopUpShow)
     }
 
-    // const handleUpdate = (id) => {
-    //     setCurrentProjectId(id);
-    // }
+
 
     const handelDeleteClosePopUpClick = (id) => {
         setSelecteId(id);
@@ -60,7 +61,7 @@ export const ProjectMasterGrid = () => {
             const data = await getProjects();
             if (data) {
 
-                setProjects(data.projects || []);
+                setProject(data.projects || []);
                 // console.log(employees,"data from useState");
 
             }
@@ -114,18 +115,19 @@ export const ProjectMasterGrid = () => {
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
+                                                
                                                 <tbody className="broder my-4">
-                                                    {projects && projects.map((project, index) => (
-                                                    <tr className="border my-4" key={project.id}>
+                                                    {project && project.map((project, index) => (
+                                                    <tr className="border my-4" key={project._id}>
                                                         <td>{index + 1}</td>
                                                         <td>{project.name}</td>
-                                                        <td>{project.custId.custName}</td>
+                                                        <td>{project.custId?.custName || "N/A"}</td>
                                                         <td>{formatDate(project.startDate)}</td>
                                                         <td>{formatDate(project.endDate)}</td>
                                                         <td>{project.projectStatus}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handleUpdate(project.id)}
+                                                            onClick={() => handleUpdate(project)}
                                                             className="update">
                                                             <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
@@ -182,6 +184,7 @@ export const ProjectMasterGrid = () => {
 
                 <UpdateProjectPopup
                     handleUpdate={handleUpdate}
+                    selectedProject={selectedProject}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
