@@ -3,14 +3,15 @@ import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { getDepartment } from "../../../../hooks/useDepartment";
-import { getRole,deleteRole, getAllRole } from "../../../../hooks/useRole";
+
 import AddRolesPopup from "./Popup/AddRolesPopup";
 
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import { getAllDesignations, deleteDesignation } from "../../../../hooks/useDesignation";
 
 
-export const RoleMasterGrid = () => {
+
+export const DesignationMasterGird = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false);
     const [deletePopUpShow, setdeletePopUpShow] = useState(false);
@@ -19,7 +20,7 @@ export const RoleMasterGrid = () => {
 
     const [selectedId, setSelecteId] = useState(null);
 
-    const [roles, setRoles] = useState([]);
+    const [designations, setDesignation] = useState([]);
 
 
     const toggle = () => {
@@ -36,25 +37,25 @@ export const RoleMasterGrid = () => {
     }
 
     const handelDeleteClick = async () => {
-        const data = await deleteRole(selectedId);
+        const data = await deleteDesignation(selectedId);
         if (data) {
             handelDeleteClosePopUpClick();
-            return toast.success("Role Deleted sucessfully...");
+            return toast.success("Designation Deleted sucessfully...");
         }
         toast.error(data.error);
     };
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getAllRole();
+            const data = await getAllDesignations();
             // console.log(data,"dta from getDepartment");
             if (data) {
-                setRoles(data.roles || []);
+                setDesignation(data.designations || []);
                 // console.log(departments,"data from useState"); 
             }
         };
 
         fetchData();
-    }, []);
+    }, [AddPopUpShow,deletePopUpShow]);
 
 
 
@@ -66,14 +67,14 @@ export const RoleMasterGrid = () => {
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
-                        <Sidebar isopen={isopen} active="RoleMasterGrid" />
+                        <Sidebar isopen={isopen} active="DesignationMasterGrid" />
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
-                                            Role Master
+                                            Designation Master
                                         </h5>
                                     </div>
 
@@ -98,26 +99,26 @@ export const RoleMasterGrid = () => {
                                                 <tr className="th_border" >
                                                     <th>Sr. No</th>
                                                     <th>Department Name</th>
-                                                    <th>Roles</th>
+                                                    <th>Designation</th>
                                                     <th>Action</th>
 
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {roles && roles.map((role, index) => (
+                                                    {designations && designations.map((designation, index) => (
 
-                                                        <tr className="border my-4" key={role._id}>
+                                                        <tr className="border my-4" key={designation._id}>
                                                             <td>{index + 1}</td>
-                                                            <td>{role.department.name}</td>
+                                                            <td>{designation.department.name}</td>
                                                             <td>
-                                                                {role.name}
+                                                                {designation.name}
                                                             </td>
 
 
                                                             <td>
 
                                                                 <span
-                                                                    onClick={() => console.log(roles._id)}
+                                                                    onClick={() => console.log(designation._id)}
                                                                     className="delete">
                                                                     <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>
@@ -154,7 +155,6 @@ export const RoleMasterGrid = () => {
 
             {AddPopUpShow ?
                 <AddRolesPopup
-                    message="Create New Employee"
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

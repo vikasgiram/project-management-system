@@ -1,6 +1,6 @@
 const Department = require('../models/departmentModel');
 const jwt = require('jsonwebtoken');
-const Role = require('../models/roleModel');
+const Designation = require('../models/DesignationModel');
 
 
 exports.showAll = async (req, res)=>{
@@ -53,7 +53,7 @@ exports.create = async ( req, res)=>{
 exports.delete =async (req, res)=>{
     try {
         const dep= await Department.findByIdAndDelete(req.params.id);
-        await Role.deleteMany({ department: req.params.id });
+        await Designation.deleteMany({ department: req.params.id });
         if(!dep){
             return res.status(400).json({error:"Department Not Found "});
         }

@@ -148,14 +148,14 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                         for="Role"
                         className="form-label label_text"
                       >
-                        Role
+                        Designation
                       </label>
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
                         disabled
                       >
-                        <option>{employee.role.name}</option>
+                        <option>{employee.designation.name}</option>
                       </select>
                     </div>
                   </form>

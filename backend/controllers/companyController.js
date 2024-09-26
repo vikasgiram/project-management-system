@@ -4,8 +4,8 @@ const Customer = require('../models/customerModel');
 const Project = require('../models/projectModel');
 const Employee = require('../models/employeeModel');
 const Department = require('../models/departmentModel');
-const Role = require('../models/roleModel');
 const TaskSheet = require('../models/taskSheetModel');
+const Designation = require('../models/DesignationModel');
 
 exports.showAll = async (req, res) => {
   try {
@@ -102,7 +102,7 @@ exports.deleteCompany = async (req, res)=>{
       await Project.deleteMany({ company: req.params.id });
       await Employee.deleteMany({ company: req.params.id });
       await Department.deleteMany({ company: req.params.id });
-      await Role.deleteMany({ company: req.params.id });
+      await Designation.deleteMany({ company: req.params.id });
       await TaskSheet.deleteMany({company:req.params.id});
       res.status(200).json({message:"Company Deleted Sucessfully: "+company.email});
 

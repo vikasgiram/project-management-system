@@ -112,7 +112,7 @@ export const EmployeeMasterGrid = () => {
                                                         <th>Name</th>
                                                         <th>Email</th>
                                                         <th>Department</th>
-                                                        <th>Role</th>
+                                                        <th>Designation</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -123,7 +123,7 @@ export const EmployeeMasterGrid = () => {
                                                         <td>{employee.name}</td>
                                                         <td>{employee.email}</td>
                                                         <td>{employee.department.name}</td>
-                                                        <td>{employee.role.name}</td>
+                                                        <td>{employee.designation.name}</td>
                                                         <td>
                                                         <span
                                                             onClick={() => handleUpdate(employee)}

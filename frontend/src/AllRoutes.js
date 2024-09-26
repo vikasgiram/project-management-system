@@ -11,7 +11,7 @@ import { CustomerMasterGrid } from "./Components/Private/MainDashboard/CustomerM
 import { ProjectMasterGrid } from "./Components/Private/MainDashboard/ProjectMaster/ProjectMasterGrid";
 import { TaskMasterChart } from "./Components/Private/MainDashboard/TaskMaster/TaskMasterChart";
 import { DepartmentMasterGrid } from "./Components/Private/MainDashboard/DepartmentMaster/DepartmentMasterGrid";
-import { RoleMasterGrid } from "./Components/Private/MainDashboard/RoleMaster/RoleMasterGrid";
+import { DesignationMasterGird } from "./Components/Private/MainDashboard/DesignationMaster/DesignationMasterGrid";
 
 
 
@@ -33,7 +33,7 @@ const AllRoutes = () => {
                     <Route exact path="/CustomerMasterGrid" element={<CustomerMasterGrid />} />
                     <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
                     <Route exact path="/DepartmentMasterGrid" element={<DepartmentMasterGrid />} />
-                    <Route exact path="/RoleMasterGrid" element={<RoleMasterGrid />} /> 
+                    <Route exact path="/DesignationMasterGird" element={<DesignationMasterGird />} /> 
                     <Route exact path="/TaskMasterChart" element={<TaskMasterChart />} />
 
                     <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />

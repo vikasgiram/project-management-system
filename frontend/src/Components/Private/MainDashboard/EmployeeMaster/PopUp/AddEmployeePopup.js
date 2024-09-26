@@ -4,16 +4,19 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
 import { getDepartment } from "../../../../../hooks/useDepartment";
-import { getRole } from "../../../../../hooks/useRole";
+
 import { createEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
+import { getDesignation } from "../../../../../hooks/useDesignation";
+
+
 
 const AddEmployeePopup = ({ handleAdd }) => {
   const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
-  const [roles, setRoles] = useState([]);
+  const [designations, setDesignations] = useState([]);
 
   const [name, setName] = useState("");
   const [mobileNo, setMobileNo] = useState("");
@@ -21,7 +24,8 @@ const AddEmployeePopup = ({ handleAdd }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hourlyRate, setHourlyRate] = useState();
-  const [role, setRole] = useState();
+  const [designation, setDesignation] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,17 +42,17 @@ const AddEmployeePopup = ({ handleAdd }) => {
 
   useEffect(() => {
     if (department) {
-      const fetchRoles = async () => {
+      const fetchDesignations = async () => {
         console.log("Fetch role called");
-        const data = await getRole(department);
+        const data = await getDesignation(department);
         // console.log(data,"data")
         if (data) {
-          setRoles(data.roles || []);
-          console.log(data.roles, "roles");
+          setDesignations(data.designation || []);
+          console.log(data.designation, "Designations");
         }
       };
 
-      fetchRoles();
+      fetchDesignations();
     }
   }, [department]);
 
@@ -61,9 +65,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
       password,
       confirmPassword,
       department,
-      role,
+      designation,
     };
-    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !role){
+    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !designation){
       return toast.error("Please fill all fields");
     }
     if(password!==confirmPassword){
@@ -197,17 +201,17 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         for="exampleInputEmail1"
                         className="form-label label_text"
                       >
-                        Role
+                        Designation
                       </label>
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={(e) => setRole(e.target.value)} //S
+                        onChange={(e) => setDesignation(e.target.value)} //S
                       >
                         <option>Select Role</option>
-                        {roles &&
-                          roles.map((role) => (
-                            <option value={role._id}>{role.name}</option>
+                        {designations &&
+                          designations.map((designation) => (
+                            <option value={designation._id}>{designation.name}</option>
                           ))}
                       </select>
                     </div>

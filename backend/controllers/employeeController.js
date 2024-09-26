@@ -1,6 +1,8 @@
 const Employee = require('../models/employeeModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const Designation = require('../models/DesignationModel');
+
 
 // show all employees
 exports.showAll = async (req, res) => {
@@ -14,7 +16,7 @@ exports.showAll = async (req, res) => {
     .skip(skip)
     .limit(limit)
     .populate('department', 'name') 
-    .populate('role', 'name');
+    .populate('designation', 'name');
 
 
     if(employees.length<=0){
@@ -84,8 +86,8 @@ exports.search = async (req, res) => {
 exports.dashboard= async(req , res)=>{
   try {
       const decoded = jwt.verify(req.cookies.jwt,process.env.JWT_SECRET);
-      const role=await Role.findById(decoded.user.role);
-      const permission=role.permissions;
+      const designation=await Designation.findById(decoded.user.role);
+      const permission=designation.permissions;
       const dashboardData={};
       if(permission.includes('viewCustomer')){
           dashboardData.customer=await Customer.find({company:decoded.user.company});
@@ -105,7 +107,7 @@ exports.dashboard= async(req , res)=>{
 
 exports.create=async (req, res) => {
   try {
-    const {name, mobileNo, hourlyRate,role, email, password,department, confirmPassword}=req.body;
+    const {name, mobileNo, hourlyRate,designation, email, password,department, confirmPassword}=req.body;
     if(password !== confirmPassword){
       return res.status(400).json({error:`Password desen\'t match!!!`});
     }
@@ -125,7 +127,7 @@ exports.create=async (req, res) => {
       name,
       mobileNo,
       hourlyRate,
-      role,
+      designation,
       company:decoded.user._id,
       department,
       email:email.toLowerCase(),

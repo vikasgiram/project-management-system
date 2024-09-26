@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Select from 'react-select'; // Import Select from react-select
 import { getDepartment } from "../../../../../hooks/useDepartment";
-import { createRole } from "../../../../../hooks/useRole";
 import toast from "react-hot-toast";
+import { createDesignation } from "../../../../../hooks/useDesignation";
 
 const AddRolesPopup = ({ handleAdd }) => {
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ const AddRolesPopup = ({ handleAdd }) => {
       return toast.error("Please fill all fields");
     }
     // console.log(data);
-    await createRole(data);
+    await createDesignation(data);
     handleAdd();
   };
 

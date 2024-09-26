@@ -1,9 +1,9 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/role";
+const url="api/designation";
 
-const getRole = async (department) => {
+const getDesignation = async (department) => {
   try {
     const response = await axios.get(`${url}?department=${department}`);
     const data = response.data;
@@ -20,9 +20,9 @@ const getRole = async (department) => {
   }
 };
 
-const getAllRole = async (department) => {
+const getAllDesignations = async (department) => {
   try {
-    const response = await axios.get(`${url}/allRoles`);
+    const response = await axios.get(`${url}/allDesignations`);
     const data = response.data;
 
     if (data.error) {
@@ -37,9 +37,9 @@ const getAllRole = async (department) => {
   }
 };
 
-const createRole = async (roleData) => {
+const createDesignation = async (designationData) => {
   try {
-    const response = await axios.post(`${url}`, roleData);
+    const response = await axios.post(`${url}`, designationData);
     const data = response.data;
 
     if (data.error) {
@@ -47,14 +47,14 @@ const createRole = async (roleData) => {
       return toast.error(data.error);
     }
 
-    toast.success("Employee Created");
+    toast.success("Designations Created");
   } catch (error) {
     console.error(error);
     toast.error(error.response.data.error);
   }
 };
 
-const deleteRole = async (Id) => {
+const deleteDesignation = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`);
     const data = response.data;
@@ -71,4 +71,4 @@ const deleteRole = async (Id) => {
   }
 };
 
-  export { getRole, createRole,deleteRole , getAllRole};
+  export { getDesignation, createDesignation,deleteDesignation , getAllDesignations};
