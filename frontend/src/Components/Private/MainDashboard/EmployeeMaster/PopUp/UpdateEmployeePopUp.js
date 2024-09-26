@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {updateEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
+import { getDepartment } from "../../../../../hooks/useDepartment";
+import { getDesignation } from "../../../../../hooks/useDesignation";
 
 
 
@@ -8,6 +10,8 @@ import toast from "react-hot-toast";
 const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
 
   const [employee, setEmployee] = useState(selectedEmp);
+  const [departments, setDepartments] = useState([]);
+  const [designations, setDesignations] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -24,6 +28,35 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
     }
     
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getDepartment();
+      // console.log(data);
+      if (data) {
+        setDepartments(data.department || []);
+        // console.log(employees,"data from useState");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (employee.department) {
+      const fetchDesignations = async () => {
+
+        const data = await getDesignation(employee.department._id);
+ 
+        if (data) {
+          setDesignations(data.designations || []);
+   
+        }
+      };
+
+      fetchDesignations();
+    }
+  }, [employee.department]);
 
 
   return (
@@ -132,9 +165,14 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        disabled
+                        
                       >
-                        <option >{employee.department.name}</option>
+                        <option selected >{employee.department.name}</option>
+                        {departments &&
+                          departments.map((department) => (
+                            employee.department.name===department.name?"":<option value={department._id}>{department.name}</option>
+                          ))}
+                      
                        
                       </select>{" "}
                     </div>
@@ -153,9 +191,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        disabled
+                        
                       >
-                        <option>{employee.designation.name}</option>
+                        <option selected>{employee.designation.name}</option>
                       </select>
                     </div>
                   </form>

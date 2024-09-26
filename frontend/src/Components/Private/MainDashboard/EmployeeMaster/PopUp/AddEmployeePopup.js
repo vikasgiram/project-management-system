@@ -43,12 +43,12 @@ const AddEmployeePopup = ({ handleAdd }) => {
   useEffect(() => {
     if (department) {
       const fetchDesignations = async () => {
-        console.log("Fetch role called");
+
         const data = await getDesignation(department);
-        // console.log(data,"data")
+ 
         if (data) {
-          setDesignations(data.designation || []);
-          console.log(data.designation, "Designations");
+          setDesignations(data.designations || []);
+   
         }
       };
 
