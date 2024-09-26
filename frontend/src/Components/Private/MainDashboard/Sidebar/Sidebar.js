@@ -120,6 +120,24 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                         </li>
                                     </span>
                                 </Link>
+                                <Link to='/DepartmentMasterGrid' className="nav-link ">
+                                    <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
+                                        <li className={subMenu === "DesignationMaster" ? "nav-item activeli" : "nav-item"}>
+                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i> 
+                                            Department Master
+                                            </span>
+                                        </li>
+                                    </span>
+                                </Link>
+                                <Link to='/RoleMasterGrid' className="nav-link ">
+                                    <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
+                                        <li className={subMenu === "DesignationMaster" ? "nav-item activeli" : "nav-item"}>
+                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i> 
+                                            Role Master
+                                            </span>
+                                        </li>
+                                    </span>
+                                </Link>
                                 <Link to='/TaskMasterChart' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "EmployeeMaster" ? "nav-item activeli" : "nav-item"}>
