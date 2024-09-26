@@ -120,8 +120,9 @@ exports.updateCustomer= async(req,res)=>{
         const customer=await Customer.findByIdAndUpdate(req.params.id,req.body,{new:true});
 
         if(!customer){
-            res.status(400).json({error:"Customer Not found !!"});
+            return res.status(400).json({error:"Customer Not found !!"});
         }
+        res.status(200).json({message:"Customer Update sucessfully"});
     }catch(error){
         res.status(500).json({error:"Error while updating customer: "+error.message});
     }

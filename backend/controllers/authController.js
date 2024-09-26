@@ -30,8 +30,8 @@ exports.login = async (req, res) => {
 
       generateTokenAndSetCookie(user, res);
       res.status(200).json({
-        message:"login success",
-        user: "employee"
+        user: "employee",
+        name:user.name
       });
     } 
     else {
@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
 
         generateTokenAndSetCookie(user, res); 
         res.status(200).json({
-          message:"login success",
+          name:user.name,
           user: "company"
         });
       } 
@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
           }
           generateTokenAndSetCookie(user, res);
           res.status(200).json({
-            message:"login success",
+            name:user.name,
             user: "admin"
           });
         }

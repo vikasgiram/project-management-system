@@ -1,41 +1,77 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateCustomer } from "../../../../../hooks/useCustomer";
-import toast from "react-hot-toast";
+
+
 
 const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
-    const [customer, setCustomer] = useState(selectedCust);
-    // console.log(selectedCust);
+  const [customer, setCustomer] = useState(selectedCust);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+  const [billingAddress, setBillingAddress] = useState({
+    add: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+  });
 
-        if (name.includes("billingAddress.") || name.includes("deliveryAddress.")) {
-            const [addressType, field] = name.split(".");
-        
-            setCustomer((prevCustomer) => ({
-              ...prevCustomer,
-              [addressType]: {
-                ...prevCustomer[addressType],
-                [field]: value,
-              },
-            }));
-          } else {
-            setCustomer((prevCustomer) => ({
-              ...prevCustomer,
-              [name]: value,
-            }));
-          }
-    };
+  const [deliveryAddress, setDeliveryAddress] = useState({
+    add: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+  });
+
+  const [sameAsBilling, setSameAsBilling] = useState(false);
+
+  // Load existing customer data on component mount
+  useEffect(() => {
+    if (customer) {
+      setBillingAddress(customer.billingAddress);
+      setDeliveryAddress(customer.deliveryAddress);
+    }
+  }, [customer]);
+
+  // Function to handle the checkbox toggle
+  const handleCheckboxChange = (e) => {
+    setSameAsBilling(e.target.checked);
+    if (e.target.checked) {
+      setDeliveryAddress(billingAddress); // Copy billing to delivery
+    }
+  };
+
+  // Function to handle changes in billing address fields
+  const handleBillingChange = (e) => {
+    const { name, value } = e.target;
+    setBillingAddress({ ...billingAddress, [name]: value });
+    if (sameAsBilling) {
+      setDeliveryAddress({ ...billingAddress, [name]: value });
+    }
+  };
+
+  // Function to handle changes in delivery address fields
+  const handleDeliveryChange = (e) => {
+    const { name, value } = e.target;
+    setDeliveryAddress({ ...deliveryAddress, [name]: value });
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+      setCustomer((prevCustomer) => ({
+        ...prevCustomer,
+        [name]: value,
+      
+    }))
+  };
 
   const handleCustUpdate = async () => {
-    try {
-      console.log("Updating customer...");
-      await updateCustomer(customer);
-      console.log("Customer Updated successfully");
-      handleUpdate();
-    } catch (error) {
-      toast.error(error);
+    const updatedCustomer={
+      ...customer,
+      billingAddress,
+      deliveryAddress
     }
+    await updateCustomer(updatedCustomer);
+    handleUpdate();
   };
 
   return (
@@ -69,10 +105,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                 <div className="col-12">
                   <form>
                     <div className="">
-                      <label
-                        for="FullName"
-                        className="form-label label_text"
-                      >
+                      <label for="FullName" className="form-label label_text">
                         Full Name
                       </label>
                       <input
@@ -91,10 +124,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                 <div className="col-12">
                   <form>
                     <div className="mb-3">
-                      <label
-                        for="Email"
-                        className="form-label label_text"
-                      >
+                      <label for="Email" className="form-label label_text">
                         Email
                       </label>
                       <input
@@ -160,7 +190,6 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       </form>
                     </div>
 
-
                     <div className="col-12 col-lg-6 mt-2">
                       <form>
                         <div className="mb-3">
@@ -221,9 +250,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="Pincode"
                             id="Pincode"
-                            name="billingAddress.pincode"
-                            onChange={handleChange}
-                            value={customer.billingAddress.pincode}
+                            name="pincode"
+                            onChange={handleBillingChange}
+                            value={billingAddress.pincode}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -238,9 +267,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="State"
                             id="State"
-                            onChange={handleChange}
-                            name="billingAddress.state"
-                            value={customer.billingAddress.state}
+                            onChange={handleBillingChange}
+                            name="state"
+                            value={billingAddress.state}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -255,9 +284,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="City"
                             id="city"
-                            onChange={handleChange}
-                            name="billingAddress.city"
-                            value={customer.billingAddress.city}
+                            onChange={handleBillingChange}
+                            name="city"
+                            value={billingAddress.city}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -272,8 +301,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="Country"
                             id="country"
-                            onChange={handleChange}
-                            value={customer.billingAddress.country}
+                            name="country"
+                            onChange={handleBillingChange}
+                            value={billingAddress.country}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -286,10 +316,10 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                           <textarea
                             className="textarea_edit col-12"
                             id="add"
-                            name="billingAddress.add"
+                            name="add"
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
-                            onChange={handleChange}
-                            value={customer.billingAddress.add}
+                            onChange={handleBillingChange}
+                            value={billingAddress.add}
                             rows="2"
                           ></textarea>
                         </div>
@@ -298,7 +328,18 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                   </div>
                 </div>
 
-                <div className="col-12  mt-2">
+                <div className="col-12 col-lg-4 mt-4 mt-lg-0">
+                  <span className=" ms-lg-6 AddressInfo">
+                    <input
+                      type="checkbox"
+                      checked={sameAsBilling}
+                      onChange={handleCheckboxChange}
+                    />
+                    Deliver at Same Address
+                  </span>
+                </div>
+
+                {!sameAsBilling&&<div className="col-12  mt-2">
                   <div className="row border mt-4 bg-gray mx-auto">
                     <div className="col-12 mb-4">
                       <div className="row">
@@ -306,18 +347,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                           <span className="AddressInfo">Delivery Address</span>
                         </div>
 
-                        <div className="col-12 col-lg-4 mt-4 mt-lg-0">
-                          <span className=" ms-lg-4 AddressInfo">
-                            <input
-                              type="checkbox"
-                              className="me-3 bg-white"
-                              id=""
-                              name=""
-                              value=""
-                            />
-                            Same as above
-                          </span>
-                        </div>
+                        
                       </div>
                     </div>
 
@@ -329,9 +359,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="Pincode"
                             id="Pincode"
-                            name="deliveryAddresspincode"
-                            onChange={handleChange}
-                            value={customer.deliveryAddress.pincode}
+                            name="pincode"
+                            onChange={handleDeliveryChange}
+                            value={deliveryAddress.pincode}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -346,9 +376,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="State"
                             id="State"
-                            onChange={handleChange}
-                            name="deliveryAddress.state"
-                            value={customer.deliveryAddress.state}
+                            onChange={handleDeliveryChange}
+                            name="state"
+                            value={deliveryAddress.state}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -363,9 +393,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             className="form-control rounded-0"
                             placeholder="City"
                             id="city"
-                            onChange={handleChange}
-                            name="deliveryAddress.city"
-                            value={customer.deliveryAddress.city}
+                            onChange={handleDeliveryChange}
+                            name="city"
+                            value={deliveryAddress.city}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -381,8 +411,8 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             placeholder="Country"
                             id="country"
                             name="deliveryAddress.country"
-                            onChange={handleChange}
-                            value={customer.deliveryAddress.country}
+                            onChange={handleDeliveryChange}
+                            value={deliveryAddress.country}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -397,23 +427,20 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             id="add"
                             name="deliveryAddress.add"
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
-                            onChange={handleChange}
-                            value={customer.deliveryAddress.add}
+                            onChange={handleDeliveryChange}
+                            value={deliveryAddress.add}
                             rows="2"
                           ></textarea>
                         </div>
                       </form>
                     </div>
                   </div>
-                </div>
+                </div>}
 
                 <div className="col-12 col-lg-6 mt-2">
                   <form>
                     <div className="">
-                      <label
-                        for="GSTNo"
-                        className="form-label label_text"
-                      >
+                      <label for="GSTNo" className="form-label label_text">
                         GST Number
                       </label>
                       <input

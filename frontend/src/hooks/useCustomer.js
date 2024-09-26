@@ -36,9 +36,10 @@ const createCustomer = async (customerData) => {
   }
 };
 
-const updateCustomer = async (updatedCustomerData) => {
+
+const updateCustomer = async (updatedData) => {
   try {
-    const response = await axios.put(`${url}/${updatedCustomerData._id}`, updatedCustomerData);
+    const response = await axios.put(`${url}/${updatedData._id}`, updatedData);
     const data = response.data;
 
     if (data.error) {
@@ -52,23 +53,6 @@ const updateCustomer = async (updatedCustomerData) => {
     toast.error(error.response.data.error);
   }
 };
-
-// const updateCustomer = async (updatedData) => {
-//   try {
-//     const response = await axios.put(`${url}/${updateCustomer._id}`, updatedData);
-//     const data = response.data;
-
-//     if (data.error) {
-//       console.error(data.error);
-//       return toast.error(data.error);
-//     }
-//     toast.success("Customer Updated successfully");
-//     return data;
-//   } catch (error) {
-//     console.error(error);
-//     toast.error(error.response.data.error);
-//   }
-// };
 
 const deleteCustomer = async (Id) => {
   try {

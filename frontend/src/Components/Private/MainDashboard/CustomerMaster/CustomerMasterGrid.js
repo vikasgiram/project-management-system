@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
-import { toast } from "react-toastify";
 
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
@@ -32,7 +31,6 @@ export const CustomerMasterGrid = () => {
 
     const handleUpdate = (customer) => {
         setSelectedCust(customer);
-        console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
     }
 

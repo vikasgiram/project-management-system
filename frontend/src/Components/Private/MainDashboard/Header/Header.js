@@ -1,14 +1,16 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { LanguageDDL } from "../../CommanDDL/LanguageDDL";
 import { useTranslation } from "react-i18next";
+import { UserContext } from "../../../../context/UserContext";
+import { logout } from "../../../../hooks/useAuth";
 
 export const Header = (props) => {
 	const { toggle, isopen, Click, language, Language, setLanguage } = props
 	const [sticky, setSticky] = useState(false)
 
-
+	const {user} = useContext(UserContext);
 	const { t } = useTranslation()
+	const { setUser } = useContext(UserContext);
 	const change = () => {
 		const scrollValue = document.documentElement.scrollTop
 		if (scrollValue > 50) {
@@ -27,6 +29,15 @@ export const Header = (props) => {
 	}
 
 	window.addEventListener("scroll", change)
+
+	const handleLogout = async () => {
+		try {
+		  await logout();
+		  setUser(null); 
+		} catch (error) {
+		  console.error(error);
+		}
+	  };
 
 	return (
 		<div className="wrapper  mb-5" >
@@ -75,18 +86,18 @@ export const Header = (props) => {
 								aria-labelledby="profileDropdown"
 							>
 
-								<Link to="/" className="dropdown-item">
+								<Link to="#" className="dropdown-item">
 									<div className="drop_item_one my-1">
-										<i className="text-danger mr-2" >
-											Akash
-										</i>
-
+										{user.name}
 									</div>
 								</Link>
-								<Link to="/api/logout" className="dropdown-item">
+								<Link to="/" className="dropdown-item" onClick={handleLogout}>
 
 									<div className="drop_item_two my-1">
-										Log Out
+										<i className="text-danger mr-2" >
+											signoff
+										</i>
+
 									</div>
 								</Link>
 

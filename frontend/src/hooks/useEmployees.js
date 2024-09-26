@@ -63,9 +63,9 @@ const updateEmployee = async (updatedEmployeeData) => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
-
+    toast.success("Employee Updated sucessfully...");
     return data;
   } catch (error) {
     console.error(error);
