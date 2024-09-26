@@ -3,7 +3,9 @@ const router = express.Router();
 const roleController = require('../controllers/roleController');
 const { isCompany } = require('../middlewares/auth');
 
-router.get('/', isCompany, roleController.showAll);
+router.get('/allRoles', isCompany, roleController.showAll);
+
+router.get('/', isCompany, roleController.getRole);
 
 router.post('/',isCompany, roleController.create);
 
