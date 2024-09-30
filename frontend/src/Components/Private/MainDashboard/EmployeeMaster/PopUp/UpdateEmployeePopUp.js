@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
-import {updateEmployee } from "../../../../../hooks/useEmployees";
+import { updateEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getDesignation } from "../../../../../hooks/useDesignation";
 
-
-
-
-const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
-
+const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
   const [employee, setEmployee] = useState(selectedEmp);
   const [departments, setDepartments] = useState([]);
   const [designations, setDesignations] = useState([]);
 
+  // Handle changes in the form fields
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
+    
+    // Check if the department is being changed
+    if (name === "department") {
+      const selectedDept = departments.find(dept => dept._id === value);
+      setEmployee((prevEmployee) => ({
+        ...prevEmployee,
+        department: selectedDept,
+        designation: "", // Reset designation when department changes
+      }));
+    } else {
+      setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
+    }
   };
-  //  console.log(employee,"employee")
-  
+
   const handleEmpUpdate = async () => {
     try {
       await updateEmployee(employee);
@@ -26,38 +33,31 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
     } catch (error) {
       toast.error(error);
     }
-    
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDepartments = async () => {
       const data = await getDepartment();
-      // console.log(data);
       if (data) {
         setDepartments(data.department || []);
-        // console.log(employees,"data from useState");
       }
     };
 
-    fetchData();
+    fetchDepartments();
   }, []);
 
   useEffect(() => {
     if (employee.department) {
       const fetchDesignations = async () => {
-
         const data = await getDesignation(employee.department._id);
- 
         if (data) {
           setDesignations(data.designations || []);
-   
         }
       };
 
       fetchDesignations();
     }
   }, [employee.department]);
-
 
   return (
     <>
@@ -74,7 +74,6 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Update Employee
-                {/* Forward */}
               </h5>
               <button
                 onClick={() => handleUpdate()}
@@ -90,10 +89,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                 <div className="col-12">
                   <form>
                     <div className="mb-3">
-                      <label
-                        for="name"
-                        className="form-label label_text"
-                      >
+                      <label htmlFor="name" className="form-label label_text">
                         Full Name
                       </label>
                       <input
@@ -103,7 +99,6 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                         onChange={handleChange}
                         className="form-control rounded-0"
                         id="name"
-                        aria-describedby="emailHelp"
                       />
                     </div>
                   </form>
@@ -112,10 +107,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                 <div className="col-12 col-lg-6 mt-2">
                   <form>
                     <div className="mb-3">
-                      <label
-                        for="mobileNo"
-                        className="form-label label_text"
-                      >
+                      <label htmlFor="mobileNo" className="form-label label_text">
                         Mobile Number
                       </label>
                       <input
@@ -125,7 +117,6 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                         onChange={handleChange}
                         className="form-control rounded-0"
                         id="mobileNo"
-                        aria-describedby="emailHelp"
                       />
                     </div>
                   </form>
@@ -134,10 +125,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                 <div className="col-12 col-lg-6 mt-2">
                   <form>
                     <div className="mb-3">
-                      <label
-                        for="email"
-                        className="form-label label_text"
-                      >
+                      <label htmlFor="email" className="form-label label_text">
                         Email
                       </label>
                       <input
@@ -147,7 +135,6 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                         onChange={handleChange}
                         className="form-control rounded-0"
                         id="email"
-                        aria-describedby="emailHelp"
                       />
                     </div>
                   </form>
@@ -156,44 +143,25 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                 <div className="col-12 col-lg-6 mt-2">
                   <form>
                     <div className="mb-3">
-                      <label
-                        for="Department"
-                        className="form-label label_text"
-                      >
+                      <label htmlFor="Department" className="form-label label_text">
                         Department
                       </label>
                       <select
+                        name="department"
                         className="form-select rounded-0"
-                        aria-label="Default select example"
-                        
+                        onChange={handleChange}
                       >
-                        <option selected >{employee.department.name}</option>
-                        {departments &&
-                          departments.map((department) => (
-                            employee.department.name===department.name?"":<option value={department._id}>{department.name}</option>
-                          ))}
-                      
-                       
-                      </select>{" "}
-                    </div>
-                  </form>
-                </div>
-
-                <div className="col-12 col-lg-6 mt-2">
-                  <form>
-                    <div className="mb-3">
-                      <label
-                        for="Role"
-                        className="form-label label_text"
-                      >
-                        Designation
-                      </label>
-                      <select
-                        className="form-select rounded-0"
-                        aria-label="Default select example"
-                        
-                      >
-                        <option selected>{employee.designation.name}</option>
+                        <option value="" disabled>
+                          {employee.department ? employee.department.name : "Select Department"}
+                        </option>
+                        {departments.map((department) => (
+                          <option
+                            key={department._id}
+                            value={department._id}
+                          >
+                            {department.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </form>
@@ -202,10 +170,34 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                 <div className="col-12 col-lg-6 mt-2">
                   <form>
                     <div className="mb-3">
-                      <label
-                        for="HourlyRate"
-                        className="form-label label_text"
+                      <label htmlFor="Role" className="form-label label_text">
+                        Designation
+                      </label>
+                      <select
+                        name="designation"
+                        className="form-select rounded-0"
+                        onChange={handleChange}
                       >
+                        <option value="" disabled>
+                          {employee.designation ? employee.designation.name : "Select Designation"}
+                        </option>
+                        {designations.map((designation) => (
+                          <option
+                            key={designation._id}
+                            value={designation._id}
+                          >
+                            {designation.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </form>
+                </div>
+
+                <div className="col-12 col-lg-6 mt-2">
+                  <form>
+                    <div className="mb-3">
+                      <label htmlFor="HourlyRate" className="form-label label_text">
                         Hourly Rate
                       </label>
                       <div className="input-group border mb-3">
@@ -213,7 +205,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                           className="input-group-text rounded-0 bg-white border-0"
                           id="basic-addon1"
                         >
-                          <i class="fa-solid fa-indian-rupee-sign"></i>
+                          <i className="fa-solid fa-indian-rupee-sign"></i>
                         </span>
                         <input
                           type="text"
@@ -223,29 +215,26 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp}) => {
                           className="form-control rounded-0 border-0"
                           id="HourlyRate"
                           placeholder="eg. 10,000"
-                          aria-label="Username"
-                          aria-describedby="basic-addon1"
+                          aria-label="Hourly Rate"
                         />
-                      </div>{" "}
+                      </div>
                     </div>
                   </form>
                 </div>
 
-                
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
                       type="button"
                       onClick={handleEmpUpdate}
-                      // onClick={() => confirmBtnCallBack(deleteRecord)}
-                      className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
+                      className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                     >
                       Update
                     </button>
                     <button
                       type="button"
                       onClick={handleUpdate}
-                      className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
+                      className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
                     >
                       Cancel
                     </button>

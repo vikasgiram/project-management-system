@@ -89,6 +89,7 @@ export const Header = (props) => {
 								<Link to="#" className="dropdown-item">
 									<div className="drop_item_one my-1">
 										{user.name}
+										
 									</div>
 								</Link>
 								<Link to="/" className="dropdown-item" onClick={handleLogout}>

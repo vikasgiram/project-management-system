@@ -4,6 +4,7 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
+import HashLoader from "react-spinners/HashLoader";
 
 import { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -24,6 +25,7 @@ export const EmployeeMasterGrid = () => {
     const [selectedId, setSelecteId]= useState(null);
     const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
     const [selectedEmp, setSelectedEmp]= useState(null);
+    const [loading, setLoading] = useState(true);
 
 
     const [employees, setEmployees] = useState([])
@@ -62,6 +64,7 @@ export const EmployeeMasterGrid = () => {
 
                 setEmployees(data.employees || []);
                 // console.log(employees,"data from useState");
+                setLoading(false);
 
             }
         };
@@ -72,6 +75,24 @@ export const EmployeeMasterGrid = () => {
 
     return (
         <>
+            {loading ? (
+            <div
+               style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh',  // Full height of the viewport
+                  width: '100vw',   // Full width of the viewport
+                  position: 'absolute', // Absolute positioning to cover the viewport
+                  top: 0,
+                  left: 0,
+                  backgroundColor: '#f8f9fa' // Optional background color
+               }}
+            >
+               <HashLoader color="#4C3B77" loading={loading} size={50} />
+            </div>
+         ) : (
+        
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -154,6 +175,7 @@ export const EmployeeMasterGrid = () => {
                     </div>
                 </div>
             </div>
+         )}
 
 
             {deletePopUpShow ?
