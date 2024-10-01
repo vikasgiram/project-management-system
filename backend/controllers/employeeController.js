@@ -2,7 +2,7 @@ const Employee = require('../models/employeeModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Designation = require('../models/DesignationModel');
-
+const EmployeeHistory = require('../models/employeeHistoryModel');
 
 // show all employees
 exports.showAll = async (req, res) => {
@@ -12,7 +12,7 @@ exports.showAll = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
   
-    const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id})
+    const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id},{ password: 0 })
     .skip(skip)
     .limit(limit)
     .populate('department', 'name') 
@@ -63,7 +63,7 @@ exports.search = async (req, res) => {
       ]
     };
 
-    const employees = await Employee.find(filter)
+    const employees = await Employee.find(filter,{ password: 0 })
       .skip(skip)
       .limit(limit);
 
@@ -165,20 +165,62 @@ exports.deleteEmployee = async (req, res) => {
 };
 
 // Update an employee
+
 exports.updateEmployee = async (req, res) => {
   try {
+    // Fetch original employee data before update
+    const originalEmployee = await Employee.findById(req.params.id);
+
+    if (!originalEmployee) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+
     const updateData = {};
     for (const key in req.body) {
-      if (key !== 'username' && key !== 'password' && key!== '_id') {
-        updateData[key] = req.body[key];
+      if (key !== 'username' && key !== 'password' && key !== '_id') {
+        // Check if the field is a department or designation and only store the _id
+        if (key === 'department' || key === 'designation') {
+          updateData[key] = req.body[key]._id; // Extract only the _id
+        } else {
+          updateData[key] = req.body[key];
+        }
       }
     }
+
+    // Update employee data
     const employee = await Employee.findByIdAndUpdate(req.params.id, { $set: updateData }, { new: true });
+
     if (!employee) {
       return res.status(404).json({ error: 'Employee not found' });
     }
-    res.status(200).json(employee);
+
+    // Log changes to history
+    const changes = Object.keys(updateData)
+      .map(key => {
+        const originalValue = originalEmployee[key];
+        const newValue = updateData[key];
+
+        // Only log changes if values are different
+        if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
+          return {
+            fieldName: key,
+            oldValue: originalValue,
+            newValue: newValue,
+            changeDate: new Date(),
+            changeReason: 'Employee update',
+            employeeId: req.params.id,
+          };
+        }
+      })
+      .filter(change => change); // Filter out undefined values
+
+    if (changes.length > 0) {
+      await EmployeeHistory.insertMany(changes);
+    }
+
+    res.status(200).json({ message: 'Employee data updated successfully' });
   } catch (error) {
-    res.status(400).json({ error: "Error while updating Employee: " + error.message });
+    res.status(400).json({ error: 'Error while updating Employee: ' + error.message });
   }
 };
+

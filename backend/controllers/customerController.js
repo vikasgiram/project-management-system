@@ -1,6 +1,6 @@
 const Customer = require('../models/customerModel');
 const jwt = require('jsonwebtoken');
-
+const CustomerHistory = require('../models/customerHistoryModel');
 
 
 
@@ -115,15 +115,73 @@ exports.deleteCustomer=async(req,res)=>{
 };
 
 // update customer 
-exports.updateCustomer= async(req,res)=>{
-    try{
-        const customer=await Customer.findByIdAndUpdate(req.params.id,req.body,{new:true});
+exports.updateCustomer = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    const updatedData = req.body;
 
-        if(!customer){
-            return res.status(400).json({error:"Customer Not found !!"});
-        }
-        res.status(200).json({message:"Customer Update sucessfully"});
-    }catch(error){
-        res.status(500).json({error:"Error while updating customer: "+error.message});
+    // Find the existing customer
+    const existingCustomer = await Customer.findById(customerId);
+
+    if (!existingCustomer) {
+      return res.status(404).json({ message: 'Customer not found' });
     }
+
+    // Prepare an array to store changes
+    let changes = [];
+
+    // Helper function to track changes
+    const trackChanges = (fieldName, oldValue, newValue) => {
+      if (oldValue !== newValue) {
+        changes.push({
+          customerId: customerId,
+          fieldName: fieldName,
+          oldValue: oldValue,
+          newValue: newValue,
+          changeReason: req.body.changeReason || 'Updated via customer edit',
+        });
+      }
+    };
+
+    // Compare fields and track changes
+    trackChanges('custName', existingCustomer.custName, updatedData.custName);
+    trackChanges('email', existingCustomer.email, updatedData.email);
+    trackChanges('GSTNo', existingCustomer.GSTNo, updatedData.GSTNo);
+    trackChanges('customerContactPersonName1', existingCustomer.customerContactPersonName1, updatedData.customerContactPersonName1);
+    trackChanges('phoneNumber1', existingCustomer.phoneNumber1, updatedData.phoneNumber1);
+    trackChanges('customerContactPersonName2', existingCustomer.customerContactPersonName2, updatedData.customerContactPersonName2);
+    trackChanges('phoneNumber2', existingCustomer.phoneNumber2, updatedData.phoneNumber2);
+
+    // Compare nested objects like billingAddress and deliveryAddress
+    if (updatedData.billingAddress) {
+      trackChanges('billingAddress.add', existingCustomer.billingAddress?.add, updatedData.billingAddress.add);
+      trackChanges('billingAddress.city', existingCustomer.billingAddress?.city, updatedData.billingAddress.city);
+      trackChanges('billingAddress.state', existingCustomer.billingAddress?.state, updatedData.billingAddress.state);
+      trackChanges('billingAddress.country', existingCustomer.billingAddress?.country, updatedData.billingAddress.country);
+      trackChanges('billingAddress.pincode', existingCustomer.billingAddress?.pincode, updatedData.billingAddress.pincode);
+    }
+
+    if (updatedData.deliveryAddress) {
+      trackChanges('deliveryAddress.add', existingCustomer.deliveryAddress?.add, updatedData.deliveryAddress.add);
+      trackChanges('deliveryAddress.city', existingCustomer.deliveryAddress?.city, updatedData.deliveryAddress.city);
+      trackChanges('deliveryAddress.state', existingCustomer.deliveryAddress?.state, updatedData.deliveryAddress.state);
+      trackChanges('deliveryAddress.country', existingCustomer.deliveryAddress?.country, updatedData.deliveryAddress.country);
+      trackChanges('deliveryAddress.pincode', existingCustomer.deliveryAddress?.pincode, updatedData.deliveryAddress.pincode);
+    }
+
+    // Save the updated customer record
+    const updatedCustomer = await Customer.findByIdAndUpdate(customerId, updatedData, { new: true });
+
+    // Save the changes to the customerHistory collection if there are any
+    if (changes.length > 0) {
+      await CustomerHistory.insertMany(changes);
+    }
+
+    res.status(200).json(updatedCustomer);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
+
