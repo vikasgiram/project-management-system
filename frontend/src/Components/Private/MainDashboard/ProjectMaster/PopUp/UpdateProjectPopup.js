@@ -3,15 +3,32 @@ import { getCustomers } from "../../../../../hooks/useCustomer";
 import { updateProject } from "../../../../../hooks/useProjects";
 
 import toast from "react-hot-toast";
-
+import { format } from 'date-fns';
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
 
     const [customers, setCustomers] = useState([]);
 
-    const [projects, setProjects] = useState(selectedProject);
+    const [projects, setProjects] = useState({
+        ...selectedProject,
+        purchaseOrderDate: selectedProject?.purchaseOrderDate,
+        startDate: selectedProject?.startDate,
+        endDate: selectedProject?.endDate
+      });
+      
 
+    const [address, setAddress] = useState({
+        add: selectedProject?.Address?.add || "",
+        city: selectedProject?.Address?.city || "",
+        state: selectedProject?.Address?.state || "",
+        country: selectedProject?.Address?.country || "",
+        pincode: selectedProject?.Address?.pincode || "",
+      });
+    
+     
+      console.log(selectedProject?.Address?.city,"address");
+      
 
 
     useEffect(() => {
@@ -30,19 +47,52 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
     const handleChange = (event) => {
         const { name, value } = event.target;
         setProjects((prevProjects) => ({ ...prevProjects, [name]: value }));
+        if (name === 'custId') {
+            setProjects((prevProjects) => ({
+                ...prevProjects,
+                custId: { _id: value }, // Ensure you're setting an object with _id
+            }));
+        } else {
+            setProjects((prevProjects) => ({
+                ...prevProjects,
+                [name]: value,
+            }));
+        }
     };
 
 
+    // Function to handle changes in billing address fields
+    const handleAddressChange = (e) => {
+      const { name, value } = e.target;
+      setAddress({ ...address, [name]: value });
+      
+    };
     const handleProjectUpdate = async () => {
+        const updatedProject ={
+            ...projects,
+            Address: { // Ensure the address is nested under "Address"
+                ...address // Spread the address state
+            }
+          }
         try {
-            await updateProject(projects);
+            await updateProject(updatedProject);
             handleUpdate();
         } catch (error) {
             toast.error(error);
         }
     };
 
+ 
 
+      const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
+
+      const formattedPurchaseOrderDate = formatDate(projects?.purchaseOrderDate);
+      const formattedStartDate = formatDate(projects?.startDate);
+      const formattedEndDate = formatDate(projects?.endDate);
+
+
+      
+      
     return (
         <>
             <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
@@ -71,12 +121,15 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 name="custId"
                                                 onChange={handleChange}
                                                 value={projects.custId._id || ''}
-                                            >
-                                                <option value="" selected>-- Select Customer Name --</option>
+                                            >   
+                                                {/* {console.log(projects.custId._id,"projects.custId._id")} */}
+                                                
                                                 {customers && customers.map((cust) => (
                                                     <option key={cust._id} value={cust._id}>{cust.custName}</option>
                                                 ))}
                                             </select>
+                                          
+                                            
                                         </div>
                                     </form>
                                 </div>
@@ -97,13 +150,14 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 name="purchaseOrderDate" className="form-label label_text">Purchase Order Date</label>
                                             <input
                                                 onChange={handleChange}
-                                                value={projects.purchaseOrderDate}
+                                                value={formattedPurchaseOrderDate}
                                                 name="purchaseOrderDate"
                                                 type="date"
                                                 className="form-control rounded-0"
                                                 id="purchaseOrderDate"
                                                 aria-describedby="dateHelp"
                                             />
+                                            {/* {console.log(projects.purchaseOrderDate,"projects")} */}
                                         </div>
                                     </form>
 
@@ -185,12 +239,14 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <input
                                                 onChange={handleChange}
                                                 name="startDate"
-                                                value={projects.startDate}
+                                                value={formattedStartDate}
                                                 type="date"
                                                 className="form-control rounded-0"
                                                 id="startDate"
                                                 aria-describedby="dateHelp"
                                             />
+                                          
+                                            
                                         </div>
                                     </form>
 
@@ -204,7 +260,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <input
                                                 
                                                 onChange={handleChange}
-                                                value={projects.endDate || ''} // Make sure to handle the case where it might be undefined
+                                                value={formattedEndDate} // Make sure to handle the case where it might be undefined
                                                 type="date"
                                                 name="endDate"  // Add the name attribute
                                                 className="form-control rounded-0"
@@ -281,6 +337,106 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                 </div>
 
 
+                                <div className="col-12  mt-2">
+                  <div className="row border mt-4 bg-gray mx-auto">
+                    <div className="col-12 mb-3">
+                      <span className="AddressInfo">Address</span>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="number"
+                            className="form-control rounded-0"
+                            placeholder="Pincode"
+                            id="Pincode"
+                            name="pincode"
+                            onChange={handleAddressChange}
+                            value={address.pincode}
+                            aria-describedby="emailHelp"
+                          />
+                          
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="State"
+                            id="State"
+                            onChange={handleAddressChange}
+                            name="state"
+                            value={address.state}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="City"
+                            id="city"
+                            onChange={handleAddressChange}
+                            name="city"
+                            value={address.city}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="Country"
+                            id="country"
+                            name="country"
+                            onChange={handleAddressChange}
+                            value={address.country}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-12 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <textarea
+                            className="textarea_edit col-12"
+                            id="add"
+                            name="add"
+                            placeholder="House NO., Building Name, Road Name, Area, Colony"
+                            onChange={handleAddressChange}
+                            value={address.add}
+                            rows="2"
+                          ></textarea>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+               
+
+                
+
+
+
+
                                 <div className="col-12 col-lg-6 mt-2" >
 
                                     <form>
@@ -310,8 +466,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                     </form>
 
                                 </div>
-
-
 
 
 

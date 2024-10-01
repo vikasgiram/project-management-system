@@ -57,6 +57,13 @@ const projectSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  Address:{
+    add:String,
+    city:String,
+    state:String,
+    country:String,
+    pincode:String
+  },
   startDate: {
     // Start date of the project
     type: Date,

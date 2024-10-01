@@ -88,7 +88,8 @@ export const Header = (props) => {
 
 								<Link to="#" className="dropdown-item">
 									<div className="drop_item_one my-1">
-										{user.name}
+										{/* {user.name} */}
+										{user ? user.name : "Guest"}
 										
 									</div>
 								</Link>

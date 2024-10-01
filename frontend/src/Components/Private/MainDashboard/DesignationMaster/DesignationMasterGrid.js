@@ -138,7 +138,7 @@ export const DesignationMasterGird = () => {
                                                             <td>
 
                                                                 <span
-                                                                    onClick={() => console.log(designation._id)}
+                                                                    onClick={() =>handelDeleteClosePopUpClick(designation._id) }
                                                                     className="delete">
                                                                     <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>

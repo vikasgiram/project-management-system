@@ -14,46 +14,46 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     pincode: "",
   });
 
-  const [deliveryAddress, setDeliveryAddress] = useState({
-    add: "",
-    city: "",
-    state: "",
-    country: "",
-    pincode: "",
-  });
+  // const [deliveryAddress, setDeliveryAddress] = useState({
+  //   add: "",
+  //   city: "",
+  //   state: "",
+  //   country: "",
+  //   pincode: "",
+  // });
 
-  const [sameAsBilling, setSameAsBilling] = useState(false);
+  // const [sameAsBilling, setSameAsBilling] = useState(false);
 
   // Load existing customer data on component mount
   useEffect(() => {
     if (customer) {
       setBillingAddress(customer.billingAddress);
-      setDeliveryAddress(customer.deliveryAddress);
+      // setDeliveryAddress(customer.deliveryAddress);
     }
   }, [customer]);
 
   // Function to handle the checkbox toggle
-  const handleCheckboxChange = (e) => {
-    setSameAsBilling(e.target.checked);
-    if (e.target.checked) {
-      setDeliveryAddress(billingAddress); // Copy billing to delivery
-    }
-  };
+  // const handleCheckboxChange = (e) => {
+  //   setSameAsBilling(e.target.checked);
+  //   if (e.target.checked) {
+  //     setDeliveryAddress(billingAddress); // Copy billing to delivery
+  //   }
+  // };
 
   // Function to handle changes in billing address fields
   const handleBillingChange = (e) => {
     const { name, value } = e.target;
     setBillingAddress({ ...billingAddress, [name]: value });
-    if (sameAsBilling) {
-      setDeliveryAddress({ ...billingAddress, [name]: value });
-    }
+    // if (sameAsBilling) {
+    //   setDeliveryAddress({ ...billingAddress, [name]: value });
+    // }
   };
 
   // Function to handle changes in delivery address fields
-  const handleDeliveryChange = (e) => {
-    const { name, value } = e.target;
-    setDeliveryAddress({ ...deliveryAddress, [name]: value });
-  };
+  // const handleDeliveryChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setDeliveryAddress({ ...deliveryAddress, [name]: value });
+  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -68,7 +68,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     const updatedCustomer={
       ...customer,
       billingAddress,
-      deliveryAddress
+      // deliveryAddress
     }
     await updateCustomer(updatedCustomer);
     handleUpdate();
@@ -328,7 +328,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                   </div>
                 </div>
 
-                <div className="col-12 col-lg-4 mt-4 mt-lg-0">
+                {/* <div className="col-12 col-lg-4 mt-4 mt-lg-0">
                   <span className=" ms-lg-6 AddressInfo">
                     <input
                       type="checkbox"
@@ -435,7 +435,7 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                       </form>
                     </div>
                   </div>
-                </div>}
+                </div>} */}
 
                 <div className="col-12 col-lg-6 mt-2">
                   <form>

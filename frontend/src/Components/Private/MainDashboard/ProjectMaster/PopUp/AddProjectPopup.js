@@ -7,7 +7,6 @@ const AddProjectPopup = ({ handleAdd }) => {
 
     const [custId, setCustId] = useState('');
     const [name, setName] = useState("");
-    const [projectName, setProjectName] = useState("");
     const [startDate, setStartDate] = useState("");
     const [purchaseOrderNo, setPurchaseOrderNo] = useState("");
     const [purchaseOrderDate, setPurchaseOrderDate] = useState("");
@@ -20,7 +19,15 @@ const AddProjectPopup = ({ handleAdd }) => {
     const [category, setCategory] = useState('');
     const [POCopy, setPOCopy] = useState("");
 
-    
+
+    const [address, setAddress] = useState({
+      pincode: "",
+      state: "",
+      city: "",
+      add: "",
+      country: "",
+    });
+
 
     const [customers, setCustomers] = useState([]);
 
@@ -39,6 +46,8 @@ const AddProjectPopup = ({ handleAdd }) => {
 
 
     const handleProjectAdd = async () => {
+        
+        
         const data = {
             custId,
             name,
@@ -52,19 +61,29 @@ const AddProjectPopup = ({ handleAdd }) => {
             payAgainstDelivery,
             payfterCompletion,
             remark,
+            address,
             POCopy   // change in backend
 
 
 
         };
-        if(!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category|| !startDate || !endDate || !advancePay|| !payAgainstDelivery || !payfterCompletion || !remark){
+        if(!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category|| !startDate || !endDate || !advancePay|| !payAgainstDelivery || !payfterCompletion || !remark
+           || !address.pincode ||
+      !address.state ||
+      !address.city ||
+      !address.add ||
+      !address.country 
+        ){
           return toast.error("Please fill all fields");
         }
 
-        console.log(data, "data");
+
         await createProject(data);
         handleAdd();
       };
+      console.log(address,"address in popup");
+      
+    
 
     return (
         <>
@@ -116,25 +135,23 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                 </form>
 
-                                <div className="col-12 col-lg-6 mt-2" >
-
-                                    <form>
-                                        <div className="mb-3">
-                                            <label htmlFor="purchaseOrderDate" className="form-label label_text">Purchase Order Date</label>
-                                            <input
-                                                onChange={(e) =>    setPurchaseOrderDate(e.target.value)}
-                                                value={purchaseOrderDate}
-                                                type="date"
-                                                className="form-control rounded-0"
-                                                id="purchaseOrderDate"
-                                                aria-describedby="dateHelp"
-                                            />
-                                        </div>
-                                    </form>
-
-
-
-                                </div>
+                                 <div className="col-12 col-lg-6 mt-2">
+      <form>
+        <div className="mb-3">
+          <label htmlFor="purchaseOrderDate" className="form-label label_text">
+            Purchase Order Date
+          </label>
+          <input
+            onChange={(e) => setPurchaseOrderDate(e.target.value)} // Handles date input change
+            value={purchaseOrderDate} // Prepopulate value from state
+            type="date"
+            className="form-control rounded-0"
+            id="purchaseOrderDate"
+            aria-describedby="dateHelp"
+          />
+        </div>
+      </form>
+    </div>
 
                                 <div className="col-12 col-lg-6 mt-2" >
 
@@ -294,6 +311,108 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                                     </div>
                                 </div>
+
+
+                               
+
+                <div className="col-12  mt-2">
+                  <div className="row border mt-4 bg-gray mx-auto">
+                    <div className="col-12 mb-3">
+                      <span className="AddressInfo">Address</span>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="number"
+                            className="form-control rounded-0"
+                            placeholder="Pincode"
+                            id="exampleInputEmail1"
+                            name="pincode"
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                pincode: e.target.value,
+                              })
+                            }
+                            value={address.pincode}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="State"
+                            id="exampleInputEmail1"
+                            name="state"
+                            onChange={(e) => setAddress({ ...address, state: e.target.value })}
+                            value={address.state}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="City"
+                            id="exampleInputEmail1"
+                            name="city"
+                            onChange={(e) => setAddress({ ...address, city: e.target.value })}
+                            value={address.city}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-6 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="Country"
+                            id="exampleInputEmail1"
+                            name="country"
+                            onChange={(e) => setAddress({ ...address, country: e.target.value })}
+                            value={address.country}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="col-12 col-lg-12 mt-2">
+                      <form>
+                        <div className="mb-3">
+                          <textarea
+                            className="textarea_edit col-12"
+                            id=""
+                            name="add"
+                            placeholder="House NO., Building Name, Road Name, Area, Colony"
+                            onChange={(e) => setAddress({ ...address, add: e.target.value })}
+                            value={address.add}
+                            rows="2"
+                          ></textarea>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                
 
 
                                 <div className="col-12 col-lg-6 mt-2" >
