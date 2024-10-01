@@ -42,7 +42,8 @@ export const ProjectMasterGrid = () => {
         setUpdatePopUpShow(!UpdatePopUpShow)
     }
 
-    const handleDetails = () =>{
+    const handleDetails = (project) =>{
+        setSelectedProject(project);
         setDetailsPopUpShow(!DetailsPopUpShow)
     }
 
@@ -155,7 +156,7 @@ export const ProjectMasterGrid = () => {
                                                             {/* {project.projectStatus} */}
                                                           
                                                             <i 
-                                                              onClick={() => handleDetails()} 
+                                                              onClick={() => handleDetails(project)} 
                                                              class="fa-solid fa-circle-info cursor-pointer"></i>
                                                             </td>
                                                         <td>
@@ -229,7 +230,7 @@ export const ProjectMasterGrid = () => {
 
 <GaintchartPoup
     handleDetails={handleDetails}
-    // selectedProject={selectedProject}
+    selectedProject={selectedProject}
 // heading="Forward"
 // cancelBtnCallBack={handleAddDepartment}
 /> : <></>

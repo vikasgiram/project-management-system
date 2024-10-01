@@ -3,7 +3,7 @@ import { getCustomers } from "../../../../../hooks/useCustomer";
 import { updateProject } from "../../../../../hooks/useProjects";
 
 import toast from "react-hot-toast";
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
@@ -78,17 +78,18 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
             await updateProject(updatedProject);
             handleUpdate();
         } catch (error) {
+
             toast.error(error);
         }
     };
 
  
 
-      const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
+    //   const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
 
-      const formattedPurchaseOrderDate = formatDate(projects?.purchaseOrderDate);
-      const formattedStartDate = formatDate(projects?.startDate);
-      const formattedEndDate = formatDate(projects?.endDate);
+    //   const formattedPurchaseOrderDate = formatDate(projects?.purchaseOrderDate);
+    //   const formattedStartDate = formatDate(projects?.startDate);
+    //   const formattedEndDate = formatDate(projects?.endDate);
 
 
       
@@ -150,7 +151,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 name="purchaseOrderDate" className="form-label label_text">Purchase Order Date</label>
                                             <input
                                                 onChange={handleChange}
-                                                value={formattedPurchaseOrderDate}
+                                                value={""}
                                                 name="purchaseOrderDate"
                                                 type="date"
                                                 className="form-control rounded-0"
@@ -239,7 +240,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <input
                                                 onChange={handleChange}
                                                 name="startDate"
-                                                value={formattedStartDate}
+                                                value={""}
                                                 type="date"
                                                 className="form-control rounded-0"
                                                 id="startDate"
@@ -260,7 +261,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <input
                                                 
                                                 onChange={handleChange}
-                                                value={formattedEndDate} // Make sure to handle the case where it might be undefined
+                                                value={""} // Make sure to handle the case where it might be undefined
                                                 type="date"
                                                 name="endDate"  // Add the name attribute
                                                 className="form-control rounded-0"
