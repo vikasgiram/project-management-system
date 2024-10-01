@@ -12,6 +12,7 @@ import UpdateProjectPopup from "./PopUp/UpdateProjectPopup";
 
 import { getProjects,deleteProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
+import GaintchartPoup from "./PopUp/GaintchartPoup";
 
 export const ProjectMasterGrid = () => {
 
@@ -23,6 +24,7 @@ export const ProjectMasterGrid = () => {
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [UpdatePopUpShow,setUpdatePopUpShow]=useState(false)
+    const [DetailsPopUpShow,setDetailsPopUpShow]=useState(false)
 
     const [selectedId, setSelecteId]= useState(null);
     const [project, setProject]= useState([]);
@@ -36,6 +38,10 @@ export const ProjectMasterGrid = () => {
     const handleUpdate=(projects=null)=>{
         setSelectedProject(projects);
         setUpdatePopUpShow(!UpdatePopUpShow)
+    }
+
+    const handleDetails = () =>{
+        setDetailsPopUpShow(!DetailsPopUpShow)
     }
 
 
@@ -113,6 +119,7 @@ export const ProjectMasterGrid = () => {
                                                     <th>Start Date</th>
                                                     <th>End Date</th>
                                                     <th>Status</th>
+                                                    <th>Details</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 
@@ -125,6 +132,13 @@ export const ProjectMasterGrid = () => {
                                                         <td>{formatDate(project.startDate)}</td>
                                                         <td>{formatDate(project.endDate)}</td>
                                                         <td>{project.projectStatus}</td>
+                                                        <td >
+                                                            {/* {project.projectStatus} */}
+                                                          
+                                                            <i 
+                                                              onClick={() => handleDetails()} 
+                                                             class="fa-solid fa-circle-info cursor-pointer"></i>
+                                                            </td>
                                                         <td>
                                                         <span
                                                             onClick={() => handleUpdate(project)}
@@ -189,6 +203,17 @@ export const ProjectMasterGrid = () => {
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
             }
+
+
+{DetailsPopUpShow ?
+
+<GaintchartPoup
+    handleDetails={handleDetails}
+    // selectedProject={selectedProject}
+// heading="Forward"
+// cancelBtnCallBack={handleAddDepartment}
+/> : <></>
+}
 
         </>
     )
