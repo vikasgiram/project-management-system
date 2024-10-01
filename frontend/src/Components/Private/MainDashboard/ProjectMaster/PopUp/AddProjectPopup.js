@@ -81,7 +81,7 @@ const AddProjectPopup = ({ handleAdd }) => {
         await createProject(data);
         handleAdd();
       };
-      console.log(address,"address in popup");
+      // console.log(address,"address in popup");
       
     
 
