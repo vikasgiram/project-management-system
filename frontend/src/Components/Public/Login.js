@@ -17,7 +17,7 @@ export const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(username + " " + password);
+    // console.log(username + " " + password);
   
     try {
       const data = await loginUser(username, password);

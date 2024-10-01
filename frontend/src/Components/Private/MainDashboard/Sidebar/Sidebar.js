@@ -147,16 +147,6 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                         </li>
                                     </span>
                                 </Link>
-
-                            
-                              
-
-                             
-
-
-                              
-
-
                             </ul>
                         </div>
                     </li>

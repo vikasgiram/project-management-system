@@ -20,27 +20,27 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     add: "",
     country: "",
   });
-  const [deliveryAddress, setDeliveryAddress] = useState({
-    pincode: "",
-    state: "",
-    city: "",
-    add: "",
-    country: "",
-  });
+  // const [deliveryAddress, setDeliveryAddress] = useState({
+  //   pincode: "",
+  //   state: "",
+  //   city: "",
+  //   add: "",
+  //   country: "",
+  // });
 
   const handleCheckboxChange = (e) => {
     setSameAsAbove(e.target.checked);
-    if (e.target.checked) {
-      setDeliveryAddress({ ...billingAddress });
-    } else {
-      setDeliveryAddress({
-        pincode: "",
-        state: "",
-        city: "",
-        add: "",
-        country:""
-      });
-    }
+    // if (e.target.checked) {
+    //   setDeliveryAddress({ ...billingAddress });
+    // } else {
+    //   setDeliveryAddress({
+    //     pincode: "",
+    //     state: "",
+    //     city: "",
+    //     add: "",
+    //     country:""
+    //   });
+    // }
   };
 
   const handleCustomerAdd = async () => {
@@ -52,7 +52,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
       customerContactPersonName1,
       phoneNumber2,
       billingAddress,
-      deliveryAddress,
+      // deliveryAddress,
       GSTNo,
     };
 
@@ -66,10 +66,10 @@ const AddCustomerPopUp = ({ handleAdd }) => {
       !billingAddress.state ||
       !billingAddress.city ||
       !billingAddress.add ||
-      !deliveryAddress.pincode ||
-      !deliveryAddress.state ||
-      !deliveryAddress.city ||
-      !deliveryAddress.add ||
+      // !deliveryAddress.pincode ||
+      // !deliveryAddress.state ||
+      // !deliveryAddress.city ||
+      // !deliveryAddress.add ||
       !GSTNo
     ) {
       return toast.error("Please fill all fields");
@@ -334,7 +334,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                   </div>
                 </div>
 
-                <div className="col-12  mt-2">
+                {/* <div className="col-12  mt-2">
                   <div className="row border mt-4 bg-gray mx-auto">
                     <div className="col-12 mb-4">
                       <div className="row">
@@ -439,7 +439,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                       </form>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-12 col-lg-6 mt-2">
                   <form>

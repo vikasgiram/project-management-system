@@ -68,9 +68,10 @@ exports.search = async (req, res) => {
 
 exports.create = async (req, res)=>{
     try {
-        let {name,custId, completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, POCopy}= req.body;
+        let {name,custId, address,completeLevel,purchaseOrderNo, purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payfterCompletion, remark, POCopy}= req.body;
         const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
         completeLevel=completeLevel===undefined?0:completeLevel;
+        console.log("At Backend"+address);
         const newProject= await Project({
             custId,
             name,
@@ -86,6 +87,7 @@ exports.create = async (req, res)=>{
             remark,
             completeLevel:completeLevel,
             POCopy,
+            Address:address,
             projectStatus:completeLevel<=0?"upcoming":completeLevel<100?"inprocess":"finished",
             company: decoded.user.company? decoded.user.company:decoded.user._id
         });
