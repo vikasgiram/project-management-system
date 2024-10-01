@@ -79,7 +79,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
             await updateProject(updatedProject);
             handleUpdate();
         } catch (error) {
-
             toast.error(error);
         }
     };
@@ -154,7 +153,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 name="purchaseOrderDate" className="form-label label_text">Purchase Order Date</label>
                                             <input
                                                 onChange={handleChange}
-                                                value={""}
+                                                value={formattedPurchaseOrderDate}
                                                 name="purchaseOrderDate"
                                                 type="date"
                                                 className="form-control rounded-0"
@@ -243,7 +242,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <input
                                                 onChange={handleChange}
                                                 name="startDate"
-                                                value={""}
+                                                value={formattedStartDate}
                                                 type="date"
                                                 className="form-control rounded-0"
                                                 id="startDate"
@@ -264,7 +263,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <input
                                                 
                                                 onChange={handleChange}
-                                                value={""} // Make sure to handle the case where it might be undefined
+                                                value={formattedEndDate} // Make sure to handle the case where it might be undefined
                                                 type="date"
                                                 name="endDate"  // Add the name attribute
                                                 className="form-control rounded-0"
