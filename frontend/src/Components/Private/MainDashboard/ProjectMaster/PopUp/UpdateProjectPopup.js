@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { getCustomers } from "../../../../../hooks/useCustomer";
 import { updateProject } from "../../../../../hooks/useProjects";
+import { formatDateforupdate } from "../../../../../utils/formatDate";
 
 import toast from "react-hot-toast";
-// import { format } from 'date-fns';
+
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
@@ -27,7 +28,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
       });
     
      
-      console.log(selectedProject?.Address?.city,"address");
+    //   console.log(selectedProject?.Address?.city,"address");
       
 
 
@@ -87,10 +88,12 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
     //   const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
 
-    //   const formattedPurchaseOrderDate = formatDate(projects?.purchaseOrderDate);
-    //   const formattedStartDate = formatDate(projects?.startDate);
-    //   const formattedEndDate = formatDate(projects?.endDate);
+      const formattedPurchaseOrderDate = formatDateforupdate(projects?.purchaseOrderDate);
+      const formattedStartDate = formatDateforupdate(projects?.startDate);
+      const formattedEndDate = formatDateforupdate(projects?.endDate);
 
+      console.log("formattedEndDate", formattedEndDate);
+      
 
       
       
