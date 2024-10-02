@@ -3,29 +3,44 @@ import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
+import HashLoader from "react-spinners/HashLoader";
 
-import { useEffect } from "react"; 
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-import {getEmployees, deleteEmployee} from "../../../../hooks/useEmployees"
+import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
+import { useNavigate } from "react-router-dom";
 
 
 export const EmployeeMasterGrid = () => {
+
+   
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isopen);
     };
 
+
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId]= useState(null);
+    const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
+    const [selectedEmp, setSelectedEmp]= useState(null);
+    const [loading, setLoading] = useState(true);
 
 
     const [employees, setEmployees] = useState([])
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
+    }
+
+    const handleUpdate = (employee=null) => {
+        setSelectedEmp(employee);
+        // console.log("HandleUpdate CAlled");
+        setUpdatePopUpShow(!updatePopUpShow);
     }
 
 
@@ -52,16 +67,35 @@ export const EmployeeMasterGrid = () => {
 
                 setEmployees(data.employees || []);
                 // console.log(employees,"data from useState");
+                setLoading(false);
 
             }
         };
 
         fetchData();
-    }, [employees]);
+    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 
 
     return (
         <>
+            {loading ? (
+            <div
+               style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh',  // Full height of the viewport
+                  width: '100vw',   // Full width of the viewport
+                  position: 'absolute', // Absolute positioning to cover the viewport
+                  top: 0,
+                  left: 0,
+                  backgroundColor: '#f8f9fa' // Optional background color
+               }}
+            >
+               <HashLoader color="#4C3B77" loading={loading} size={50} />
+            </div>
+         ) : (
+        
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -98,12 +132,12 @@ export const EmployeeMasterGrid = () => {
                                             <table className="table table-striped table-class" id="table-id">
                                                 <thead>
                                                     <tr className="th_border">
-                                                    <th>Sr. No</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Role</th>
-                                                    <th>Action</th>
+                                                        <th>Sr. No</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Department</th>
+                                                        <th>Designation</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="broder my-4">
@@ -113,10 +147,10 @@ export const EmployeeMasterGrid = () => {
                                                         <td>{employee.name}</td>
                                                         <td>{employee.email}</td>
                                                         <td>{employee.department.name}</td>
-                                                        <td>{employee.role.name}</td>
+                                                        <td>{employee.designation.name}</td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handleAdd(employee.id)}
+                                                            onClick={() => handleUpdate(employee)}
                                                             className="update">
                                                             <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
@@ -126,11 +160,11 @@ export const EmployeeMasterGrid = () => {
                                                             className="delete">
                                                             <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
-                                                        </td>
-                                                    </tr>
+                                                    </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
-                                                </table>
+                                            </table>
                                         </div>
 
 
@@ -144,6 +178,7 @@ export const EmployeeMasterGrid = () => {
                     </div>
                 </div>
             </div>
+         )}
 
 
             {
@@ -156,17 +191,24 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
-
-            {/* {AddPopUpShow ?
+            
+            {AddPopUpShow ?
                 <AddEmployeePopup
                     message="Create New Employee"
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
-            } */}
+            }
 
+                {updatePopUpShow ?
+                <UpdateEmployeePopUp
+                    selectedEmp= {selectedEmp}
+                    handleUpdate={handleUpdate}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
         </>
     )
 }
-

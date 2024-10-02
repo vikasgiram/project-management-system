@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { ViewMode, Gantt } from "gantt-task-react";
@@ -6,6 +6,8 @@ import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChart
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
+import {getProjects} from "../../../../hooks//useProjects";
+import { HashLoader } from "react-spinners";
 
 export const TaskMasterChart = () => {
 
@@ -16,6 +18,7 @@ export const TaskMasterChart = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
+    const [loading, setLoading] = useState(true);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -80,8 +83,66 @@ export const TaskMasterChart = () => {
     };
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getProjects(); // Get project data from API
+                const transformedTasks = transformProjectsToTasks(response.projects); // Transform the data
+                setTasks(transformedTasks);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching projects: ", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const transformProjectsToTasks = (projects) => {
+        return projects.flatMap((project) => {
+            const projectTask = {
+                id: project._id,
+                name: project.name,
+                start: new Date(project.startDate),
+                end: new Date(project.endDate),
+                progress: project.completeLevel,
+                type: "project",
+                hideChildren: false,
+            };
+
+            // Map tasks within each project
+            const taskList = project.tasks.map((task) => ({
+                id: task._id,
+                name: task.taskName,
+                start: new Date(task.startDate),
+                end: new Date(task.endDate),
+                project: project._id,
+                type: "task",
+                progress: task.taskLevel,
+            }));
+
+            return [projectTask, ...taskList];
+        });
+    };
+
+
     return (
-        <>
+        <> {loading ? (
+            <div
+               style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh',  // Full height of the viewport
+                  width: '100vw',   // Full width of the viewport
+                  position: 'absolute', // Absolute positioning to cover the viewport
+                  top: 0,
+                  left: 0,
+                  backgroundColor: '#f8f9fa' // Optional background color
+               }}
+            >
+               <HashLoader color="#4C3B77" loading={loading} size={50} />
+            </div>
+         ) : (
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -208,6 +269,7 @@ export const TaskMasterChart = () => {
                     </div>
                 </div>
             </div>
+         )}
 
 
             {/* {deletePopUpShow ?
@@ -232,4 +294,3 @@ export const TaskMasterChart = () => {
         </>
     )
 }
-

@@ -20,7 +20,7 @@ const customerSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  BillingAddress:{
+  billingAddress:{
     add:String,
     city:String,
     state:String,
@@ -31,7 +31,7 @@ const customerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:Company
   },
-  DeliveryAddress: {
+  deliveryAddress: {
     // Delivery address of the customer
     add:String,
     city:String,

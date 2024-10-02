@@ -4,8 +4,9 @@ const Customer = require('../models/customerModel');
 const Project = require('../models/projectModel');
 const Employee = require('../models/employeeModel');
 const Department = require('../models/departmentModel');
-const Role = require('../models/roleModel');
 const TaskSheet = require('../models/taskSheetModel');
+const Designation = require('../models/DesignationModel');
+const CompanyHistory = require('../models/companyHistoryModel');
 
 exports.showAll = async (req, res) => {
   try {
@@ -13,7 +14,7 @@ exports.showAll = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const companies = await Company.find().skip(skip).limit(limit);
+    const companies = await Company.find({ password: 0 }).skip(skip).limit(limit);
 
     if (companies.length <= 0) {
       return res.status(400).json({ error: "No company found" });
@@ -28,6 +29,18 @@ exports.showAll = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: "Error while fetching companies: " + error.message });
+  }
+};
+
+exports.getCompany = async (req, res)=>{
+  try {
+    const company = await Company.findByIdAndDelete(req.params.id);
+    if(!company){
+      return res.status(400).json({error:"Company not found"});
+    }
+    res.status(200).json(company);
+  } catch (error) {
+    res.status(500).json({error:"Error in getCompany: "+error.message});
   }
 };
 
@@ -90,7 +103,7 @@ exports.deleteCompany = async (req, res)=>{
       await Project.deleteMany({ company: req.params.id });
       await Employee.deleteMany({ company: req.params.id });
       await Department.deleteMany({ company: req.params.id });
-      await Role.deleteMany({ company: req.params.id });
+      await Designation.deleteMany({ company: req.params.id });
       await TaskSheet.deleteMany({company:req.params.id});
       res.status(200).json({message:"Company Deleted Sucessfully: "+company.email});
 
@@ -99,22 +112,52 @@ exports.deleteCompany = async (req, res)=>{
     }
 };
 
-exports.updateCompany = async (req, res)=>{
-    try {
-        const updateData={};
-        for(const key in req.body){
-            if(key !== 'email' && key !== 'password'){
-                updateData[key]=req.body[key];
-            }
+exports.updateCompany = async (req, res) => {
+  try {
+    const originalValue = Company.findById(req.params.id);
+    const updateData = {};
+    for (const key in req.body) {
+      if (key !== 'email') {
+        // If department or any other nested object, extract only the _id
+        if (key === 'department') {
+          updateData[key] = req.body[key]._id; // Extract only the _id
+        } else {
+          updateData[key] = req.body[key];
         }
-        const company = await Company.updateOne({ _id: req.params.id }, { $set: updateData }, { upsert: false });
-        // const company = await Company.findByIdAndUpdate(req.params.id, {$set: updateData}, {new: true});
-
-        if(!company){
-            res.status(404).json({error:"Company not found"});  
-        }
-        res.status(200).json({message:"Company Data Updated Sucessfully: "});
-    } catch (error) {
-        res.status(500).json({error:"Error while updating Company Data: "+error.message});
+      }
     }
+
+    const company = await Company.updateOne({ _id: req.params.id }, { $set: updateData }, { upsert: false });
+
+    if (!company) {
+      res.status(404).json({ error: "Company not found" });
+    }
+    
+    // Log changes to history (you can implement this similar to the employee history logging)
+    const changes = Object.keys(updateData)
+      .map(key => {
+        const newValue = updateData[key];
+
+        // Only log changes if values are different
+        if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
+          return {
+            fieldName: key,
+            oldValue: originalValue,
+            newValue: newValue,
+            changeDate: new Date(),
+            changeReason: 'Company update',
+            companyId: req.params.id,
+          };
+        }
+      })
+      .filter(change => change); // Filter out undefined values
+
+    if (changes.length > 0) {
+      await CompanyHistory.insertMany(changes);
+    }
+
+    res.status(200).json({ message: "Company data updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Error while updating company data: " + error.message });
+  }
 };

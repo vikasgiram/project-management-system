@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Department = require('./departmentModel');
 const Company = require('./companyModel');
 
-const roleSchema = new mongoose.Schema({
+const designationSchema = new mongoose.Schema({
     name:{
         type: String,
         required: true
@@ -44,6 +44,6 @@ const roleSchema = new mongoose.Schema({
 
 });
 
-const Role = mongoose.model('Role', roleSchema);
+const Designation = mongoose.model('Designation', designationSchema);
 
-module.exports= Role;
+module.exports= Designation;

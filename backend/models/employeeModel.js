@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Company = require("./companyModel");
 const Department = require('./departmentModel');
-const Role = require('./roleModel');
+const Designation = require('./DesignationModel');
+
 
 const employeeSchema = new mongoose.Schema({
   name: {
@@ -28,9 +29,9 @@ const employeeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  role: {
+  designation: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:Role,
+    ref:Designation,
     required: true,
   },email: {
     type: String,

@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const Company = require('../models/companyModel');
 const Admin = require('../models/adminModel');
-const Role = require('../models/roleModel');
 const { formatDate } = require('../utils/formatDate');
+const Designation = require('../models/DesignationModel');
 
 
 module.exports.isLoggedIn = async (req, res, next) => {
@@ -64,9 +64,9 @@ module.exports.permissionMiddleware = (permissions) => {
     if(company.subDate <= date){
       return res.status(400).json({ error: 'Your account has been deactivated on: '+ formatDate(company.subDate )});
     }
-    const userRole= await Role.findById(decoded.user.role);
+    const designation= await Designation.findById(decoded.user.designation);
 
-    const employeePermissions = userRole.permissions; 
+    const employeePermissions = designation.permissions; 
     const hasPermissions = permissions.every((permission) => {
       return employeePermissions.includes(permission);
     });

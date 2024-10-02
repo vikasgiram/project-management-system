@@ -1,32 +1,40 @@
 import { useState } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
-import { toast } from "react-toastify";
 
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
+import UpdateCustomerPopUp from "./PopUp/UpdateCustomerPopUp";
 
 import { useEffect } from "react";
 
 import { getCustomers, deleteCustomer } from "../../../../hooks/useCustomer";
+import { HashLoader } from "react-spinners";
 
 export const CustomerMasterGrid = () => {
 
     const [isopen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
     const toggle = () => {
         setIsOpen(!isopen);
     };
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    
-    const [selectedId, setSelecteId]= useState(null);
-    const [customers, setCustomers]= useState([]);
+    const [updatePopUpShow, setUpdatePopUpShow] = useState(false)
+
+    const [selectedId, setSelecteId] = useState(null);
+    const [customers, setCustomers] = useState([]);
+    const [selectedCust, setSelectedCust]= useState(null);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
+    const handleUpdate = (customer) => {
+        setSelectedCust(customer);
+        setUpdatePopUpShow(!updatePopUpShow);
+    }
 
     const handelDeleteClosePopUpClick = (id) => {
         setSelecteId(id);
@@ -47,16 +55,34 @@ export const CustomerMasterGrid = () => {
 
                 setCustomers(data.customers || []);
                 // console.log(employees,"data from useState");
+                setLoading(false);
 
             }
         };
 
         fetchData();
-    }, [customers]);
+    }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
 
 
     return (
         <>
+            {loading ? (
+            <div
+               style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh',  // Full height of the viewport
+                  width: '100vw',   // Full width of the viewport
+                  position: 'absolute', // Absolute positioning to cover the viewport
+                  top: 0,
+                  left: 0,
+                  backgroundColor: '#f8f9fa' // Optional background color
+               }}
+            >
+               <HashLoader color="#4C3B77" loading={loading} size={50} />
+            </div>
+         ) : (
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -102,26 +128,26 @@ export const CustomerMasterGrid = () => {
                                                 </tr>
                                                 <tbody>
                                                     {customers && customers.map((customer, index) => (
-                                                    <tr className="border my-4" key={customer.id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{customer.custName}</td>
-                                                        <td>{customer.email}</td>
-                                                        <td>{customer.phoneNumber1}</td>
-                                                        <td>{customer.GSTNo}</td>
-                                                        <td>
-                                                        <span
-                                                            onClick={() => handleAdd(customer.id)}
-                                                            className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
-                                                        </span>
+                                                        <tr className="border my-4" key={customer.id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{customer.custName}</td>
+                                                            <td>{customer.email}</td>
+                                                            <td>{customer.phoneNumber1}</td>
+                                                            <td>{customer.GSTNo}</td>
+                                                            <td>
+                                                                <span
+                                                                    onClick={()=>handleUpdate(customer)}
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                                </span>
 
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(customer._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                        </td>
-                                                    </tr>
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(customer._id)}
+                                                                    className="delete">
+                                                                    <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
 
@@ -141,6 +167,7 @@ export const CustomerMasterGrid = () => {
                     </div>
                 </div>
             </div>
+         )}
 
 
             {deletePopUpShow ?
@@ -155,8 +182,16 @@ export const CustomerMasterGrid = () => {
 
             {AddPopUpShow ?
                 <AddCustomerPopUp
-                    message="Create New Employee"
                     handleAdd={handleAdd}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
+
+            {updatePopUpShow ?
+                <UpdateCustomerPopUp
+                    selectedCust={selectedCust}
+                    handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
@@ -165,4 +200,3 @@ export const CustomerMasterGrid = () => {
         </>
     )
 }
-

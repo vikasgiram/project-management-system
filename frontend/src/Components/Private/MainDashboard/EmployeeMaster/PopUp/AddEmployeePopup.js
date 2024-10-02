@@ -1,12 +1,14 @@
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
 import { getDepartment } from "../../../../../hooks/useDepartment";
-import { getRole } from "../../../../../hooks/useRole";
 
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { createEmployee } from "../../../../../hooks/useEmployees";
+import toast from "react-hot-toast";
+import { getDesignation } from "../../../../../hooks/useDesignation";
+
 
 
 const AddEmployeePopup = ({ handleAdd }) => {
@@ -14,25 +16,15 @@ const AddEmployeePopup = ({ handleAdd }) => {
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
-  const [roles, setRoles] = useState([]);
-  
+  const [designations, setDesignations] = useState([]);
 
-  
-  const[name,setName] = useState("");
-  const[mobileNo,setMobileNo] = useState("");
-  const[email,setEmail] = useState("");
-  const[password,setPassword] = useState("");
-  const[confirmPassword,setConfirmPassword] = useState("");
-  const[hourlyRate,setHourlyRate] = useState();
-  const[role,setRole] = useState();
-  const navigate = useNavigate();
-  const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value);
-  };
-
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
+  const [name, setName] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [hourlyRate, setHourlyRate] = useState();
+  const [designation, setDesignation] = useState('');
 
 
   useEffect(() => {
@@ -50,56 +42,40 @@ const AddEmployeePopup = ({ handleAdd }) => {
 
   useEffect(() => {
     if (department) {
-      const fetchRoles = async () => {
-        console.log("Fetch role called");
-        const data = await getRole(department);
-        // console.log(data,"data")
+      const fetchDesignations = async () => {
+
+        const data = await getDesignation(department);
+ 
         if (data) {
-          setRoles(data.roles || []);
-          console.log(data.roles,"roles");
+          setDesignations(data.designations || []);
+   
         }
       };
 
-      fetchRoles();
+      fetchDesignations();
     }
   }, [department]);
 
-
-
-  
-  const handleEmployeeAdd =()=>{
-    {
-        const data={
-            name,
-            mobileNo,
-            email,
-            hourlyRate,
-            password,
-            confirmPassword,
-            department,
-            role
-
-        };
-       
-        axios
-        .post("/api/employee",data,{ headers: {
-          'Content-Type': 'application/json'
-        }})
-        .then((response)=>{
-            
-            navigate("/MainDashboard");
-        })
-        .catch((error)=>{
-      
-            alert("something went wrong");
-            console.log(error);
-        });
+  const handleEmployeeAdd = async () => {
+    const data = {
+      name,
+      mobileNo,
+      email,
+      hourlyRate,
+      password,
+      confirmPassword,
+      department,
+      designation,
+    };
+    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !designation){
+      return toast.error("Please fill all fields");
     }
-};
-// console.log(role+'name')
-// console.log(selectedDepartmentId+'select department'); //worked id of department
-// console.log(department,'department'); //worked data of departments
-
+    if(password!==confirmPassword){
+      return toast.error("Password desen't match");
+    }
+    await createEmployee(data);
+    handleAdd();
+  };
 
   return (
     <>
@@ -133,7 +109,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="name"
                         className="form-label label_text"
                       >
                         Full Name
@@ -141,9 +117,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="text"
                         value={name}
-                        onChange={(e)=>(setName(e.target.value))}
+                        onChange={(e) => setName(e.target.value)}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="name"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -154,7 +130,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="MobileNumber"
                         className="form-label label_text"
                       >
                         Mobile Number
@@ -162,9 +138,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="text"
                         value={mobileNo}
-                        onChange={(e)=>(setMobileNo(e.target.value))}
+                        onChange={(e) => setMobileNo(e.target.value)}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="MobileNumber"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -175,7 +151,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Email"
                         className="form-label label_text"
                       >
                         Email
@@ -183,9 +159,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <input
                         type="email"
                         value={email}
-                        onChange={(e)=>(setEmail(e.target.value))}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="form-control rounded-0"
-                        id="exampleInputEmail1"
+                        id="Email"
                         aria-describedby="emailHelp"
                       />
                     </div>
@@ -196,7 +172,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Department"
                         className="form-label label_text"
                       >
                         Department
@@ -204,7 +180,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={handleDepartmentChange}
+                        onChange={(e) => setDepartment(e.target.value)}
                       >
                         <option value="">Select Department</option>
                         {getDepartments &&
@@ -225,17 +201,17 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         for="exampleInputEmail1"
                         className="form-label label_text"
                       >
-                        Role
+                        Designation
                       </label>
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
-                        onChange={handleRoleChange}   //S
+                        onChange={(e) => setDesignation(e.target.value)} //S
                       >
                         <option>Select Role</option>
-                        {roles &&
-                          roles.map((role) => (
-                            <option value={role._id}>{role.name}</option>
+                        {designations &&
+                          designations.map((designation) => (
+                            <option value={designation._id}>{designation.name}</option>
                           ))}
                       </select>
                     </div>
@@ -246,7 +222,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="HourlyRate"
                         className="form-label label_text"
                       >
                         Hourly Rate
@@ -260,8 +236,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         </span>
                         <input
                           type="text"
+                          id="HourlyRate"
                           value={hourlyRate}
-                          onChange={(e)=>setHourlyRate(e.target.value)}
+                          onChange={(e) => setHourlyRate(e.target.value)}
                           className="form-control rounded-0 border-0"
                           placeholder="eg. 10,000"
                           aria-label="Username"
@@ -277,7 +254,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                     <form>
                       <div className="mb-3">
                         <label
-                          for="exampleInputEmail1"
+                          for="password"
                           className="form-label label_text"
                         >
                           Password
@@ -285,9 +262,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <input
                           type="password"
                           value={password}
-                          onChange={(e)=>setPassword(e.target.value)}
+                          onChange={(e) => setPassword(e.target.value)}
                           className="form-control rounded-0"
-                          id="exampleInputEmail1"
+                          id="password"
                           aria-describedby="emailHelp"
                         />
                       </div>
@@ -298,7 +275,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                     <form>
                       <div className="mb-3">
                         <label
-                          for="exampleInputEmail1"
+                          for="ConfirmPassword"
                           className="form-label label_text"
                         >
                           Confirm Password
@@ -306,9 +283,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         <input
                           type="password"
                           value={confirmPassword}
-                          onChange={(e)=>setConfirmPassword(e.target.value)}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                           className="form-control rounded-0"
-                          id="exampleInputEmail1"
+                          id="ConfirmPassword"
                           aria-describedby="emailHelp"
                         />
                       </div>

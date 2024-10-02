@@ -12,7 +12,6 @@ const getCustomers = async () => {
       console.error(data.error);
       return toast.error(data.error);
     }
-
     return data;
   } catch (error) {
     console.error(error);
@@ -37,9 +36,10 @@ const createCustomer = async (customerData) => {
   }
 };
 
-const updateCustomer = async (Id, updatedData) => {
+
+const updateCustomer = async (updatedData) => {
   try {
-    const response = await axios.put(`${url}/${Id}`, updatedData);
+    const response = await axios.put(`${url}/${updatedData._id}`, updatedData);
     const data = response.data;
 
     if (data.error) {

@@ -7,9 +7,13 @@ import { toast } from "react-toastify";
 
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
+import UpdateProjectPopup from "./PopUp/UpdateProjectPopup";
+
 
 import { getProjects,deleteProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
+import GaintchartPoup from "./PopUp/GaintchartPoup";
+import { HashLoader } from "react-spinners";
 
 export const ProjectMasterGrid = () => {
 
@@ -20,17 +24,30 @@ export const ProjectMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
+    const [UpdatePopUpShow,setUpdatePopUpShow]=useState(false)
+    const [DetailsPopUpShow,setDetailsPopUpShow]=useState(false)
 
     const [selectedId, setSelecteId]= useState(null);
-    const [projects, setProjects]= useState([]);
+    const [project, setProject]= useState([]);
+
+    const [selectedProject, setSelectedProject]= useState(null);
+    const [loading, setLoading] = useState(true);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    // const handleUpdate = (id) => {
-    //     setCurrentProjectId(id);
-    // }
+    const handleUpdate=(projects=null)=>{
+        setSelectedProject(projects);
+        setUpdatePopUpShow(!UpdatePopUpShow)
+    }
+
+    const handleDetails = (project) =>{
+        setSelectedProject(project);
+        setDetailsPopUpShow(!DetailsPopUpShow)
+    }
+
+
 
     const handelDeleteClosePopUpClick = (id) => {
         setSelecteId(id);
@@ -53,17 +70,34 @@ export const ProjectMasterGrid = () => {
             const data = await getProjects();
             if (data) {
 
-                setProjects(data.projects || []);
+                setProject(data.projects || []);
                 // console.log(employees,"data from useState");
+                setLoading(false);
 
             }
         };
 
         fetchData();
-    }, [projects]);
+    }, [AddPopUpShow,UpdatePopUpShow,deletePopUpShow]);
 
     return (
-        <>
+        <>   {loading ? (
+            <div
+               style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh',  // Full height of the viewport
+                  width: '100vw',   // Full width of the viewport
+                  position: 'absolute', // Absolute positioning to cover the viewport
+                  top: 0,
+                  left: 0,
+                  backgroundColor: '#f8f9fa' // Optional background color
+               }}
+            >
+               <HashLoader color="#4C3B77" loading={loading} size={50} />
+            </div>
+         ) : (
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -105,27 +139,36 @@ export const ProjectMasterGrid = () => {
                                                     <th>Start Date</th>
                                                     <th>End Date</th>
                                                     <th>Status</th>
+                                                    <th>Details</th>
                                                     <th>Action</th>
                                                 </tr>
+                                                
                                                 <tbody className="broder my-4">
-                                                    {projects && projects.map((project, index) => (
-                                                    <tr className="border my-4" key={project.id}>
+                                                    {project && project.map((project, index) => (
+                                                    <tr className="border my-4" key={project._id}>
                                                         <td>{index + 1}</td>
                                                         <td>{project.name}</td>
-                                                        <td>{project.custId.custName}</td>
+                                                        <td>{project.custId?.custName || "N/A"}</td>
                                                         <td>{formatDate(project.startDate)}</td>
                                                         <td>{formatDate(project.endDate)}</td>
                                                         <td>{project.projectStatus}</td>
+                                                        <td >
+                                                            {/* {project.projectStatus} */}
+                                                          
+                                                            <i 
+                                                              onClick={() => handleDetails(project)} 
+                                                             class="fa-solid fa-circle-info cursor-pointer"></i>
+                                                            </td>
                                                         <td>
                                                         <span
-                                                            onClick={() => handelDeleteClosePopUpClick(project.id)}
+                                                            onClick={() => handleUpdate(project)}
                                                             className="update">
                                                             <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
 
                                                         <span
                                                             onClick={() => handelDeleteClosePopUpClick(project._id)}
-                                                            className="update">
+                                                            className="delete">
                                                             <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                                         </span>
                                                         </td>
@@ -149,6 +192,7 @@ export const ProjectMasterGrid = () => {
                     </div>
                 </div>
             </div>
+         )}
 
 
             {deletePopUpShow ?
@@ -169,6 +213,28 @@ export const ProjectMasterGrid = () => {
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
             }
+
+
+            {UpdatePopUpShow ?
+
+                <UpdateProjectPopup
+                    handleUpdate={handleUpdate}
+                    selectedProject={selectedProject}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
+
+
+{DetailsPopUpShow ?
+
+<GaintchartPoup
+    handleDetails={handleDetails}
+    selectedProject={selectedProject}
+// heading="Forward"
+// cancelBtnCallBack={handleAddDepartment}
+/> : <></>
+}
 
         </>
     )

@@ -1,10 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React,{useState, useContext } from "react";
+import {useNavigate } from "react-router-dom";
 import "././login.css";
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import toast from "react-hot-toast";
 import { loginUser } from "../../hooks/useAuth";
+import { UserContext } from "../../context/UserContext";
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
 export const LogIn = () => {
@@ -14,30 +13,26 @@ export const LogIn = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const {setUser} = useContext(UserContext);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(username + " " + password);
+    // console.log(username + " " + password);
   
     try {
       const data = await loginUser(username, password);
-      console.log(data,"login data");
-      if (data.error) {
-        return toast.error(data.error); 
-      }
-  
-     
+      setUser(data);
       if (data.user === "employee") {
         navigation("/employeeDashboard");
       } else if (data.user === "company") {
         navigation("/MainDashboard");
       } else if (data.user === "admin") {
-        alert("Welcome Admin");
         navigation("/adminDashboard");
       }
   
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while logging in."); // Show error message using toast
+      toast.error("Invalid User"); 
     }
   };
 
@@ -135,9 +130,6 @@ export const LogIn = () => {
                     />
                   </span>
                 </form>
-
-                
-                <ToastContainer />
 
 
               </div>

@@ -1,11 +1,25 @@
-export function initTasks() {
+
+
+export function initTasks(data) {
+    data&& console.log("data in helper"+data.taskName);
     const currentDate = new Date();
     const tasks = [
+
       {
         start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
         end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-        name: "Task Name",
+        name: "Project Name ",
         id: "ProjectSample",
+        // progress: 25,
+        type: "project",
+        hideChildren: false,
+        
+      },
+      {
+        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
+        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
+        name: "Project Name 2",
+        id: "ProjectSample2",
         // progress: 25,
         type: "project",
         hideChildren: false,
@@ -35,7 +49,7 @@ export function initTasks() {
         // progress: 25,
         // dependencies: ["Task 0"],
         type: "task",
-        project: "ProjectSample"
+        project: "ProjectSample2"
       },
       {
         start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),

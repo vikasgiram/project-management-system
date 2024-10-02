@@ -20,14 +20,14 @@ const getEmployees = async () => {
   }
 };
 
-const createEmployee = async (employeeData) => {
+const getEmployee = async (id) => {
   try {
-    const response = await axios.post(`${url}`, employeeData);
+    const response = await axios.get(`${url}/${id}`);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
     return data;
@@ -37,16 +37,35 @@ const createEmployee = async (employeeData) => {
   }
 };
 
-const updateEmployee = async (employeeId, updatedEmployeeData) => {
+
+
+const createEmployee = async (employeeData) => {
   try {
-    const response = await axios.put(`${url}/${employeeId}`, updatedEmployeeData);
+    const response = await axios.post(`${url}`, employeeData);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
+    toast.success("Employee Created");
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);
+  }
+};
+
+const updateEmployee = async (updatedEmployeeData) => {
+  try {
+    const response = await axios.put(`${url}/${updatedEmployeeData._id}`, updatedEmployeeData);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return toast.error(data.error);
+    }
+    toast.success("Employee Updated sucessfully...");
     return data;
   } catch (error) {
     console.error(error);
@@ -71,4 +90,4 @@ const deleteEmployee = async (employeeId) => {
   }
 };
   
-export { getEmployees , createEmployee,  updateEmployee, deleteEmployee };
+export { getEmployees , getEmployee, createEmployee,  updateEmployee, deleteEmployee };

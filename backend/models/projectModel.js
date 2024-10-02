@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Customer = require('./customerModel.js');
 const Employee = require('./employeeModel.js');
 const Company = require('./companyModel.js');
+const TaskSheet = require('./taskSheetModel.js');
 
 // Define the Project schema
 const projectSchema = new mongoose.Schema({
@@ -56,6 +57,13 @@ const projectSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  Address:{
+    add:String,
+    city:String,
+    state:String,
+    country:String,
+    pincode:String
+  },
   startDate: {
     // Start date of the project
     type: Date,
@@ -99,6 +107,10 @@ const projectSchema = new mongoose.Schema({
     enum: ['upcoming', 'inprocess', 'finished'], // Allowed values
     default:'upcoming'
   },
+  tasks:[ {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: TaskSheet, 
+  }],
   completeLevel: {
     // Completion level of the project
     type: Number,
@@ -109,7 +121,6 @@ const projectSchema = new mongoose.Schema({
   POCopy: {
     // Copy of the purchase order
     type: String,
-    required: true,
   },
 }, {
   timestamps: true, // Automatically add createdAt and updatedAt timestamps
