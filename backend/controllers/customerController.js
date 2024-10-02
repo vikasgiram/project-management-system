@@ -117,11 +117,11 @@ exports.deleteCustomer=async(req,res)=>{
 // update customer 
 exports.updateCustomer = async (req, res) => {
   try {
-    const { customerId } = req.params;
+    const { id } = req.params;
     const updatedData = req.body;
 
     // Find the existing customer
-    const existingCustomer = await Customer.findById(customerId);
+    const existingCustomer = await Customer.findById(id);
 
     if (!existingCustomer) {
       return res.status(404).json({ message: 'Customer not found' });
@@ -134,7 +134,7 @@ exports.updateCustomer = async (req, res) => {
     const trackChanges = (fieldName, oldValue, newValue) => {
       if (oldValue !== newValue) {
         changes.push({
-          customerId: customerId,
+          customerId: id,
           fieldName: fieldName,
           oldValue: oldValue,
           newValue: newValue,
@@ -170,7 +170,7 @@ exports.updateCustomer = async (req, res) => {
     }
 
     // Save the updated customer record
-    const updatedCustomer = await Customer.findByIdAndUpdate(customerId, updatedData, { new: true });
+    const updatedCustomer = await Customer.findByIdAndUpdate(id, updatedData, { new: true });
 
     // Save the changes to the customerHistory collection if there are any
     if (changes.length > 0) {
