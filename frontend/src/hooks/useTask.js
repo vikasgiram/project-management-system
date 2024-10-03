@@ -1,16 +1,16 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/project";
+const url="api/task";
 
-const getProjects = async () => {
+const getTask = async () => {
   try {
     const response = await axios.get(`${url}`);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
     return data;
@@ -20,18 +20,16 @@ const getProjects = async () => {
   }
 };
 
-const createProject = async (projectData) => {
+const createTask = async (taskData) => {
   try {
-    console.log("project Data in api",projectData);
-    const response = await axios.post(`${url}`, projectData);
+    const response = await axios.post(`${url}`, taskData);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
       return toast.error(data.error);
     }
-
-    toast.success("New Project Created successfully");
+    toast.success("New Task Created");
     return data;
   } catch (error) {
     console.error(error);
@@ -39,17 +37,16 @@ const createProject = async (projectData) => {
   }
 };
 
-const updateProject = async (updatedProjectData) => {
+const updateTask = async (Id, updatedData) => {
   try {
-    const response = await axios.put(`${url}/${updatedProjectData._id}`, updatedProjectData);
+    const response = await axios.put(`${url}/${Id}`, updatedData);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
       return toast.error(data.error);
     }
-    toast.success("Project Updated Successfully...");
-
+    toast.success("Task Updated Successfuly...");
     return data;
   } catch (error) {
     console.error(error);
@@ -57,16 +54,16 @@ const updateProject = async (updatedProjectData) => {
   }
 };
 
-const deleteProject = async (Id) => {
+const deleteTask = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`);
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
-
+    toast.success("Task Deleted Successfuly...");
     return data;
   } catch (error) {
     console.error(error);
@@ -74,4 +71,4 @@ const deleteProject = async (Id) => {
   }
 };
 
-export { getProjects,  createProject, updateProject, deleteProject };
+export { getTask,  createTask, updateTask, deleteTask };

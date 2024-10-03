@@ -11,6 +11,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const taskSheetRoutes = require('./routes/taskSheetRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const designationRoutes = require('./routes/designationRoutes');
@@ -35,6 +36,8 @@ app.use('/api/company', companyRoutes);
 app.use('/api/customer', customerRoutes);
 
 app.use('/api/project', projectRoutes);
+
+app.use('/api/taskSheet', taskSheetRoutes);
 
 app.use('/api/task', taskRoutes);
 
