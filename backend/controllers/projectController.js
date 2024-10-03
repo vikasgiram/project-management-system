@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken');
+const moment = require('moment');
+const { ObjectId } = require('mongodb');
+
 const Project = require('../models/projectModel');
 const Tasksheet = require('../models/taskSheetModel');
-const jwt = require('jsonwebtoken');
 const ProjectHistory = require('../models/projectHistoryModel');
 
 exports.showAll = async (req, res) => {
@@ -120,50 +123,58 @@ exports.delete = async (req, res) => {
   };
 
   exports.updateProject = async (req, res) => {
-    try {
-      const originalValue = Project.findById(req.params.id);
-      const updateData = {};
-      for (const key in req.body) {
-        // If relevant nested object, extract only the _id
-        if (key === 'relatedField') { // Replace with the actual nested field name if needed
-          updateData[key] = req.body[key]._id; // Extract only the _id
-        } else {
-          updateData[key] = req.body[key];
+    const { id } = req.params;  // Get id from request parameters
+    const {name,custId, address,completeLevel,purchaseOrderNo,projectStatus ,purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payafterCompletion, remark, POCopy  } = req.body;
+    const originalData = await Project.findById(id);
+    const updateDate= {
+      name,
+      custId,
+      address,
+      completeLevel,
+      purchaseOrderDate,
+      projectStatus,
+      purchaseOrderNo,
+      category,
+      startDate,
+      endDate,
+      advancePay,
+      payAgainstDelivery,
+      payafterCompletion,purchaseOrderValue,
+      remark, POCopy
+    }
+    try{
+      let changes = [];
+
+    // Helper function to track changes
+    const trackChanges = (fieldName, oldValue, newValue) => {
+      if (['startDate', 'endDate', 'purchaseOrderDate'].includes(fieldName)) {
+        oldValue = oldValue.toISOString();
+      }
+      if (typeof newValue === 'object' && newValue._id) {
+        newValue = new ObjectId(newValue._id);
+      }
+      if (oldValue.toString() !== newValue.toString()) {
+        changes.push({
+          projectId: id,
+          fieldName: fieldName,
+          oldValue: oldValue,
+          newValue: newValue,
+          changeReason: req.body.changeReason || 'Updated via project edit',
+        });
+      }
+    };
+
+      for (const key in updateDate) {
+        if (updateDate[key] !== originalData[key]) {
+          trackChanges(key,originalData[key],updateDate[key]);
         }
       }
-      
-      const project = await Project.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+      console.log(changes);
   
-      if (!project) {
-        return res.status(400).json({ error: "Project not found" });
-      }
-  
-      // Log changes to history (similar logic as above)
-      const changes = Object.keys(updateData)
-        .map(key => {
-          const newValue = updateData[key];
-  
-          // Only log changes if values are different
-          if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
-            return {
-              fieldName: key,
-              oldValue: originalValue,
-              newValue: newValue,
-              changeDate: new Date(),
-              changeReason: 'Project update',
-              projectId: req.params.id,
-            };
-          }
-        })
-        .filter(change => change); // Filter out undefined values
-  
-      if (changes.length > 0) {
-        await ProjectHistory.insertMany(changes);
-      }
-  
-      res.status(200).json({ message: "Project updated successfully" });
     } catch (error) {
-      res.status(500).json({ error: "Error while updating project: " + error.message });
+      console.error('Error updating project:', error);
+      return res.status(500).json({ message: 'Internal server error' });
     }
   };
   

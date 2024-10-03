@@ -90,12 +90,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
       const formattedPurchaseOrderDate = formatDateforupdate(projects?.purchaseOrderDate);
       const formattedStartDate = formatDateforupdate(projects?.startDate);
       const formattedEndDate = formatDateforupdate(projects?.endDate);
-
-      console.log("formattedEndDate", formattedEndDate);
-      
-
-      
-      
+   
     return (
         <>
             <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>

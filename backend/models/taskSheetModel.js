@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Employee = require('./employeeModel');
-const Project = require('./projectModel');
 const Company = require('./companyModel');
+const Task = require('./taskModel');
 
 // Define the taskSheet schema
 const taskSheetSchema = new Schema({
@@ -15,7 +15,8 @@ const taskSheetSchema = new Schema({
     ref:Company
   },
   taskName: {
-    type: String, // Task name is a string
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Task,
     required: true // taskName is required
   },
   taskStatus: {
