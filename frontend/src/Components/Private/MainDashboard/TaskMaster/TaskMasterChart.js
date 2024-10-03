@@ -6,8 +6,35 @@ import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChart
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-import {getProjects} from "../../../../hooks//useProjects";
+import { getProjects } from "../../../../hooks//useProjects";
 import { HashLoader } from "react-spinners";
+import { default as ReactSelect, components } from "react-select";
+
+
+
+
+
+
+
+
+
+
+const Option = (props) => {
+    return (
+        <div>
+            <components.Option {...props}>
+                <input
+                    type="checkbox"
+                    checked={props.isSelected}
+                    onChange={() => null}
+                />{" "}
+                <label>{props.label}</label>
+            </components.Option>
+        </div>
+    );
+};
+
+
 
 export const TaskMasterChart = () => {
 
@@ -124,25 +151,46 @@ export const TaskMasterChart = () => {
         });
     };
 
+    const [state, setState] = useState({ optionSelected: null });
+
+    const handleChange = (selected) => {
+        setState({
+            optionSelected: selected
+        });
+    };
+
+    const Values = [
+        { value: "Select All", label: "Select All" },
+        { value: "Akash Shirke", label: "Akash Shirke" },
+        { value: "b", label: "B" },
+        { value: "c", label: "C" },
+        { value: "d", label: "D" },
+        { value: "e", label: "E" },
+        { value: "f", label: "F" },
+        { value: "g", label: "G" },
+        { value: "h", label: "H" },
+        { value: "i", label: "I" },
+        { value: "j", label: "J" }
+    ];
 
     return (
         <> {loading ? (
             <div
-               style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100vh',  // Full height of the viewport
-                  width: '100vw',   // Full width of the viewport
-                  position: 'absolute', // Absolute positioning to cover the viewport
-                  top: 0,
-                  left: 0,
-                  backgroundColor: '#f8f9fa' // Optional background color
-               }}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',  // Full height of the viewport
+                    width: '100vw',   // Full width of the viewport
+                    position: 'absolute', // Absolute positioning to cover the viewport
+                    top: 0,
+                    left: 0,
+                    backgroundColor: '#f8f9fa' // Optional background color
+                }}
             >
-               <HashLoader color="#4C3B77" loading={loading} size={50} />
+                <HashLoader color="#4C3B77" loading={loading} size={50} />
             </div>
-         ) : (
+        ) : (
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -159,7 +207,7 @@ export const TaskMasterChart = () => {
                                         </h5>
                                     </div>
 
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
+                                    {/* <div className="col-12 col-lg-6  ms-auto text-end">
                                         <button
                                             onClick={() => {
                                                 handleAdd()
@@ -168,54 +216,131 @@ export const TaskMasterChart = () => {
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
 
 
-                                    </div>
+                                    </div> */}
 
                                 </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded"  >
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="ProjectName" className="form-label label_text">Project Name</label>
+                                                <input type="text" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label htmlFor="exampleInputEmail1" className="form-label label_text">Task Name</label>
+                                                <select className="form-select rounded-0" aria-label="Default select example">
+                                                    <option value="" disabled >-- Select Task Name --</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="ProjectName" className="form-label label_text">Start Date</label>
+                                                <input type="date" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="ProjectName" className="form-label label_text">End Date</label>
+                                                <input type="date" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="ProjectName" className="form-label label_text">Department</label>
+                                                <input type="text" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="ProjectName" className="form-label label_text">Employee Name</label>
+                                                <ReactSelect
+                                                    options={Values}
+                                                    isMulti
+                                                    closeMenuOnSelect={false}
+                                                    hideSelectedOptions={false}
+                                                    components={{
+                                                        Option
+                                                    }}
+                                                    onChange={handleChange}
+                                                    value={state.optionSelected}
+                                                // Hide dropdown list  when select any item
+                                                // closeMenuOnSelect={true}
+
+                                                //Selected Item Remove in dropdown list
+                                                // hideSelectedOptions={true}
+                                                />
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="ProjectName" className="form-label label_text">Department</label>
+                                                <textarea
+                                                    className="textarea_edit col-12"
+                                                    id=""
+                                                    name=""
+                                                    placeholder=""
+                                                    rows="1"
+                                                ></textarea>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                    <div className="col-12 col-lg-3  pt-3 mt-3 ">
+                                        <button
+                                            // onClick={() => {
+                                            //     handleAdd()
+                                            // }}
+                                            type="button"
+                                            className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
+                                                  <button
+                                            // onClick={() => {
+                                            //     handleAdd()
+                                            // }}
+                                            type="button"
+                                            className="btn adbtn btn-danger  px-4 mx-auto"> <i class="fa-solid fa-xmark"></i> Clear</button>
+
+
+                                    </div>
+                                  
+
+
+
                                     <div className="col-12 py-2 div_scroll" >
-
-                                        {/* <div className="table-responsive">
-                                            <table className="table table-striped table-class" id="table-id">
-                                                <tr className="th_border" >
-                                                    <th>Sr. No</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Date</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                                <tr className="border my-4">
-                                                    <td>1</td>
-                                                    <td>Akash Shirke</td>
-                                                    <td>designer.daccess@gmail.com</td>
-                                                    <td>9975917840</td>
-                                                    <td>Oct 26, 2015</td>
-                                                    <td>
-                                                        <span
-                                                            onClick={() => {
-                                                                handleAdd()
-                                                            }}
-                                                            className="update ">
-                                                            <i class="fa-solid fa-pen text-success cursor-pointer"></i>
-                                                        </span>
-
-                                                        <span
-                                                            onClick={() => {
-                                                                setdeletePopUpShow(true)
-                                                            }}
-                                                            className="update">
-                                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-
-
-
-                                            </table>
-                                        </div> */}
-
-
                                         <div >
                                             <ViewSwitcher
                                                 onViewModeChange={(viewMode) => setView(viewMode)}
@@ -269,7 +394,7 @@ export const TaskMasterChart = () => {
                     </div>
                 </div>
             </div>
-         )}
+        )}
 
 
             {/* {deletePopUpShow ?
