@@ -10,12 +10,15 @@ import AddProjectPopup from "./PopUp/AddProjectPopup";
 import UpdateProjectPopup from "./PopUp/UpdateProjectPopup";
 
 
-import { getProjects,deleteProject } from "../../../../hooks/useProjects";
+import { getProjects, deleteProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 import GaintchartPoup from "./PopUp/GaintchartPoup";
 import { HashLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 export const ProjectMasterGrid = () => {
+
+    const navigate = useNavigate()
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
@@ -24,25 +27,25 @@ export const ProjectMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [UpdatePopUpShow,setUpdatePopUpShow]=useState(false)
-    const [DetailsPopUpShow,setDetailsPopUpShow]=useState(false)
+    const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false)
+    const [DetailsPopUpShow, setDetailsPopUpShow] = useState(false)
 
-    const [selectedId, setSelecteId]= useState(null);
-    const [project, setProject]= useState([]);
+    const [selectedId, setSelecteId] = useState(null);
+    const [project, setProject] = useState([]);
 
-    const [selectedProject, setSelectedProject]= useState(null);
+    const [selectedProject, setSelectedProject] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate=(projects=null)=>{
+    const handleUpdate = (projects = null) => {
         setSelectedProject(projects);
         setUpdatePopUpShow(!UpdatePopUpShow)
     }
 
-    const handleDetails = (project) =>{
+    const handleDetails = (project) => {
         setSelectedProject(project);
         setDetailsPopUpShow(!DetailsPopUpShow)
     }
@@ -78,26 +81,26 @@ export const ProjectMasterGrid = () => {
         };
 
         fetchData();
-    }, [AddPopUpShow,UpdatePopUpShow,deletePopUpShow]);
+    }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
     return (
         <>   {loading ? (
             <div
-               style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100vh',  // Full height of the viewport
-                  width: '100vw',   // Full width of the viewport
-                  position: 'absolute', // Absolute positioning to cover the viewport
-                  top: 0,
-                  left: 0,
-                  backgroundColor: '#f8f9fa' // Optional background color
-               }}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',  // Full height of the viewport
+                    width: '100vw',   // Full width of the viewport
+                    position: 'absolute', // Absolute positioning to cover the viewport
+                    top: 0,
+                    left: 0,
+                    backgroundColor: '#f8f9fa' // Optional background color
+                }}
             >
-               <HashLoader color="#4C3B77" loading={loading} size={50} />
+                <HashLoader color="#4C3B77" loading={loading} size={50} />
             </div>
-         ) : (
+        ) : (
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -110,7 +113,7 @@ export const ProjectMasterGrid = () => {
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
-                                        Project Master
+                                            Project Master
                                         </h5>
                                     </div>
 
@@ -142,37 +145,38 @@ export const ProjectMasterGrid = () => {
                                                     <th>Details</th>
                                                     <th>Action</th>
                                                 </tr>
-                                                
+
                                                 <tbody className="broder my-4">
                                                     {project && project.map((project, index) => (
-                                                    <tr className="border my-4" key={project._id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{project.name}</td>
-                                                        <td>{project.custId?.custName || "N/A"}</td>
-                                                        <td>{formatDate(project.startDate)}</td>
-                                                        <td>{formatDate(project.endDate)}</td>
-                                                        <td>{project.projectStatus}</td>
-                                                        <td >
-                                                            {/* {project.projectStatus} */}
-                                                          
-                                                            <i 
-                                                              onClick={() => handleDetails(project)} 
-                                                             class="fa-solid fa-circle-info cursor-pointer"></i>
-                                                            </td>
-                                                        <td>
-                                                        <span
-                                                            onClick={() => handleUpdate(project)}
-                                                            className="update">
-                                                            <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
-                                                        </span>
+                                                        <tr className="border my-4" key={project._id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{project.name}</td>
+                                                            <td>{project.custId?.custName || "N/A"}</td>
+                                                            <td>{formatDate(project.startDate)}</td>
+                                                            <td>{formatDate(project.endDate)}</td>
+                                                            <td>{project.projectStatus}</td>
+                                                            <td >
+                                                                {/* {project.projectStatus} */}
 
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(project._id)}
-                                                            className="delete">
-                                                            <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                        </td>
-                                                    </tr>
+                                                                <i
+                                                                    // onClick={() => handleDetails(project)}
+                                                                    onClick={() => navigate('/TaskMasterChart')}
+                                                                    class="fa-solid fa-circle-info cursor-pointer"></i>
+                                                            </td>
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleUpdate(project)}
+                                                                    className="update">
+                                                                    <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
+                                                                </span>
+
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(project._id)}
+                                                                    className="delete">
+                                                                    <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
 
@@ -192,7 +196,7 @@ export const ProjectMasterGrid = () => {
                     </div>
                 </div>
             </div>
-         )}
+        )}
 
 
             {deletePopUpShow ?
@@ -226,15 +230,15 @@ export const ProjectMasterGrid = () => {
             }
 
 
-{DetailsPopUpShow ?
+            {DetailsPopUpShow ?
 
-<GaintchartPoup
-    handleDetails={handleDetails}
-    selectedProject={selectedProject}
-// heading="Forward"
-// cancelBtnCallBack={handleAddDepartment}
-/> : <></>
-}
+                <GaintchartPoup
+                    handleDetails={handleDetails}
+                    selectedProject={selectedProject}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
 
         </>
     )

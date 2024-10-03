@@ -16,6 +16,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         purchaseOrderDate: selectedProject?.purchaseOrderDate,
         startDate: selectedProject?.startDate,
         endDate: selectedProject?.endDate
+       
       });
       
 
@@ -136,6 +137,23 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                     <div className="mb-3">
                                         <label for="ProjectName" className="form-label label_text">Project Name</label>
                                         <input type="text" className="form-control rounded-0" id="ProjectName" name="name" onChange={handleChange} value={projects.name} aria-describedby="emailHelp" />
+                                    </div>
+
+                                </form>
+
+                                <form>
+                                    <div className="mb-3">
+                                        <label for="ProjectName" className="form-label label_text">Project Status</label>
+                                        <select className="form-select rounded-0" aria-label="Default select example"
+                                            name="projectStatus"
+                                                onChange={handleChange}
+                                                value={projects.projectStatus}
+                                            >
+                                                <option value="upcoming">Upcoming</option>
+                                                <option value="inprogress">Inprogress</option>
+                                                <option value="finished">Finished</option>
+                                               
+                                            </select>
                                     </div>
 
                                 </form>

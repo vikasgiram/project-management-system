@@ -1050,6 +1050,18 @@ nav.sidebar .nav-item .nav-link svg {
   display: block;
 }
 
+
+.sidebar .nav .nav-item .nav-link .menu-title_m {
+  font-size: 13px;
+  font-weight: 400;
+  padding-left: 10px;
+  display: block;
+}
+
+.star_fs{
+  font-size: 12px !important;
+}
+
 .sidebar .nav .nav-item .nav-link .menu-icon,
 .sidebar .nav .nav-item .nav-link i.menu-icon {
   margin-right: 1rem;
