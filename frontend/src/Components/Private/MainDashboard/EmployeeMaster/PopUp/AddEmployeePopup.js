@@ -179,6 +179,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       </label>
                       <select
                         className="form-select rounded-0"
+                        id="Department"
                         aria-label="Default select example"
                         onChange={(e) => setDepartment(e.target.value)}
                       >
@@ -198,7 +199,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                   <form>
                     <div className="mb-3">
                       <label
-                        for="exampleInputEmail1"
+                        for="Designation"
                         className="form-label label_text"
                       >
                         Designation
@@ -206,6 +207,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       <select
                         className="form-select rounded-0"
                         aria-label="Default select example"
+                        id="Designation"
                         onChange={(e) => setDesignation(e.target.value)} //S
                       >
                         <option>Select Role</option>
@@ -298,7 +300,6 @@ const AddEmployeePopup = ({ handleAdd }) => {
                     <button
                       type="button"
                       onClick={handleEmployeeAdd}
-                      // onClick={() => confirmBtnCallBack(deleteRecord)}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
                       Add

@@ -7,6 +7,9 @@ export const Categorywiseproject = ({ categorywise }) => {
   const completedData = categories.map(category => categorywise[category].finished);
   const upcomingData = categories.map(category => categorywise[category].upcoming);
 
+  console.log(categories,"categories", inprocessData,"inprocessData", completedData,"completedData", upcomingData,"upcomingData");
+  
+
   const FirstCompdata = {
     labels: categories,
     datasets: [
