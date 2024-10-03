@@ -181,7 +181,8 @@ export const EmployeeMasterGrid = () => {
          )}
 
 
-            {deletePopUpShow ?
+            {
+            deletePopUpShow ?
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}
                     cancelBtnCallBack={handelDeleteClosePopUpClick}

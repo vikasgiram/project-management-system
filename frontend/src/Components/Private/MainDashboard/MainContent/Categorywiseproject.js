@@ -83,7 +83,7 @@ export const Categorywiseproject = ({ categorywise }) => {
         <Bar
           options={FirstCompBar}
           data={FirstCompdata}
-          height={'200px'}
+          height={'120px'}
         />
       </div>
     </div>

@@ -124,6 +124,7 @@ export const CustomerMasterGrid = () => {
                                                     <th>Phone</th>
                                                     <th>GST No</th>
                                                     <th>Action</th>
+                                                    
                                                 </tr>
                                                 <tbody>
                                                     {customers && customers.map((customer, index) => (
