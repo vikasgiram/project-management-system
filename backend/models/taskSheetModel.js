@@ -3,9 +3,14 @@ const Schema = mongoose.Schema;
 const Employee = require('./employeeModel');
 const Company = require('./companyModel');
 const Task = require('./taskModel');
+const Project = require('./projectModel');
 
 // Define the taskSheet schema
 const taskSheetSchema = new Schema({
+  project:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project'
+  },
   employees:[ {
     type: mongoose.Schema.Types.ObjectId,
     ref: Employee, // Reference to the Employee schema
