@@ -6,16 +6,10 @@ import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChart
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-import { getProjects } from "../../../../hooks//useProjects";
+import { getProject } from "../../../../hooks//useProjects";
 import { HashLoader } from "react-spinners";
 import { default as ReactSelect, components } from "react-select";
-
-
-
-
-
-
-
+import { useParams } from "react-router-dom";
 
 
 
@@ -36,7 +30,8 @@ const Option = (props) => {
 
 
 
-export const TaskMasterChart = () => {
+
+export const TaskSheetMaster = () => {
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
@@ -45,7 +40,7 @@ export const TaskMasterChart = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -57,7 +52,7 @@ export const TaskMasterChart = () => {
     }
 
 
-
+    const {id}=useParams();
 
     const [view, setView] = React.useState(ViewMode.Day);
     const [tasks, setTasks] = React.useState(initTasks());
@@ -113,18 +108,38 @@ export const TaskMasterChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getProjects(); // Get project data from API
-                const transformedTasks = transformProjectsToTasks(response.projects); // Transform the data
+                console.log(id,"project id");
+                
+                const response = await getProject(id); 
+
+                const transformedTasks = transformProjectToTasks(response); // Transform the data
+                console.log(transformedTasks);
                 setTasks(transformedTasks);
+                // console.log("Transformed tasks: ", response);
+                
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching projects: ", error);
             }
         };
         fetchData();
-    }, []);
+    }, [id]);
 
-    const transformProjectsToTasks = (projects) => {
+
+    //     // this is my code from before
+    // const transformProjectToTasks = (project) => {
+    //     const projectTask = {
+    //       id: project._id,
+    //       name: project.name,
+    //       start: new Date(project.startDate),
+    //       end: new Date(project.endDate),
+    //       progress: project.completeLevel || 0,
+    //       type: "project",
+    //       hideChildren: false,
+    //     };
+    // }
+
+    const transformProjectToTasks = (projects) => {
         return projects.flatMap((project) => {
             const projectTask = {
                 id: project._id,
@@ -150,6 +165,18 @@ export const TaskMasterChart = () => {
             return [projectTask, ...taskList];
         });
     };
+
+    // useEffect(() => {
+    //     if (id) {
+    //       const transformedTasks = transformProjectToTasks(id);
+    //       setTasks(transformedTasks);
+    //       setLoading(false);
+    //     }
+    //   }, [id]);
+
+
+
+
 
     const [state, setState] = useState({ optionSelected: null });
 
@@ -196,7 +223,8 @@ export const TaskMasterChart = () => {
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
-                        <Sidebar isopen={isopen} active="TaskMasterChart" />
+                        <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} />
+                        
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 

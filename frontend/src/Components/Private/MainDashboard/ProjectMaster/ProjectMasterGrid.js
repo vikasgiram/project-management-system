@@ -15,6 +15,7 @@ import { formatDate } from "../../../../utils/formatDate";
 import GaintchartPoup from "./PopUp/GaintchartPoup";
 import { HashLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { TaskSheetMaster } from "../TaskSheetMaster/TaskSheetMaster";
 
 export const ProjectMasterGrid = () => {
 
@@ -82,6 +83,8 @@ export const ProjectMasterGrid = () => {
 
         fetchData();
     }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
+
+
 
     return (
         <>   {loading ? (
@@ -159,8 +162,9 @@ export const ProjectMasterGrid = () => {
                                                                 {/* {project.projectStatus} */}
 
                                                                 <i
-                                                                    // onClick={() => handleDetails(project)}
-                                                                    onClick={() => navigate('/TaskMasterChart')}
+                                                                    onClick={() => {
+                                                                        
+                                                                        navigate(`/${project._id}`)}}
                                                                     class="fa-solid fa-circle-info cursor-pointer"></i>
                                                             </td>
                                                             <td>
