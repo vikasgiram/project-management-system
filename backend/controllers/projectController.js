@@ -124,12 +124,12 @@ exports.delete = async (req, res) => {
 
   exports.updateProject = async (req, res) => {
     const { id } = req.params;  // Get id from request parameters
-    const {name,custId, address,completeLevel,purchaseOrderNo,projectStatus ,purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payafterCompletion, remark, POCopy  } = req.body;
+    const {name,custId, Address,completeLevel,purchaseOrderNo,projectStatus ,purchaseOrderDate, purchaseOrderValue, category, startDate, endDate, advancePay, payAgainstDelivery, payafterCompletion, remark, POCopy  } = req.body;
     const originalData = await Project.findById(id);
-    const updateDate= {
+    const updateData= {
       name,
       custId,
-      address,
+      Address,
       completeLevel,
       purchaseOrderDate,
       projectStatus,
@@ -164,17 +164,26 @@ exports.delete = async (req, res) => {
       }
     };
 
-      for (const key in updateDate) {
-        if (updateDate[key] !== originalData[key]) {
-          trackChanges(key,originalData[key],updateDate[key]);
+    if(originalData.length <= 0){
+      return res.status(400).json({error:"Project not found"});
+    }
+
+      for (const key in updateData) {
+        if (updateData[key] !== originalData[key]) {
+          trackChanges(key,originalData[key],updateData[key]);
         }
       }
 
-      console.log(changes);
+      if (changes.length > 0) {
+        await ProjectHistory.insertMany(changes);
+      }
+
+      await Project.findByIdAndUpdate(id, { $set: updateData });
+      return res.status(200).json({message:"Project Updated Successfuly"});
   
     } catch (error) {
       console.error('Error updating project:', error);
-      return res.status(500).json({ message: 'Internal server error' });
+      return res.status(500).json({ error: 'Internal server error: '+error.message });
     }
   };
   
