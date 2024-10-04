@@ -37,13 +37,15 @@ exports.showAll = async (req, res) => {
 
 exports.getEmployee = async (req, res)=>{
   try {
-    const employee = await Employee.findById(req.params.id);
+    const {id}= req.params;
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const employee = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id, department:id},{ password: 0 });
     if(!employee){
       return res.status(400).json({error:"Employee not found"});
     }
     res.status(200).json(employee);
   } catch (error) {
-    res.status(500).json({error:"Error in getCustomer: "+error.message});
+    res.status(500).json({error:"Error in getting employee: "+error.message});
   }
 };
 
