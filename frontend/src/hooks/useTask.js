@@ -5,7 +5,7 @@ const url="api/task";
 
 const getTask = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}/`);
     const data = response.data;
 
     if (data.error) {

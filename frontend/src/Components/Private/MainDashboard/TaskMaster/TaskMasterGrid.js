@@ -2,17 +2,14 @@ import { useState } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import AddTaskPopUp from "./PopUp/AddTaskPopUp";
-// import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-// import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
+import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import UpdateTaskPopUp from "./PopUp/UpdateTaskPopUp";
 import HashLoader from "react-spinners/HashLoader";
 
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
-import { useNavigate } from "react-router-dom";
-
-import { getProjects } from "../../../../hooks/useProjects";
+import { getTask, deleteTask } from "../../../../hooks/useTask";
 
 
 export const TaskMasterGrid = () => {
@@ -29,8 +26,8 @@ export const TaskMasterGrid = () => {
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId]= useState(null);
     const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
-    const [selectedEmp, setSelectedEmp]= useState(null);
     const [loading, setLoading] = useState(true);
+    const [selectedTask, setSelectedTask]= useState(null);
 
 
     const [tasks, setTasks] = useState([])
@@ -39,11 +36,11 @@ export const TaskMasterGrid = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = (employee=null) => {
-        setSelectedEmp(employee);
-        // console.log("HandleUpdate CAlled");
-        setUpdatePopUpShow(!updatePopUpShow);
-    }
+    const handleUpdate = (task = null) => {
+        setSelectedTask(task);
+        setUpdatePopUpShow((prevState) => !prevState);  // Toggle based on previous state
+      };
+      
 
 
     const handelDeleteClosePopUpClick = (id) => {
@@ -52,36 +49,31 @@ export const TaskMasterGrid = () => {
     }
 
     const handelDeleteClick = async () => {
-        const data = await deleteEmployee(selectedId);
+        const data = await deleteTask(selectedId);
         if (data) {
             handelDeleteClosePopUpClick();
-            return toast.success("Employee Deleted sucessfully...");
         }
-        toast.error(data.error);
+       
     };
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const projects = await getProjects();
-                if (projects && projects.projects) {
-                    setTasks(projects?.projects.flatMap(project => project.tasks)); 
-                } else {
-                    console.error('No projects found');
-                }
+                const allTasks = await getTask();
+                if (allTasks) {
+                    setTasks(allTasks.task); 
+                } 
             } catch (error) {
-                console.error('Error fetching projects:', error);
-            } finally {
-                setLoading(false); 
+                
+                toast.error(error.response.data.error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [AddPopUpShow, deletePopUpShow, updatePopUpShow]);
 
-
-    console.log(tasks,"tasks");
+    // console.log(tasks,"tasks");
 
 
 
@@ -150,11 +142,12 @@ export const TaskMasterGrid = () => {
                                                     {tasks && tasks.map((task, index) => (
                                                     <tr className="border my-4" key={task.id}>
                                                         <td>{index + 1}</td>
-                                                        <td>{task.taskName}</td>
+                                                        <td>{task.name}</td>
                                                        
                                                         <td>
                                                         <span
-                                                            onClick={() => handleUpdate(task)}
+                                                            onClick={() =>handleUpdate(task)}
+                                                            
                                                             className="update">
                                                             <i className="fa-solid fa-pen text-success cursor-pointer"></i>
                                                         </span>
@@ -185,7 +178,7 @@ export const TaskMasterGrid = () => {
          {/* )} */}
 
 
-            {/* {
+            {
             deletePopUpShow ?
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}
@@ -193,26 +186,29 @@ export const TaskMasterGrid = () => {
                     confirmBtnCallBack={handelDeleteClick}
                     heading="Delete"
                 /> : <></>
-            } */}
+            }
 
             
             {AddPopUpShow ?
                 <AddTaskPopUp
-                    message="Create New Employee"
+                 
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
             }
 
-                {/* {updatePopUpShow ?
-                <UpdateEmployeePopUp
-                    selectedEmp= {selectedEmp}
+
+            {updatePopUpShow ?
+                <UpdateTaskPopUp
+                    selectedTask={selectedTask}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
-            } */}
+            }
+
+            
         </>
     )
 }

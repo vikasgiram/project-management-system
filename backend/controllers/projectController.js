@@ -39,7 +39,7 @@ exports.showAll = async (req, res) => {
 
   exports.getProject = async (req, res)=>{
     try {
-      const project = await Project.findByIdAndDelete(req.params.id);
+      const project = await Project.findById(req.params.id);
       if(!project){
         return res.status(400).json({error:"Project not found"});
       }

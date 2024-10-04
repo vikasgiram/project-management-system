@@ -74,4 +74,21 @@ const deleteProject = async (Id) => {
   }
 };
 
-export { getProjects,  createProject, updateProject, deleteProject };
+const getProject = async (Id) => {
+  try {
+    const response = await axios.get(`${url}/${Id}`);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return alert(data.error);
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);
+  }
+};
+
+export { getProjects,  createProject, updateProject, deleteProject,getProject };
