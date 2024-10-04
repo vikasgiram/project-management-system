@@ -6,10 +6,10 @@ import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChart
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-import { getProject } from "../../../../hooks//useProjects";
 import { HashLoader } from "react-spinners";
 import { default as ReactSelect, components } from "react-select";
 import { useParams } from "react-router-dom";
+import { getTaskSheet } from "../../../../hooks/useTaskSheet";
 
 
 
@@ -108,12 +108,10 @@ export const TaskSheetMaster = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(id,"project id");
                 
-                const response = await getProject(id); 
-
+                const response = await getTaskSheet(id); 
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
-                console.log(transformedTasks);
+                console.log("Transformed Tasks"+transformedTasks);
                 setTasks(transformedTasks);
                 // console.log("Transformed tasks: ", response);
                 
@@ -139,32 +137,37 @@ export const TaskSheetMaster = () => {
     //     };
     // }
 
-    const transformProjectToTasks = (projects) => {
-        return projects.flatMap((project) => {
-            const projectTask = {
-                id: project._id,
-                name: project.name,
-                start: new Date(project.startDate),
-                end: new Date(project.endDate),
-                progress: project.completeLevel,
-                type: "project",
-                hideChildren: false,
-            };
-
-            // Map tasks within each project
-            const taskList = project.tasks.map((task) => ({
-                id: task._id,
-                name: task.taskName,
-                start: new Date(task.startDate),
-                end: new Date(task.endDate),
-                project: project._id,
-                type: "task",
-                progress: task.taskLevel,
-            }));
-
-            return [projectTask, ...taskList];
-        });
+    const transformProjectToTasks = (projectData) => {
+        // Extract project information from the task array
+        const project = projectData.task[0].project; 
+        
+        // Create a project task entry
+        const projectTask = {
+            id: project._id,
+            name: project.name,
+            start: new Date(project.startDate),
+            end: new Date(project.endDate),
+            progress: project.completeLevel || 0,  // Set default to 0 if undefined
+            type: "project",
+            hideChildren: false,
+        };
+    
+        // Map the tasks within the project
+        const taskList = projectData.task.map((task) => ({
+            id: task._id,
+            name: task.taskName.name, // Access taskName object
+            start: new Date(task.startDate),
+            end: new Date(task.endDate),
+            project: project._id,  // Associate with project ID
+            type: "task",
+            progress: task.taskLevel || 0,  // Set default to 0 if undefined
+        }));
+    
+        // Return an array containing the project task followed by its task list
+        return [projectTask, ...taskList];
     };
+    
+    
 
     // useEffect(() => {
     //     if (id) {
