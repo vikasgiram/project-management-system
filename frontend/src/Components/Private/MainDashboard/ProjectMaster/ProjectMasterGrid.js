@@ -15,6 +15,7 @@ import { formatDate } from "../../../../utils/formatDate";
 import GaintchartPoup from "./PopUp/GaintchartPoup";
 import { HashLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../../Helper/Loader/Loader";
 
 export const ProjectMasterGrid = () => {
 
@@ -85,21 +86,7 @@ export const ProjectMasterGrid = () => {
 
     return (
         <>   {loading ? (
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',  // Full height of the viewport
-                    width: '100vw',   // Full width of the viewport
-                    position: 'absolute', // Absolute positioning to cover the viewport
-                    top: 0,
-                    left: 0,
-                    backgroundColor: '#f8f9fa' // Optional background color
-                }}
-            >
-                <HashLoader color="#4C3B77" loading={loading} size={50} />
-            </div>
+            <Loader loading={loading} />
         ) : (
             <div className="container-scroller">
                 <div className="row background_main_all">
@@ -167,13 +154,13 @@ export const ProjectMasterGrid = () => {
                                                                 <span
                                                                     onClick={() => handleUpdate(project)}
                                                                     className="update">
-                                                                    <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
+                                                                    <i className=" fa-solid fa-pen text-success me-3 cursor-pointer"></i>
                                                                 </span>
 
                                                                 <span
                                                                     onClick={() => handelDeleteClosePopUpClick(project._id)}
                                                                     className="delete">
-                                                                    <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                    <i className=" fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>
                                                             </td>
                                                         </tr>

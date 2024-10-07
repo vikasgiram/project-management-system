@@ -10,6 +10,7 @@ import { getDashboardData } from "../../../hooks/useCompany";
 
 import { data } from "jquery";
 import HashLoader from "react-spinners/HashLoader";
+import { Loader } from "../../Helper/Loader/Loader";
 
 
 
@@ -62,21 +63,7 @@ function MainDashboard() {
   return (
     <>
        {loading ? (
-            <div
-               style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100vh',  // Full height of the viewport
-                  width: '100vw',   // Full width of the viewport
-                  position: 'absolute', // Absolute positioning to cover the viewport
-                  top: 0,
-                  left: 0,
-                  backgroundColor: '#f8f9fa' // Optional background color
-               }}
-            >
-               <HashLoader color="#4C3B77" loading={loading} size={50} />
-            </div>
+           <Loader loading={loading} />
          ) : (
 
      

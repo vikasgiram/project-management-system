@@ -43,33 +43,26 @@ const AddRolesPopup = ({ handleAdd }) => {
   const myPermisssion = [
     { value: "createCustomer", label: 'Create Customer' },
     { value: "updateCustomer", label: 'Update Customer' },
-    { value: "deleteCustomer", label: 'Delete Customer '},
-      { value: "viewCustomer", label: 'View Customer' },
-          { value: "viewTask", label: 'View Task' },
-        { value: "createTask", label: 'Create Task'},
-        { value: "updateTask", label: 'Update Task' },
-        { value: "deleteTask", label: 'Delete Task' },
-     { value: "createProject", label: 'Create Project' },
-     { value: "updateProject", label: 'Update Project '},
-     { value: "deleteProject", label: 'Delete Project' },
-       { value: "viewProject", label: 'View Project' },
+    { value: "deleteCustomer", label: 'Delete Customer ' },
+    { value: "viewCustomer", label: 'View Customer' },
+    { value: "viewTask", label: 'View Task' },
+    { value: "createTask", label: 'Create Task' },
+    { value: "updateTask", label: 'Update Task' },
+    { value: "deleteTask", label: 'Delete Task' },
+    { value: "createProject", label: 'Create Project' },
+    { value: "updateProject", label: 'Update Project ' },
+    { value: "deleteProject", label: 'Delete Project' },
+    { value: "viewProject", label: 'View Project' },
     { value: "createEmployee", label: 'Create Employee' },
     { value: "updateEmployee", label: 'Update Employee' },
-      { value: "viewEmployee", label: 'View Employee' },
+    { value: "viewEmployee", label: 'View Employee' },
     { value: "deleteEmployee", label: 'Delete Employee' }
   ];
 
-   
+
   return (
     <>
-      <div
-        className="modal fade show"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "#00000090",
-        }}
-      >
+      <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
             <div className="modal-header pt-0">
@@ -86,6 +79,7 @@ const AddRolesPopup = ({ handleAdd }) => {
               </button>
             </div>
             <div className="modal-body">
+
               <div className="row modal_body_height">
                 {/* Role Name */}
                 <div className="col-12">
@@ -99,13 +93,14 @@ const AddRolesPopup = ({ handleAdd }) => {
                       onChange={(e) => setName(e.target.value)}
                       className="form-control rounded-0"
                       id="name"
+                      required
                       aria-describedby="roleNameHelp"
                     />
                   </div>
                 </div>
 
                 {/* Department Selection */}
-                <div className="col-12 col-lg-6 mt-2">
+                <div className="col-12 col-lg-6 my-3">
                   <div className="mb-3">
                     <label htmlFor="Department" className="form-label label_text">
                       Department
@@ -125,7 +120,7 @@ const AddRolesPopup = ({ handleAdd }) => {
                 </div>
 
                 {/* Permissions Multi-Select */}
-                <div className="col-12 col-lg-6 mt-2">
+                {/* <div className="col-12 col-lg-6 mt-2">
                   <label htmlFor="permissions" className="form-label label_text">
                     Permissions
                   </label>
@@ -139,27 +134,260 @@ const AddRolesPopup = ({ handleAdd }) => {
                     classNamePrefix="select"
                     closeMenuOnSelect={false}
                   />
-                </div>
+                </div> */}
 
+                <div class="col-10 col-lg-12">
 
-                <div className="row">
-                  <div className="col-12 pt-3 mt-2">
-                    <button
-                      type="button"
-                      onClick={handleEmployeeAdd}
-                      className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
-                    >
-                      Add
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleAdd}
-                      className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
-                    >
-                      Cancel
-                    </button>
+                <label htmlFor="permissions" className="form-label label_text">
+                    Permissions
+                  </label>
+
+                  <div className="table-responsive">
+                    <table className="table table-striped table-class" id="table-id">
+
+                      <tr className="th_border" >
+                        <th >Form Level Details</th>
+                        <th >Add</th>
+                        <th >View</th>
+                        <th>Update</th>
+                        <th >Delete</th>
+                      </tr>
+                      <tbody>
+                        <tr>
+                          <td>Employee Table</td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td> <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Customer</td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td> <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Project</td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td> <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Task</td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td> <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Project</td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td> <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                                <input type="checkbox" />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
+
+
+                <div className="col-12 pt-3 mt-2">
+                  <button
+                    type="button"
+                    onClick={handleEmployeeAdd}
+                    className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
+                  >
+                    Add
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleAdd}
+                    className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
+                  >
+                    Cancel
+                  </button>
+                </div>
+
               </div>
             </div>
           </div>

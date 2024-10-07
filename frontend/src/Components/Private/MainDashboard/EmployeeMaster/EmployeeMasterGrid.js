@@ -130,8 +130,8 @@ export const EmployeeMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                                <thead>
-                                                    <tr className="th_border">
+                                     
+                                                <tr className="th_border" >
                                                         <th>Sr. No</th>
                                                         <th>Name</th>
                                                         <th>Email</th>
@@ -139,7 +139,7 @@ export const EmployeeMasterGrid = () => {
                                                         <th>Designation</th>
                                                         <th>Action</th>
                                                     </tr>
-                                                </thead>
+                                              
                                                 <tbody className="broder my-4">
                                                     {employees && employees.map((employee, index) => (
                                                     <tr className="border my-4" key={employee.id}>
@@ -152,7 +152,7 @@ export const EmployeeMasterGrid = () => {
                                                         <span
                                                             onClick={() => handleUpdate(employee)}
                                                             className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                                         </span>
 
                                                         <span

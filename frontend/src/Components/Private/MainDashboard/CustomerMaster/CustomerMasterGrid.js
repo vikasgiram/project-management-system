@@ -138,7 +138,7 @@ export const CustomerMasterGrid = () => {
                                                                 <span
                                                                     onClick={()=>handleUpdate(customer)}
                                                                     className="update">
-                                                                    <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                                    <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
                                                                 </span>
 
                                                                 <span
