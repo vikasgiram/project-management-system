@@ -9,9 +9,10 @@ import { LogIn } from "./Components/Public/Login";
 import { EmployeeMasterGrid } from "./Components/Private/MainDashboard/EmployeeMaster/EmployeeMasterGrid";
 import { CustomerMasterGrid } from "./Components/Private/MainDashboard/CustomerMaster/CustomerMasterGrid";
 import { ProjectMasterGrid } from "./Components/Private/MainDashboard/ProjectMaster/ProjectMasterGrid";
-import { TaskMasterChart } from "./Components/Private/MainDashboard/TaskMaster/TaskMasterChart";
+import { TaskMasterGrid } from "./Components/Private/MainDashboard/TaskMaster/TaskMasterGrid";
 import { DepartmentMasterGrid } from "./Components/Private/MainDashboard/DepartmentMaster/DepartmentMasterGrid";
 import { DesignationMasterGird } from "./Components/Private/MainDashboard/DesignationMaster/DesignationMasterGrid";
+import { TaskSheetMaster } from "./Components/Private/MainDashboard/TaskSheetMaster/TaskSheetMaster";
 
 
 
@@ -34,8 +35,9 @@ const AllRoutes = () => {
                     <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
                     <Route exact path="/DepartmentMasterGrid" element={<DepartmentMasterGrid />} />
                     <Route exact path="/DesignationMasterGird" element={<DesignationMasterGird />} /> 
-                    <Route exact path="/TaskMasterChart" element={<TaskMasterChart />} />
-
+                    <Route exact path="/TaskMasterGrid" element={<TaskMasterGrid />} />
+                    <Route exact path="/:id" element={<TaskSheetMaster />} />
+                    
                     <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
                 </Routes>
             </Router>

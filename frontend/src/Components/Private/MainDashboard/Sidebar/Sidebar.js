@@ -156,6 +156,21 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
 
+                    <li
+                        className={Open || active === "TaskMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/TaskMasterGrid' className="nav-link ">
+                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
+                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Task Master
+                            </span>
+                        </Link>
+                    </li>
+
+
 
 
                     {/* <li className={ReportOpen || active === "Master" ? " nav-item active" : "nav-item sidebar_item"}>

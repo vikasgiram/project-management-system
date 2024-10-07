@@ -1,11 +1,27 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/taskSheet";
+const url="api/tasksheet";
 
 const getAllTask = async () => {
   try {
     const response = await axios.get(`${url}`);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return alert(data.error);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);
+  }
+};
+
+const getTaskSheet = async (id) => {
+  try {
+    const response = await axios.get(`${url}/${id}`);
     const data = response.data;
 
     if (data.error) {
@@ -26,7 +42,7 @@ const createTask = async (taskData) => {
 
     if (data.error) {
       console.error(data.error);
-      return alert(data.error);
+      return toast.error(data.error);
     }
 
     return data;
@@ -70,4 +86,4 @@ const deleteTask = async (Id) => {
   }
 };
 
-export { getAllTask,  createTask, updateTask, deleteTask };
+export { getAllTask,  createTask, updateTask, deleteTask, getTaskSheet };

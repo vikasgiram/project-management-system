@@ -6,16 +6,16 @@ import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChart
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-import { getProjects } from "../../../../hooks//useProjects";
+import { getProject } from "../../../../hooks//useProjects";
+import { createTask } from "../../../../hooks/useTaskSheet";
 import { HashLoader } from "react-spinners";
 import { default as ReactSelect, components } from "react-select";
-
-
-
-
-
-
-
+import { useParams } from "react-router-dom";
+import { getTaskSheet } from "../../../../hooks/useTaskSheet";
+import toast from "react-hot-toast";
+import { getTask } from "../../../../hooks/useTask";
+import { getEmployee, getEmployees } from "../../../../hooks/useEmployees";
+import { getDepartment } from "../../../../hooks/useDepartment";
 
 
 
@@ -36,37 +36,46 @@ const Option = (props) => {
 
 
 
-export const TaskMasterChart = () => {
+
+export const TaskSheetMaster = () => {
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isopen);
     };
 
-    const [AddPopUpShow, setAddPopUpShow] = useState(false)
-    const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [loading, setLoading] = useState(true);
-
-    const handleAdd = () => {
-        setAddPopUpShow(!AddPopUpShow)
-    }
-
-
-    const handelDeleteClosePopUpClick = () => {
-        setdeletePopUpShow(false)
-    }
-
-
-
+    const [loading, setLoading] = useState(false);
+    const { id } = useParams();
 
     const [view, setView] = React.useState(ViewMode.Day);
     const [tasks, setTasks] = React.useState(initTasks());
     const [isChecked, setIsChecked] = React.useState(true);
+
+
+
+    const [employees, setEmployees] = useState([]);
+    const [employeeOptions, setEmployeeOptions] = useState([]);
+    const [taskName, setTaskName] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [remark, setRemark] = useState("");
+    const [taskDropDown, setTaskDropDown] = useState([]);
+    const [departmentName, setDepartmentName] = useState([]);
+    const [department, setDepartment] = useState(null);
+    const [projectName, setProjectName] = useState('');
+    const [renderPage, setRenderPage] = useState(false);
+
+
     let columnWidth = 90;
     if (view === ViewMode.Month) {
         columnWidth = 300;
     } else if (view === ViewMode.Week) {
         columnWidth = 250;
+    }
+
+    const handleAdd=()=>{
+        setRenderPage(!renderPage)
+        handleTaskAdd();
     }
     const handleTaskChange = (task) => {
         console.log("On date change Id:" + task.id);
@@ -113,43 +122,116 @@ export const TaskMasterChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getProjects(); // Get project data from API
-                const transformedTasks = transformProjectsToTasks(response.projects); // Transform the data
+
+                const response = await getTaskSheet(id);
+                // console.log(response, "response");
+                
+                setProjectName(response.task[0].project.name);
+                const transformedTasks = transformProjectToTasks(response); // Transform the data
+
                 setTasks(transformedTasks);
+                console.log("Transformed tasks: ", response);
+
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching projects: ", error);
             }
         };
         fetchData();
+    }, [id,renderPage]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTask();
+                if (data) {
+                    setTaskDropDown(data.task || []);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [])
+    // console.log(taskName,"task n ");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getDepartment();
+                // console.log(data, "department");
+
+                if (data) {
+                    setDepartmentName(data.department || []);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
     }, []);
 
-    const transformProjectsToTasks = (projects) => {
-        return projects.flatMap((project) => {
-            const projectTask = {
-                id: project._id,
-                name: project.name,
-                start: new Date(project.startDate),
-                end: new Date(project.endDate),
-                progress: project.completeLevel,
-                type: "project",
-                hideChildren: false,
-            };
 
-            // Map tasks within each project
-            const taskList = project.tasks.map((task) => ({
-                id: task._id,
-                name: task.taskName,
-                start: new Date(task.startDate),
-                end: new Date(task.endDate),
-                project: project._id,
-                type: "task",
-                progress: task.taskLevel,
-            }));
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // console.log("department Id:" + department);
+                if (!department) {
+                    return;
+                }
+                const data = await getEmployee(department);
+                if (data) {
 
-            return [projectTask, ...taskList];
-        });
+                    const formattedData = data.map(employee => ({
+                        value: employee._id,
+                        label: employee.name
+                    }));
+
+
+                    setEmployeeOptions(formattedData);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [department]);
+
+    // console.log(employees,"employee");
+
+
+    const transformProjectToTasks = (projectData) => {
+        // Extract project information from the task array
+        const project = projectData.task[0].project;
+
+        // Create a project task entry
+        const projectTask = {
+            id: project._id,
+            name: project.name,
+            start: new Date(project.startDate),
+            end: new Date(project.endDate),
+            progress: project.completeLevel || 0,  // Set default to 0 if undefined
+            type: "project",
+            hideChildren: false,
+        };
+
+        // Map the tasks within the project
+        const taskList = projectData.task.map((task) => ({
+            id: task._id,
+            name: task.taskName.name, // Access taskName object
+            start: new Date(task.startDate),
+            end: new Date(task.endDate),
+            project: project._id,  // Associate with project ID
+            type: "task",
+            progress: task.taskLevel || 0,  // Set default to 0 if undefined
+        }));
+
+        // Return an array containing the project task followed by its task list
+        return [projectTask, ...taskList];
     };
+
+
+
 
     const [state, setState] = useState({ optionSelected: null });
 
@@ -159,19 +241,45 @@ export const TaskMasterChart = () => {
         });
     };
 
-    const Values = [
-        { value: "Select All", label: "Select All" },
-        { value: "Akash Shirke", label: "Akash Shirke" },
-        { value: "b", label: "B" },
-        { value: "c", label: "C" },
-        { value: "d", label: "D" },
-        { value: "e", label: "E" },
-        { value: "f", label: "F" },
-        { value: "g", label: "G" },
-        { value: "h", label: "H" },
-        { value: "i", label: "I" },
-        { value: "j", label: "J" }
-    ];
+    const handleTaskAdd = async () => {
+
+
+        const data = {
+            project: id,
+            employees,
+            taskName,
+            startDate,
+            endDate,
+            remark
+           
+        };
+        if (
+            !employees ||
+            !taskName ||
+            !startDate ||
+            !endDate ||
+            !remark 
+           
+        ) {
+            return toast.error("Please fill all fields");
+        }
+
+
+        await createTask(data);
+        // window.location.reload(); 
+        toast.success("Task added successfully");
+        clearForm();
+    };
+
+    const clearForm = () => {
+        setTaskName("");
+        setStartDate("");
+        setEndDate("");
+        setRemark("");
+        setEmployees([]);
+        setDepartment(""); 
+    };
+
 
     return (
         <> {loading ? (
@@ -196,48 +304,35 @@ export const TaskMasterChart = () => {
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
-                        <Sidebar isopen={isopen} active="TaskMasterChart" />
+                        <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} />
+
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
-                                            Tasks
+                                           Project Name: {projectName}
                                         </h5>
                                     </div>
-
-                                    {/* <div className="col-12 col-lg-6  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-
-
-                                    </div> */}
-
                                 </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded"  >
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <form>
                                             <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">Project Name</label>
-                                                <input type="text" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
-                                            </div>
+                                                <label htmlFor="taskName" className="form-label label_text">Task Name</label>
+                                                <select className="form-select rounded-0" aria-label="Default select example"
+                                                    onChange={(e) => setTaskName(e.target.value)}
+                                                    value={taskName}
+                                                >
+                                                    <option value=""  >-- Select Task Name --</option>
+                                                    {
+                                                        taskDropDown && taskDropDown.map((task) => (
+                                                            <option value={task._id}>{task.name}</option>
+                                                        ))
+                                                    }
 
-                                        </form>
-
-                                    </div>
-
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
-                                            <div className="mb-3">
-                                                <label htmlFor="exampleInputEmail1" className="form-label label_text">Task Name</label>
-                                                <select className="form-select rounded-0" aria-label="Default select example">
-                                                    <option value="" disabled >-- Select Task Name --</option>
                                                 </select>
                                             </div>
                                         </form>
@@ -246,8 +341,11 @@ export const TaskMasterChart = () => {
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <form>
                                             <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">Start Date</label>
-                                                <input type="date" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                                <label for="startDate" className="form-label label_text">Start Date</label>
+                                                <input type="date" className="form-control rounded-0" id="startDate"
+                                                    onChange={(e) => setStartDate(e.target.value)}
+                                                    value={startDate}
+                                                    aria-describedby="emailHelp" />
                                             </div>
 
                                         </form>
@@ -257,8 +355,11 @@ export const TaskMasterChart = () => {
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <form>
                                             <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">End Date</label>
-                                                <input type="date" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                                <label for="endDate" className="form-label label_text">End Date</label>
+                                                <input type="date" className="form-control rounded-0" id="endDate"
+                                                    onChange={(e) => setEndDate(e.target.value)}
+                                                    value={endDate}
+                                                    aria-describedby="emailHelp" />
                                             </div>
 
                                         </form>
@@ -268,33 +369,52 @@ export const TaskMasterChart = () => {
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <form>
                                             <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">Department</label>
-                                                <input type="text" className="form-control rounded-0" id="ProjectName" aria-describedby="emailHelp" />
+                                                <label htmlFor="taskName" className="form-label label_text">Department</label>
+                                                <select className="form-select rounded-0" aria-label="Default select example"
+                                                    onChange={(e) => setDepartment(e.target.value)}
+                                                    value={department}
+                                                >
+                                                    <option value=""  >-- Select Department Name --</option>
+                                                    {
+                                                        departmentName && departmentName.map((department) => (
+                                                            <option value={department._id}>{department.name}</option>
+                                                        ))
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    {/* <div className="col-12 col-md-6 col-lg-3">
+                                        <form>
+                                            <div className="mb-3">
+                                                <label for="company" className="form-label label_text">Department</label>
+                                                <input type="text" className="form-control rounded-0" id="company" 
+                                                onChange={(e) => setCompany(e.target.value)}
+                                                value={company}
+                                                aria-describedby="emailHelp" />
                                             </div>
 
                                         </form>
 
-                                    </div>
+                                    </div> */}
 
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <form>
                                             <div className="mb-3">
                                                 <label for="ProjectName" className="form-label label_text">Employee Name</label>
                                                 <ReactSelect
-                                                    options={Values}
-                                                    isMulti
-                                                    closeMenuOnSelect={false}
-                                                    hideSelectedOptions={false}
-                                                    components={{
-                                                        Option
+                                                    options={employeeOptions}  // Employee options (e.g., from API)
+                                                    isMulti                    // Allows selecting multiple employees
+                                                    closeMenuOnSelect={false}   // Keeps menu open after selecting an item
+                                                    hideSelectedOptions={false} // Show selected options in the dropdown
+                                                    onChange={(selectedOption) => {
+                                                        // Map over the selected options to extract only the IDs
+                                                        const employeeIds = selectedOption ? selectedOption.map(option => option.value) : [];
+                                                        setEmployees(employeeIds);  // Set employees state to array of IDs
                                                     }}
-                                                    onChange={handleChange}
-                                                    value={state.optionSelected}
-                                                // Hide dropdown list  when select any item
-                                                // closeMenuOnSelect={true}
-
-                                                //Selected Item Remove in dropdown list
-                                                // hideSelectedOptions={true}
+                                                    value={employees.map(id => employeeOptions.find(option => option.value === id))} // Keep selected values synced
                                                 />
                                             </div>
 
@@ -306,8 +426,10 @@ export const TaskMasterChart = () => {
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <form>
                                             <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">Department</label>
+                                                <label for="ProjectName" className="form-label label_text">Remark</label>
                                                 <textarea
+                                                    onChange={(e) => setRemark(e.target.value)}
+                                                    value={remark}
                                                     className="textarea_edit col-12"
                                                     id=""
                                                     name=""
@@ -322,21 +444,21 @@ export const TaskMasterChart = () => {
 
                                     <div className="col-12 col-lg-3  pt-3 mt-3 ">
                                         <button
-                                            // onClick={() => {
-                                            //     handleAdd()
-                                            // }}
+                                            onClick={() => {
+                                                handleAdd();
+                                            }}
                                             type="button"
                                             className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
-                                                  <button
-                                            // onClick={() => {
-                                            //     handleAdd()
-                                            // }}
+                                        <button
+                                            onClick={() => {
+                                                clearForm()
+                                            }}
                                             type="button"
                                             className="btn adbtn btn-danger  px-4 mx-auto"> <i class="fa-solid fa-xmark"></i> Clear</button>
 
 
                                     </div>
-                                  
+
 
 
 
@@ -377,18 +499,8 @@ export const TaskMasterChart = () => {
                                                 columnWidth={columnWidth}
                                             /> */}
                                         </div>
-
-
                                     </div>
-
                                 </div>
-
-
-
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -397,24 +509,7 @@ export const TaskMasterChart = () => {
         )}
 
 
-            {/* {deletePopUpShow ?
-                <DeletePopUP
-                    message={"Are you sure! Do you want to Delete ?"}
-                    cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    // confirmBtnCallBack={handelDeleteClick}
-                    heading="Delete"
-                /> : <></>
-            }
-
-
-            {AddPopUpShow ?
-                <AddProjectPopup
-                    message="Create New Employee"
-                    handleAdd={handleAdd}
-                // heading="Forward"
-                // cancelBtnCallBack={handleAddDepartment}
-                /> : <></>
-            } */}
+        
 
         </>
     )

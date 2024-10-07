@@ -150,7 +150,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 value={projects.projectStatus}
                                             >
                                                 <option value="upcoming">Upcoming</option>
-                                                <option value="inprogress">Inprogress</option>
+                                                <option value="inprocess">Inprocess</option>
                                                 <option value="finished">Finished</option>
                                                
                                             </select>
