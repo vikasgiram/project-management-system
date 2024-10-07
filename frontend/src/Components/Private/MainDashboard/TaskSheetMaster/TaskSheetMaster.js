@@ -59,10 +59,11 @@ export const TaskSheetMaster = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [remark, setRemark] = useState("");
-    const [company, setCompany] = useState("");
     const [taskDropDown, setTaskDropDown] = useState([]);
     const [departmentName, setDepartmentName] = useState([]);
     const [department, setDepartment] = useState(null);
+    const [projectName, setProjectName] = useState('');
+    const [renderPage, setRenderPage] = useState(false);
 
 
     let columnWidth = 90;
@@ -70,6 +71,11 @@ export const TaskSheetMaster = () => {
         columnWidth = 300;
     } else if (view === ViewMode.Week) {
         columnWidth = 250;
+    }
+
+    const handleAdd=()=>{
+        setRenderPage(!renderPage)
+        handleTaskAdd();
     }
     const handleTaskChange = (task) => {
         console.log("On date change Id:" + task.id);
@@ -116,12 +122,15 @@ export const TaskSheetMaster = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+
+                const response = await getTaskSheet(id);
+                // console.log(response, "response");
                 
-                const response = await getTaskSheet(id); 
+                setProjectName(response.task[0].project.name);
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
-                console.log("Transformed Tasks"+transformedTasks);
+
                 setTasks(transformedTasks);
-                // console.log("Transformed tasks: ", response);
+                console.log("Transformed tasks: ", response);
 
                 setLoading(false);
             } catch (error) {
@@ -129,7 +138,7 @@ export const TaskSheetMaster = () => {
             }
         };
         fetchData();
-    }, [id]);
+    }, [id,renderPage]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -150,7 +159,7 @@ export const TaskSheetMaster = () => {
         const fetchData = async () => {
             try {
                 const data = await getDepartment();
-                console.log(data, "department");
+                // console.log(data, "department");
 
                 if (data) {
                     setDepartmentName(data.department || []);
@@ -166,17 +175,18 @@ export const TaskSheetMaster = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("department Id:" + department);
+                // console.log("department Id:" + department);
                 if (!department) {
                     return;
                 }
                 const data = await getEmployee(department);
                 if (data) {
+
                     const formattedData = data.map(employee => ({
-                        value: employee.id,
+                        value: employee._id,
                         label: employee.name
                     }));
-                    console.log(formattedData, "employee");
+
 
                     setEmployeeOptions(formattedData);
                 }
@@ -192,8 +202,8 @@ export const TaskSheetMaster = () => {
 
     const transformProjectToTasks = (projectData) => {
         // Extract project information from the task array
-        const project = projectData.task[0].project; 
-        
+        const project = projectData.task[0].project;
+
         // Create a project task entry
         const projectTask = {
             id: project._id,
@@ -204,7 +214,7 @@ export const TaskSheetMaster = () => {
             type: "project",
             hideChildren: false,
         };
-    
+
         // Map the tasks within the project
         const taskList = projectData.task.map((task) => ({
             id: task._id,
@@ -215,12 +225,12 @@ export const TaskSheetMaster = () => {
             type: "task",
             progress: task.taskLevel || 0,  // Set default to 0 if undefined
         }));
-    
+
         // Return an array containing the project task followed by its task list
         return [projectTask, ...taskList];
     };
-    
-    
+
+
 
 
     const [state, setState] = useState({ optionSelected: null });
@@ -235,27 +245,42 @@ export const TaskSheetMaster = () => {
 
 
         const data = {
+            project: id,
             employees,
             taskName,
             startDate,
             endDate,
-            remark,
-            company
+            remark
+           
         };
         if (
             !employees ||
             !taskName ||
             !startDate ||
             !endDate ||
-            !remark ||
-            !company
+            !remark 
+           
         ) {
             return toast.error("Please fill all fields");
         }
 
 
         await createTask(data);
+        // window.location.reload(); 
+        toast.success("Task added successfully");
+        clearForm();
     };
+
+    const clearForm = () => {
+        setTaskName("");
+        setStartDate("");
+        setEndDate("");
+        setRemark("");
+        setEmployees([]);
+        setDepartment(""); 
+    };
+
+
     return (
         <> {loading ? (
             <div
@@ -287,21 +312,9 @@ export const TaskSheetMaster = () => {
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
-                                            Tasks
+                                           Project Name: {projectName}
                                         </h5>
                                     </div>
-
-                                    {/* <div className="col-12 col-lg-6  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-
-
-                                    </div> */}
-
                                 </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded"  >
@@ -392,12 +405,16 @@ export const TaskSheetMaster = () => {
                                             <div className="mb-3">
                                                 <label for="ProjectName" className="form-label label_text">Employee Name</label>
                                                 <ReactSelect
-                                                    options={employeeOptions} // Use fetched employee data as options
-                                                    isMulti
-                                                    closeMenuOnSelect={false} // Keep dropdown open for multi-select
-                                                    hideSelectedOptions={false} // Show selected items in the list
-                                                    onChange={(e) => setEmployees(e.target.value)}
-                                                    value={employees} // Bind selected value to state
+                                                    options={employeeOptions}  // Employee options (e.g., from API)
+                                                    isMulti                    // Allows selecting multiple employees
+                                                    closeMenuOnSelect={false}   // Keeps menu open after selecting an item
+                                                    hideSelectedOptions={false} // Show selected options in the dropdown
+                                                    onChange={(selectedOption) => {
+                                                        // Map over the selected options to extract only the IDs
+                                                        const employeeIds = selectedOption ? selectedOption.map(option => option.value) : [];
+                                                        setEmployees(employeeIds);  // Set employees state to array of IDs
+                                                    }}
+                                                    value={employees.map(id => employeeOptions.find(option => option.value === id))} // Keep selected values synced
                                                 />
                                             </div>
 
@@ -427,15 +444,15 @@ export const TaskSheetMaster = () => {
 
                                     <div className="col-12 col-lg-3  pt-3 mt-3 ">
                                         <button
-                                            // onClick={() => {
-                                            //     handleAdd()
-                                            // }}
+                                            onClick={() => {
+                                                handleAdd();
+                                            }}
                                             type="button"
                                             className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
                                         <button
-                                            // onClick={() => {
-                                            //     handleAdd()
-                                            // }}
+                                            onClick={() => {
+                                                clearForm()
+                                            }}
                                             type="button"
                                             className="btn adbtn btn-danger  px-4 mx-auto"> <i class="fa-solid fa-xmark"></i> Clear</button>
 
@@ -482,18 +499,8 @@ export const TaskSheetMaster = () => {
                                                 columnWidth={columnWidth}
                                             /> */}
                                         </div>
-
-
                                     </div>
-
                                 </div>
-
-
-
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -502,24 +509,7 @@ export const TaskSheetMaster = () => {
         )}
 
 
-            {/* {deletePopUpShow ?
-                <DeletePopUP
-                    message={"Are you sure! Do you want to Delete ?"}
-                    cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    // confirmBtnCallBack={handelDeleteClick}
-                    heading="Delete"
-                /> : <></>
-            }
-
-
-            {AddPopUpShow ?
-                <AddProjectPopup
-                    message="Create New Employee"
-                    handleAdd={handleAdd}
-                // heading="Forward"
-                // cancelBtnCallBack={handleAddDepartment}
-                /> : <></>
-            } */}
+        
 
         </>
     )
