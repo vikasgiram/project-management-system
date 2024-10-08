@@ -36,7 +36,8 @@ exports.getTaskSheet = async (req, res) => {
     path: "project",
     select: "name startDate endDate completeLevel",
   })
-  .populate('taskName','name');
+  .populate('taskName','name')
+  .populate('employees','name');
 
   if (task.length <=0) {
     return res.status(400).json({ error: "No Task Found " });

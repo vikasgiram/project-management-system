@@ -1,7 +1,6 @@
 
 
 export function initTasks(data) {
-    data&& console.log("data in helper"+data.taskName);
     const currentDate = new Date();
     const tasks = [
 

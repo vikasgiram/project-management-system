@@ -124,48 +124,40 @@ export const TaskSheetMaster = () => {
     }, [id]);
 
 
-    //     // this is my code from before
-    // const transformProjectToTasks = (project) => {
-    //     const projectTask = {
-    //       id: project._id,
-    //       name: project.name,
-    //       start: new Date(project.startDate),
-    //       end: new Date(project.endDate),
-    //       progress: project.completeLevel || 0,
-    //       type: "project",
-    //       hideChildren: false,
-    //     };
-    // }
 
-    const transformProjectToTasks = (projectData) => {
-        // Extract project information from the task array
-        const project = projectData.task[0].project; 
-        
-        // Create a project task entry
-        const projectTask = {
-            id: project._id,
-            name: project.name,
-            start: new Date(project.startDate),
-            end: new Date(project.endDate),
-            progress: project.completeLevel || 0,  // Set default to 0 if undefined
-            type: "project",
-            hideChildren: false,
-        };
+const transformProjectToTasks = (projectData) => {
+    // Extract project information from the task array
+    const project = projectData.task[0].project; 
     
-        // Map the tasks within the project
-        const taskList = projectData.task.map((task) => ({
-            id: task._id,
-            name: task.taskName.name, // Access taskName object
-            start: new Date(task.startDate),
-            end: new Date(task.endDate),
-            project: project._id,  // Associate with project ID
-            type: "task",
-            progress: task.taskLevel || 0,  // Set default to 0 if undefined
-        }));
-    
-        // Return an array containing the project task followed by its task list
-        return [projectTask, ...taskList];
+    // Create a project task entry
+    const projectTask = {
+        id: project._id,
+        name: project.name,
+        start: new Date(project.startDate),
+        end: new Date(project.endDate),
+        progress: project.completeLevel || 0,  // Set default to 0 if undefined
+        type: "project",
+        hideChildren: false,
     };
+    
+    // Map the tasks within the project
+    const taskList = projectData.task.map((task) => ({
+        id: task._id,
+        name: task.taskName.name, // Access taskName object
+        start: new Date(task.startDate),
+        end: new Date(task.endDate),
+        employeeName: task.employees[0].name || "Unknown Employee",
+        project: project._id,  // Associate with project ID
+        type: "task",
+        progress: task.taskLevel || 0,  // Set default to 0 if undefined
+        
+        // Get the first employee's name from employeeMap (if multiple employees, adjust accordingly)
+    }));
+    
+    // Return an array containing the project task followed by its task list
+    return [projectTask, ...taskList];
+};
+
     
     
 
