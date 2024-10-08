@@ -5,13 +5,16 @@ import { getDepartment } from "../../../../../hooks/useDepartment";
 import toast from "react-hot-toast";
 import { createDesignation } from "../../../../../hooks/useDesignation";
 
-const AddRolesPopup = ({ handleAdd }) => {
+const AddDesignationPopup = ({ handleAdd }) => {
   const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
   const [permissions, setPermissions] = useState([]);
   const [name, setName] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+
+ 
 
   // Fetch departments
   useEffect(() => {
@@ -24,12 +27,20 @@ const AddRolesPopup = ({ handleAdd }) => {
     fetchData();
   }, []);
 
+  const handlePermissionChange = (permission, isChecked) => {
+    setPermissions(prevPermissions =>
+      isChecked
+        ? [...prevPermissions, permission] // Add permission if checked
+        : prevPermissions.filter(p => p !== permission) // Remove permission if unchecked
+    );
+  };
+
   // Handle role addition
   const handleEmployeeAdd = async () => {
     const data = {
       name,
       department,
-      permissions: permissions.map(permission => permission.value), // map permission objects to values
+      permissions
     };
 
     if (!name || !department || permissions.length === 0) {
@@ -40,24 +51,29 @@ const AddRolesPopup = ({ handleAdd }) => {
     handleAdd();
   };
 
-  const myPermisssion = [
-    { value: "createCustomer", label: 'Create Customer' },
-    { value: "updateCustomer", label: 'Update Customer' },
-    { value: "deleteCustomer", label: 'Delete Customer ' },
-    { value: "viewCustomer", label: 'View Customer' },
-    { value: "viewTask", label: 'View Task' },
-    { value: "createTask", label: 'Create Task' },
-    { value: "updateTask", label: 'Update Task' },
-    { value: "deleteTask", label: 'Delete Task' },
-    { value: "createProject", label: 'Create Project' },
-    { value: "updateProject", label: 'Update Project ' },
-    { value: "deleteProject", label: 'Delete Project' },
-    { value: "viewProject", label: 'View Project' },
-    { value: "createEmployee", label: 'Create Employee' },
-    { value: "updateEmployee", label: 'Update Employee' },
-    { value: "viewEmployee", label: 'View Employee' },
-    { value: "deleteEmployee", label: 'Delete Employee' }
-  ];
+  
+  
+  // console.log(permissions,"permissions");
+  
+
+  // const myPermisssion = [
+  //   { value: "createCustomer", label: 'Create Customer' },
+  //   { value: "updateCustomer", label: 'Update Customer' },
+  //   { value: "deleteCustomer", label: 'Delete Customer ' },
+  //   { value: "viewCustomer", label: 'View Customer' },
+  //   { value: "viewTask", label: 'View Task' },
+  //   { value: "createTask", label: 'Create Task' },
+  //   { value: "updateTask", label: 'Update Task' },
+  //   { value: "deleteTask", label: 'Delete Task' },
+  //   { value: "createProject", label: 'Create Project' },
+  //   { value: "updateProject", label: 'Update Project ' },
+  //   { value: "deleteProject", label: 'Delete Project' },
+  //   { value: "viewProject", label: 'View Project' },
+  //   { value: "createEmployee", label: 'Create Employee' },
+  //   { value: "updateEmployee", label: 'Update Employee' },
+  //   { value: "viewEmployee", label: 'View Employee' },
+  //   { value: "deleteEmployee", label: 'Delete Employee' }
+  // ];
 
 
   return (
@@ -158,8 +174,14 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
-                                <div class="toggler-slider">
+                                <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('createEmployee', e.target.checked) 
+                                }}
+                                
+                                />
+                                <div class="toggler-slider" >
                                   <div class="toggler-knob"></div>
                                 </div>
                               </label>
@@ -168,8 +190,13 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
-                                <div class="toggler-slider">
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('viewEmployee', e.target.checked)}
+                                }
+                                />
+                                 <div class="toggler-slider" >
                                   <div class="toggler-knob"></div>
                                 </div>
                               </label>
@@ -178,7 +205,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('updateEmployee', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -187,7 +219,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           </td> <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('deleteEmployee', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -201,7 +238,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('createCustomer', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -211,7 +253,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('viewCustomer', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -221,7 +268,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('updateCustomer', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -230,7 +282,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           </td> <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('deleteCustomer', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -243,7 +300,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('createProject', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -253,7 +315,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('viewProject', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -263,7 +330,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('updateProject', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -272,7 +344,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           </td> <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('deleteProject', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -285,7 +362,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('createTask', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -295,7 +377,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('viewTask', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -305,7 +392,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('updateTask', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -314,50 +406,12 @@ const AddRolesPopup = ({ handleAdd }) => {
                           </td> <td>
                             <div>
                               <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>Project</td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td> <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                                <input type="checkbox" />
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('deleteTask', e.target.checked)}
+                                }
+                                />
                                 <div class="toggler-slider">
                                   <div class="toggler-knob"></div>
                                 </div>
@@ -397,4 +451,4 @@ const AddRolesPopup = ({ handleAdd }) => {
   );
 };
 
-export default AddRolesPopup;
+export default AddDesignationPopup;

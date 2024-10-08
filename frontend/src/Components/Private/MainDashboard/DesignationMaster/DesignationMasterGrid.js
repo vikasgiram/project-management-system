@@ -4,8 +4,7 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-import AddRolesPopup from "./Popup/AddRolesPopup";
-
+import AddDesignationPopup from "./Popup/AddDesignationPopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import { getAllDesignations, deleteDesignation } from "../../../../hooks/useDesignation";
 import { HashLoader } from "react-spinners";
@@ -175,7 +174,7 @@ export const DesignationMasterGird = () => {
 
 
             {AddPopUpShow ?
-                <AddRolesPopup
+                <AddDesignationPopup
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

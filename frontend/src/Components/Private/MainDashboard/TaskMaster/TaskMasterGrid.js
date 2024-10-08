@@ -149,7 +149,7 @@ export const TaskMasterGrid = () => {
                                                             onClick={() =>handleUpdate(task)}
                                                             
                                                             className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            <i className="fa-solid fa-pen text-success cursor-pointer" style={{ marginRight: "15px" }}></i>
                                                         </span>
 
                                                         <span
