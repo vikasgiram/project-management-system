@@ -73,9 +73,11 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     <li
                         className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i class="fa-solid fa-user-tie ps-3"></i> */}
-                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
+                            {/* <i className="fa-solid fa-user-tie ps-3 side_icon_fs" ></i> */}
+                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -88,9 +90,11 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     <li
                         className={Open || active === "CustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/CustomerMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i class="fa-solid fa-users ps-3"></i> */}
-                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
+                            {/* <i className="fa-solid fa-users ps-3 side_icon_fs"></i> */}
+                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -104,9 +108,11 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     <li
                         className={Open || active === "ProjectMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/ProjectMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i class="fa-solid fa-diagram-project ps-3"></i> */}
-                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
+                            {/* <i className="fa-solid fa-diagram-project ps-3 side_icon_fs"></i> */}
+                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -119,9 +125,11 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     <li
                         className={Open || active === "DepartmentMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DepartmentMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i class="fa-regular fa-building ps-3"></i> */}
-                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
+                            {/* <i className="fa-regular fa-building ps-3 side_icon_fs"></i> */}
+                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -135,8 +143,9 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     <li
                         className={Open || active === "DesignationMasterGird" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DesignationMasterGird' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
+                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -178,7 +187,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                                Master <i class=" ps-4 fa-solid fa-caret-down"></i>
+                                Master <i className=" ps-4 fa-solid fa-caret-down"></i>
                             </span>
                         </a>
 
@@ -187,7 +196,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 <Link to='/EmployeeMasterGrid' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "DepartmentMaster" ? "nav-item activeli" : "nav-item"}>
-                                            <span className={subMenu === "DepartmentMaster" ? "nav-link activeli" : "nav-link"}> <i class="fa-solid fa-circle dic_style ms-3 pe-2"></i> 
+                                            <span className={subMenu === "DepartmentMaster" ? "nav-link activeli" : "nav-link"}> <i className="fa-solid fa-circle dic_style ms-3 pe-2"></i> 
                                             Employee Master
                                              </span>
                                         </li>
@@ -197,7 +206,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 <Link to='/CustomerMasterGrid' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "RoleMaster" ? "nav-item activeli" : "nav-item"}>
-                                            <span className={subMenu === "RoleMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i>
+                                            <span className={subMenu === "RoleMaster" ? "nav-link activeli" : "nav-link"}><i className="fa-solid fa-circle dic_style ms-3 pe-2"></i>
                                                 Customer Master
                                             </span>
                                         </li>
@@ -208,7 +217,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 <Link to='/ProjectMasterGrid' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "DesignationMaster" ? "nav-item activeli" : "nav-item"}>
-                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i>
+                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i className="fa-solid fa-circle dic_style ms-3 pe-2"></i>
                                                 Project Master
                                             </span>
                                         </li>
@@ -219,7 +228,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 <Link to='/DepartmentMasterGrid' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "DesignationMaster" ? "nav-item activeli" : "nav-item"}>
-                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i>
+                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i className="fa-solid fa-circle dic_style ms-3 pe-2"></i>
                                                 Department Master
                                             </span>
                                         </li>
@@ -229,7 +238,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 <Link to='/DesignationMasterGird' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "DesignationMaster" ? "nav-item activeli" : "nav-item"}>
-                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i>
+                                            <span className={subMenu === "DesignationMaster" ? "nav-link activeli" : "nav-link"}><i className="fa-solid fa-circle dic_style ms-3 pe-2"></i>
                                                 Designation Master
                                             </span>
                                         </li>
@@ -238,7 +247,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 <Link to='/TaskMasterChart' className="nav-link ">
                                     <span style={{ display: isopen ? "" : "none" }} className="cursor-pointer" >
                                         <li className={subMenu === "EmployeeMaster" ? "nav-item activeli" : "nav-item"}>
-                                            <span className={subMenu === "EmployeeMaster" ? "nav-link activeli" : "nav-link"}><i class="fa-solid fa-circle dic_style ms-3 pe-2"></i>
+                                            <span className={subMenu === "EmployeeMaster" ? "nav-link activeli" : "nav-link"}><i className="fa-solid fa-circle dic_style ms-3 pe-2"></i>
                                             Task Master
                                             </span>
                                         </li>

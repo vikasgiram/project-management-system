@@ -1106,6 +1106,10 @@ nav.sidebar .nav-item.menu-space {
   font-family: "Roboto", sans-serif !important;
 }
 
+.side_icon_fs{
+  font-size: 24px !important;
+}
+
 .navbar .navbar-menu-wrapper .navbar-toggler {
   border: 0;
   color: inherit;
@@ -2315,3 +2319,77 @@ input:checked + .Slider:before {
   background: rgb(241, 241, 241) !important;
   width: 90vw !important;
 }
+
+
+
+/* start add toggle css---------------- */
+
+
+/* @charset "UTF-8"; */
+.toggler-wrapper {
+	display: block;
+	width: 45px;
+	height: 25px;
+	cursor: pointer;
+	position: relative;
+  margin: auto;
+}
+
+.toggler-wrapper input[type="checkbox"] {
+	display: none;
+}
+
+.toggler-wrapper input[type="checkbox"]:checked+.toggler-slider {
+	background-color: #44cc66;
+}
+
+.toggler-wrapper .toggler-slider {
+	background-color: #ccc;
+	position: absolute;
+	border-radius: 100px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 300ms ease;
+	transition: all 300ms ease;
+}
+
+.toggler-wrapper .toggler-knob {
+	position: absolute;
+	-webkit-transition: all 300ms ease;
+	transition: all 300ms ease;
+}
+
+
+
+
+
+
+
+.toggler-wrapper.style-22 input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
+	left: calc(100% - 19px - 3px);
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.toggler-wrapper.style-22 .toggler-slider {
+	background-color: #eb4f37;
+}
+
+.toggler-wrapper.style-22 .toggler-knob {
+	width: calc(25px - 6px);
+	height: calc(25px - 6px);
+	border-radius: 50%;
+	left: 3px;
+	top: 3px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: white;
+	-webkit-transform: scale(0.5);
+	transform: scale(0.5);
+}
+
+
+
+

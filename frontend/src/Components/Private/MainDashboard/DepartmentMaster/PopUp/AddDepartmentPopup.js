@@ -52,11 +52,6 @@ const AddDepartmentPopup = ({ handleAdd }) => {
 
                                 </div>
 
-
-
-
-
-
                                 <div className="row">
                                     <div className="col-12 pt-3 mt-2">
                                         <button

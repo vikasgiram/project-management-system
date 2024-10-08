@@ -45,75 +45,56 @@ const upcomingData=valueWise.map((data) => data.upcoming);
     responsive: true,
     maintainAspectRatio: true,
     layout: {
-      padding: {
-        top: 15,
-        bottom: 0,
-      },
+        padding: {
+            top: 15,
+            bottom: 0,
+        },
     },
     legend: {
-      display: true,
-      position: 'top',
-      align: 'start',
+        display: true,
+        position: 'top',
+        align: 'start',
     },
     plugins: {
-      datalabels: {
-        anchor: 'end',
-        align: 'end',
-        rotation: -90, // Rotate the labels to be vertical
-        color: 'black',
-      },
-      labels: {
-        render: 'value',
-        fontColor: 'black',
-      },
-      outlabels: {
-        color: "black",
-        stretch: 25,
-        font: {
-          resizable: true,
-          minSize: 12,
-          maxSize: 16,
+        datalabels: {
+            anchor: 'end',
+            align: 'end',
+            rotation: -90,
+            color: 'black',
         },
-      },
     },
     scales: {
-      x: {
-        stacked: false,
-        grid: {
-          drawOnChartArea: false,
-          color: '#1b4b7b',
-          zeroLineColor: '#1b4b7b',
-        },
-        barThickness: 15,
-        barPercentage: 0.9,
-        categoryPercentage: 0.9,
-        ticks: {
-          autoSkip: false,
-          font: {
-            size: 13,
-            color: '#1b4b7b',
-          },
-          maxRotation: 90,
-          minRotation: 90,
-        },
-      },
-      y: {
-        stacked: false,
-        grid: {
-          drawOnChartArea: false,
-          color: '#1b4b7b',
-          zeroLineColor: '#1b4b7b',
-        },
-        ticks: {
-          beginAtZero: true,
-          font: {
-            size: 12,
-            color: '#1b4b7b',
-          },
-        },
-      },
-    },
-  };
+        xAxes: [{
+            stacked: false,
+            gridLines: {
+                drawOnChartArea: false,
+                color: '#1b4b7b',
+            },
+            barThickness: 25,
+            barPercentage: 9.0,
+            categoryPercentage: 9.0,
+            ticks: {
+                autoSkip: false,
+                fontSize: '13',
+                fontColor: '#1b4b7b',
+                // maxRotation: 90,
+                // minRotation: 90,
+            }
+        }],
+        yAxes: [{
+            stacked: false,
+            gridLines: {
+                drawOnChartArea: false,
+                color: '#1b4b7b',
+            },
+            ticks: {
+                beginAtZero: true,
+                fontSize: '12',
+                fontColor: '#1b4b7b',
+            }
+        }]
+    }
+};
 
   // Render the component
   return (
@@ -125,7 +106,7 @@ const upcomingData=valueWise.map((data) => data.upcoming);
         <Bar
           options={FirstCompBar}
           data={FirstCompdata}
-          height={'200px'}
+          height={'120px'}
         />
       </div>
     </div>

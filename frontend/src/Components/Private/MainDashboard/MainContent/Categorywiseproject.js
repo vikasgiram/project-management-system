@@ -38,41 +38,56 @@ export const Categorywiseproject = ({ categorywise }) => {
     responsive: true,
     maintainAspectRatio: true,
     layout: {
-      padding: {
-        top: 15,
-        bottom: 0,
-      },
+        padding: {
+            top: 15,
+            bottom: 0,
+        },
     },
     legend: {
-      display: true,
-      position: 'top',
-      align: 'start',
+        display: true,
+        position: 'top',
+        align: 'start',
+    },
+    plugins: {
+        datalabels: {
+            anchor: 'end',
+            align: 'end',
+            rotation: -90,
+            color: 'black',
+        },
     },
     scales: {
-      x: {
-        stacked: false,
-        grid: {
-          drawOnChartArea: false,
-        },
-        barThickness: 10,
-        ticks: {
-          autoSkip: false,
-          fontSize: 13,
-          maxRotation: 90,
-          minRotation: 90,
-        },
-      },
-      y: {
-        stacked: false,
-        grid: {
-          drawOnChartArea: false,
-        },
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    },
-  };
+        xAxes: [{
+            stacked: false,
+            gridLines: {
+                drawOnChartArea: false,
+                color: '#1b4b7b',
+            },
+            barThickness: 25,
+            barPercentage: 9.0,
+            categoryPercentage: 9.0,
+            ticks: {
+                autoSkip: false,
+                fontSize: '13',
+                fontColor: '#1b4b7b',
+                // maxRotation: 90,
+                // minRotation: 90,
+            }
+        }],
+        yAxes: [{
+            stacked: false,
+            gridLines: {
+                drawOnChartArea: false,
+                color: '#1b4b7b',
+            },
+            ticks: {
+                beginAtZero: true,
+                fontSize: '12',
+                fontColor: '#1b4b7b',
+            }
+        }]
+    }
+};
 
   return (
     <div className="row bg-white p-2 m-1 border">
