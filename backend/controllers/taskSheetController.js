@@ -114,7 +114,7 @@ exports.delete = async (req, res) => {
     const task = await TaskSheet.findByIdAndDelete(req.params.id);
 
     if (!task) {
-      res.status(400).json({ error: "TaskSheet not found " });
+      return res.status(400).json({ error: "TaskSheet not found " });
     }
     res.status(200).json({ message: "TaskSheet Deleted " });
   } catch (error) {
