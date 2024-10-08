@@ -124,7 +124,7 @@ export const TaskSheetMaster = () => {
             try {
 
                 const response = await getTaskSheet(id);
-                // console.log(response, "response");
+                // console.log(response.task[0].project.name);
                 
                 setProjectName(response.task[0].project.name);
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
@@ -203,7 +203,6 @@ export const TaskSheetMaster = () => {
     const transformProjectToTasks = (projectData) => {
         // Extract project information from the task array
         const project = projectData.task[0].project;
-
         // Create a project task entry
         const projectTask = {
             id: project._id,
@@ -214,7 +213,7 @@ export const TaskSheetMaster = () => {
             type: "project",
             hideChildren: false,
         };
-
+        
         // Map the tasks within the project
         const taskList = projectData.task.map((task) => ({
             id: task._id,
@@ -225,7 +224,8 @@ export const TaskSheetMaster = () => {
             type: "task",
             progress: task.taskLevel || 0,  // Set default to 0 if undefined
         }));
-
+        
+        console.log("Task list"+taskList);
         // Return an array containing the project task followed by its task list
         return [projectTask, ...taskList];
     };

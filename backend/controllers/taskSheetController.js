@@ -35,7 +35,8 @@ exports.getTaskSheet = async (req, res) => {
     path: "project",
     select: "name startDate endDate completeLevel",
   })
-  .populate('taskName','name');
+  .populate('taskName','name')
+  .populate('employees','name');
 
   if (task.length <=0) {
     return res.status(400).json({ error: "No Task Found " });
@@ -112,7 +113,7 @@ exports.delete = async (req, res) => {
     const task = await TaskSheet.findByIdAndDelete(req.params.id);
 
     if (!task) {
-      res.status(400).json({ error: "TaskSheet not found " });
+      return res.status(400).json({ error: "TaskSheet not found " });
     }
     res.status(200).json({ message: "TaskSheet Deleted " });
   } catch (error) {
