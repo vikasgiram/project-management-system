@@ -83,7 +83,7 @@ exports.create = async (req, res) => {
 
     if (task) {
       console.log("TaskSheet created for " + task.taskName);
-      res.status(200).json(task);
+      return res.status(200).json(task);
     }
   } catch (error) {
     res
@@ -98,7 +98,7 @@ exports.update = async (req, res) => {
       new: true,
     });
     if (!task) {
-      res.status(400).json({ error: "Tasksheet not found" });
+      return res.status(400).json({ error: "Tasksheet not found" });
     }
     res.status(200).json({ message: "Tasksheet Updated " });
   } catch (error) {
