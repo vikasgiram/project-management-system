@@ -11,7 +11,9 @@ const AddTaskPopUp = ({ handleAdd }) => {
 
     const [taskname, setTaskname] = useState("");
 
-    const handleTaskAdd = async () => {
+    const handleTaskAdd = async (event) => {
+        event.preventDefault();
+        
         const data = {
             name:taskname,
         };
@@ -48,10 +50,12 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+                        
                         <div className="modal-body">
+                        <form onSubmit={handleTaskAdd}>
                             <div className="row modal_body_height">
                                 <div className="col-12">
-                                    <form>
+                                    
                                         <div className="mb-3">
                                             <label
                                                 for="taskname"
@@ -66,18 +70,20 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                                 className="form-control rounded-0"
                                                 id="taskname"
                                                 aria-describedby="emailHelp"
+                                                required
                                             />
                                         </div>
-                                    </form>
+                                    
                                 </div>
+
 
 
 
                                 <div className="row">
                                     <div className="col-12 pt-3 mt-2">
                                         <button
-                                            type="button"
-                                            onClick={handleTaskAdd}
+                                            type="submit"
+                                            // onClick={handleTaskAdd}
                                             className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                                         >
                                             Add
@@ -92,6 +98,7 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                     </div>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>

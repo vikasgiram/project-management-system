@@ -62,12 +62,11 @@ function MainDashboard() {
 
   return (
     <>
-       {loading ? (
-           <Loader loading={loading} />
-         ) : (
-
-     
-      
+        {loading && (
+                <div className="overlay">
+                    <span className="loader"></span>
+                </div>
+            )}
       <div className="container-scroller">
         <div className="row background_main_all">
           <Header
@@ -100,7 +99,7 @@ function MainDashboard() {
           </div>
         </div>
       </div>
-         )}
+    
       {/* </div> */}
     </>
   );

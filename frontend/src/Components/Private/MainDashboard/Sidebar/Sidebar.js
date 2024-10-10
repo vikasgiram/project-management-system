@@ -160,7 +160,13 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                         className={Open || active === "TaskMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/TaskMasterGrid' className="nav-link ">
                             {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            <i class="fa-solid fa-asterisk ps-3 star_fs" ></i>
+<<<<<<< HEAD
+                            {/* <i class="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+
+=======
+                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+>>>>>>> 47623d0cb411809e1e1a982a22db51db034c6404
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}

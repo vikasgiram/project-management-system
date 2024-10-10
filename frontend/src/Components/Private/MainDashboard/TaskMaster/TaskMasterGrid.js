@@ -62,14 +62,15 @@ export const TaskMasterGrid = () => {
             try {
                 const allTasks = await getTask();
                 if (allTasks) {
-                    setTasks(allTasks.task); 
+                    setTasks(allTasks.task);
+                    setLoading(false); 
                 } 
             } catch (error) {
                 
                 toast.error(error.response.data.error);
             }
         };
-
+        
         fetchData();
     }, [AddPopUpShow, deletePopUpShow, updatePopUpShow]);
 
@@ -78,25 +79,12 @@ export const TaskMasterGrid = () => {
 
 
     return (
-        <>
-            {/* {loading ? (
-            <div
-               style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100vh',  // Full height of the viewport
-                  width: '100vw',   // Full width of the viewport
-                  position: 'absolute', // Absolute positioning to cover the viewport
-                  top: 0,
-                  left: 0,
-                  backgroundColor: '#f8f9fa' // Optional background color
-               }}
-            >
-               <HashLoader color="#4C3B77" loading={loading} size={50} />
-            </div>
-         ) : ( */}
-        
+        <>  
+             {loading && (
+                <div className="overlay">
+                    <span className="loader"></span>
+                </div>
+            )}
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -131,13 +119,13 @@ export const TaskMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                                <thead>
-                                                    <tr className="th_border">
+                                       
+                                                <tr className="th_border">
                                                         <th>Sr. No</th>
                                                         <th>Task Name</th>
                                                         <th>Action</th>
                                                     </tr>
-                                                </thead>
+                                             
                                                 <tbody className="broder my-4">
                                                     {tasks && tasks.map((task, index) => (
                                                     <tr className="border my-4" key={task.id}>
@@ -149,7 +137,7 @@ export const TaskMasterGrid = () => {
                                                             onClick={() =>handleUpdate(task)}
                                                             
                                                             className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
                                                         </span>
 
                                                         <span

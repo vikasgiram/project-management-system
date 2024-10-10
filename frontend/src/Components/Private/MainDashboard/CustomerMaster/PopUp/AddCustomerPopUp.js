@@ -43,7 +43,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     // }
   };
 
-  const handleCustomerAdd = async () => {
+  const handleCustomerAdd = async (event) => {
+    event.preventDefault();
+
     const data = {
       custName,
       phoneNumber1,
@@ -93,6 +95,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
+            <form onSubmit={handleCustomerAdd}>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Create New Customer
@@ -110,7 +113,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
             <div className="modal-body">
               <div className="row modal_body_height">
                 <div className="col-12">
-                  <form>
                     <div className="">
                       <label for="FullName" className="form-label label_text">
                         Full Name
@@ -122,13 +124,12 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         value={custName}
                         onChange={(e) => setCustName(e.target.value)}
                         aria-describedby="nameHelp"
+                        required 
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12">
-                  <form>
                     <div className="mb-3">
                       <label for="email" className="form-label label_text">
                         Email
@@ -142,7 +143,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         aria-describedby="emailHelp"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12  mt-2">
@@ -152,7 +152,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <label
                             for="SecondaryPersonName"
@@ -171,11 +170,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <label
                             for="SecondaryPersonName2"
@@ -194,11 +191,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <label
                             for="MobileNumber"
@@ -215,11 +210,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="mobileNoHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <label
                             for="mobileNo"
@@ -236,7 +229,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="MobileNoHelp"
                           />
                         </div>
-                      </form>
                     </div>
                   </div>
                 </div>
@@ -248,7 +240,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="number"
@@ -265,11 +256,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="text"
@@ -281,11 +270,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="text"
@@ -297,11 +284,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="text"
@@ -313,11 +298,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-12 mt-2">
-                      <form>
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
@@ -329,7 +312,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             rows="2"
                           ></textarea>
                         </div>
-                      </form>
                     </div>
                   </div>
                 </div>
@@ -442,7 +424,6 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                 </div> */}
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="">
                       <label for="GSTNumber" className="form-label label_text">
                         GST Number
@@ -456,13 +437,12 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         aria-describedby="emailHelp"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
-                      type="button"
+                      type="submit"
                       onClick={handleCustomerAdd}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
@@ -479,8 +459,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                 </div>
               </div>
             </div>
+            </form>
           </div>
-        </div>
+        </div> 
       </div>
     </>
   );

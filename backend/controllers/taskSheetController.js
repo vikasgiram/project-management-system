@@ -27,7 +27,6 @@ exports.showAll = async (req, res) => {
 exports.getTaskSheet = async (req, res) => {
   const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
   const { id } = req.params;
-  console.log(id);
   const task = await TaskSheet.find(
     {
       company: decoded.user.company ? decoded.user.company : decoded.user._id, project:id

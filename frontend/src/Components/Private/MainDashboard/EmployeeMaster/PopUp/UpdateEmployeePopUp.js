@@ -26,7 +26,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
     }
   };
 
-  const handleEmpUpdate = async () => {
+  const handleEmpUpdate = async (event) => {
+
+    event.preventDefault();
     try {
       await updateEmployee(employee);
       handleUpdate();
@@ -71,6 +73,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
+            <form onSubmit={handleEmpUpdate}>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Update Employee
@@ -87,7 +90,6 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
             <div className="modal-body">
               <div className="row modal_body_height">
                 <div className="col-12">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="name" className="form-label label_text">
                         Full Name
@@ -101,11 +103,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         id="name"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="mobileNo" className="form-label label_text">
                         Mobile Number
@@ -119,11 +119,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         id="mobileNo"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="email" className="form-label label_text">
                         Email
@@ -137,11 +135,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         id="email"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="Department" className="form-label label_text">
                         Department
@@ -164,11 +160,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         ))}
                       </select>
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="Role" className="form-label label_text">
                         Designation
@@ -191,11 +185,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         ))}
                       </select>
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="HourlyRate" className="form-label label_text">
                         Hourly Rate
@@ -219,13 +211,12 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         />
                       </div>
                     </div>
-                  </form>
                 </div>
 
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
-                      type="button"
+                      type="submit"
                       onClick={handleEmpUpdate}
                       className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                     >
@@ -242,6 +233,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                 </div>
               </div>
             </div>
+            </form>
           </div>
         </div>
       </div>
