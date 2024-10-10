@@ -115,8 +115,8 @@
 }
 
 .center{
-    height: 70vh;
-    width: 60vw !important;
+    height: 60vh;
+    width: 55vw !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -124,6 +124,18 @@
     margin-top: 4%;
     border-radius: 20px;
 }
+
+@media screen and (max-width: 800px) {
+    .center{
+        height: 70vh;
+        width: 90vw !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background-repeat: no-repeat;
+        margin-top: 4%;
+    }
+  }
 
 .bg-img{
     background: url(../../../public/static/assets/img/Login/login_pms.jpg);

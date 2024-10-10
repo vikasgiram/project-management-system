@@ -1,5 +1,5 @@
-import React,{useState, useContext } from "react";
-import {useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "././login.css";
 import toast from "react-hot-toast";
 import { loginUser } from "../../hooks/useAuth";
@@ -9,16 +9,18 @@ import { UserContext } from "../../context/UserContext";
 export const LogIn = () => {
   const navigation = useNavigate();
 
+
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const {setUser} = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     // console.log(username + " " + password);
-  
+
     try {
       const data = await loginUser(username, password);
       setUser(data);
@@ -29,14 +31,14 @@ export const LogIn = () => {
       } else if (data.user === "admin") {
         navigation("/adminDashboard");
       }
-  
+
     } catch (error) {
       console.error(error);
-      toast.error("Invalid User"); 
+      toast.error("Invalid User");
     }
   };
 
-  
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -46,10 +48,10 @@ export const LogIn = () => {
       <div className="pt-5 all_bg" style={{ height: "100vh" }}>
         <div className=" mx-auto row bg-img center">
           <div className="col-12  col-md-5  mt-md-0 col-lg-7 mx-auto    ">
-            <div className="row px-2">
+            <div className="row px-lg-2">
               <h4 className="text-center pb-2 fw-bold login_text">LOG IN</h4>
 
-              <div className="col-9 mx-auto">
+              <div className="col-lg-9 mx-auto">
                 <form action="" method="post">
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">
@@ -63,6 +65,7 @@ export const LogIn = () => {
                       placeholder="Username"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
+
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
@@ -88,24 +91,24 @@ export const LogIn = () => {
                         setPassword(e.target.value)
                         // showPassEncrypt()
                       }}
-                      
-                      // onChange={(e) => 
-                      //   setPassword(e.target.value)
-                        
-                        
-                      // }
+
+                    // onChange={(e) => 
+                    //   setPassword(e.target.value)
+
+
+                    // }
                     />
                     <span class="input-group-text">
                       {" "}
 
                       <i
-                      onClick={toggleShowPassword}
-                      className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
-                      style={{ cursor: "pointer" }}
-                    ></i>
+                        onClick={toggleShowPassword}
+                        className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
+                        style={{ cursor: "pointer" }}
+                      ></i>
 
 
-                    
+
                     </span>
                   </div>
                   <div className=" mb-2 text-start">
@@ -114,6 +117,7 @@ export const LogIn = () => {
                         href="#"
                         className="forgot-pass text-decoration-none"
                         style={{ color: "rgb(96 124 7)" }}
+                        onClick={() => navigation('/ForgotPassword')}
                       >
                         Forgot Password
                       </a>
@@ -163,7 +167,7 @@ export const LogIn = () => {
             </div>
           </div>
 
-          <div className="col-12 col-md-7 col-lg-5 px-5 wardha_background mx-auto   d-none d-lg-block"></div>
+          <div className="col-12 col-md-7 col-lg-5 px-5  mx-auto   d-none d-lg-block"></div>
         </div>
         {/* 
                 <div className='row g-0'>

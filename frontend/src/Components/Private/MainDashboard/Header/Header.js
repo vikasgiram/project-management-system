@@ -93,6 +93,14 @@ export const Header = (props) => {
 										
 									</div>
 								</Link>
+
+								<Link to="/ChangePassword" className="dropdown-item">
+									<div className="drop_item_one my-1">
+										Change Password
+										
+									</div>
+								</Link>
+
 								<Link to="/" className="dropdown-item" onClick={handleLogout}>
 
 									<div className="drop_item_two my-1">

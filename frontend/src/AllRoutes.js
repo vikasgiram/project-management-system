@@ -13,6 +13,8 @@ import { TaskMasterGrid } from "./Components/Private/MainDashboard/TaskMaster/Ta
 import { DepartmentMasterGrid } from "./Components/Private/MainDashboard/DepartmentMaster/DepartmentMasterGrid";
 import { DesignationMasterGird } from "./Components/Private/MainDashboard/DesignationMaster/DesignationMasterGrid";
 import { TaskSheetMaster } from "./Components/Private/MainDashboard/TaskSheetMaster/TaskSheetMaster";
+import { ForgotPassword } from "./Components/Public/ForgotPassword";
+import { ChangePassword } from "./Components/Public/ChangePassword";
 
 
 
@@ -25,6 +27,8 @@ const AllRoutes = () => {
             <Router>
                 <Routes>
                     <Route exact path="/" element={<LogIn />} />
+                    <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
+                    <Route exact path="/ChangePassword" element={<ChangePassword />} />
 
                     <Route exact path="/MainDashboard" element={<MainDashboard />} />
 
