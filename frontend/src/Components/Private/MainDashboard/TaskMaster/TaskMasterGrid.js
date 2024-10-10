@@ -131,13 +131,13 @@ export const TaskMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                                <thead>
-                                                    <tr className="th_border">
+                                       
+                                                <tr className="th_border">
                                                         <th>Sr. No</th>
                                                         <th>Task Name</th>
                                                         <th>Action</th>
                                                     </tr>
-                                                </thead>
+                                             
                                                 <tbody className="broder my-4">
                                                     {tasks && tasks.map((task, index) => (
                                                     <tr className="border my-4" key={task.id}>
@@ -149,7 +149,7 @@ export const TaskMasterGrid = () => {
                                                             onClick={() =>handleUpdate(task)}
                                                             
                                                             className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer"></i>
+                                                            <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
                                                         </span>
 
                                                         <span
