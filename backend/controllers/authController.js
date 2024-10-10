@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const Employee= require('../models/employeeModel.js');
 const Company = require('../models/companyModel.js');
 const Admin = require('../models/adminModel.js');
@@ -75,6 +77,34 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.changePassword = async (req, res)=>{
+  try {
+    const {oldPass, newPass} = req.body;
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const [employee, company, admin] = await Promise.all([
+      Employee.findById(decoded.user._id),
+      Company.findById(decoded.user._id),
+      Admin.findById(decoded.user._id)
+    ]);
+
+    const user = employee || company || admin;
+
+    if(user){
+
+      if(await comparePassword(user, oldPass)){
+        changePassword(res,user, newPass);
+      }else{
+        return res.status(400).json({error:"Wrong Password..."});
+      }
+    }else{
+      return res.status(400).json({error:"User not found..."});
+    }
+
+  } catch (error) {
+    res.status(500).json({error:"Error while changing password: "+error.message});
+  }
+};
+
 exports.forgetPassword = async (req, res)=>{
   try {
     const {email}=req.body;
@@ -107,7 +137,7 @@ exports.forgetPassword = async (req, res)=>{
 exports.resetPassword = async (req, res)=>{
   try {
     const {id,token}=req.params;
-    const {password,confirmPassword}=req.body;
+    const {password, confirmPassword}=req.body;
 
     const [employee, company, admin] = await Promise.all([
       Employee.findById(id),
@@ -119,7 +149,7 @@ exports.resetPassword = async (req, res)=>{
 
     if(user){
       if(verifyResetToken(user,token)){
-        if(password === confirmPassword){
+        if(confirmPassword===password){
           return changePassword(res,user,password);
         }
         else{
@@ -130,7 +160,6 @@ exports.resetPassword = async (req, res)=>{
         return res.status(400).json({error:"Invalid token "});
       } 
     }
-
     else{
       return res.status(400).json({error:"User not found..."});
     }
