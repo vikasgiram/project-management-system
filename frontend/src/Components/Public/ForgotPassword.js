@@ -1,16 +1,25 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "././login.css";
+import toast from "react-hot-toast";
+import { forgetPassword } from "../../hooks/useAuth";
 
 export const ForgotPassword = () => {
   const navigation = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
  
   
 
+  const handelEmailSubmit= async (e) =>{
+    e.preventDefault();
+    if(email === ""){
+      return toast.error("Email is Required...  ");
+    }
+    await forgetPassword(email);
+    setEmail('');
+  }
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -25,7 +34,7 @@ export const ForgotPassword = () => {
               <h4 className="text-center pb-2 fw-bold login_text">Forgot Password</h4>
 
               <div className="col-lg-9 my-lg-4 mx-auto">
-                <form action="" method="post">
+                <form >
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">
                     <i class="fa-solid fa-envelope"></i>
@@ -34,12 +43,12 @@ export const ForgotPassword = () => {
                       type="text"
                       class="form-control"
                       name="email"
-                    //   value={username}
+                      value={email}
                       placeholder="Enter Your Registered Email"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -50,12 +59,11 @@ export const ForgotPassword = () => {
               
                   <span
                     style={{ textDecoration: "none" }}
-                    // onClick={handleLogin}
-                    onClick={() => navigation('/')}
                   >
                     <input
-                      type="button"
+                      type="submit"
                       value="Forgot"
+                      onClick={handelEmailSubmit}
                       className="btn btn-block btn_submit form-control fw-bold"
                     />
                   </span>
