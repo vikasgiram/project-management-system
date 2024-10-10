@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "././login.css";
 import toast from "react-hot-toast";
-import { loginUser } from "../../hooks/useAuth";
+import { changePassword, loginUser } from "../../hooks/useAuth";
 import { UserContext } from "../../context/UserContext";
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
@@ -10,12 +10,21 @@ export const ChangePassword = () => {
     const navigation = useNavigate();
 
 
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [confirmPass, setConfirmPass] = useState('');
+    const [newPass, setNewPass]= useState('');
+    const [oldPass, setOldPass] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-
+    const handelChangePasword = async (e) =>{
+        e.preventDefault();
+        if(newPass !== confirmPass){
+            return toast.error("New Password and Confirm Password desen't match...");
+        }
+		await changePassword(oldPass, newPass, confirmPass);
+        setConfirmPass('');
+        setNewPass('');
+        setOldPass('');
+	};
 
 
     const toggleShowPassword = () => {
@@ -32,7 +41,7 @@ export const ChangePassword = () => {
 
                             <div className="col-lg-9 mx-auto pt-4">
 
-                                <form action="" method="post">
+                                <form>
 
         
                                     <div class="input-group mb-3">
@@ -46,10 +55,10 @@ export const ChangePassword = () => {
                                             type={showPassword ? "text" : "password"}
                                             className="form-control"
                                             autoComplete="new-Password"
-                                            //   value={password}
+                                            value={oldPass}
 
                                             onChange={(e) => {
-                                                setPassword(e.target.value)
+                                                setOldPass(e.target.value)
                                                 // showPassEncrypt()
                                             }}
                                         />
@@ -79,10 +88,10 @@ export const ChangePassword = () => {
                                             type={showPassword ? "text" : "password"}
                                             className="form-control"
                                             autoComplete="new-Password"
-                                            value={password}
+                                            value={newPass}
 
                                             onChange={(e) => {
-                                                setPassword(e.target.value)
+                                                setNewPass(e.target.value)
                                                 // showPassEncrypt()
                                             }}
                                         />
@@ -112,10 +121,10 @@ export const ChangePassword = () => {
                                             type={showPassword ? "text" : "password"}
                                             className="form-control"
                                             autoComplete="new-Password"
-                                            value={password}
+                                            value={confirmPass}
 
                                             onChange={(e) => {
-                                                setPassword(e.target.value)
+                                                setConfirmPass(e.target.value)
                                                 // showPassEncrypt()
                                             }}
                                         />
@@ -139,8 +148,9 @@ export const ChangePassword = () => {
                                     // onClick={handleLogin}
                                     >
                                         <input
-                                            type="button"
+                                            type="submit"
                                             value="Change"
+                                            onClick={handelChangePasword}
                                             className="btn btn-block btn_submit form-control fw-bold"
                                         />
                                     </span>

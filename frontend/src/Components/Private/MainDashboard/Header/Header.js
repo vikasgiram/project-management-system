@@ -39,6 +39,8 @@ export const Header = (props) => {
 		}
 	  };
 
+	
+
 	return (
 		<div className="wrapper  mb-5" >
 			<nav className="navbar fixed-top d-flex header dark-shadow " style={{ width: isopen ? "" : "calc(100% - 144px)", marginLeft: isopen ? "" : "120px", marginTop: sticky ? "1px" : "", }} >
@@ -94,7 +96,7 @@ export const Header = (props) => {
 									</div>
 								</Link>
 
-								<Link to="/ChangePassword" className="dropdown-item">
+								<Link to="/ChangePassword"  className="dropdown-item">
 									<div className="drop_item_one my-1">
 										Change Password
 										
