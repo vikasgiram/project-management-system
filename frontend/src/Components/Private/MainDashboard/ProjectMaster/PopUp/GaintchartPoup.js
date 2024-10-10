@@ -79,23 +79,11 @@ const GaintchartPoup = ({ handleDetails, selectedProject }) => {
 
   return (
     <>
-      {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100vw",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            backgroundColor: "#f8f9fa",
-          }}
-        >
-          <HashLoader color="#4C3B77" loading={loading} size={50} />
-        </div>
-      ) : (
+        {loading && (
+                <div className="overlay">
+                    <span className="loader"></span>
+                </div>
+            )}
         <div
           className="modal fade show"
           style={{
@@ -149,7 +137,7 @@ const GaintchartPoup = ({ handleDetails, selectedProject }) => {
             </div>
           </div>
         </div>
-      )}
+      
     </>
   );
 };

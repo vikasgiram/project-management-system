@@ -81,9 +81,10 @@ const AddDesignationPopup = ({ handleAdd }) => {
       <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
+            <form onSubmit={handleEmployeeAdd}>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                Create New Role
+                Create New Designation
               </h5>
               <button
                 onClick={() => handleAdd()}
@@ -97,11 +98,11 @@ const AddDesignationPopup = ({ handleAdd }) => {
             <div className="modal-body">
 
               <div className="row modal_body_height">
-                {/* Role Name */}
+               
                 <div className="col-12">
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label label_text">
-                      Role Name
+                      Designation Name
                     </label>
                     <input
                       type="text"
@@ -427,7 +428,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
 
                 <div className="col-12 pt-3 mt-2">
                   <button
-                    type="button"
+                    type="submit"
                     onClick={handleEmployeeAdd}
                     className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                   >
@@ -444,6 +445,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
 
               </div>
             </div>
+            </form>
           </div>
         </div>
       </div>

@@ -8,7 +8,8 @@ const AddDepartmentPopup = ({ handleAdd }) => {
 
     const [name, setName] = useState("");
 
-    const handleProjectAdd = async () => {
+    const handleProjectAdd = async (event) => {
+        event.preventDefault();
         const data = {
             name,
         };
@@ -24,6 +25,7 @@ const AddDepartmentPopup = ({ handleAdd }) => {
             <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content p-3">
+                        <form onSubmit={handleProjectAdd}>
                         <div className="modal-header pt-0">
 
                             <h5 className="card-title fw-bold" id="exampleModalLongTitle">
@@ -41,22 +43,20 @@ const AddDepartmentPopup = ({ handleAdd }) => {
 
 
 
-                                    <form>
                                         <div className="mb-3">
                                             <label for="Name" className="form-label label_text">     Department Name
                                             </label>
                                             <input type="text" className="form-control rounded-0" id="Name" onChange={(e) => setName(e.target.value)} value={name} aria-describedby="secemailHelp" />
                                         </div>
 
-                                    </form>
 
                                 </div>
 
                                 <div className="row">
                                     <div className="col-12 pt-3 mt-2">
                                         <button
-                                            type='button'
-                                            onClick={handleProjectAdd}
+                                            type='submit'
+                                            // onClick={handleProjectAdd}
                                             className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
                                             Add
                                         </button>
@@ -71,6 +71,7 @@ const AddDepartmentPopup = ({ handleAdd }) => {
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
