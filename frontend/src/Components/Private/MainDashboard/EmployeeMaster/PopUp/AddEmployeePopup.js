@@ -56,7 +56,8 @@ const AddEmployeePopup = ({ handleAdd }) => {
     }
   }, [department]);
 
-  const handleEmployeeAdd = async () => {
+  const handleEmployeeAdd = async (event) => {
+    event.preventDefault();
     const data = {
       name,
       mobileNo,
@@ -89,6 +90,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
+            <form onSubmit={handleEmployeeAdd}>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Create New Employee
@@ -106,7 +108,6 @@ const AddEmployeePopup = ({ handleAdd }) => {
             <div className="modal-body">
               <div className="row modal_body_height">
                 <div className="col-12">
-                  <form>
                     <div className="mb-3">
                       <label
                         for="name"
@@ -123,11 +124,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         aria-describedby="emailHelp"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label
                         for="MobileNumber"
@@ -144,11 +143,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         aria-describedby="emailHelp"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label
                         for="Email"
@@ -165,11 +162,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         aria-describedby="emailHelp"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label
                         for="Department"
@@ -192,11 +187,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                           ))}
                       </select>{" "}
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label
                         for="Designation"
@@ -217,11 +210,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                           ))}
                       </select>
                     </div>
-                  </form>
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
-                  <form>
                     <div className="mb-3">
                       <label
                         for="HourlyRate"
@@ -248,12 +239,10 @@ const AddEmployeePopup = ({ handleAdd }) => {
                         />
                       </div>{" "}
                     </div>
-                  </form>
                 </div>
 
                 <div className="row">
                   <div className="col-12 col-lg-6 mt-2">
-                    <form>
                       <div className="mb-3">
                         <label
                           for="password"
@@ -270,11 +259,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
                           aria-describedby="emailHelp"
                         />
                       </div>
-                    </form>
                   </div>
 
                   <div className="col-12 col-lg-6 mt-2">
-                    <form>
                       <div className="mb-3">
                         <label
                           for="ConfirmPassword"
@@ -291,14 +278,13 @@ const AddEmployeePopup = ({ handleAdd }) => {
                           aria-describedby="emailHelp"
                         />
                       </div>
-                    </form>
                   </div>
                 </div>
 
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
-                      type="button"
+                      type="submit"
                       onClick={handleEmployeeAdd}
                       className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                     >
@@ -315,6 +301,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                 </div>
               </div>
             </div>
+            </form>
           </div>
         </div>
       </div>

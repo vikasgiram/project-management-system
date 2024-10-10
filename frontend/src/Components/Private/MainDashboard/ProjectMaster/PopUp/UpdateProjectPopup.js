@@ -69,7 +69,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
       setAddress({ ...address, [name]: value });
       
     };
-    const handleProjectUpdate = async () => {
+    const handleProjectUpdate = async (event) => {
+        event.preventDefault();
         const updatedProject ={
             ...projects,
             Address: { // Ensure the address is nested under "Address"
@@ -94,7 +95,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
    
     return (
         <>
+        <form onSubmit={handleProjectUpdate}>
             <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
+                
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content p-3">
                         <div className="modal-header pt-0">
@@ -112,7 +115,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                             <div className="row modal_body_height">
                                 <div className="col-12" >
 
-                                    <form>
                                         <div className="mb-3">
                                             <label htmlFor="CustomerName" className="form-label label_text">Customer Name</label>
                                             <select className="form-select rounded-0" aria-label="Default select example"
@@ -130,18 +132,12 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                           
                                             
                                         </div>
-                                    </form>
                                 </div>
 
-                                <form>
                                     <div className="mb-3">
                                         <label for="ProjectName" className="form-label label_text">Project Name</label>
                                         <input type="text" className="form-control rounded-0" id="ProjectName" name="name" onChange={handleChange} value={projects.name} aria-describedby="emailHelp" />
                                     </div>
-
-                                </form>
-
-                                <form>
                                     <div className="mb-3">
                                         <label for="ProjectName" className="form-label label_text">Project Status</label>
                                         <select className="form-select rounded-0" aria-label="Default select example"
@@ -155,12 +151,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                
                                             </select>
                                     </div>
-
-                                </form>
-
                                 <div className="col-12 col-lg-6 mt-2" >
-
-                                    <form>
                                         <div className="mb-3">
                                             <label htmlFor="purchaseOrderDate" 
                                                 name="purchaseOrderDate" className="form-label label_text">Purchase Order Date</label>
@@ -175,15 +166,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             />
                                             {/* {console.log(projects.purchaseOrderDate,"projects")} */}
                                         </div>
-                                    </form>
-
-
-
-                                </div>
-
+                                        </div>
                                 <div className="col-12 col-lg-6 mt-2" >
-
-                                    <form>
                                         <div className="mb-3">
                                             <label for="PurchaseOrderNumber" 
                                             name="purchaseOrderNo"
@@ -192,13 +176,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             name="purchaseOrderNo"
                                             value={projects.purchaseOrderNo} onChange={handleChange}  aria-describedby="emailHelp" />
                                         </div>
-
-                                    </form>
-
-
                                 </div>
                                 <div className="col-12 col-lg-6 mt-2" >
-                                    <form>
                                         <div className="mb-3">
                                             <label for="PurchaseOrderValu" className="form-label label_text">Purchase Order Value (Rs/USD)
                                             </label>
@@ -206,14 +185,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             name="purchaseOrderValue"
                                             id="PurchaseOrderValu" onChange={handleChange} value={projects.purchaseOrderValue} aria-describedby="emailHelp" />
                                         </div>
-
-                                    </form>
-
                                 </div>
-
                                 <div className="col-12 col-lg-6 mt-2" >
-
-                                    <form>
                                         <div className="mb-3">
                                             <label for="exampleInputEmail1" className="form-label label_text">Category of Project
                                             </label>
@@ -240,15 +213,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 <option value="IP PA and Communication System">IP PA and Communication System</option>
                                             </select>
                                         </div>
-
-                                    </form>
-
                                 </div>
-
-
                                 <div className="col-12 col-lg-6 mt-2" >
-
-                                    <form>
                                         <div className="mb-3">
                                             <label htmlFor="startDate" className="form-label label_text">Project Start Date
                                             </label>
@@ -261,20 +227,12 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 id="startDate"
                                                 aria-describedby="dateHelp"
                                             />
-                                          
-                                            
                                         </div>
-                                    </form>
-
                                 </div>
-
                                 <div className="col-12 col-lg-6 mt-2" >
-
-                                    <form>
                                         <div className="mb-3">
                                             <label htmlFor="EndDate" className="form-label label_text">Project End Date</label>
                                             <input
-                                                
                                                 onChange={handleChange}
                                                 value={formattedEndDate} // Make sure to handle the case where it might be undefined
                                                 type="date"
@@ -284,8 +242,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 aria-describedby="dateHelp"
                                             />
                                         </div>
-                                    </form>
-
                                 </div>
 
 
@@ -301,8 +257,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                         </div>
 
                                         <div className="col-12 col-lg-6 mt-2" >
-
-                                            <form>
                                                 <div className="mb-3">
                                                     <label for="advancePay" className="form-label label_text">     Advance Payment
                                                     </label>
@@ -310,13 +264,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                     name="advancePay"
                                                     onChange={handleChange} value={projects.advancePay} aria-describedby="mobileNoHelp" />
                                                 </div>
-
-                                            </form>
-
                                         </div>
                                         <div className="col-12 col-lg-6 mt-2" >
-
-                                            <form>
                                                 <div className="mb-3">
                                                     <label for="payAgainstDelivery" className="form-label label_text">          Pay Against Delivery
 
@@ -325,14 +274,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                     name="payAgainstDelivery"
                                                     onChange={handleChange} value={projects.payAgainstDelivery} aria-describedby="mobileNoHelp" />
                                                 </div>
-
-                                            </form>
-
                                         </div>
 
                                         <div className="col-12 col-lg-6 mt-2" >
-
-                                            <form>
                                                 <div className="mb-3">
                                                     <label for="payfterCompletion" className="form-label label_text">     Pay After Completion
                                                     </label>
@@ -340,19 +284,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                     name="payfterCompletion"
                                                     onChange={handleChange} value={projects.payfterCompletion} aria-describedby="secemailHelp" />
                                                 </div>
-
-                                            </form>
-
                                         </div>
-
-
-
-
-
                                     </div>
                                 </div>
-
-
                                 <div className="col-12  mt-2">
                   <div className="row border mt-4 bg-gray mx-auto">
                     <div className="col-12 mb-3">
@@ -360,7 +294,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="number"
@@ -374,11 +307,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                           />
                           
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="text"
@@ -391,11 +322,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="text"
@@ -408,11 +337,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-6 mt-2">
-                      <form>
                         <div className="mb-3">
                           <input
                             type="text"
@@ -425,11 +352,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                      </form>
                     </div>
 
                     <div className="col-12 col-lg-12 mt-2">
-                      <form>
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
@@ -441,7 +366,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                             rows="2"
                           ></textarea>
                         </div>
-                      </form>
                     </div>
                   </div>
                 </div>
@@ -455,22 +379,15 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
                                 <div className="col-12 col-lg-6 mt-2" >
 
-                                    <form>
                                         <div className="mb-3">
                                             <label for="PurchaseOrderCopy" className="form-label label_text">     Purchase Order Copy
 
                                             </label>
                                             <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp" />
                                         </div>
-
-                                    </form>
-
-
                                 </div>
-
                                 <div className="col-12 col-lg-6 mt-2" >
 
-                                    <form>
                                         <div className="mb-3">
                                             <label for="remark" className="form-label label_text">     remark
                                             </label>
@@ -478,9 +395,6 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             name="remark"
                                             onChange={handleChange} value={projects.remark} aria-describedby="secemailHelp" />
                                         </div>
-
-                                    </form>
-
                                 </div>
 
 
@@ -489,7 +403,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                 <div className="row">
                                     <div className="col-12 pt-3 mt-2">
                                         <button
-                                            type='button'
+                                            type='submit'
                                             onClick={handleProjectUpdate}
                                             className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
                                             Update
@@ -508,6 +422,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                     </div>
                 </div>
             </div>
+                </form>
 
         </>);
 }

@@ -8,6 +8,7 @@ const[task,setTask]=useState(selectedTask);
  
 // console.log(selectedTask._id);
   const handleChange = (event) => {
+    event.preventDefault();
     const { name, value } = event.target;
     setTask((prevTask)=>({...prevTask,[name]:value}))
   };
@@ -33,6 +34,7 @@ const[task,setTask]=useState(selectedTask);
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
+            <form onSubmit={handleTaskUpdate}>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Update Employee
@@ -49,7 +51,6 @@ const[task,setTask]=useState(selectedTask);
             <div className="modal-body">
               <div className="row modal_body_height">
                 <div className="col-12">
-                  <form>
                     <div className="mb-3">
                       <label htmlFor="name" className="form-label label_text">
                         Full Name
@@ -63,13 +64,12 @@ const[task,setTask]=useState(selectedTask);
                         id="name"
                       />
                     </div>
-                  </form>
                 </div>
 
                 <div className="row">
                   <div className="col-12 pt-3 mt-2">
                     <button
-                      type="button"
+                      type="submit"
                       onClick={handleTaskUpdate}
                       className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                     >
@@ -86,6 +86,7 @@ const[task,setTask]=useState(selectedTask);
                 </div>
               </div>
             </div>
+            </form>
           </div>
         </div>
       </div>

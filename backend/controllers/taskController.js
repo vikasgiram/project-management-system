@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const Task = require('../models/taskModel');
+const TaskSheet = require('../models/taskSheetModel');
 
 exports.create = async (req, res) => {
   try {
@@ -50,10 +51,13 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id);
+
+    const id = req.params.id;
+    const task = await Task.findByIdAndDelete(id);
+    await TaskSheet.deleteMany({ taskName: id });
 
     if (!task) {
-      res.status(400).json({ error: "Task not found" });
+      return res.status(400).json({ error: "Task not found" });
     }
     res.status(200).json({ message: "Task Deleted" });
   } catch (error) {

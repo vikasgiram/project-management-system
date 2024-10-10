@@ -4,11 +4,10 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-import AddRolesPopup from "./Popup/AddRolesPopup";
-
+import AddDesignationPopup from "./Popup/AddDesignationPopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import { getAllDesignations, deleteDesignation } from "../../../../hooks/useDesignation";
-import { HashLoader } from "react-spinners";
+
 
 
 
@@ -61,27 +60,13 @@ export const DesignationMasterGird = () => {
     }, [AddPopUpShow,deletePopUpShow]);
 
 
-
-
     return (
         <>
-            {loading ? (
-            <div
-               style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100vh',  // Full height of the viewport
-                  width: '100vw',   // Full width of the viewport
-                  position: 'absolute', // Absolute positioning to cover the viewport
-                  top: 0,
-                  left: 0,
-                  backgroundColor: '#f8f9fa' // Optional background color
-               }}
-            >
-               <HashLoader color="#4C3B77" loading={loading} size={50} />
-            </div>
-         ) : (
+            {loading && (
+                <div className="overlay">
+                    <span className="loader"></span>
+                </div>
+            )}
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -97,7 +82,8 @@ export const DesignationMasterGird = () => {
                                             Designation Master
                                         </h5>
                                     </div>
-
+                                    
+                                    {/* <span class="loader"></span> */}
                                     <div className="col-12 col-lg-6  ms-auto text-end">
                                         <button
                                             onClick={() => {
@@ -161,8 +147,7 @@ export const DesignationMasterGird = () => {
                     </div>
                 </div>
             </div>
-         )}
-
+                                             
 
             {deletePopUpShow ?
                 <DeletePopUP
@@ -175,7 +160,7 @@ export const DesignationMasterGird = () => {
 
 
             {AddPopUpShow ?
-                <AddRolesPopup
+                <AddDesignationPopup
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

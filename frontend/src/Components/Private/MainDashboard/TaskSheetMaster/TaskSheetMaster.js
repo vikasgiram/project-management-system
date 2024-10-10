@@ -44,7 +44,7 @@ export const TaskSheetMaster = () => {
         setIsOpen(!isopen);
     };
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
 
     const [view, setView] = React.useState(ViewMode.Day);
@@ -73,7 +73,8 @@ export const TaskSheetMaster = () => {
         columnWidth = 250;
     }
 
-    const handleAdd=()=>{
+    const handleAdd=(event)=>{
+        // event.preventDefault();
         setRenderPage(!renderPage)
         handleTaskAdd();
     }
@@ -124,7 +125,7 @@ export const TaskSheetMaster = () => {
             try {
 
                 const response = await getTaskSheet(id);
-                // console.log(response, "response");
+                // console.log(response.task[0].project.name);
                 
                 setProjectName(response.task[0].project.name);
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
@@ -203,7 +204,6 @@ export const TaskSheetMaster = () => {
     const transformProjectToTasks = (projectData) => {
         // Extract project information from the task array
         const project = projectData.task[0].project;
-
         // Create a project task entry
         const projectTask = {
             id: project._id,
@@ -214,7 +214,7 @@ export const TaskSheetMaster = () => {
             type: "project",
             hideChildren: false,
         };
-
+        
         // Map the tasks within the project
         const taskList = projectData.task.map((task) => ({
             id: task._id,
@@ -225,20 +225,10 @@ export const TaskSheetMaster = () => {
             type: "task",
             progress: task.taskLevel || 0,  // Set default to 0 if undefined
         }));
-
+        
+        console.log("Task list"+taskList);
         // Return an array containing the project task followed by its task list
         return [projectTask, ...taskList];
-    };
-
-
-
-
-    const [state, setState] = useState({ optionSelected: null });
-
-    const handleChange = (selected) => {
-        setState({
-            optionSelected: selected
-        });
     };
 
     const handleTaskAdd = async () => {
@@ -282,25 +272,15 @@ export const TaskSheetMaster = () => {
 
 
     return (
-        <> {loading ? (
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',  // Full height of the viewport
-                    width: '100vw',   // Full width of the viewport
-                    position: 'absolute', // Absolute positioning to cover the viewport
-                    top: 0,
-                    left: 0,
-                    backgroundColor: '#f8f9fa' // Optional background color
-                }}
-            >
-                <HashLoader color="#4C3B77" loading={loading} size={50} />
-            </div>
-        ) : (
+        <>      
+             {loading && (
+                <div className="overlay">
+                    <span className="loader"></span>
+                </div>
+            )}
             <div className="container-scroller">
                 <div className="row background_main_all">
+                    <form onSubmit={handleTaskAdd}>
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
@@ -319,7 +299,6 @@ export const TaskSheetMaster = () => {
 
                                 <div className="row  bg-white p-2 m-1 border rounded"  >
                                     <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
                                             <div className="mb-3">
                                                 <label htmlFor="taskName" className="form-label label_text">Task Name</label>
                                                 <select className="form-select rounded-0" aria-label="Default select example"
@@ -335,11 +314,9 @@ export const TaskSheetMaster = () => {
 
                                                 </select>
                                             </div>
-                                        </form>
                                     </div>
 
                                     <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
                                             <div className="mb-3">
                                                 <label for="startDate" className="form-label label_text">Start Date</label>
                                                 <input type="date" className="form-control rounded-0" id="startDate"
@@ -347,13 +324,9 @@ export const TaskSheetMaster = () => {
                                                     value={startDate}
                                                     aria-describedby="emailHelp" />
                                             </div>
-
-                                        </form>
-
                                     </div>
 
                                     <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
                                             <div className="mb-3">
                                                 <label for="endDate" className="form-label label_text">End Date</label>
                                                 <input type="date" className="form-control rounded-0" id="endDate"
@@ -361,13 +334,9 @@ export const TaskSheetMaster = () => {
                                                     value={endDate}
                                                     aria-describedby="emailHelp" />
                                             </div>
-
-                                        </form>
-
                                     </div>
 
                                     <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
                                             <div className="mb-3">
                                                 <label htmlFor="taskName" className="form-label label_text">Department</label>
                                                 <select className="form-select rounded-0" aria-label="Default select example"
@@ -383,7 +352,6 @@ export const TaskSheetMaster = () => {
 
                                                 </select>
                                             </div>
-                                        </form>
                                     </div>
 
                                     {/* <div className="col-12 col-md-6 col-lg-3">
@@ -401,7 +369,6 @@ export const TaskSheetMaster = () => {
                                     </div> */}
 
                                     <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
                                             <div className="mb-3">
                                                 <label for="ProjectName" className="form-label label_text">Employee Name</label>
                                                 <ReactSelect
@@ -417,14 +384,10 @@ export const TaskSheetMaster = () => {
                                                     value={employees.map(id => employeeOptions.find(option => option.value === id))} // Keep selected values synced
                                                 />
                                             </div>
-
-                                        </form>
-
                                     </div>
 
 
                                     <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
                                             <div className="mb-3">
                                                 <label for="ProjectName" className="form-label label_text">Remark</label>
                                                 <textarea
@@ -437,9 +400,6 @@ export const TaskSheetMaster = () => {
                                                     rows="1"
                                                 ></textarea>
                                             </div>
-
-                                        </form>
-
                                     </div>
 
                                     <div className="col-12 col-lg-3  pt-3 mt-3 ">
@@ -447,7 +407,7 @@ export const TaskSheetMaster = () => {
                                             onClick={() => {
                                                 handleAdd();
                                             }}
-                                            type="button"
+                                            type="submit"
                                             className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
                                         <button
                                             onClick={() => {
@@ -504,13 +464,9 @@ export const TaskSheetMaster = () => {
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
-        )}
-
-
-        
-
         </>
     )
 }
