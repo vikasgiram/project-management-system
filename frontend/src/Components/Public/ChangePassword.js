@@ -6,6 +6,7 @@ import { changePassword, loginUser } from "../../hooks/useAuth";
 import { UserContext } from "../../context/UserContext";
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
+
 export const ChangePassword = () => {
     const navigation = useNavigate();
 
@@ -13,26 +14,39 @@ export const ChangePassword = () => {
     const [confirmPass, setConfirmPass] = useState('');
     const [newPass, setNewPass]= useState('');
     const [oldPass, setOldPass] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const [oldPassword, setOldPassword] = useState(false);
+    const [newPassword, setNewPassword] = useState(false);
+    const[confirmPassword, setConfirmPassword]= useState(false);
+    const[loading, setLoading] = useState(false);
+    
 
     const handelChangePasword = async (e) =>{
         e.preventDefault();
         if(newPass !== confirmPass){
             return toast.error("New Password and Confirm Password desen't match...");
         }
+        try{
+            setLoading(true);
 		await changePassword(oldPass, newPass, confirmPass);
         setConfirmPass('');
         setNewPass('');
         setOldPass('');
+        setLoading(true);
+    }catch(error){
+        console.error(error);
+    }
+    finally{
+        setLoading(false);
+        navigation('/');
+    }
 	};
-
-
-    const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
     return (
         <>
+            {loading && (
+                <div className="overlay">
+                    <span className="loader"></span>
+                </div>
+            )}
             <div className="pt-5 all_bg" style={{ height: "100vh" }}>
                 <div className=" mx-auto row bg-img center">
                     <div className="col-12  col-md-5  mt-md-0 col-lg-7 mx-auto    ">
@@ -52,7 +66,7 @@ export const ChangePassword = () => {
                                             placeholder="Old Password"
                                             id="password"
                                             name="password"
-                                            type={showPassword ? "text" : "password"}
+                                            type={oldPassword ? "text" : "password"}
                                             className="form-control"
                                             autoComplete="new-Password"
                                             value={oldPass}
@@ -66,8 +80,8 @@ export const ChangePassword = () => {
                                             {" "}
 
                                             <i
-                                                onClick={toggleShowPassword}
-                                                className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
+                                                 onClick={() => setOldPassword(!oldPassword)}
+                                                className={`fas ${oldPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
                                                 style={{ cursor: "pointer" }}
                                             ></i>
                                         </span>
@@ -82,7 +96,7 @@ export const ChangePassword = () => {
                                             placeholder="New Password"
                                             id="password"
                                             name="password"
-                                            type={showPassword ? "text" : "password"}
+                                            type={newPassword ? "text" : "password"}
                                             className="form-control"
                                             autoComplete="new-Password"
                                             value={newPass}
@@ -96,8 +110,8 @@ export const ChangePassword = () => {
                                             {" "}
 
                                             <i
-                                                onClick={toggleShowPassword}
-                                                className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
+                                                 onClick={() => setNewPassword(!newPassword)}
+                                                className={`fas ${newPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
                                                 style={{ cursor: "pointer" }}
                                             ></i>
 
@@ -115,7 +129,7 @@ export const ChangePassword = () => {
                                             placeholder="confirm Password"
                                             id="password"
                                             name="password"
-                                            type={showPassword ? "text" : "password"}
+                                            type={confirmPassword ? "text" : "password"}
                                             className="form-control"
                                             autoComplete="new-Password"
                                             value={confirmPass}
@@ -129,8 +143,8 @@ export const ChangePassword = () => {
                                             {" "}
 
                                             <i
-                                                onClick={toggleShowPassword}
-                                                className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
+                                                 onClick={() => setConfirmPassword(!confirmPassword)}
+                                                className={`fas ${confirmPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
                                                 style={{ cursor: "pointer" }}
                                             ></i>
 
@@ -148,6 +162,7 @@ export const ChangePassword = () => {
                                             type="submit"
                                             value="Change"
                                             onClick={handelChangePasword}
+                                            
                                             className="btn btn-block btn_submit form-control fw-bold"
                                         />
                                     </span>

@@ -23,7 +23,7 @@ export const CompanyInfoPieChart = ({categorywise}) =>{
                 opacity: 0
              },
         },
-        slices: {0: {color: '#80C783'}, 1:{color: '#F0BC5E'}, 2:{color: '#56AFFE'}}
+        slices: {0: {color: '#80C783'}, 1:{color: '#56AFFE'}, 2:{color: '#F0BC5E'}} //56AFFE
 
         
       };
