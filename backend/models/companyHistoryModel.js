@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const Company = require('./companyModel');
 
 const companyHistorySchema = new mongoose.Schema({
   companyId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Company,
+    ref: 'Company',
     required: true
   },
   fieldName: {

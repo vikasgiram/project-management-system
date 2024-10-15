@@ -1,5 +1,6 @@
-const Company = require('../models/companyModel');
 const bcrypt = require('bcrypt');
+
+const Company = require('../models/companyModel');
 const Customer = require('../models/customerModel');
 const Project = require('../models/projectModel');
 const Employee = require('../models/employeeModel');
@@ -14,9 +15,10 @@ exports.showAll = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const companies = await Company.find({ password: 0 }).skip(skip).limit(limit);
+    const companies = await Company.find().skip(skip).limit(limit);
 
     if (companies.length <= 0) {
+      console.log(companies);
       return res.status(400).json({ error: "No company found" });
     }
 
@@ -114,50 +116,59 @@ exports.deleteCompany = async (req, res)=>{
 
 exports.updateCompany = async (req, res) => {
   try {
-    const originalValue = Company.findById(req.params.id);
-    const updateData = {};
-    for (const key in req.body) {
-      if (key !== 'email') {
-        // If department or any other nested object, extract only the _id
-        if (key === 'department') {
-          updateData[key] = req.body[key]._id; // Extract only the _id
-        } else {
-          updateData[key] = req.body[key];
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    // Find the existing company record
+    const existingCompany = await Company.findById(id);
+
+    if (!existingCompany) {
+      return res.status(404).json({ message: 'Company not found' });
+    }
+
+    // Array to hold history records for changed fields
+    const historyRecords = [];
+
+    // Iterate over the fields and compare changes
+    Object.keys(updatedData).forEach((key) => {
+      if (typeof updatedData[key] === 'object' && updatedData[key] !== null) {
+        // If it's a nested object like Address, compare its properties
+        Object.keys(updatedData[key]).forEach((nestedKey) => {
+          if (existingCompany[key][nestedKey] !== updatedData[key][nestedKey]) {
+            historyRecords.push({
+              companyId: id,
+              fieldName: `${key}.${nestedKey}`, // Indicate nested field
+              oldValue: existingCompany[key][nestedKey],
+              newValue: updatedData[key][nestedKey],
+              changeReason: req.body.changeReason || 'Updated via company edit'
+            });
+          }
+        });
+      } else {
+        // For non-object fields, directly compare values
+        if (existingCompany[key] !== updatedData[key]) {
+          historyRecords.push({
+            companyId: id,
+            fieldName: key,
+            oldValue: existingCompany[key],
+            newValue: updatedData[key],
+            changeReason: req.body.changeReason || 'Updated via company edit'
+          });
         }
       }
+    });
+
+    // If there are changes, insert them into the CompanyHistory collection
+    if (historyRecords.length > 0) {
+      await CompanyHistory.insertMany(historyRecords);
     }
 
-    const company = await Company.updateOne({ _id: req.params.id }, { $set: updateData }, { upsert: false });
+    // Update the company record
+    await Company.findByIdAndUpdate(id, updatedData, { new: true });
 
-    if (!company) {
-      res.status(404).json({ error: "Company not found" });
-    }
-    
-    // Log changes to history (you can implement this similar to the employee history logging)
-    const changes = Object.keys(updateData)
-      .map(key => {
-        const newValue = updateData[key];
-
-        // Only log changes if values are different
-        if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
-          return {
-            fieldName: key,
-            oldValue: originalValue,
-            newValue: newValue,
-            changeDate: new Date(),
-            changeReason: 'Company update',
-            companyId: req.params.id,
-          };
-        }
-      })
-      .filter(change => change); // Filter out undefined values
-
-    if (changes.length > 0) {
-      await CompanyHistory.insertMany(changes);
-    }
-
-    res.status(200).json({ message: "Company data updated successfully" });
+    res.status(200).json({ message: 'Company updated successfully' });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating company data: " + error.message });
+    console.error('Error updating company:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
