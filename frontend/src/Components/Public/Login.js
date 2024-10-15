@@ -52,7 +52,7 @@ export const LogIn = () => {
               <h4 className="text-center pb-2 fw-bold login_text">LOG IN</h4>
 
               <div className="col-lg-9 mx-auto">
-                <form action="" method="post">
+                <form onSubmit={handleLogin} action="" method="post">
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">
                       <i className="fa-solid fa-user"></i>
@@ -128,7 +128,7 @@ export const LogIn = () => {
                     onClick={handleLogin}
                   >
                     <input
-                      type="button"
+                      type="submit"
                       value="Log In"
                       className="btn btn-block btn_submit form-control fw-bold"
                     />
