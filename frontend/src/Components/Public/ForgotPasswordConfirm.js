@@ -13,18 +13,28 @@ export const ForgotPasswordConfirm = () => {
     const [confirmPass, setConfirmPass] = useState('');
     const [newPass, setNewPass]= useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { id, token } = useParams();
 
     const handelChangePasword = async (e) =>{
         e.preventDefault();
+        setLoading(true);
         if(newPass !== confirmPass){
             return toast.error("New Password and Confirm Password desen't match...");
         }
-		await resetPassword(id, token, newPass, confirmPass);
-        setConfirmPass('');
-        setNewPass('');
-        navigation('/');
-	};
+        try {
+            await resetPassword(id, token, newPass, confirmPass);
+            setConfirmPass('');
+            setNewPass('');
+            navigation('/');
+        } catch (error) {
+            console.error(error);
+            toast.error("An error occurred while resetting the password.");
+        } finally {
+            setLoading(false); // Stop loading
+        }
+    };
+
 
 
     const toggleShowPassword = () => {
@@ -41,9 +51,7 @@ export const ForgotPasswordConfirm = () => {
 
                             <div className="col-lg-9 mx-auto pt-4">
 
-                                <form>
-
-
+                            <form onSubmit={handelChangePasword} action="" method="post">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">
                                         <i class="fa-solid fa-key"></i>
@@ -114,7 +122,7 @@ export const ForgotPasswordConfirm = () => {
                                     </div>
 
 
-                                    <span
+                                    {/* <span
                                         style={{ textDecoration: "none" }}
                                     // onClick={handleLogin}
                                     >
@@ -124,7 +132,26 @@ export const ForgotPasswordConfirm = () => {
                                             onClick={handelChangePasword}
                                             className="btn btn-block btn_submit form-control fw-bold"
                                         />
-                                    </span>
+                                    </span> */}
+
+<button
+                    type="submit"
+                    className="btn btn-block btn_submit form-control fw-bold d-flex align-items-center justify-content-center"
+                    disabled={loading} 
+                  >
+                    {loading ? (
+                      <span className="loader"
+                              style={{
+                                height:"5px",
+                                width:"5px",
+                                position: 'relative', 
+                               margin: "10px 0px 5px -225px"
+                              }}
+                      ></span> // Use your existing loader styles
+                    ) : (
+                      "Change"
+                    )}
+                  </button>
                                 </form>
 
 
