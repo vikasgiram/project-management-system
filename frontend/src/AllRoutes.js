@@ -33,7 +33,7 @@ const AllRoutes = () => {
                     <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
                     <Route exact path="/ChangePassword" element={<ChangePassword />} />
                     <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
-                    <Route exact path="/ForgotPasswordConfirm" element={<ForgotPasswordConfirm />} />
+                    <Route exact path="/api/reset-password/:id/:token" element={<ForgotPasswordConfirm />} />
 
                     <Route exact path="/MainDashboard" element={<MainDashboard />} />
 

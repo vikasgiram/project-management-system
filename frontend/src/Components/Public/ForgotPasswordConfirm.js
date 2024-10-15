@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "././login.css";
+import { useParams } from 'react-router-dom';
 import toast from "react-hot-toast";
-import { changePassword, loginUser } from "../../hooks/useAuth";
-import { UserContext } from "../../context/UserContext";
-// import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
+
+import "././login.css";
+import { resetPassword } from "../../hooks/useAuth";
 
 export const ForgotPasswordConfirm = () => {
     const navigation = useNavigate();
@@ -12,18 +12,18 @@ export const ForgotPasswordConfirm = () => {
 
     const [confirmPass, setConfirmPass] = useState('');
     const [newPass, setNewPass]= useState('');
-    const [oldPass, setOldPass] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const { id, token } = useParams();
 
     const handelChangePasword = async (e) =>{
         e.preventDefault();
         if(newPass !== confirmPass){
             return toast.error("New Password and Confirm Password desen't match...");
         }
-		await changePassword(oldPass, newPass, confirmPass);
+		await resetPassword(id, token, newPass, confirmPass);
         setConfirmPass('');
         setNewPass('');
-        setOldPass('');
+        navigation('/');
 	};
 
 

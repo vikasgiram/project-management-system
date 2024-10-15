@@ -18,6 +18,7 @@ export const ForgotPassword = () => {
       return toast.error("Email is Required...  ");
     }
     await forgetPassword(email);
+    navigation('/Mailsentsuccessfully')
     setEmail('');
   }
 
@@ -63,8 +64,7 @@ export const ForgotPassword = () => {
                     <input
                       type="submit"
                       value="Forgot"
-                      // onClick={handelEmailSubmit}
-                      onClick={() => navigation('/Mailsentsuccessfully')}
+                      onClick={handelEmailSubmit}
                       className="btn btn-block btn_submit form-control fw-bold"
                     />
                   </span>
