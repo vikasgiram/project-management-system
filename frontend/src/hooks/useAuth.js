@@ -71,3 +71,20 @@ export const changePassword = async(oldPass, newPass, confirmPass)=>{
     toast.error(error.response.data.error);
   }
 };
+
+export const forgetPassword= async (email)  =>{
+  try {
+    if(email===''){
+      return toast.error("Email is required");
+    }
+    const res=await axios.post("api/forget-password",{email});
+    if(res.data.error){
+      console.log(res.data.error);
+      return toast.error(res.data.error);
+    }
+    toast.success(res.data.message);
+  } catch (error) {
+    console.log(error.response.data.error);
+    toast.error(error.response.data.error);
+  }
+};
