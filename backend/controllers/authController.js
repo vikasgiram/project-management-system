@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
     // Check if username exists in Employee model
     user = await Employee.findOne({ email }).populate('company','subDate');
     if (user) {
-      
+
       if (!(await comparePassword(user,password))) {
         return res.status(400).json({ error: 'Invalid username or password' });
       }
@@ -157,7 +157,7 @@ exports.resetPassword = async (req, res)=>{
         }
       }
       else{
-        return res.status(400).json({error:"Invalid token "});
+        return res.status(400).json({error:"Link Expired..."});
       } 
     }
     else{

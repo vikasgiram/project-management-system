@@ -151,3 +151,7 @@
 .login_text{
     color: #023f7c !important;
 }
+
+.mail_sent_size{
+    width: 140px;
+}

@@ -24,18 +24,19 @@ export const loginUser = async (username, password) => {
   }
 };
 
-export const resetPassword= async (password, newPassword)=>{
+export const resetPassword= async (id, token, password, confirmPassword)=>{
   try {
-    const res= await axios.post('api/reset',{
+    const res= await axios.post(`${token}`,{
       password,
-      newPassword
+      confirmPassword
     });
+
     if(res.data.error){
       return toast.error(res.data.error);
     }
     toast.success("Password Reseted Sucessfully...");
   } catch (error) {
-    console.error(error.response.data);
+    console.error(error);
     toast.error(error.response.data.error);
   }
 }
@@ -84,7 +85,7 @@ export const forgetPassword= async (email)  =>{
     }
     toast.success(res.data.message);
   } catch (error) {
-    console.log(error.response.data.error);
-    toast.error(error.response.data.error);
+    console.log(error);
+    toast.error(error);
   }
 };

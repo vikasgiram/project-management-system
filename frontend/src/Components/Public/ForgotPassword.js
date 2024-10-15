@@ -18,6 +18,7 @@ export const ForgotPassword = () => {
       return toast.error("Email is Required...  ");
     }
     await forgetPassword(email);
+    navigation('/Mailsentsuccessfully')
     setEmail('');
   }
 
