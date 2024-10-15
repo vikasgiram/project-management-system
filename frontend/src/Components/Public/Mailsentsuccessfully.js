@@ -24,6 +24,7 @@ export const Mailsentsuccessfully = () => {
                                 className="mail_sent_size text-center mx-auto"
                                 alt="logo"
                             />
+                            
                             <h4 className="text-center pb-2 fw-bold login_text">Mail sent successfully!</h4>
 
                             <div className="col-12 col-lg-10 border mx-auto text-lg-center pt-4">

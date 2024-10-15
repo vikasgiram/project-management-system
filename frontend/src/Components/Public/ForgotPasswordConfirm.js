@@ -57,6 +57,10 @@ export const ForgotPasswordConfirm = () => {
                                             autoComplete="new-Password"
                                             value={newPass}
 
+
+
+                                
+
                                             onChange={(e) => {
                                                 setNewPass(e.target.value)
                                                 // showPassEncrypt()
