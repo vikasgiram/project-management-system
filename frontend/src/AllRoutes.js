@@ -15,6 +15,9 @@ import { DesignationMasterGird } from "./Components/Private/MainDashboard/Design
 import { TaskSheetMaster } from "./Components/Private/MainDashboard/TaskSheetMaster/TaskSheetMaster";
 import { ForgotPassword } from "./Components/Public/ForgotPassword";
 import { ChangePassword } from "./Components/Public/ChangePassword";
+import { Mailsentsuccessfully } from "./Components/Public/Mailsentsuccessfully";
+import { ForgotPasswordConfirm } from "./Components/Public/ForgotPasswordConfirm";
+import AdminMainDashboard from "./Components/Private/AdminDashboard/AdminMainDashboard";
 
 
 
@@ -29,6 +32,8 @@ const AllRoutes = () => {
                     <Route exact path="/" element={<LogIn />} />
                     <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
                     <Route exact path="/ChangePassword" element={<ChangePassword />} />
+                    <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
+                    <Route exact path="/ForgotPasswordConfirm" element={<ForgotPasswordConfirm />} />
 
                     <Route exact path="/MainDashboard" element={<MainDashboard />} />
 
@@ -41,8 +46,15 @@ const AllRoutes = () => {
                     <Route exact path="/DesignationMasterGird" element={<DesignationMasterGird />} /> 
                     <Route exact path="/TaskMasterGrid" element={<TaskMasterGrid />} />
                     <Route exact path="/:id" element={<TaskSheetMaster />} />
-                    
                     <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
+
+
+
+
+                    {/* Admin Dashboard */}
+                    <Route exact path="/AdminMainDashboard" element={<AdminMainDashboard />} />
+
+
                 </Routes>
             </Router>
         </>

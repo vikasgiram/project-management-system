@@ -63,7 +63,8 @@ export const ForgotPassword = () => {
                     <input
                       type="submit"
                       value="Forgot"
-                      onClick={handelEmailSubmit}
+                      // onClick={handelEmailSubmit}
+                      onClick={() => navigation('/Mailsentsuccessfully')}
                       className="btn btn-block btn_submit form-control fw-bold"
                     />
                   </span>

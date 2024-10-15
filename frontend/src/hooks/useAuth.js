@@ -84,7 +84,7 @@ export const forgetPassword= async (email)  =>{
     }
     toast.success(res.data.message);
   } catch (error) {
-    console.log(error.response.data.error);
-    toast.error(error.response.data.error);
+    console.log(error);
+    toast.error(error);
   }
 };

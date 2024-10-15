@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { UserContext } from "../../../../context/UserContext";
-import { logout } from "../../../../hooks/useAuth";
+import { UserContext } from "../../../context/UserContext";
 
-export const Header = (props) => {
+export const AdminHeader = (props) => {
 	const { toggle, isopen, Click, language, Language, setLanguage } = props
 	const [sticky, setSticky] = useState(false)
 
@@ -30,14 +29,14 @@ export const Header = (props) => {
 
 	window.addEventListener("scroll", change)
 
-	const handleLogout = async () => {
-		try {
-		  await logout();
-		  setUser(null); 
-		} catch (error) {
-		  console.error(error);
-		}
-	  };
+	// const handleLogout = async () => {
+	// 	try {
+	// 	  await logout();
+	// 	  setUser(null); 
+	// 	} catch (error) {
+	// 	  console.error(error);
+	// 	}
+	//   };
 
 	
 
@@ -103,7 +102,9 @@ export const Header = (props) => {
 									</div>
 								</Link>
 
-								<Link to="/" className="dropdown-item" onClick={handleLogout}>
+								<Link to="/" className="dropdown-item" 
+                                // onClick={handleLogout}
+                                >
 
 									<div className="drop_item_two my-1">
 										<i className="text-danger mr-2" >

@@ -6,7 +6,7 @@ import { changePassword, loginUser } from "../../hooks/useAuth";
 import { UserContext } from "../../context/UserContext";
 // import { useAuthDispatch, useAuthState } from "../../../helper/Context/context";
 
-export const ChangePassword = () => {
+export const ForgotPasswordConfirm = () => {
     const navigation = useNavigate();
 
 
@@ -37,41 +37,11 @@ export const ChangePassword = () => {
                 <div className=" mx-auto row bg-img center">
                     <div className="col-12  col-md-5  mt-md-0 col-lg-7 mx-auto    ">
                         <div className="row px-lg-2">
-                            <h4 className="text-center pb-2 fw-bold login_text">Change Password</h4>
+                            <h4 className="text-center pb-2 fw-bold login_text">Forgot Password</h4>
 
                             <div className="col-lg-9 mx-auto pt-4">
 
                                 <form>
-
-        
-                                    <div class="input-group mb-3">
-                                    <span class="input-group-text">
-                                        <i class="fa-solid fa-key"></i>
-                                        </span>
-                                        <input
-                                            placeholder="Old Password"
-                                            id="password"
-                                            name="password"
-                                            type={showPassword ? "text" : "password"}
-                                            className="form-control"
-                                            autoComplete="new-Password"
-                                            value={oldPass}
-
-                                            onChange={(e) => {
-                                                setOldPass(e.target.value)
-                                                // showPassEncrypt()
-                                            }}
-                                        />
-                                        <span class="input-group-text">
-                                            {" "}
-
-                                            <i
-                                                onClick={toggleShowPassword}
-                                                className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} // Change icon based on visibility
-                                                style={{ cursor: "pointer" }}
-                                            ></i>
-                                        </span>
-                                    </div>
 
 
                                     <div class="input-group mb-3">

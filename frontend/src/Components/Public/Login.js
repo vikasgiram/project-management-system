@@ -29,7 +29,7 @@ export const LogIn = () => {
       } else if (data.user === "company") {
         navigation("/MainDashboard");
       } else if (data.user === "admin") {
-        navigation("/adminDashboard");
+        navigation("/AdminMainDashboard");
       }
 
     } catch (error) {
