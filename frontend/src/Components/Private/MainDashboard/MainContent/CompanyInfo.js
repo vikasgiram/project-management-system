@@ -16,7 +16,7 @@ export const CompanyInfo = ({categorywise}) => {
         <div className="row pt-3">
 
           <div className="col-12 col-md-4 pb-3 cursor-pointer"
-            onClick={() => navigate('/')}
+            // onClick={() => navigate('/')}
           >
             <div className="p-4 background_style PurpleColor" >
               <div className="row">
@@ -35,7 +35,7 @@ export const CompanyInfo = ({categorywise}) => {
           </div>
 
           <div className="col-12 col-md-4 pb-3 cursor-pointer"
-            onClick={() => navigate('/')}
+            // onClick={() => navigate('/')}
           >
             <div className="p-4 background_style pinkcolor">
               <div className="row">
@@ -54,7 +54,7 @@ export const CompanyInfo = ({categorywise}) => {
 
 
           <div className="col-12 col-md-4 pb-3 cursor-pointer"
-            onClick={() => navigate('/')}
+            // onClick={() => navigate('/')}
           >
             <div className="p-4 background_style bg_sky">
               <div className="row">
