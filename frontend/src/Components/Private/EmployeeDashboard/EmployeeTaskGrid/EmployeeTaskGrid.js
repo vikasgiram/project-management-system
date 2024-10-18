@@ -162,18 +162,12 @@ export const EmployeeTaskGrid = () => {
                                                         <td>24-Dec-2024</td>
                                                         <td><i
 
-                                                            onClick={() => {
-                                                                handleViewTask()
-                                                            }}
+                                                            onClick={() => { handleViewTask()}}
                                                             class="fa-solid fa-eye Task_View_icon"></i></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-
-
-
-
                                     </div>
 
                                 </div>
