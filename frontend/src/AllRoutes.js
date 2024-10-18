@@ -18,6 +18,8 @@ import { ChangePassword } from "./Components/Public/ChangePassword";
 import { Mailsentsuccessfully } from "./Components/Public/Mailsentsuccessfully";
 import { ForgotPasswordConfirm } from "./Components/Public/ForgotPasswordConfirm";
 import AdminMainDashboard from "./Components/Private/AdminDashboard/AdminMainDashboard";
+import EmployeeMainDashboard from "./Components/Private/EmployeeDashboard/EmployeeMainDashboard";
+import { EmployeeTaskGrid } from "./Components/Private/EmployeeDashboard/EmployeeTaskGrid/EmployeeTaskGrid";
 
 
 
@@ -53,6 +55,13 @@ const AllRoutes = () => {
 
                     {/* Admin Dashboard */}
                     <Route exact path="/AdminMainDashboard" element={<AdminMainDashboard />} />
+
+
+
+                    {/* Employee Dashboard */}
+                    <Route exact path="/EmployeeMainDashboard" element={<EmployeeMainDashboard />} />
+                    <Route exact path="/EmployeeTaskGrid" element={<EmployeeTaskGrid />} />
+
 
 
                 </Routes>

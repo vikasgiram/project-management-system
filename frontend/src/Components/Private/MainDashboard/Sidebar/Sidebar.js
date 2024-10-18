@@ -57,6 +57,19 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
             >
                 <ul className="nav d-block">
 
+                <li
+                        className={Open || active === "dashboard" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/MainDashboard' className="nav-link ">
+                            <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
+                            <span
+                                className="menu-title"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                        Dashboard
+                            </span>
+                        </Link>
+                    </li>
+
                     <li
                         className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMasterGrid' className="nav-link ">

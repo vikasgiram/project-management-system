@@ -91,7 +91,7 @@ export const Categorywiseproject = ({ categorywise }) => {
 
   return (
     <div className="row bg-white p-2 m-1 border">
-      <div className="col-12 col-lg-6 py-1">
+      <div className="col-12  col-lg-6 py-1">
         <span className="text-dark py-4 heading_fontsize_first">Category wise project</span>
       </div>
       <div className="col-12 col-lg-12 p-2 mx-auto" style={{ overflowX: 'auto' }}>

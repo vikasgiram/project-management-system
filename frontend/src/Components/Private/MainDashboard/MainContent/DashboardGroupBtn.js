@@ -16,12 +16,12 @@ export const DashboardGroupBtn = ({custCount}) => {
             <div className="col-12 col-lg-6  ms-auto text-end">
                 <span>
                 <img
-                        src="static/assets/img/people.png"
+                     src="static/assets/img/people.png"
                         className="customer_img"
                         alt="logo"
                     />
                     <span className="Customer_fs ps-3 text-white">Customer |
-                         <span className="Customer_count">{custCount}</span></span>
+                         <span className="Customer_count ms-2">{custCount}</span></span>
                 </span>
                
                

@@ -23,9 +23,11 @@ export const LogIn = () => {
 
     try {
       const data = await loginUser(username, password);
+      console.log(username,password);
+      console.log(data);
       setUser(data);
       if (data.user === "employee") {
-        navigation("/employeeDashboard");
+        navigation("/EmployeeMainDashboard");
       } else if (data.user === "company") {
         navigation("/MainDashboard");
       } else if (data.user === "admin") {

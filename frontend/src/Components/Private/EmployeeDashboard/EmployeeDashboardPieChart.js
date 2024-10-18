@@ -1,15 +1,15 @@
-import { Bar } from "react-chartjs-2";
+
 import Chart from "react-google-charts"
 
 
 
-export const CompanyInfoPieChart = ({ categorywise }) => {
+export const CompanyInfEmployeeDashboardPieChartoPieChart = () => {
 
   const data = [
     ["Projects", "Hours per Day"],
-    ["Finish", categorywise.finished],
-    ["Inprocess", categorywise.inprocess],
-    ["Upcoming", categorywise.upcoming],
+    ["Finish", "30"],
+    ["Inprocess", "20" ],
+    ["Upcoming", "10"],
   ];
 
   const options = {

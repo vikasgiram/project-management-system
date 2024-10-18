@@ -174,6 +174,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
                           <td>Employee Table</td>
                           <td>
                             <div>
+
                               <label class="toggler-wrapper style-22">
                                 <input type="checkbox"
                                 onChange={(e) =>{
@@ -186,6 +187,8 @@ const AddDesignationPopup = ({ handleAdd }) => {
                                   <div class="toggler-knob"></div>
                                 </div>
                               </label>
+
+                              
                             </div>
                           </td>
                           <td>
