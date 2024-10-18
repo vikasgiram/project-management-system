@@ -27,18 +27,19 @@ export const ChangePassword = () => {
         }
         try{
             setLoading(true);
-		await changePassword(oldPass, newPass, confirmPass);
-        setConfirmPass('');
-        setNewPass('');
-        setOldPass('');
-        setLoading(true);
-    }catch(error){
-        console.error(error);
-    }
-    finally{
-        setLoading(false);
-        navigation('/');
-    }
+            const data=await changePassword(oldPass, newPass, confirmPass);
+            if(data.error){
+                return toast.error(data.error);
+            }
+            navigation('/');
+            setLoading(true);
+            toast.success(data.message);
+        }catch(error){
+            console.error(error);
+        }
+        finally{
+            setLoading(false);
+        }
 	};
     return (
         <>

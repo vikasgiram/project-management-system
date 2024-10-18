@@ -14,6 +14,7 @@ export const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { setUser } = useContext(UserContext);
 
@@ -21,6 +22,7 @@ export const LogIn = () => {
     e.preventDefault();
     // console.log(username + " " + password);
 
+    setLoading(true);
     try {
       const data = await loginUser(username, password);
       console.log(username,password);
@@ -34,9 +36,13 @@ export const LogIn = () => {
         navigation("/AdminMainDashboard");
       }
 
+
     } catch (error) {
       console.error(error);
       toast.error("Invalid User");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -125,19 +131,41 @@ export const LogIn = () => {
                       </a>
                     </span>
                   </div>
-                  <span
+                  {/* <span
                     style={{ textDecoration: "none" }}
                     onClick={handleLogin}
                   >
+                     {loading && (
+                
+                    <span className="loader"></span>
+                
+            )}
                     <input
                       type="submit"
                       value="Log In"
                       className="btn btn-block btn_submit form-control fw-bold"
                     />
-                  </span>
+                  </span> */}
+
+                  <button
+                    type="submit"
+                    className="btn btn-block btn_submit form-control fw-bold d-flex align-items-center justify-content-center"
+                    disabled={loading} // Disable the button during loading
+                  >
+                    {loading ? (
+                      <span className="loader"
+                              style={{
+                                height:"5px",
+                                width:"5px",
+                                position: 'relative', // Make button position relative to position loader
+                               margin: "10px 0px 5px -225px"
+                              }}
+                      ></span> // Use your existing loader styles
+                    ) : (
+                      "Log In"
+                    )}
+                  </button>
                 </form>
-
-
               </div>
               <div
                 className="col-12 text-center pb-1 pt-4 mb-5  pt-lg-3"

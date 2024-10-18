@@ -9,21 +9,29 @@ export const ForgotPassword = () => {
 
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
- 
-  
+  const [loading, setLoading] = useState(false);
 
-  const handelEmailSubmit= async (e) =>{
+
+
+  const handelEmailSubmit = async (e) => {
     e.preventDefault();
-    if(email === ""){
+    if (email === "") {
       return toast.error("Email is Required...  ");
     }
-    await forgetPassword(email);
-    setEmail('');
+    setLoading(true);
+    try {
+      const data = await forgetPassword(email);
+      if (data.error) {
+        return toast.error(data.error);
+      }
+      navigation('/Mailsentsuccessfully');
+      setEmail('');
+    } catch (error) {
+      toast.error("An error occurred while sending the email.");
+    } finally {
+      setLoading(false); // Set loading to false after email submission is complete
+    }
   }
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   return (
     <>
@@ -34,10 +42,10 @@ export const ForgotPassword = () => {
               <h4 className="text-center pb-2 fw-bold login_text">Forgot Password</h4>
 
               <div className="col-lg-9 my-lg-4 mx-auto">
-                <form >
+                <form onSubmit={handelEmailSubmit} action="" method="post">
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">
-                    <i class="fa-solid fa-envelope"></i>
+                      <i class="fa-solid fa-envelope"></i>
                     </span>
                     <input
                       type="text"
@@ -47,7 +55,7 @@ export const ForgotPassword = () => {
                       placeholder="Enter Your Registered Email"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
-                      
+
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
@@ -56,29 +64,47 @@ export const ForgotPassword = () => {
                     <span className="eye-icons"></span>
                   </div>
 
-              
-                  <span
+
+                  {/* <span
                     style={{ textDecoration: "none" }}
                   >
                     <input
                       type="submit"
                       value="Forgot"
-                      // onClick={handelEmailSubmit}
-                      onClick={() => navigation('/Mailsentsuccessfully')}
+                      onClick={handelEmailSubmit}
                       className="btn btn-block btn_submit form-control fw-bold"
                     />
-                  </span>
+                  </span> */}
+
+                  <button
+                    type="submit"
+                    className="btn btn-block btn_submit form-control fw-bold d-flex align-items-center justify-content-center"
+                    disabled={loading} // Disable the button during loading
+                  >
+                    {loading ? (
+                      <span className="loader"
+                        style={{
+                          height: "5px",
+                          width: "5px",
+                          position: 'relative', // Make button position relative to position loader
+                          margin: "10px 0px 5px -225px"
+                        }}
+                      ></span> // Use your existing loader styles
+                    ) : (
+                      "Forgot"
+                    )}
+                  </button>
                 </form>
 
 
               </div>
-            
+
             </div>
           </div>
 
           <div className="col-12 col-md-7 col-lg-5 px-5  mx-auto   d-none d-lg-block"></div>
         </div>
-       
+
       </div>
     </>
   );

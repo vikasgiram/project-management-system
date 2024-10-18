@@ -23,7 +23,7 @@ exports.resetTokenLink=(user)=>{
     }
     const token = jwt.sign(payload, secret,{ expiresIn: '15m' });
     
-    const link=`http://localhost:5000/api/reset-password/${user._id}/${token}`;
+    const link=`http://localhost:3000/api/reset-password/${user._id}/${token}`;
     return link;
 };
 
