@@ -75,8 +75,12 @@ const AddProjectPopup = ({ handleAdd }) => {
       !address.country
     ) {
       return toast.error("Please fill all fields");
+
     }
 
+    else if(Number(advancePay) + Number(payAgainstDelivery) + Number(payfterCompletion)>100){
+      return toast.error("Total percentage should be less than 100%");
+    }
 
     await createProject(data);
     handleAdd();

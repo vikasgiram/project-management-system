@@ -150,6 +150,7 @@ export const TaskSheetMaster = () => {
                 }
             } catch (error) {
                 console.log(error);
+                setLoading(false);
             }
         };
         fetchData();
@@ -256,7 +257,6 @@ export const TaskSheetMaster = () => {
 
 
         await createTask(data);
-        // window.location.reload(); 
         toast.success("Task added successfully");
         clearForm();
     };
@@ -280,7 +280,7 @@ export const TaskSheetMaster = () => {
             )}
             <div className="container-scroller">
                 <div className="row background_main_all">
-                    <form onSubmit={handleTaskAdd}>
+                    <form>
                     <Header
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
