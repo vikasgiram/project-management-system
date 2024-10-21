@@ -1,22 +1,18 @@
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-
+import TaskListUpdatedPopUp from "./TaskListUpdatedPopUp";
 
 
 
 const ViewTaskPopUp = ({ handleViewTask }) => {
-    const [department, setDepartment] = useState(null);
 
-    const [name, setName] = useState("");
-    const [mobileNo, setMobileNo] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [hourlyRate, setHourlyRate] = useState();
+    const [updateTaskPopUpShow, setUpdateTaskPopUpShow] = useState(false);
 
 
+    const handleUpdateTask = () => {
+        
+        setUpdateTaskPopUpShow(!updateTaskPopUpShow);
+    }
 
 
     return (
@@ -31,7 +27,7 @@ const ViewTaskPopUp = ({ handleViewTask }) => {
             >
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content p-3">
-                        <form 
+                        <form
                         // onSubmit={handleEmployeeAdd}
                         >
                             <div className="modal-header pt-0">
@@ -69,18 +65,19 @@ const ViewTaskPopUp = ({ handleViewTask }) => {
                                                         <td>24-Dec-2024</td>
                                                         <td>Remark here ............</td>
                                                         <td>
-                                                        <span
-                                                            // onClick={() => handleUpdate(employee)}
-                                                            className="update_icon">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
-                                                        </span>
+                                                            <span
+                                                                // onClick={() => handleUpdateTask()}
+                                                                onClick={() => { handleUpdateTask()}}
+                                                                className="update_icon">
+                                                                <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
+                                                            </span>
 
-                                                        <span
-                                                            // onClick={() => handelDeleteClosePopUpClick(employee._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                            </td>
+                                                            <span
+                                                                // onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                className="delete">
+                                                                <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                            </span>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -108,11 +105,24 @@ const ViewTaskPopUp = ({ handleViewTask }) => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>
+
+
             </div>
+
+
+
+            {updateTaskPopUpShow ?
+                <TaskListUpdatedPopUp
+                    // selectedEmp={selectedEmp}
+                    handleUpdateTask={handleUpdateTask}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
         </>
     );
 };

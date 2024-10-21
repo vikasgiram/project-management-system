@@ -2617,6 +2617,7 @@ progress {
   background-color: rgba(0, 128, 0, 0.116);
   color: green;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 

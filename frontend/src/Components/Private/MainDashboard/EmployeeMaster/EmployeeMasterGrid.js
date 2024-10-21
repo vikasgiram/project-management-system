@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export const EmployeeMasterGrid = () => {
 
-   
+
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
@@ -25,9 +25,9 @@ export const EmployeeMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [selectedId, setSelecteId]= useState(null);
-    const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
-    const [selectedEmp, setSelectedEmp]= useState(null);
+    const [selectedId, setSelecteId] = useState(null);
+    const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
+    const [selectedEmp, setSelectedEmp] = useState(null);
     const [loading, setLoading] = useState(true);
 
 
@@ -37,7 +37,7 @@ export const EmployeeMasterGrid = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = (employee=null) => {
+    const handleUpdate = (employee = null) => {
         setSelectedEmp(employee);
         // console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
@@ -78,7 +78,7 @@ export const EmployeeMasterGrid = () => {
 
     return (
         <>
-              {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
@@ -117,37 +117,37 @@ export const EmployeeMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                     
+
                                                 <tr className="th_border" >
-                                                        <th>Sr. No</th>
-                                                        <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Department</th>
-                                                        <th>Designation</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                              
+                                                    <th>Sr. No</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Department</th>
+                                                    <th>Designation</th>
+                                                    <th>Action</th>
+                                                </tr>
+
                                                 <tbody className="broder my-4">
                                                     {employees && employees.map((employee, index) => (
-                                                    <tr className="border my-4" key={employee.id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{employee.name}</td>
-                                                        <td>{employee.email}</td>
-                                                        <td>{employee.department.name}</td>
-                                                        <td>{employee.designation.name}</td>
-                                                        <td>
-                                                        <span
-                                                            onClick={() => handleUpdate(employee)}
-                                                            className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
-                                                        </span>
+                                                        <tr className="border my-4" key={employee.id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{employee.name}</td>
+                                                            <td>{employee.email}</td>
+                                                            <td>{employee.department.name}</td>
+                                                            <td>{employee.designation.name}</td>
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleUpdate(employee)}
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
+                                                                </span>
 
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(employee._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                    </td>
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                    className="delete">
+                                                                    <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -165,18 +165,18 @@ export const EmployeeMasterGrid = () => {
                     </div>
                 </div>
             </div>
-       
+
             {
-            deletePopUpShow ?
-                <DeletePopUP
-                    message={"Are you sure! Do you want to Delete ?"}
-                    cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    confirmBtnCallBack={handelDeleteClick}
-                    heading="Delete"
-                /> : <></>
+                deletePopUpShow ?
+                    <DeletePopUP
+                        message={"Are you sure! Do you want to Delete ?"}
+                        cancelBtnCallBack={handelDeleteClosePopUpClick}
+                        confirmBtnCallBack={handelDeleteClick}
+                        heading="Delete"
+                    /> : <></>
             }
 
-            
+
             {AddPopUpShow ?
                 <AddEmployeePopup
                     message="Create New Employee"
@@ -186,9 +186,9 @@ export const EmployeeMasterGrid = () => {
                 /> : <></>
             }
 
-                {updatePopUpShow ?
+            {updatePopUpShow ?
                 <UpdateEmployeePopUp
-                    selectedEmp= {selectedEmp}
+                    selectedEmp={selectedEmp}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
