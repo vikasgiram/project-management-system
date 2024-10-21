@@ -1,51 +1,19 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { updateTask } from "../../../../../hooks/useTaskSheet";
 
-const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
-    const [employee, setEmployee] = useState(selectedEmp);
-    const [departments, setDepartments] = useState([]);
-    const [designations, setDesignations] = useState([]);
-    const [status, setStatus] = useState("");
+const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
+    const data= {};
 
-    // Handle changes in the form fields
-    // const handleChange = (event) => {
-    //     const { name, value } = event.target;
-
-    //     // Check if the department is being changed
-    //     if (name === "department") {
-    //         const selectedDept = departments.find(dept => dept._id === value);
-    //         setEmployee((prevEmployee) => ({
-    //             ...prevEmployee,
-    //             department: selectedDept,
-    //             designation: "", // Reset designation when department changes
-    //         }));
-    //     } else {
-    //         setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
-    //     }
-    // };
-
-    // const handleEmpUpdate = async (event) => {
-
-    //     event.preventDefault();
-    //     try {
-    //         await updateEmployee(employee);
-    //         handleUpdate();
-    //     } catch (error) {
-    //         toast.error(error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     const fetchDepartments = async () => {
-    //         const data = await getDepartment();
-    //         if (data) {
-    //             setDepartments(data.department || []);
-    //         }
-    //     };
-
-    //     fetchDepartments();
-    // }, []);
-
+    const handelTaskUpdate = async (event) => {
+        event.preventDefault();
+        try {
+            await updateTask(selectedTask._id, data);
+            handleUpdateTask();
+        } catch (error) {
+            toast.error(error);
+        }
+    };
 
 
     return (
@@ -65,7 +33,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
                         >
                             <div className="modal-header pt-0">
                                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                                    Task First
+                                    {selectedTask.taskName.name}
                                 </h5>
                                 <button
                                     onClick={() => handleUpdateTask()}

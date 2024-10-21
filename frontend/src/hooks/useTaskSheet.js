@@ -68,9 +68,9 @@ const createTask = async (taskData) => {
   }
 };
 
-const updateTask = async (Id, updatedData) => {
+const updateTask = async (id, updatedData) => {
   try {
-    const response = await axios.put(`${url}/${Id}`, updatedData);
+    const response = await axios.put(`${url}/${id}`, updatedData);
     const data = response.data;
 
     if (data.error) {

@@ -6,8 +6,10 @@ import { formatDate } from "../../../../../utils/formatDate";
 const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
   const [updateTaskPopUpShow, setUpdateTaskPopUpShow] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState({});
 
-  const handleUpdateTask = () => {
+  const handleUpdateTask = (id) => {
+    setSelectedTask(id);
     setUpdateTaskPopUpShow(!updateTaskPopUpShow);
   };
 
@@ -80,7 +82,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                                 <td>
                                   <span
                                     onClick={() => {
-                                      handleUpdateTask();
+                                      handleUpdateTask(task);
                                     }}
                                     className="update_icon"
                                   >
@@ -131,7 +133,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
 
       {updateTaskPopUpShow ? (
         <TaskListUpdatedPopUp
-          // selectedEmp={selectedEmp}
+          selectedTask={selectedTask}
           handleUpdateTask={handleUpdateTask}
           // heading="Forward"
           // cancelBtnCallBack={handleAddDepartment}
