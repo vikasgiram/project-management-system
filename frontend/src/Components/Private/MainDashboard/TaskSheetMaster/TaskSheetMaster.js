@@ -144,12 +144,16 @@ export const TaskSheetMaster = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const data = await getTask();
                 if (data) {
                     setTaskDropDown(data.task || []);
                 }
             } catch (error) {
                 console.log(error);
+                setLoading(false);
+            }
+            finally {
                 setLoading(false);
             }
         };
