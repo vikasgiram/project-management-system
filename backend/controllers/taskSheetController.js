@@ -52,10 +52,12 @@ exports.getTaskSheet = async (req, res) => {
 exports.myTask = async (req, res) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const {projectId} = req.params;
     const task = await TaskSheet.find({
       company: decoded.user.company,
       employees: decoded.user._id,
-    }).populate("project", "name");
+      project:projectId
+    }).populate('taskName','name');
 
     if (task.length <= 0) {
       return res.status(400).json({ error: "Their is no task" });

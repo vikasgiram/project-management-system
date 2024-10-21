@@ -39,7 +39,8 @@ export const EmployeeTaskGrid = () => {
     }
 
 
-    const handleViewTask = () => {
+    const handleViewTask = (id) => {
+        setSelecteId(id);
         setTaskPopUpShow(!TaskPopUpShow)
     }
 
@@ -129,7 +130,6 @@ export const EmployeeTaskGrid = () => {
                                                     <th>Customer Name</th>
                                                     <th>Project Status</th>
                                                     <th>Finish Date</th>
-                                                    <th>Project Status</th>
                                                     <th>Tasks</th>
                                                 </tr>
 
@@ -142,7 +142,7 @@ export const EmployeeTaskGrid = () => {
                                                         <td>{project.projectStatus}</td>
                                                         <td>{formatDate(project.endDate)}</td>
                                                         <td>
-                                                            <i onClick={() => { handleViewTask()}}
+                                                            <i onClick={() => { handleViewTask(project._id)}}
                                                             class="fa-solid fa-eye Task_View_icon">
                                                             </i>
                                                         </td>
@@ -175,6 +175,7 @@ export const EmployeeTaskGrid = () => {
             {TaskPopUpShow ?
                 <ViewTaskPopUp
                     message="Task"
+                    selectedId= {selectedId}
                     handleViewTask={handleViewTask}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
