@@ -125,9 +125,9 @@ export const EmployeeTaskGrid = () => {
                                                 <tr className="th_border" >
                                                     <th>Project No.</th>
                                                     <th>Project Name</th>
-                                                    <th>Project Information</th>
                                                     <th>Customer Name</th>
                                                     <th>Finish Date</th>
+                                                    <th>Project Status</th>
                                                     <th>Tasks</th>
                                                 </tr>
 
@@ -157,9 +157,9 @@ export const EmployeeTaskGrid = () => {
                                                     <tr>
                                                         <td>1</td>
                                                         <td>Demo Project</td>
-                                                        <td>Demo Information</td>
                                                         <td>Akash Shirke</td>
                                                         <td>24-Dec-2024</td>
+                                                        <td>Inproccess</td>
                                                         <td><i
 
                                                             onClick={() => { handleViewTask()}}

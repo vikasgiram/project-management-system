@@ -45,18 +45,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
     //     fetchDepartments();
     // }, []);
 
-    // useEffect(() => {
-    //     if (employee.department) {
-    //         const fetchDesignations = async () => {
-    //             const data = await getDesignation(employee.department._id);
-    //             if (data) {
-    //                 setDesignations(data.designations || []);
-    //             }
-    //         };
-
-    //         fetchDesignations();
-    //     }
-    // }, [employee.department]);
+ 
 
     return (
         <>
@@ -91,79 +80,49 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
 
                                     <div className="col-12 col-lg-12">
                                         <div className="mb-3">
-                                            <label htmlFor="name" className="form-label label_text">
-                                                Task Details
+                                            <label htmlFor="Action" className="form-label label_text">
+                                                Action
                                             </label>
                                             <textarea
                                                 className="textarea_edit col-12"
-                                                id=""
-                                                name=""
+                                                id="Action"
+                                                name="Action"
                                                 placeholder="Details ..."
                                                 rows="2"
                                             ></textarea>
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-3 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="mobileNo" className="form-label label_text">
-                                                Proccess Date
-                                            </label>
-                                            <input
-                                                type="date"
-                                                name="mobileNo"
-                                                // value={employee.mobileNo}
-                                                // onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="mobileNo"
-                                            />
-                                        </div>
-                                    </div>
+                                   
+
+<div className="col-12 col-lg-3 mt-2">
+    <div className="mb-3">
+        <label htmlFor="processStartDate" className="form-label label_text">
+            Process Start Date
+        </label>
+        <input
+            type="datetime-local"
+            name="processStartDate"
+            // value={employee.processStartDate}
+            // onChange={handleChange}
+            className="form-control rounded-0"
+            id="processStartDate"
+        />
+    </div>
+</div>
 
                                     <div className="col-12 col-lg-3 mt-2">
                                         <div className="mb-3">
-                                            <label htmlFor="email" className="form-label label_text">
-                                                Action
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="email"
-                                                // value={employee.email}
-                                                // onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="email"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-12 col-lg-3 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="mobileNo" className="form-label label_text">
-                                                Proccess Start Date
-                                            </label>
-                                            <input
-                                                type="date"
-                                                name="mobileNo"
-                                                // value={employee.mobileNo}
-                                                // onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="mobileNo"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-12 col-lg-3 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="mobileNo" className="form-label label_text">
+                                            <label htmlFor="processEndDate" className="form-label label_text">
                                                 Proccess End Date
                                             </label>
                                             <input
-                                                type="date"
-                                                name="mobileNo"
+                                                type="datetime-local"
+                                                name="processEndDate"
                                                 // value={employee.mobileNo}
                                                 // onChange={handleChange}
                                                 className="form-control rounded-0"
-                                                id="mobileNo"
+                                                id="processEndDate"
                                             />
                                         </div>
                                     </div>
