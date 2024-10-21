@@ -60,6 +60,7 @@ export const TaskMasterGrid = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const allTasks = await getTask();
                 if (allTasks) {
                     setTasks(allTasks.task);
@@ -68,6 +69,10 @@ export const TaskMasterGrid = () => {
             } catch (error) {
                 
                 toast.error(error.response.data.error);
+                setLoading(false);
+            }
+            finally {
+                setLoading(false);
             }
         };
         

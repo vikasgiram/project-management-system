@@ -62,18 +62,38 @@ export const ProjectMasterGrid = () => {
     toast.error(data.error);
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await getProjects();
+  //     if (data) {
+  //       setProject(data.projects || []);
+  //       // console.log(employees,"data from useState");
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
+
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getProjects();
-      if (data) {
-        setProject(data.projects || []);
-        // console.log(employees,"data from useState");
-        setLoading(false);
-      }
+        try {
+            setLoading(true);
+            const data = await getProjects();
+            if (data) {
+                setProject(data.projects || []);
+            }
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+            setLoading(false);
+        } finally {
+            setLoading(false);
+        }
     };
 
     fetchData();
-  }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
+}, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
   return (
     <>  

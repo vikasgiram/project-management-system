@@ -37,17 +37,36 @@ export const DepartmentMasterGrid = () => {
       toast.error(data.error);
    };
 
+   // useEffect(() => {
+   //    const fetchData = async () => {
+   //       const data = await getDepartment();
+   //       if (data) {
+   //          setDepartments(data.department || []);
+   //          setLoading(false);
+   //       }
+   //    };
+
+   //    fetchData();
+   // }, [AddPopUpShow, deletePopUpShow]);
+
    useEffect(() => {
       const fetchData = async () => {
-         const data = await getDepartment();
-         if (data) {
-            setDepartments(data.department || []);
-            setLoading(false);
-         }
+          try {
+              setLoading(true);
+              const data = await getDepartment();
+              if (data) {
+                  setDepartments(data.department || []);
+              }
+          } catch (error) {
+                  setLoading(false);
+         } finally {
+              setLoading(false);
+          }
       };
-
+  
       fetchData();
-   }, [AddPopUpShow, deletePopUpShow]);
+  }, [AddPopUpShow, deletePopUpShow]);
+  
 
    return (
       <>

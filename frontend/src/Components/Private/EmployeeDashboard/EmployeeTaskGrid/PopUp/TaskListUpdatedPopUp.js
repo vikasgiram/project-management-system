@@ -5,6 +5,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
     const [employee, setEmployee] = useState(selectedEmp);
     const [departments, setDepartments] = useState([]);
     const [designations, setDesignations] = useState([]);
+    const [status, setStatus] = useState("");
 
     // Handle changes in the form fields
     // const handleChange = (event) => {
@@ -45,7 +46,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
     //     fetchDepartments();
     // }, []);
 
- 
+
 
     return (
         <>
@@ -93,23 +94,23 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
                                         </div>
                                     </div>
 
-                                   
 
-<div className="col-12 col-lg-3 mt-2">
-    <div className="mb-3">
-        <label htmlFor="processStartDate" className="form-label label_text">
-            Process Start Date
-        </label>
-        <input
-            type="datetime-local"
-            name="processStartDate"
-            // value={employee.processStartDate}
-            // onChange={handleChange}
-            className="form-control rounded-0"
-            id="processStartDate"
-        />
-    </div>
-</div>
+
+                                    <div className="col-12 col-lg-3 mt-2">
+                                        <div className="mb-3">
+                                            <label htmlFor="processStartDate" className="form-label label_text">
+                                                Process Start Date
+                                            </label>
+                                            <input
+                                                type="datetime-local"
+                                                name="processStartDate"
+                                                // value={employee.processStartDate}
+                                                // onChange={handleChange}
+                                                className="form-control rounded-0"
+                                                id="processStartDate"
+                                            />
+                                        </div>
+                                    </div>
 
                                     <div className="col-12 col-lg-3 mt-2">
                                         <div className="mb-3">
@@ -127,7 +128,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-6 mt-2 pt-lg-4">
+                                    {/* <div className="col-12 col-lg-6 mt-2 pt-lg-4">
                                         <span className="px-4 ">
                                             <input type="radio" className="me-2 cursor-pointer" id="Inproccess" name="fav_language" value="Inproccess" />
                                             <label for="Inproccess">Inproccess</label>
@@ -147,12 +148,23 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
                                             <label for="Stuck">Stuck</label>
                                         </span>
 
+                                    </div> */}
+
+                                    <div className="col-12 col-lg-3 mt-2">
+                                        <label htmlFor="projectStatus" className="form-label label_text">Status</label>
+                                        <select id="projectStatus" name="projectStatus" className="form-select"  >
+                                            <option value="Inproccess">Inproccess</option>
+                                            <option value="Finish">Finish</option>
+                                            <option value="Stuck">Stuck</option>
+                                        </select>
                                     </div>
 
-                                    <div className="col-12 col-lg-6 mt-2 pt-lg-4">
+                                    <div className="col-12 col-lg-3 mt-2">
                                         <div className="">
+                                            <label htmlFor="processEndDate" className="form-label label_text">
+                                                Complete Level
+                                            </label>
                                             <div className="input-group border mb-3">
-
                                                 <input
                                                     type="text"
                                                     name="hourlyRate"

@@ -47,13 +47,20 @@ export const DesignationMasterGird = () => {
     };
     useEffect(() => {
         const fetchData = async () => {
+            try{
+                setLoading(true);
             const data = await getAllDesignations();
-            // console.log(data,"dta from getDepartment");
             if (data) {
                 setDesignation(data.designations || []);
                 // console.log(departments,"data from useState"); 
-                setLoading(false);
             }
+        }
+        catch(error){
+            setLoading(false);
+        }
+        finally{
+            setLoading(false);
+        }
         };
 
         fetchData();

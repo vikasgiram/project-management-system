@@ -47,21 +47,43 @@ export const CustomerMasterGrid = () => {
     };
 
 
+    // useEffect(() => {
+
+    //     const fetchData = async () => {
+    //         const data = await getCustomers();
+    //         if (data) {
+
+    //             setCustomers(data.customers || []);
+    //             // console.log(employees,"data from useState");
+    //             setLoading(false);
+
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
+
     useEffect(() => {
-
         const fetchData = async () => {
-            const data = await getCustomers();
-            if (data) {
-
-                setCustomers(data.customers || []);
-                // console.log(employees,"data from useState");
+            try {
+                setLoading(true);
+                const data = await getCustomers();
+                if (data) {
+                    setCustomers(data.customers || []);
+                }
+            } catch (error) {
+                console.error("Error fetching customers:", error);
                 setLoading(false);
-
+            } finally {
+                setLoading(false);
             }
         };
-
+    
         fetchData();
     }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
+    
+
+   
 
 
     return (
