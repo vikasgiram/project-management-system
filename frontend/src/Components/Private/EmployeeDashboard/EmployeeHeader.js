@@ -18,7 +18,9 @@ export const EmployeeHeader = (props) => {
 			setSticky(false)
 		}
 	}
+// console.log(user.id,"user id");
 
+	
 
 	function toggleuser() {
 		let side = document.getElementById("userdata")

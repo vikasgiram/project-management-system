@@ -129,6 +129,7 @@ export const EmployeeTaskGrid = () => {
                                                     <th>Customer Name</th>
                                                     <th>Project Status</th>
                                                     <th>Finish Date</th>
+                                                    <th>Project Status</th>
                                                     <th>Tasks</th>
                                                 </tr>
 
