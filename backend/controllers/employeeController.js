@@ -1,8 +1,10 @@
-const Employee = require('../models/employeeModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const Designation = require('../models/DesignationModel');
+
+const Employee = require('../models/employeeModel');
+const Project = require('../models/projectModel');
 const EmployeeHistory = require('../models/employeeHistoryModel');
+const TaskSheet = require('../models/taskSheetModel');
 
 // show all employees
 exports.showAll = async (req, res) => {
@@ -85,27 +87,21 @@ exports.search = async (req, res) => {
   }
 };
 
-exports.dashboard= async(req , res)=>{
+exports.dashboard = async (req, res) => {
   try {
-      const decoded = jwt.verify(req.cookies.jwt,process.env.JWT_SECRET);
-      const designation=await Designation.findById(decoded.user.role);
-      const permission=designation.permissions;
-      const dashboardData={};
-      if(permission.includes('viewCustomer')){
-          dashboardData.customer=await Customer.find({company:decoded.user.company});
-      }
-      if(permission.includes('viewTask')){
-          dashboardData.task= await TaskSheet.find({company:decoded.user.company});
-      }
-      if(permission.includes('viewProject')){
-          console.log("You have permission to view project");
-          dashboardData.project=await Project.find({company:decoded.user.company});
-      }
-      res.status(200).json(dashboardData);
+      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+
+      // Get unique project IDs from tasks for the specific company
+      const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company });
+
+      // Fetch the unique projects using the retrieved project IDs
+      const uniqueProjects = await Project.find({ _id: { $in: uniqueProjectIds } });
+
+      res.status(200).json(uniqueProjects);
   } catch (error) {
-      res.status(500).json({error:"Error In Employee dashborad controller: "+error.message});
+      res.status(500).json({ error: "Error In Employee dashboard controller: " + error.message });
   }
-}
+};
 
 exports.create=async (req, res) => {
   try {

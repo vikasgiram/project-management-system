@@ -7,7 +7,7 @@ const { permissionMiddleware } = require('../middlewares/auth');
 
 router.get('/',permissionMiddleware(['viewTaskSheet']), taskSheetController.showAll);
 
-router.get('/:id', permissionMiddleware(['viewTaskSheet']), taskSheetController.getTaskSheet);
+// router.get('/:id', permissionMiddleware(['viewTaskSheet']), taskSheetController.getTaskSheet);
 
 router.get('/my',permissionMiddleware(['viewTaskSheet']), taskSheetController.myTask);
 

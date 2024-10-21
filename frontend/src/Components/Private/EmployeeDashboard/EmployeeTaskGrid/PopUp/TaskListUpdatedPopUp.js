@@ -201,7 +201,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedEmp }) => {
                                                     // onChange={handleChange}
                                                     className="form-control rounded-0 border-0"
                                                     id="HourlyRate"
-                                                    placeholder="eg. 65"
+                                                    placeholder="eg. 65 %"
                                                     aria-label="Hourly Rate"
                                                 />
 
