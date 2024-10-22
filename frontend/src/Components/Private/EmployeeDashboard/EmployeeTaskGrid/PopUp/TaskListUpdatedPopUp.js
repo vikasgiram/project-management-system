@@ -153,7 +153,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                             value={taskStatus}
                                         >
                                             <option value="inprocess">Inproccess</option>
-                                            <option value="finished">Finish</option>
+                                            <option value="completed">Completed</option>
                                             <option value="stuck">Stuck</option>
                                         </select>
                                     </div>

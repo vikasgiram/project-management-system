@@ -104,7 +104,7 @@ const projectSchema = new mongoose.Schema({
     // Status of the project
     type: String,
     required: true,
-    enum: ['upcoming', 'inprocess', 'finished'], // Allowed values
+    enum: ['upcoming', 'inprocess', 'completed'], // Allowed values
     default:'upcoming'
   },
   completeLevel: {

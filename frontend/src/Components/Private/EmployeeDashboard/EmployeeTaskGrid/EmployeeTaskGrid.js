@@ -134,7 +134,7 @@ export const EmployeeTaskGrid = () => {
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {projects && projects.map((project, index) => (
+                                                    {projects && projects.length>0 ? ( projects.map((project, index) => (
                                                     <tr className="border my-4" key={project.id}>
                                                         <td>{index + 1}</td>
                                                         <td>{project.name}</td>
@@ -147,7 +147,15 @@ export const EmployeeTaskGrid = () => {
                                                             </i>
                                                         </td>
                                                         </tr>
-                                                    ))}
+                                                    ))
+                                                    ):(
+                                                        <tr>
+                                                            <td colSpan="6" className="text-center">
+                                                                No Projects assigned...
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                    }
                                                     
                                                 </tbody>
                                             </table>
