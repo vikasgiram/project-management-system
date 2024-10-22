@@ -23,7 +23,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
     };
 
     fetchData();
-  }, []);
+  }, [handleUpdateTask]);
 
   return (
     <>
@@ -88,9 +88,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                                   >
                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                   </span>
-                                  <span className="delete">
-                                    <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                  </span>
+                                  
                                 </td>
                               </tr>
                             ))
