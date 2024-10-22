@@ -8,7 +8,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     // const [startTime, setStartTime] = useState("");
     // const [ endTime, setEndTime] = useState("");
     const [taskLevel, setTaskLevel] = useState("");
-    const [taskStatus, setTaskStatus] = useState("inprocess");
+    const [taskStatus, setTaskStatus] = useState("");
     const [remark, setRemark] = useState("");
     const [Actions, setActions] = useState({
         action: "",
@@ -16,10 +16,6 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         endTime: "",
     });
 
-    
-    
-    
-    
     const handelTaskUpdate = async (event) => {
         event.preventDefault();
         const data= {
@@ -31,6 +27,12 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
            if (!Actions.action|| !Actions.startTime || !Actions.endTime || !taskLevel || !taskStatus || !remark) {
             return toast.error("Please fill all fields");
         }   
+            if(taskLevel>100){
+            return toast.error("Task level should be less than 100");
+        }
+            if (taskLevel === 100) {
+                setTaskStatus("completed");
+        }
         try {
             await updateTask(selectedTask._id, data);
             console.log(data);
@@ -151,7 +153,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                         <select id="projectStatus" name="projectStatus" className="form-select"
                                             onChange={(e) => setTaskStatus(e.target.value)}
                                             value={taskStatus}
-                                        >
+                                        >   
+                                            <option value="">Select Status</option>
                                             <option value="inprocess">Inproccess</option>
                                             <option value="finished">Finish</option>
                                             <option value="stuck">Stuck</option>

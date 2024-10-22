@@ -3,12 +3,12 @@ import Chart from "react-google-charts"
 
 
 
-export const CompanyInfEmployeeDashboardPieChartoPieChart = () => {
+export const CompanyInfEmployeeDashboardPieChartoPieChart = ({completedProjects,InproccessProjects}) => {
 
   const data = [
     ["Projects", "Hours per Day"],
-    ["Finish", 30],
-    ["Inprocess", 20 ],
+    ["Finish", completedProjects],
+    ["Inprocess", InproccessProjects ],
   ];
 
   const options = {

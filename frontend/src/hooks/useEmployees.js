@@ -89,5 +89,23 @@ const deleteEmployee = async (employeeId) => {
     toast.error(error.response.data.error);
   }
 };
+
+const getEmployeeDashboard = async () => {
+  try {
+    const response = await axios.get(`${url}/dashboard`);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return toast.error(data.error);
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);
+  }
+};
+
   
-export { getEmployees , getEmployee, createEmployee,  updateEmployee, deleteEmployee };
+export { getEmployees , getEmployee, createEmployee,  updateEmployee, deleteEmployee,getEmployeeDashboard };
