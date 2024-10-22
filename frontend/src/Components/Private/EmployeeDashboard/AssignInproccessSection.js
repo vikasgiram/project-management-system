@@ -1,7 +1,6 @@
+import { formatDate } from "../../../utils/formatDate";
 
-
-
-export const AssignInproccessSection = () => {
+export const AssignInproccessSection = ({assignedprojectName,inproccessProject}) => {
     return (
         <>
             <div className="row   p-2 m-1 " >
@@ -23,21 +22,23 @@ export const AssignInproccessSection = () => {
                                         </thead>
 
                                         <tbody>
-
+                                            {assignedprojectName.map((item) => (
+                                                
+                                            
                                             <tr className="text-center">
                                                 <th className="text-center">
                                                     <div className="media align-items-center">
                                                         <div className="media-body">
-                                                            <span className="mb-0 text-sm">Argon Design System</span>
+                                                            <span className="mb-0 text-sm">{item.name}</span>
                                                         </div>
                                                     </div>
                                                 </th>
 
                                                 <td>
-                                                    16-Oct-2024
+                                                    {formatDate(item.startDate)}
                                                 </td>
                                                 <td>
-                                                    16-Dec-2024
+                                                    {formatDate(item.endDate)}
                                                 </td>
 
                                                 <td>
@@ -47,75 +48,9 @@ export const AssignInproccessSection = () => {
                                                 </td>
                                             </tr>
 
-                                            <tr className="text-center">
-                                                <th className="text-center">
-                                                    <div className="media align-items-center">
-                                                        <div className="media-body">
-                                                            <span className="mb-0 text-sm">Argon Design System</span>
-                                                        </div>
-                                                    </div>
-                                                </th>
-
-                                                <td>
-                                                    16-Oct-2024
-                                                </td>
-                                                <td>
-                                                    16-Dec-2024
-                                                </td>
-
-                                                <td>
-                                                    <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-success "></i> Asigned
-                                                    </span>
-                                                </td>
-                                            </tr>
-
-                                            <tr className="text-center">
-                                                <th className="text-center">
-                                                    <div className="media align-items-center">
-                                                        <div className="media-body">
-                                                            <span className="mb-0 text-sm">Argon Design System</span>
-                                                        </div>
-                                                    </div>
-                                                </th>
-
-                                                <td>
-                                                    16-Oct-2024
-                                                </td>
-                                                <td>
-                                                    16-Dec-2024
-                                                </td>
-
-                                                <td>
-                                                    <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-success "></i> Asigned
-                                                    </span>
-                                                </td>
-                                            </tr>
-
-                                            <tr className="text-center">
-                                                <th className="text-center">
-                                                    <div className="media align-items-center">
-                                                        <div className="media-body">
-                                                            <span className="mb-0 text-sm">Argon Design System</span>
-                                                        </div>
-                                                    </div>
-                                                </th>
-
-                                                <td>
-                                                    16-Oct-2024
-                                                </td>
-                                                <td>
-                                                    16-Dec-2024
-                                                </td>
-
-                                                <td>
-                                                    <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-success "></i> Asigned
-                                                    </span>
-                                                </td>
-                                            </tr>
+))}
                                         </tbody>
+                                        
                                     </table>
                                 </div>
                             </div>
@@ -146,146 +81,46 @@ export const AssignInproccessSection = () => {
                                         </thead>
 
                                         <tbody>
+                                            {inproccessProject.map(item=>(
 
+                                            
                                             <tr className="text-center">
                                                 <th className="text-center">
 
                                                     <div className="media align-items-center">
                                                         <div className="media-body">
-                                                            <span className="mb-0 text-sm">Project Management System</span>
+                                                            <span className="mb-0 text-sm">{item.name}</span>
                                                         </div>
                                                     </div>
                                                 </th>
 
                                                 <td>
-                                                    16-jun-2024
+                                                    {formatDate(item.startDate)}
                                                 </td>
                                                 <td>
-                                                    16-Nov-2024
+                                                    {formatDate(item.endDate)}
                                                 </td>
 
                                                 <td>
                                                     <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-warning "></i> Inprocess
+                                                        <i className="bg-warning "></i> 
+                                                        {item.projectStatus}
                                                     </span>
                                                 </td>
 
                                                 <td className="text-center">
                                                     <div className="d-flex align-items-center ">
-                                                        <span className=" text_a">60%</span>
+                                                        <span className=" text_a">{item.completeLevel}%</span>
                                                         <div className="m-auto">
                                                             <span className="progress">
-                                                                <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{ width: "60%" }}></div>
+                                                                <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: `${item.completeLevel}%`}}></div>
                                                             </span>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr className="text-center">
-                                                <th className="text-center">
-
-                                                    <div className="media align-items-center">
-                                                        <div className="media-body">
-                                                            <span className="mb-0 text-sm">Project Management System</span>
-                                                        </div>
-                                                    </div>
-                                                </th>
-
-                                                <td>
-                                                    16-jun-2024
-                                                </td>
-                                                <td>
-                                                    16-Nov-2024
-                                                </td>
-
-                                                <td>
-                                                    <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-warning "></i> Inprocess
-                                                    </span>
-                                                </td>
-
-                                                <td className="text-center">
-                                                    <div className="d-flex align-items-center ">
-                                                        <span className=" text_a">60%</span>
-                                                        <div className="m-auto">
-                                                            <span className="progress">
-                                                                <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{ width: "60%" }}></div>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr className="text-center">
-                                                <th className="text-center">
-
-                                                    <div className="media align-items-center">
-                                                        <div className="media-body">
-                                                            <span className="mb-0 text-sm">Project Management System</span>
-                                                        </div>
-                                                    </div>
-                                                </th>
-
-                                                <td>
-                                                    16-jun-2024
-                                                </td>
-                                                <td>
-                                                    16-Nov-2024
-                                                </td>
-
-                                                <td>
-                                                    <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-warning "></i> Inprocess
-                                                    </span>
-                                                </td>
-
-                                                <td className="text-center">
-                                                    <div className="d-flex align-items-center ">
-                                                        <span className=" text_a">60%</span>
-                                                        <div className="m-auto">
-                                                            <span className="progress">
-                                                                <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{ width: "60%" }}></div>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr className="text-center">
-                                                <th className="text-center">
-
-                                                    <div className="media align-items-center">
-                                                        <div className="media-body">
-                                                            <span className="mb-0 text-sm">Project Management System</span>
-                                                        </div>
-                                                    </div>
-                                                </th>
-
-                                                <td>
-                                                    16-jun-2024
-                                                </td>
-                                                <td>
-                                                    16-Nov-2024
-                                                </td>
-
-                                                <td>
-                                                    <span className="badge badge-dot mr-4 text-dark">
-                                                        <i className="bg-warning "></i> Inprocess
-                                                    </span>
-                                                </td>
-
-                                                <td className="text-center">
-                                                    <div className="d-flex align-items-center ">
-                                                        <span className=" text_a">60%</span>
-                                                        <div className="m-auto">
-                                                            <span className="progress">
-                                                                <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{ width: "60%" }}></div>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
+                                           
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
