@@ -4,12 +4,46 @@ import { EmployeeSidebar } from "./EmployeeSidebar";
 import { EmployeeDasboardCards } from "./EmployeeDasboardCards";
 import { AssignInproccessSection } from "./AssignInproccessSection";
 import { PerFormanceChart } from "./PerFormanceChart";
+import { getEmployeeDashboard } from "../../../hooks/useEmployees";
 
 
 
 
 function EmployeeMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
+    const [totalProjects, setTotalProjects] = useState();
+    const[completedProjects,setCompletedProjects]=useState();
+    const[InproccessProjects,setInproccessProjects]=useState();
+
+    const[assignedprojectName,setAssignedProjectName]=useState([]);
+
+    const[inproccessProject,setInproccessProject]=useState([]);
+   
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // setLoading(true);
+                const data = await getEmployeeDashboard();
+                console.log(data);
+                if (data) {
+                    setTotalProjects(data.totalProjects);
+                    setCompletedProjects(data.completedCount);
+                    setInproccessProjects(data.inprocessCount);
+
+                    setAssignedProjectName(data.assignedProgects);
+                    setInproccessProject(data.inProcessProjects);
+                }
+            } catch (error) {
+                console.error("Error fetching customers:", error);
+                // setLoading(false);
+            } finally {
+                // setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
 
     
 
@@ -70,8 +104,15 @@ function EmployeeMainDashboard() {
                                     </div>
 
                                 </div>
-                                <EmployeeDasboardCards />
-                                <AssignInproccessSection />
+                                <EmployeeDasboardCards 
+                                        totalProjects={totalProjects} 
+                                        completedProjects={completedProjects} 
+                                        InproccessProjects={InproccessProjects} />
+
+                                <AssignInproccessSection 
+                                    assignedprojectName={assignedprojectName}
+                                    inproccessProject={inproccessProject}
+                                />
                                 <PerFormanceChart />
 
 

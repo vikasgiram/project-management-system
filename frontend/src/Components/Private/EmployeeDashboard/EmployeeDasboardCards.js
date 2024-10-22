@@ -4,7 +4,7 @@ import { CompanyInfEmployeeDashboardPieChartoPieChart } from "./EmployeeDashboar
 // import { CompanyInfoPieChart } from "./CompanyInfoPieChart"
 
 
-export const EmployeeDasboardCards = () => {
+export const EmployeeDasboardCards = ({totalProjects,completedProjects,InproccessProjects}) => {
 
     const navigate = useNavigate()
 
@@ -24,7 +24,7 @@ export const EmployeeDasboardCards = () => {
                                     </h6>
                                     <h2 className="pt-2 fw-bold card_count demo_bottom">
                                         {/* {categorywise.finished} */}
-                                        24000
+                                        {totalProjects}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -45,7 +45,7 @@ export const EmployeeDasboardCards = () => {
                                     </h6>
                                     <h2 className="pt-2 fw-bold card_count">
                                         {/* {categorywise.inprocess} */}
-                                        309
+                                        {completedProjects}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -67,7 +67,7 @@ export const EmployeeDasboardCards = () => {
                                     </h6>
                                     <h2 className="pt-2 fw-bold card_count">
                                         {/* {categorywise.upcoming} */}
-                                        400
+                                        {InproccessProjects}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -84,7 +84,10 @@ export const EmployeeDasboardCards = () => {
                 </div>
             </div>
 
-            <CompanyInfEmployeeDashboardPieChartoPieChart />
+            <CompanyInfEmployeeDashboardPieChartoPieChart 
+                    totalProjects={totalProjects} 
+                    completedProjects={completedProjects} 
+                    InproccessProjects={InproccessProjects} />
 
 
             {/* <CompanyInfoPieChart categorywise={categorywise}/> */}

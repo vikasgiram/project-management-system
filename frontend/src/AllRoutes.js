@@ -20,6 +20,9 @@ import { ForgotPasswordConfirm } from "./Components/Public/ForgotPasswordConfirm
 import AdminMainDashboard from "./Components/Private/AdminDashboard/AdminMainDashboard";
 import EmployeeMainDashboard from "./Components/Private/EmployeeDashboard/EmployeeMainDashboard";
 import { EmployeeTaskGrid } from "./Components/Private/EmployeeDashboard/EmployeeTaskGrid/EmployeeTaskGrid";
+import { EmployeeProjectGrid } from "./Components/Private/EmployeeDashboard/EmployeeProjectGrid/EmployeeProjectGrid";
+import { EmployeeTaskChart } from "./Components/Private/EmployeeDashboard/EmployeeProjectGrid/EmployeeTaskChart";
+import { EmployeeCustomerMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeCustomerMasterGrid/EmployeeCustomerMasterGrid";
 
 
 
@@ -61,6 +64,9 @@ const AllRoutes = () => {
                     {/* Employee Dashboard */}
                     <Route exact path="/EmployeeMainDashboard" element={<EmployeeMainDashboard />} />
                     <Route exact path="/EmployeeTaskGrid" element={<EmployeeTaskGrid />} />
+                    <Route exact path="/EmployeeProjectGrid" element={<EmployeeProjectGrid />} />
+                    <Route exact path="/EmployeeTaskChart" element={<EmployeeTaskChart />} />
+                    <Route exact path="/EmployeeCustomerMasterGrid" element={<EmployeeCustomerMasterGrid />} />
 
 
 

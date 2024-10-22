@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+
+import toast from "react-hot-toast";
 import { getCustomers } from "../../../../../hooks/useCustomer";
 import { updateProject } from "../../../../../hooks/useProjects";
 import { formatDateforupdate } from "../../../../../utils/formatDate";
 
-import toast from "react-hot-toast";
-
-const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
+const EmployeeUpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
 
@@ -60,21 +60,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                 [name]: value,
             }));
         }
-
-        if (name === "projectStatus" && value === "completed") {
-            setProjects((prevProjects) => ({
-                ...prevProjects,
-                completeLevel: 100, // Set completion level to 100
-            }));
-        } else if (name === "projectStatus") {
-            setProjects((prevProjects) => ({
-                ...prevProjects,
-                completeLevel: prevProjects.completeLevel < 100 ? prevProjects.completeLevel : '', // Clear if needed
-            }));
-        }
     };
 
-  
 
     // Function to handle changes in billing address fields
     const handleAddressChange = (e) => {
@@ -151,7 +138,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                         <label for="ProjectName" className="form-label label_text">Project Name</label>
                                         <input type="text" className="form-control rounded-0" id="ProjectName" name="name" onChange={handleChange} value={projects.name} aria-describedby="emailHelp" />
                                     </div>
-                                    <div className="col-12 col-lg-6 mt-2">
+                                    <div className="mb-3">
                                         <label for="ProjectName" className="form-label label_text">Project Status</label>
                                         <select className="form-select rounded-0" aria-label="Default select example"
                                             name="projectStatus"
@@ -160,28 +147,10 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             >
                                                 <option value="upcoming">Upcoming</option>
                                                 <option value="inprocess">Inprocess</option>
-                                                <option value="completed">Complete</option>
+                                                <option value="finished">Finished</option>
                                                
                                             </select>
                                     </div>
-
-                                    <div className="col-12 col-lg-6 mt-2" >
-                                        <div className="mb-3">
-                                            <label htmlFor="completeLevel" 
-                                                name="completeLevel" className="form-label label_text">Completion level</label>
-                                            <input
-                                                onChange={handleChange}
-                                                value={projects.completeLevel}
-                                                name="completeLevel"
-                                                type="number"
-                                                className="form-control rounded-0"
-                                                id="completeLevel"
-                                                aria-describedby="dateHelp"
-                                            />
-                                            {/* {console.log(projects.purchaseOrderDate,"projects")} */}
-                                        </div>
-                                        </div>
-
                                 <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
                                             <label htmlFor="purchaseOrderDate" 
@@ -458,4 +427,4 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         </>);
 }
 
-export default UpdateProjectPopup;
+export default EmployeeUpdateProjectPopup;
