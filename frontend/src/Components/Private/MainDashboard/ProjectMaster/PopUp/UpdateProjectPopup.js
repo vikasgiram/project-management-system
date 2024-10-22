@@ -60,8 +60,21 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                 [name]: value,
             }));
         }
+
+        if (name === "projectStatus" && value === "completed") {
+            setProjects((prevProjects) => ({
+                ...prevProjects,
+                completeLevel: 100, // Set completion level to 100
+            }));
+        } else if (name === "projectStatus") {
+            setProjects((prevProjects) => ({
+                ...prevProjects,
+                completeLevel: prevProjects.completeLevel < 100 ? prevProjects.completeLevel : '', // Clear if needed
+            }));
+        }
     };
 
+  
 
     // Function to handle changes in billing address fields
     const handleAddressChange = (e) => {

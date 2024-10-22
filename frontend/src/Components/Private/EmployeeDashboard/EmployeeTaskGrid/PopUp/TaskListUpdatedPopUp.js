@@ -16,11 +16,26 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         endTime: "",
     });
 
+    const handleStatusChange = (status) => {
+        setTaskStatus(status);
+
+        if (status === "completed") {
+            setTaskLevel(100); 
+        } else {
+            setTaskLevel(""); 
+        }
+    };
+
+
     const handelTaskUpdate = async (event) => {
+
+        if (taskStatus === "completed") {
+            setTaskLevel(100); // Update the state for completion level
+        }
         event.preventDefault();
         const data= {
             Actions,
-            taskLevel,
+            taskLevel: taskStatus === "completed" ? 100 : taskLevel,
             taskStatus,
             remark,
             };
@@ -30,9 +45,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
             if(taskLevel>100){
             return toast.error("Task level should be less than 100");
         }
-            if (taskLevel === 100) {
-                setTaskStatus("completed");
-        }
+        
+       
         try {
             await updateTask(selectedTask._id, data);
             console.log(data);
@@ -42,7 +56,6 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
             toast.error(error);
         }
     };
-
 
     return (
         <>
@@ -151,7 +164,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                     <div className="col-12 col-lg-3 mt-2">
                                         <label htmlFor="projectStatus" className="form-label label_text">Status</label>
                                         <select id="projectStatus" name="projectStatus" className="form-select"
-                                            onChange={(e) => setTaskStatus(e.target.value)}
+                                            // onChange={(e) => setTaskStatus(e.target.value)}
+                                            onChange={(e) => handleStatusChange(e.target.value)}
                                             value={taskStatus}
                                         >   
                                             <option value="">Select Status</option>
@@ -176,6 +190,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                                     id="HourlyRate"
                                                     placeholder="eg. 65 %"
                                                     aria-label="Hourly Rate"
+                                                    readOnly={taskStatus === "completed"}
                                                 />
 
                                                 <span
