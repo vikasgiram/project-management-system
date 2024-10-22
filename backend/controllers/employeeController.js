@@ -89,17 +89,39 @@ exports.search = async (req, res) => {
 
 exports.dashboard = async (req, res) => {
   try {
-      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
-      // Get unique project IDs from tasks for the specific company
-      const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company });
+    // Get unique project IDs from tasks for the specific company
+    const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company });
 
-      // Fetch the unique projects using the retrieved project IDs
-      const uniqueProjects = await Project.find({ _id: { $in: uniqueProjectIds } });
+    // Fetch upcoming projects
+    const assignedProgects = await Project.find({
+      _id: { $in: uniqueProjectIds },
+      projectStatus: 'upcoming' // Filter for upcoming projects
+    });
 
-      res.status(200).json(uniqueProjects);
+    // Fetch in-process projects
+    const inProcessProjects = await Project.find({
+      _id: { $in: uniqueProjectIds },
+      projectStatus: 'inprocess' // Filter for in-process projects
+    });
+
+    // Count completed projects
+    const completedCount = await Project.countDocuments({
+      _id: { $in: uniqueProjectIds },
+      projectStatus: 'finished' // Count completed projects
+    });
+
+    // Send the response with separate project lists and counts
+    res.status(200).json({
+      assignedProgects,
+      inProcessProjects,
+      completedCount,
+      inprocessCount: inProcessProjects.length,
+      totalProjects: (completedCount+ inProcessProjects.length + assignedProgects.length)
+    });
   } catch (error) {
-      res.status(500).json({ error: "Error In Employee dashboard controller: " + error.message });
+    res.status(500).json({ error: "Error In Employee dashboard controller: " + error.message });
   }
 };
 
