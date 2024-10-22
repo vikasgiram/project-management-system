@@ -77,7 +77,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
                             {/* <i className="fa-solid fa-user-tie ps-3 side_icon_fs" ></i> */}
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-user-group ps-3 side_icon_fs"></i>
  
                             <span
                                 className="menu-title_m"
@@ -94,7 +95,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
                             {/* <i className="fa-solid fa-users ps-3 side_icon_fs"></i> */}
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
  
                             <span
                                 className="menu-title_m"
@@ -112,7 +114,9 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
                             {/* <i className="fa-solid fa-diagram-project ps-3 side_icon_fs"></i> */}
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
+
  
                             <span
                                 className="menu-title_m"
@@ -161,7 +165,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                         className={Open || active === "TaskMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/TaskMasterGrid' className="nav-link ">
                             {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i>
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
