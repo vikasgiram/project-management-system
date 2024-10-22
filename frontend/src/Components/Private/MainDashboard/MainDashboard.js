@@ -28,25 +28,51 @@ function MainDashboard() {
 
 
 
+  // useEffect(() => {
+
+  //   const fetchData = async () => {
+  //     const data = await getDashboardData();
+  //     if (data) {
+  //       // console.log(data,"data from useEffect");
+
+
+  //       setCustCount(data.customerCount || []);
+  //       setCategorywise(data.category.total || []);
+  //       setForbar(data.category.category || []);
+  //       setValueWise(data.valueWiseProjectData || []);
+  //       setDuration(data.delayedProjectCountsByRange || []);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
-
     const fetchData = async () => {
-      const data = await getDashboardData();
-      if (data) {
-        // console.log(data,"data from useEffect");
-
-
-        setCustCount(data.customerCount || []);
-        setCategorywise(data.category.total || []);
-        setForbar(data.category.category || []);
-        setValueWise(data.valueWiseProjectData || []);
-        setDuration(data.delayedProjectCountsByRange || []);
+      try {
+        setLoading(true);
+  
+        const data = await getDashboardData();
+        
+        if (data) {
+          setCustCount(data.customerCount || []);
+          setCategorywise(data.category.total || []);
+          setForbar(data.category.category || []);
+          setValueWise(data.valueWiseProjectData || []);
+          setDuration(data.delayedProjectCountsByRange || []);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        setLoading(false);
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   // console.log("dashboard",dashboardData);
 

@@ -59,19 +59,42 @@ export const EmployeeMasterGrid = () => {
     };
 
 
+    // useEffect(() => {
+
+    //     const fetchData = async () => {
+    //         const data = await getEmployees();
+    //         if (data) {
+
+    //             setEmployees(data.employees || []);
+    //             // console.log(employees,"data from useState");
+    //             setLoading(false);
+    //         }
+          
+    //     };
+
+    //     fetchData();
+    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+
+
     useEffect(() => {
-
         const fetchData = async () => {
-            const data = await getEmployees();
-            if (data) {
-
-                setEmployees(data.employees || []);
-                // console.log(employees,"data from useState");
+            try {
+                setLoading(true);
+                
+                const data = await getEmployees();
+    
+                if (data) {
+                    setEmployees(data.employees || []);
+                }
+            } catch (error) {
+                console.error("Error fetching employees:", error);
                 setLoading(false);
-
+            } finally {
+                setLoading(false);
             }
         };
-
+    
+        // Call the function to fetch the data
         fetchData();
     }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 

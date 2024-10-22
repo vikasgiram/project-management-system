@@ -5,6 +5,7 @@ const { ObjectId } = require('mongodb');
 const Project = require('../models/projectModel');
 const Tasksheet = require('../models/taskSheetModel');
 const ProjectHistory = require('../models/projectHistoryModel');
+const TaskSheet = require('../models/taskSheetModel');
 
 exports.showAll = async (req, res) => {
     try {
@@ -47,6 +48,22 @@ exports.showAll = async (req, res) => {
       res.status(500).json({error:"Error in getProject: "+error.message});
     }
   };
+
+exports.myProjects = async (req, res)=>{
+  try {
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+
+    // Get unique project IDs from tasks for the specific company
+    const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company });
+
+    // Fetch the unique projects using the retrieved project IDs
+    const projects = await Project.find({ _id: { $in: uniqueProjectIds } }).populate('custId','custName');
+
+    res.status(200).json({projects});
+  } catch (error) {
+      res.status(500).json({ error: "Error In My project controller: " + error.message });
+  }
+}
 
 exports.search = async (req, res) => {
     try {

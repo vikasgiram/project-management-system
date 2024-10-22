@@ -5,6 +5,8 @@ import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import ViewTaskPopUp from "./PopUp/ViewTaskPopUp";
+import { getMyProjects } from "../../../../hooks/useProjects";
+import { formatDate } from "../../../../utils/formatDate";
 
 
 
@@ -30,14 +32,15 @@ export const EmployeeTaskGrid = () => {
     const [loading, setLoading] = useState(true);
 
 
-    const [employees, setEmployees] = useState([])
+    const [projects, setProjects] = useState([])
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
 
-    const handleViewTask = () => {
+    const handleViewTask = (id) => {
+        setSelecteId(id);
         setTaskPopUpShow(!TaskPopUpShow)
     }
 
@@ -63,21 +66,20 @@ export const EmployeeTaskGrid = () => {
     // };
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     const fetchData = async () => {
-    //         const data = await getEmployees();
-    //         if (data) {
+        const fetchData = async () => {
+            const data = await getMyProjects();
+            if (data) {
 
-    //             setEmployees(data.employees || []);
-    //             // console.log(employees,"data from useState");
-    //             setLoading(false);
+                setProjects(data.projects || []);
+                setLoading(false);
 
-    //         }
-    //     };
+            }
+        };
 
-    //     fetchData();
-    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+        fetchData();
+    }, []);
 
 
     return (
@@ -99,7 +101,7 @@ export const EmployeeTaskGrid = () => {
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
-                                            Task
+                                            My Projects
                                         </h5>
                                     </div>
 
@@ -125,46 +127,28 @@ export const EmployeeTaskGrid = () => {
                                                 <tr className="th_border" >
                                                     <th>Project No.</th>
                                                     <th>Project Name</th>
-                                                    <th>Project Information</th>
                                                     <th>Customer Name</th>
+                                                    <th>Project Status</th>
                                                     <th>Finish Date</th>
                                                     <th>Tasks</th>
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {/* {employees && employees.map((employee, index) => (
-                                                    <tr className="border my-4" key={employee.id}>
+                                                    {projects && projects.map((project, index) => (
+                                                    <tr className="border my-4" key={project.id}>
                                                         <td>{index + 1}</td>
-                                                        <td>{employee.name}</td>
-                                                        <td>{employee.email}</td>
-                                                        <td>{employee.department.name}</td>
-                                                        <td>{employee.designation.name}</td>
+                                                        <td>{project.name}</td>
+                                                        <td>{project.custId.custName}</td>
+                                                        <td>{project.projectStatus}</td>
+                                                        <td>{formatDate(project.endDate)}</td>
                                                         <td>
-                                                        <span
-                                                            onClick={() => handleUpdate(employee)}
-                                                            className="update">
-                                                            <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
-                                                        </span>
-
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(employee._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                    </td>
+                                                            <i onClick={() => { handleViewTask(project._id)}}
+                                                            class="fa-solid fa-eye Task_View_icon">
+                                                            </i>
+                                                        </td>
                                                         </tr>
-                                                    ))} */}
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Demo Project</td>
-                                                        <td>Demo Information</td>
-                                                        <td>Akash Shirke</td>
-                                                        <td>24-Dec-2024</td>
-                                                        <td><i
-
-                                                            onClick={() => { handleViewTask()}}
-                                                            class="fa-solid fa-eye Task_View_icon"></i></td>
-                                                    </tr>
+                                                    ))}
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -191,6 +175,7 @@ export const EmployeeTaskGrid = () => {
             {TaskPopUpShow ?
                 <ViewTaskPopUp
                     message="Task"
+                    selectedId= {selectedId}
                     handleViewTask={handleViewTask}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

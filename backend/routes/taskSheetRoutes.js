@@ -9,7 +9,7 @@ router.get('/',permissionMiddleware(['viewTaskSheet']), taskSheetController.show
 
 router.get('/:id', permissionMiddleware(['viewTaskSheet']), taskSheetController.getTaskSheet);
 
-router.get('/my',permissionMiddleware(['viewTaskSheet']), taskSheetController.myTask);
+router.get('/my/:projectId',permissionMiddleware(['viewTaskSheet']), taskSheetController.myTask);
 
 router.post('/',permissionMiddleware(['createTaskSheet']),taskSheetController.create);
 

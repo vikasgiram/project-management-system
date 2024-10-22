@@ -27,6 +27,7 @@ const taskSheetSchema = new Schema({
   taskStatus: {
     type: String,
     enum: ['stuck','inprocess', 'finished'], // taskStatus can only be one of these values
+    default: 'inprocess'
   },
   startDate:{
     type: Date,
@@ -36,7 +37,7 @@ const taskSheetSchema = new Schema({
     type: Date,
     required: true
   },
-  Action: [{
+  Actions: [{
     action: {
       type: String
     },
@@ -47,7 +48,7 @@ const taskSheetSchema = new Schema({
     endTime: {
       type: Date,
       required:false
-    },
+    },  
   }],
 
   remark: {

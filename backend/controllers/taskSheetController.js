@@ -1,3 +1,4 @@
+const { json } = require("express");
 const TaskSheet = require("../models/taskSheetModel");
 const jwt = require("jsonwebtoken");
 
@@ -25,32 +26,38 @@ exports.showAll = async (req, res) => {
 };
 
 exports.getTaskSheet = async (req, res) => {
-  const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-  const { id } = req.params;
-  const task = await TaskSheet.find(
-    {
-      company: decoded.user.company ? decoded.user.company : decoded.user._id, project:id
-    }
-  ).populate({
-    path: "project",
-    select: "name startDate endDate completeLevel",
-  })
-  .populate('taskName','name')
-  .populate('employees','name');
+ try {
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const { id } = req.params;
+    const task = await TaskSheet.find(
+      {
+        company: decoded.user.company ? decoded.user.company : decoded.user._id, project:id
+      }
+    ).populate({
+      path: "project",
+      select: "name startDate endDate completeLevel",
+    })
+    .populate('taskName','name')
+    .populate('employees','name');
 
-  if (task.length <=0) {
-    return res.status(400).json({ error: "No Task Found " });
-  }
-  res.status(200).json({ task });
+    if (task.length <=0) {
+      return res.status(400).json({ error: "No Task Found " });
+    }
+    res.status(200).json({ task });
+ } catch (error) {
+    res.status(500).json({error:"Error while getting taskheet using id: "+error.message});
+ }
 };
 
 exports.myTask = async (req, res) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const {projectId} = req.params;
     const task = await TaskSheet.find({
       company: decoded.user.company,
       employees: decoded.user._id,
-    }).populate("project", "name");
+      project:projectId
+    }).populate('taskName','name');
 
     if (task.length <= 0) {
       return res.status(400).json({ error: "Their is no task" });
