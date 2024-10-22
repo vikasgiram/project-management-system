@@ -1,17 +1,13 @@
 import { useState } from "react";
-import { Header } from "../Header/Header";
-import { Sidebar } from "../Sidebar/Sidebar";
-
-import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
-import UpdateCustomerPopUp from "./PopUp/UpdateCustomerPopUp";
-
 import { useEffect } from "react";
+import { deleteCustomer, getCustomers } from "../../../../hooks/useCustomer";
+import { EmployeeHeader } from "../EmployeeHeader";
+import { EmployeeSidebar } from "../EmployeeSidebar";
+import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import EmployeeAddCustomerPopUp from "./PopUp/EmployeeAddCustomerPopUp";
+import EmployeeUpdateCustomerPopUp from "./PopUp/EmployeeUpdateCustomerPopUp";
 
-import { getCustomers, deleteCustomer } from "../../../../hooks/useCustomer";
-import { HashLoader } from "react-spinners";
-
-export const CustomerMasterGrid = () => {
+export const EmployeeCustomerMasterGrid = () => {
 
     const [isopen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -96,10 +92,10 @@ export const CustomerMasterGrid = () => {
            
             <div className="container-scroller">
                 <div className="row background_main_all">
-                    <Header
+                    <EmployeeHeader
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
-                        <Sidebar isopen={isopen} active="CustomerMasterGrid" />
+                        <EmployeeSidebar isopen={isopen} active="EmployeeCustomerMasterGrid" />
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
@@ -191,7 +187,7 @@ export const CustomerMasterGrid = () => {
 
 
             {AddPopUpShow ?
-                <AddCustomerPopUp
+                <EmployeeAddCustomerPopUp
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
@@ -199,7 +195,7 @@ export const CustomerMasterGrid = () => {
             }
 
             {updatePopUpShow ?
-                <UpdateCustomerPopUp
+                <EmployeeUpdateCustomerPopUp
                     selectedCust={selectedCust}
                     handleUpdate={handleUpdate}
                 // heading="Forward"

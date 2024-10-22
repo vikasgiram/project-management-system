@@ -85,8 +85,8 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
-                        className={Open || active === "CustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='' className="nav-link ">
+                        className={Open || active === "EmployeeProjectGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeProjectGrid' className="nav-link ">
                             <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
 
                             <span
@@ -100,8 +100,8 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
 
 
                     <li
-                        className={Open || active === "ProjectMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='' className="nav-link ">
+                        className={Open || active === "EmployeeCustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeCustomerMasterGrid' className="nav-link ">
                             <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
 
                             <span
