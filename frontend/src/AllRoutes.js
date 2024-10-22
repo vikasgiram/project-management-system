@@ -23,6 +23,7 @@ import { EmployeeTaskGrid } from "./Components/Private/EmployeeDashboard/Employe
 import { EmployeeProjectGrid } from "./Components/Private/EmployeeDashboard/EmployeeProjectGrid/EmployeeProjectGrid";
 import { EmployeeTaskChart } from "./Components/Private/EmployeeDashboard/EmployeeProjectGrid/EmployeeTaskChart";
 import { EmployeeCustomerMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeCustomerMasterGrid/EmployeeCustomerMasterGrid";
+import { EmployeeDashboardEpmloyeeGrid } from "./Components/Private/EmployeeDashboard/EmployeeDashboardEpmloyeeGrid/EmployeeDashboardEpmloyeeGrid";
 
 
 
@@ -67,6 +68,7 @@ const AllRoutes = () => {
                     <Route exact path="/EmployeeProjectGrid" element={<EmployeeProjectGrid />} />
                     <Route exact path="/EmployeeTaskChart" element={<EmployeeTaskChart />} />
                     <Route exact path="/EmployeeCustomerMasterGrid" element={<EmployeeCustomerMasterGrid />} />
+                    <Route exact path="/EmployeeDashboardEpmloyeeGrid" element={<EmployeeDashboardEpmloyeeGrid />} />
 
 
 
