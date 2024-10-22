@@ -16,8 +16,7 @@ const getDashboardData = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-
+    toast.error("Internal Server Error");
   }
 };
 

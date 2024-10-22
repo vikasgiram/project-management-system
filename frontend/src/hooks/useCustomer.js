@@ -15,7 +15,7 @@ const getCustomers = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
+    toast.error("Internal Server Error");
   }
 };
 
@@ -32,8 +32,7 @@ const createCustomer = async (customerData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 
@@ -50,8 +49,7 @@ const updateCustomer = async (updatedData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const deleteCustomer = async (Id) => {
@@ -66,8 +64,7 @@ const deleteCustomer = async (Id) => {
     toast.success("Customer Deleted sucessfully...");
   } catch (error) {
     console.log(error.response.data);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 export { getCustomers, createCustomer, updateCustomer, deleteCustomer };

@@ -16,8 +16,7 @@ const getEmployees = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const getEmployee = async (id) => {
@@ -33,8 +32,7 @@ const getEmployee = async (id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 
@@ -52,8 +50,7 @@ const createEmployee = async (employeeData) => {
     toast.success("Employee Created");
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const updateEmployee = async (updatedEmployeeData) => {
@@ -69,8 +66,7 @@ const updateEmployee = async (updatedEmployeeData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const deleteEmployee = async (employeeId) => {
@@ -86,8 +82,7 @@ const deleteEmployee = async (employeeId) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const getEmployeeDashboard = async () => {
@@ -103,8 +98,7 @@ const getEmployeeDashboard = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
   
