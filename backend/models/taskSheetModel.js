@@ -37,6 +37,9 @@ const taskSheetSchema = new Schema({
     type: Date,
     required: true
   },
+  actualEndDate:{
+    type: Date,
+  },
   Actions: [{
     action: {
       type: String

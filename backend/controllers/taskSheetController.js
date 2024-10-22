@@ -101,12 +101,19 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const task = await TaskSheet.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const updatedData= req.body;
+    const task = await TaskSheet.findById(req.params.id);
     if (!task) {
       return res.status(400).json({ error: "Tasksheet not found" });
     }
+    if(updatedData.taskStatus==='completed'){
+      task.taskLevel=100;
+      task.actualEndDate=updatedData.Actions.endTime;
+      task.taskStatus=updatedData.taskStatus;
+    }
+    task.remark=updatedData.remark;
+    task.Actions.push(updatedData.Actions);
+    task.save();
     res.status(200).json({ message: "Tasksheet Updated " });
   } catch (error) {
     res

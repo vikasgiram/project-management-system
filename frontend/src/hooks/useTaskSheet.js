@@ -77,7 +77,7 @@ const updateTask = async (id, updatedData) => {
       console.error(data.error);
       return alert(data.error);
     }
-
+    toast.success("Task Updated Successfuly");
     return data;
   } catch (error) {
     console.error(error);
