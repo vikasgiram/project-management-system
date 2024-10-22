@@ -115,24 +115,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col-12 pt-3 mt-2">
-                      <button
-                        type="submit"
-                        // onClick={handleEmployeeAdd}
-                        className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
-                      >
-                        Add
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleViewTask}
-                        className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </form>
