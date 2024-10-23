@@ -68,7 +68,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
       confirmPassword,
       department,
       designation,
-      // gender
+      gender
     };
     if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !designation || !gender){
       return toast.error("Please fill all fields");

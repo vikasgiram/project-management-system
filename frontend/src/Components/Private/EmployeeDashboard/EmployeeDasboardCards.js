@@ -4,7 +4,7 @@ import { CompanyInfEmployeeDashboardPieChartoPieChart } from "./EmployeeDashboar
 // import { CompanyInfoPieChart } from "./CompanyInfoPieChart"
 
 
-export const EmployeeDasboardCards = ({totalProjects,completedProjects,InproccessProjects}) => {
+export const EmployeeDasboardCards = ({totalProjectCount,completedProjectCount,inproccessProjectCount}) => {
 
     const navigate = useNavigate()
 
@@ -24,7 +24,7 @@ export const EmployeeDasboardCards = ({totalProjects,completedProjects,Inprocces
                                     </h6>
                                     <h2 className="pt-2 fw-bold card_count demo_bottom">
                                         {/* {categorywise.finished} */}
-                                        {totalProjects}
+                                        {totalProjectCount }
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -45,7 +45,7 @@ export const EmployeeDasboardCards = ({totalProjects,completedProjects,Inprocces
                                     </h6>
                                     <h2 className="pt-2 fw-bold card_count">
                                         {/* {categorywise.inprocess} */}
-                                        {completedProjects}
+                                        {completedProjectCount}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -67,7 +67,7 @@ export const EmployeeDasboardCards = ({totalProjects,completedProjects,Inprocces
                                     </h6>
                                     <h2 className="pt-2 fw-bold card_count">
                                         {/* {categorywise.upcoming} */}
-                                        {InproccessProjects}
+                                        {inproccessProjectCount}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -85,9 +85,9 @@ export const EmployeeDasboardCards = ({totalProjects,completedProjects,Inprocces
             </div>
 
             <CompanyInfEmployeeDashboardPieChartoPieChart 
-                    totalProjects={totalProjects} 
-                    completedProjects={completedProjects} 
-                    InproccessProjects={InproccessProjects} />
+                    totalProjectCount={totalProjectCount} 
+                    completedProjectCount={completedProjectCount} 
+                    inproccessProjectCount={inproccessProjectCount} />
 
 
             {/* <CompanyInfoPieChart categorywise={categorywise}/> */}

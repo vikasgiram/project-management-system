@@ -54,7 +54,7 @@ exports.myProjects = async (req, res)=>{
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
     // Get unique project IDs from tasks for the specific company
-    const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company });
+    const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company, employees:decoded.user._id });
 
     // Fetch the unique projects using the retrieved project IDs
     const projects = await Project.find({ _id: { $in: uniqueProjectIds } }).populate('custId','custName');

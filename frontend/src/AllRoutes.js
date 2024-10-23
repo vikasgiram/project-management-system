@@ -46,7 +46,7 @@ const {user} = useContext(UserContext);
 
                  {/* Company */}
 
-                 {user.user==='company'?(
+                 {user && user.user==='company'?(
                     <>
                         <Route exact path="/MainDashboard" element={<MainDashboard />} />
                         <Route exact path="/EmployeeMasterGrid" element={<EmployeeMasterGrid />} />
@@ -62,7 +62,7 @@ const {user} = useContext(UserContext);
 
 
                     {/* Admin  */}
-                    {user.user==='admin'?(
+                    {user && user.user==='admin'?(
                         <>
                         <Route exact path="/AdminMainDashboard" element={<AdminMainDashboard />} />
 
@@ -70,7 +70,7 @@ const {user} = useContext(UserContext);
                     ):null}
 
                     {/* Employee  */}
-                    {user.user==='employee'?(
+                    {user && user.user==='employee'?(
                         <>
                             <Route exact path="/EmployeeMainDashboard" element={<EmployeeMainDashboard />} />
                             <Route exact path="/EmployeeTaskGrid" element={<EmployeeTaskGrid />} />

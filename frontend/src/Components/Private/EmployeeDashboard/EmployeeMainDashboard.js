@@ -11,12 +11,11 @@ import { getEmployeeDashboard } from "../../../hooks/useEmployees";
 
 function EmployeeMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
-    const [totalProjects, setTotalProjects] = useState();
-    const[completedProjects,setCompletedProjects]=useState();
-    const[InproccessProjects,setInproccessProjects]=useState();
+    const [totalProjectCount, setTotalProjectCount] = useState();
+    const[completedProjectCount,setCompletedProjectCount]=useState();
+    const[inproccessProjectCount,setInproccessProjectCount]=useState();
 
-    const[assignedprojectName,setAssignedProjectName]=useState([]);
-
+    const[assignedProjects,setAssignedProjects]=useState([]);
     const[inproccessProject,setInproccessProject]=useState([]);
    
 
@@ -26,14 +25,15 @@ function EmployeeMainDashboard() {
             try {
                 // setLoading(true);
                 const data = await getEmployeeDashboard();
-                console.log(data);
+                console.log("data",data);
                 if (data) {
-                    setTotalProjects(data.totalProjects);
-                    setCompletedProjects(data.completedCount);
-                    setInproccessProjects(data.inprocessCount);
+                    setTotalProjectCount(data.totalProjects);
+                    setCompletedProjectCount(data.completedCount);
+                    setInproccessProjectCount(data.inprocessCount);
 
-                    setAssignedProjectName(data.assignedProgects);
+                    setAssignedProjects(data.assignedProgects);
                     setInproccessProject(data.inProcessProjects);
+
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
@@ -105,12 +105,12 @@ function EmployeeMainDashboard() {
 
                                 </div>
                                 <EmployeeDasboardCards 
-                                        totalProjects={totalProjects} 
-                                        completedProjects={completedProjects} 
-                                        InproccessProjects={InproccessProjects} />
+                                        totalProjectCount={totalProjectCount} 
+                                        completedProjectCount={completedProjectCount} 
+                                        inproccessProjectCount={inproccessProjectCount} />
 
                                 <AssignInproccessSection 
-                                    assignedprojectName={assignedprojectName}
+                                    assignedProjects={assignedProjects}
                                     inproccessProject={inproccessProject}
                                 />
                                 <PerFormanceChart />
