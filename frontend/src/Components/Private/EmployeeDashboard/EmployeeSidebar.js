@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery'
 import { useTranslation } from "react-i18next";
+import { UserContext } from "../../../context/UserContext";
 
 
 export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
     // const [toggleactive, settoggleactive] = useState("dashboard")
     const [ReportOpen, setReportOpen] = useState(false)
     const [Open, setOpen] = useState(false)
+	const {user} = useContext(UserContext);
+
 
 
     const [AdminReportOpen, setAdminReportOpen] = useState(false)
@@ -79,12 +82,12 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                                Task
+                                My Projects
                             </span>
                         </Link>
                     </li>
 
-                    <li
+                    {user.permissions.includes('viewProject')?(<li
                         className={Open || active === "EmployeeProjectGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeProjectGrid' className="nav-link ">
                             <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
@@ -93,13 +96,15 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                                Project
+                                All Projects
                             </span>
                         </Link>
-                    </li>
+                    </li>):
+                        ('')
+                    }
 
 
-                    <li
+                    {user.permissions.includes('viewCustomer')?(<li
                         className={Open || active === "EmployeeCustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeCustomerMasterGrid' className="nav-link ">
                             <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
@@ -111,9 +116,9 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                                 Customer
                             </span>
                         </Link>
-                    </li>
+                    </li>):('')}
 
-                    <li
+                    {user.permissions.includes('viewEmployee')?(<li
                         className={Open || active === "DepartmentMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='' className="nav-link ">
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
@@ -126,7 +131,7 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                                 Employee
                             </span>
                         </Link>
-                    </li>
+                    </li>):('')}
 
 
                     {/* <li

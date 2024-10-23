@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState,useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { EmployeeHeader } from "../EmployeeHeader";
@@ -9,6 +8,8 @@ import { deleteProject, getProjects } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 import EmployeeAddProjectPopup from "./PopUp/EmployeeAddProjectPopup";
 import EmployeeUpdateProjectPopup from "./PopUp/EmployeeUpdateProjectPopup";
+import { UserContext } from "../../../../context/UserContext";
+import { use } from "i18next";
 
 export const EmployeeProjectGrid = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export const EmployeeProjectGrid = () => {
     setIsOpen(!isopen);
   };
 
+	const {user} = useContext(UserContext);
   const [AddPopUpShow, setAddPopUpShow] = useState(false);
   const [deletePopUpShow, setdeletePopUpShow] = useState(false);
   const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
@@ -144,7 +146,7 @@ export const EmployeeProjectGrid = () => {
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
-                            <th>Details</th>
+                            {user.permissions.includes('viewTaskSheet')?(<th>Details</th>):('')}
                             <th>Action</th>
                           </tr>
 
@@ -158,7 +160,7 @@ export const EmployeeProjectGrid = () => {
                                   <td>{formatDate(project.startDate)}</td>
                                   <td>{formatDate(project.endDate)}</td>
                                   <td>{project.projectStatus}</td>
-                                  <td>
+                                  {user.permissions.includes('viewTaskSheet')?(<td>
                                     {/* {project.projectStatus} */}
 
                                     <i
@@ -168,23 +170,23 @@ export const EmployeeProjectGrid = () => {
                                       }}
                                       class="fa-solid fa-circle-info cursor-pointer"
                                     ></i>
-                                  </td>
+                                  </td>):('')}
                                   <td>
-                                    <span
+                                    {user &&user.permissions.includes('updateProject')?(<span
                                       onClick={() => handleUpdate(project)}
                                       className="update"
                                     >
                                       <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
-                                    </span>
+                                    </span>):('')}
 
-                                    <span
+                                    {user && user.permissions.includes('deleteProject')?(<span
                                       onClick={() =>
                                         handelDeleteClosePopUpClick(project._id)
                                       }
                                       className="delete"
                                     >
                                       <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
-                                    </span>
+                                    </span>):('')}
                                   </td>
                                 </tr>
                               ))}

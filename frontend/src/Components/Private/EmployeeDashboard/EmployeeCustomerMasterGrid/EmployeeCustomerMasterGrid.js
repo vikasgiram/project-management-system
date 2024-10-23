@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { deleteCustomer, getCustomers } from "../../../../hooks/useCustomer";
 import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import EmployeeAddCustomerPopUp from "./PopUp/EmployeeAddCustomerPopUp";
 import EmployeeUpdateCustomerPopUp from "./PopUp/EmployeeUpdateCustomerPopUp";
+import { UserContext } from "../../../../context/UserContext";
+import { use } from "i18next";
 
 export const EmployeeCustomerMasterGrid = () => {
 
@@ -14,7 +15,8 @@ export const EmployeeCustomerMasterGrid = () => {
     const toggle = () => {
         setIsOpen(!isopen);
     };
-
+    
+    const {user} = useContext(UserContext);
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false)
@@ -142,17 +144,17 @@ export const EmployeeCustomerMasterGrid = () => {
                                                             <td>{customer.phoneNumber1}</td>
                                                             <td>{customer.GSTNo}</td>
                                                             <td>
-                                                                <span
+                                                                {user.permissions.includes('updateCustomer')?(<span
                                                                     onClick={()=>handleUpdate(customer)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
-                                                                </span>
+                                                                </span>):('')}
 
-                                                                <span
+                                                                {user.permissions.includes('deleteCustomer')?(<span
                                                                     onClick={() => handelDeleteClosePopUpClick(customer._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                                </span>
+                                                                </span>):('')}
                                                             </td>
                                                         </tr>
                                                     ))}
