@@ -127,7 +127,7 @@ exports.dashboard = async (req, res) => {
 
 exports.create=async (req, res) => {
   try {
-    const {name, mobileNo, hourlyRate,designation, email, password,department, confirmPassword}=req.body;
+    const {name, mobileNo, hourlyRate,designation, email, password,department, confirmPassword, gender}=req.body;
     if(password !== confirmPassword){
       return res.status(400).json({error:`Password desen\'t match!!!`});
     }
@@ -143,6 +143,9 @@ exports.create=async (req, res) => {
     const hashPassword=await bcrypt.hash(password,salt);
 
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${email}`;
+		const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${email}`;
+    const otherProfilePic= `https://avatar.iran.liara.run/username?username=${name}`;
     const newEmp=Employee({
       name,
       mobileNo,
@@ -152,6 +155,8 @@ exports.create=async (req, res) => {
       department,
       email:email.toLowerCase(),
       password:hashPassword,
+      gender,
+      profilePic:gender==='male'?boyProfilePic: gender==='female'? girlProfilePic:otherProfilePic
     });
 
     if(newEmp){

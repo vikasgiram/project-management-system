@@ -39,7 +39,6 @@ export const EmployeeHeader = (props) => {
 	// 	  console.error(error);
 	// 	}
 	//   };
-
 	
 
 	return (
@@ -76,7 +75,7 @@ export const EmployeeHeader = (props) => {
 								data-toggle="dropdown"
 								id="profileDropdown"
 							>
-								<img src="static/assets/img/nav/man.png" alt="profile" />
+								<img src={user.profilePic || 'path/to/fallback/image.jpg'} alt="profile" />
 
 								<i
 									className="align-self-center ml-1"

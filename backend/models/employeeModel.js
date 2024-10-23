@@ -42,6 +42,15 @@ const employeeSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  gender:{
+    type: String,
+    required: true,
+    enum:["male","female", "other"]
+  },
+  profilePic:{
+      type: String,
+      default:"",
   }
 }, {
   timestamps: true,

@@ -36,7 +36,8 @@ exports.login = async (req, res) => {
         name:user.name,
         department: user.department.name,
         designation: user.designation.name,
-        permissions: user.designation.permissions
+        permissions: user.designation.permissions,
+        profilePic: user.profilePic
       });
     } 
     else {
