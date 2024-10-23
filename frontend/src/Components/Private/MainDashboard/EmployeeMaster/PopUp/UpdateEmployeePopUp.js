@@ -122,6 +122,28 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                 </div>
 
                 <div className="col-12 col-lg-6 mt-2">
+  <div className="mb-3">
+    <label htmlFor="gender" className="form-label label_text">
+      Gender
+    </label>
+    <select
+      name="gender"
+      value={employee.gender} // Bind this to the state
+      onChange={handleChange} // Update the state on change
+      className="form-select rounded-0"
+      id="gender"
+      aria-label="Default select example"
+    >
+      {/* <option value="">Select Gender</option> */}
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+</div>
+
+
+                <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label htmlFor="email" className="form-label label_text">
                         Email

@@ -16,8 +16,7 @@ const getDepartment = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-
+    toast.error("Internal Server Error");
   }
 };
 
@@ -34,8 +33,7 @@ const createDepartment = async (departmentData) => {
     toast.success("Department Created");
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const deleteDepartment = async (departmentId) => {
@@ -51,8 +49,7 @@ const deleteDepartment = async (departmentId) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
   export { getDepartment, deleteDepartment,createDepartment };

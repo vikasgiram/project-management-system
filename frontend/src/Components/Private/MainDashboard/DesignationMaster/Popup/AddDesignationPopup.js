@@ -362,7 +362,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
                           </td>
                         </tr>
                         <tr>
-                          <td>Task</td>
+                          <td>Task Name</td>
                           <td>
                             <div>
                               <label class="toggler-wrapper style-22">
@@ -414,6 +414,69 @@ const AddDesignationPopup = ({ handleAdd }) => {
                                 onChange={(e) =>{
                                   setIsChecked(e.target.checked);
                                   handlePermissionChange('deleteTask', e.target.checked)}
+                                }
+                                />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Task Sheet</td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('createTaskSheet', e.target.checked)}
+                                }
+                                />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('viewTaskSheet', e.target.checked)}
+                                }
+                                />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('updateTaskSheet', e.target.checked)}
+                                }
+                                />
+                                <div class="toggler-slider">
+                                  <div class="toggler-knob"></div>
+                                </div>
+                              </label>
+                            </div>
+                          </td> <td>
+                            <div>
+                              <label class="toggler-wrapper style-22">
+                              <input type="checkbox"
+                                onChange={(e) =>{
+                                  setIsChecked(e.target.checked);
+                                  handlePermissionChange('deleteTaskSheet', e.target.checked)}
                                 }
                                 />
                                 <div class="toggler-slider">

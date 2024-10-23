@@ -15,8 +15,7 @@ const getAllTask = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const getTaskSheet = async (id) => {
@@ -31,8 +30,7 @@ const getTaskSheet = async (id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const getMyTaskSheet = async (projectId) => {
@@ -47,8 +45,7 @@ const getMyTaskSheet = async (projectId) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const createTask = async (taskData) => {
@@ -64,8 +61,7 @@ const createTask = async (taskData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const updateTask = async (id, updatedData) => {
@@ -81,8 +77,7 @@ const updateTask = async (id, updatedData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 const deleteTask = async (Id) => {
@@ -98,8 +93,7 @@ const deleteTask = async (Id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);
-  }
+    toast.error("Internal Server Error");  }
 };
 
 export { getAllTask,  createTask, updateTask, deleteTask, getTaskSheet, getMyTaskSheet };
