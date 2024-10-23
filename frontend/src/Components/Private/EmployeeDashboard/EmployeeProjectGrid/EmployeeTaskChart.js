@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { ViewMode, Gantt } from "gantt-task-react";
 import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
@@ -13,6 +13,8 @@ import { getEmployee } from "../../../../hooks/useEmployees";
 import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
+
+import { UserContext } from "../../../../context/UserContext";
 
 
 const Option = (props) => {
@@ -40,6 +42,7 @@ export const EmployeeTaskChart = () => {
         setIsOpen(!isopen);
     };
 
+    const {user} = useContext(UserContext);
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
 
@@ -153,6 +156,7 @@ export const EmployeeTaskChart = () => {
                 setLoading(false);
             }
         };
+        if(user.permissions.includes('viewTask'))
         fetchData();
     }, [])
     // console.log(taskName,"task n ");
@@ -170,6 +174,7 @@ export const EmployeeTaskChart = () => {
                 console.log(error);
             }
         };
+        if(user.permissions.includes('viewDepartment'))
         fetchData();
     }, []);
 
@@ -196,6 +201,7 @@ export const EmployeeTaskChart = () => {
                 console.log(error);
             }
         };
+        if(user.permissions.includes('viewEmployee'))
         fetchData();
     }, [department]);
 
@@ -298,128 +304,117 @@ export const EmployeeTaskChart = () => {
                                 </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded"  >
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label htmlFor="taskName" className="form-label label_text">Task Name</label>
-                                                <select className="form-select rounded-0" aria-label="Default select example"
-                                                    onChange={(e) => setTaskName(e.target.value)}
-                                                    value={taskName}
-                                                >
-                                                    <option value=""  >-- Select Task Name --</option>
-                                                    {
-                                                        taskDropDown && taskDropDown.map((task) => (
-                                                            <option value={task._id}>{task.name}</option>
-                                                        ))
-                                                    }
+                                    {user.permissions.includes('createTaskSheet')?(<>
+                                        <div className="col-12 col-md-6 col-lg-3">
+                                                <div className="mb-3">
+                                                    <label htmlFor="taskName" className="form-label label_text">Task Name</label>
+                                                    <select className="form-select rounded-0" aria-label="Default select example"
+                                                        onChange={(e) => setTaskName(e.target.value)}
+                                                        value={taskName}
+                                                    >
+                                                        <option value=""  >-- Select Task Name --</option>
+                                                        {
+                                                            taskDropDown && taskDropDown.map((task) => (
+                                                                <option value={task._id}>{task.name}</option>
+                                                            ))
+                                                        }
 
-                                                </select>
-                                            </div>
-                                    </div>
+                                                    </select>
+                                                </div>
+                                        </div>
 
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label for="startDate" className="form-label label_text">Start Date</label>
-                                                <input type="date" className="form-control rounded-0" id="startDate"
-                                                    onChange={(e) => setStartDate(e.target.value)}
-                                                    value={startDate}
-                                                    aria-describedby="emailHelp" />
-                                            </div>
-                                    </div>
+                                        <div className="col-12 col-md-6 col-lg-3">
+                                                <div className="mb-3">
+                                                    <label for="startDate" className="form-label label_text">Start Date</label>
+                                                    <input type="date" className="form-control rounded-0" id="startDate"
+                                                        onChange={(e) => setStartDate(e.target.value)}
+                                                        value={startDate}
+                                                        aria-describedby="emailHelp" />
+                                                </div>
+                                        </div>
 
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label for="endDate" className="form-label label_text">End Date</label>
-                                                <input type="date" className="form-control rounded-0" id="endDate"
-                                                    onChange={(e) => setEndDate(e.target.value)}
-                                                    value={endDate}
-                                                    aria-describedby="emailHelp" />
-                                            </div>
-                                    </div>
+                                        <div className="col-12 col-md-6 col-lg-3">
+                                                <div className="mb-3">
+                                                    <label for="endDate" className="form-label label_text">End Date</label>
+                                                    <input type="date" className="form-control rounded-0" id="endDate"
+                                                        onChange={(e) => setEndDate(e.target.value)}
+                                                        value={endDate}
+                                                        aria-describedby="emailHelp" />
+                                                </div>
+                                        </div>
 
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label htmlFor="taskName" className="form-label label_text">Department</label>
-                                                <select className="form-select rounded-0" aria-label="Default select example"
-                                                    onChange={(e) => setDepartment(e.target.value)}
-                                                    value={department}
-                                                >
-                                                    <option value=""  >-- Select Department Name --</option>
-                                                    {
-                                                        departmentName && departmentName.map((department) => (
-                                                            <option value={department._id}>{department.name}</option>
-                                                        ))
-                                                    }
+                                        <div className="col-12 col-md-6 col-lg-3">
+                                                <div className="mb-3">
+                                                    <label htmlFor="taskName" className="form-label label_text">Department</label>
+                                                    <select className="form-select rounded-0" aria-label="Default select example"
+                                                        onChange={(e) => setDepartment(e.target.value)}
+                                                        value={department}
+                                                    >
+                                                        <option value=""  >-- Select Department Name --</option>
+                                                        {
+                                                            departmentName && departmentName.map((department) => (
+                                                                <option value={department._id}>{department.name}</option>
+                                                            ))
+                                                        }
 
-                                                </select>
-                                            </div>
-                                    </div>
+                                                    </select>
+                                                </div>
+                                        </div>
 
-                                    {/* <div className="col-12 col-md-6 col-lg-3">
-                                        <form>
-                                            <div className="mb-3">
-                                                <label for="company" className="form-label label_text">Department</label>
-                                                <input type="text" className="form-control rounded-0" id="company" 
-                                                onChange={(e) => setCompany(e.target.value)}
-                                                value={company}
-                                                aria-describedby="emailHelp" />
-                                            </div>
+                                        
 
-                                        </form>
-
-                                    </div> */}
-
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">Employee Name</label>
-                                                <ReactSelect
-                                                    options={employeeOptions}  // Employee options (e.g., from API)
-                                                    isMulti                    // Allows selecting multiple employees
-                                                    closeMenuOnSelect={false}   // Keeps menu open after selecting an item
-                                                    hideSelectedOptions={false} // Show selected options in the dropdown
-                                                    onChange={(selectedOption) => {
-                                                        // Map over the selected options to extract only the IDs
-                                                        const employeeIds = selectedOption ? selectedOption.map(option => option.value) : [];
-                                                        setEmployees(employeeIds);  // Set employees state to array of IDs
-                                                    }}
-                                                    value={employees.map(id => employeeOptions.find(option => option.value === id))} // Keep selected values synced
-                                                />
-                                            </div>
-                                    </div>
+                                        <div className="col-12 col-md-6 col-lg-3">
+                                                <div className="mb-3">
+                                                    <label for="ProjectName" className="form-label label_text">Employee Name</label>
+                                                    <ReactSelect
+                                                        options={employeeOptions}  // Employee options (e.g., from API)
+                                                        isMulti                    // Allows selecting multiple employees
+                                                        closeMenuOnSelect={false}   // Keeps menu open after selecting an item
+                                                        hideSelectedOptions={false} // Show selected options in the dropdown
+                                                        onChange={(selectedOption) => {
+                                                            // Map over the selected options to extract only the IDs
+                                                            const employeeIds = selectedOption ? selectedOption.map(option => option.value) : [];
+                                                            setEmployees(employeeIds);  // Set employees state to array of IDs
+                                                        }}
+                                                        value={employees.map(id => employeeOptions.find(option => option.value === id))} // Keep selected values synced
+                                                    />
+                                                </div>
+                                        </div>
 
 
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label for="ProjectName" className="form-label label_text">Remark</label>
-                                                <textarea
-                                                    onChange={(e) => setRemark(e.target.value)}
-                                                    value={remark}
-                                                    className="textarea_edit col-12"
-                                                    id=""
-                                                    name=""
-                                                    placeholder=""
-                                                    rows="1"
-                                                ></textarea>
-                                            </div>
-                                    </div>
+                                        <div className="col-12 col-md-6 col-lg-3">
+                                                <div className="mb-3">
+                                                    <label for="ProjectName" className="form-label label_text">Remark</label>
+                                                    <textarea
+                                                        onChange={(e) => setRemark(e.target.value)}
+                                                        value={remark}
+                                                        className="textarea_edit col-12"
+                                                        id=""
+                                                        name=""
+                                                        placeholder=""
+                                                        rows="1"
+                                                    ></textarea>
+                                                </div>
+                                        </div>
 
-                                    <div className="col-12 col-lg-3  pt-3 mt-3 ">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd();
-                                            }}
-                                            type="submit"
-                                            className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
-                                        <button
-                                            onClick={() => {
-                                                clearForm()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-danger  px-4 mx-auto"> <i class="fa-solid fa-xmark"></i> Clear</button>
-
-
-                                    </div>
+                                        <div className="col-12 col-lg-3  pt-3 mt-3 ">
+                                            <button
+                                                onClick={() => {
+                                                    handleAdd();
+                                                }}
+                                                type="submit"
+                                                className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
+                                            <button
+                                                onClick={() => {
+                                                    clearForm()
+                                                }}
+                                                type="button"
+                                                className="btn adbtn btn-danger  px-4 mx-auto"> <i class="fa-solid fa-xmark"></i> Clear</button>
 
 
+                                        </div>
+
+                                    </>):('')}
 
 
                                     <div className="col-12 py-2 div_scroll" >
@@ -444,20 +439,7 @@ export const EmployeeTaskChart = () => {
                                                 rowHeight={40}
                                                 fontSize={12}
                                             />
-                                            {/* <h3>Gantt With Limited Height</h3>
-                                            <Gantt
-                                                tasks={tasks}
-                                                viewMode={view}
-                                                onDateChange={handleTaskChange}
-                                                onDelete={handleTaskDelete}
-                                                onProgressChange={handleProgressChange}
-                                                onDoubleClick={handleDblClick}
-                                                onSelect={handleSelect}
-                                                onExpanderClick={handleExpanderClick}
-                                                listCellWidth={isChecked ? "155px" : ""}
-                                                ganttHeight={300}
-                                                columnWidth={columnWidth}
-                                            /> */}
+                                      
                                         </div>
                                     </div>
                                 </div>

@@ -9,7 +9,6 @@ import { formatDate } from "../../../../utils/formatDate";
 import EmployeeAddProjectPopup from "./PopUp/EmployeeAddProjectPopup";
 import EmployeeUpdateProjectPopup from "./PopUp/EmployeeUpdateProjectPopup";
 import { UserContext } from "../../../../context/UserContext";
-import { use } from "i18next";
 
 export const EmployeeProjectGrid = () => {
   const navigate = useNavigate();
@@ -118,7 +117,7 @@ export const EmployeeProjectGrid = () => {
                       <h5 className="text-white py-2">Project Master</h5>
                     </div>
 
-                    <div className="col-12 col-lg-6  ms-auto text-end">
+                  {user.permissions.includes('createProject')?(<div className="col-12 col-lg-6  ms-auto text-end">
                       <button
                         onClick={() => {
                           handleAdd();
@@ -129,7 +128,7 @@ export const EmployeeProjectGrid = () => {
                         {" "}
                         <i className="fa-solid fa-plus"></i> Add
                       </button>
-                    </div>
+                    </div>):('')}
                   </div>
 
                   <div className="row  bg-white p-2 m-1 border rounded">
@@ -166,7 +165,7 @@ export const EmployeeProjectGrid = () => {
                                     <i
                                       onClick={() => {
                                         // navigate(`/${project._id}`);
-                                        navigate("/EmployeeTaskChart");
+                                        navigate(`/${project._id}`);
                                       }}
                                       class="fa-solid fa-circle-info cursor-pointer"
                                     ></i>

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const projectController = require('../controllers/projectController');
-const {permissionMiddleware, isCompany, } = require("../middlewares/auth");
+const {permissionMiddleware, } = require("../middlewares/auth");
 
 router.get('/', permissionMiddleware(['viewProject']), projectController.showAll);
 
@@ -16,7 +16,7 @@ router.post('/', permissionMiddleware(['createProject']) ,projectController.crea
 
 router.put('/:id', permissionMiddleware(['updateProject']), projectController.updateProject);
 
-router.delete('/:id', isCompany, projectController.delete);
+router.delete('/:id', permissionMiddleware(['deleteProject']), projectController.delete);
 
 
 module.exports = router;
