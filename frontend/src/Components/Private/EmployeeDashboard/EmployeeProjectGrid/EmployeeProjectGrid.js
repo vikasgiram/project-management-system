@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState,useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { EmployeeHeader } from "../EmployeeHeader";
@@ -9,6 +8,7 @@ import { deleteProject, getProjects } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 import EmployeeAddProjectPopup from "./PopUp/EmployeeAddProjectPopup";
 import EmployeeUpdateProjectPopup from "./PopUp/EmployeeUpdateProjectPopup";
+import { UserContext } from "../../../../context/UserContext";
 
 export const EmployeeProjectGrid = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ export const EmployeeProjectGrid = () => {
     setIsOpen(!isopen);
   };
 
+	const {user} = useContext(UserContext);
   const [AddPopUpShow, setAddPopUpShow] = useState(false);
   const [deletePopUpShow, setdeletePopUpShow] = useState(false);
   const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
@@ -116,7 +117,7 @@ export const EmployeeProjectGrid = () => {
                       <h5 className="text-white py-2">Project Master</h5>
                     </div>
 
-                    <div className="col-12 col-lg-6  ms-auto text-end">
+                  {user.permissions.includes('createProject')?(<div className="col-12 col-lg-6  ms-auto text-end">
                       <button
                         onClick={() => {
                           handleAdd();
@@ -127,7 +128,7 @@ export const EmployeeProjectGrid = () => {
                         {" "}
                         <i className="fa-solid fa-plus"></i> Add
                       </button>
-                    </div>
+                    </div>):('')}
                   </div>
 
                   <div className="row  bg-white p-2 m-1 border rounded">
@@ -144,7 +145,7 @@ export const EmployeeProjectGrid = () => {
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
-                            <th>Details</th>
+                            {user.permissions.includes('viewTaskSheet')?(<th>Details</th>):('')}
                             <th>Action</th>
                           </tr>
 
@@ -158,33 +159,33 @@ export const EmployeeProjectGrid = () => {
                                   <td>{formatDate(project.startDate)}</td>
                                   <td>{formatDate(project.endDate)}</td>
                                   <td>{project.projectStatus}</td>
-                                  <td>
+                                  {user.permissions.includes('viewTaskSheet')?(<td>
                                     {/* {project.projectStatus} */}
 
                                     <i
                                       onClick={() => {
                                         // navigate(`/${project._id}`);
-                                        navigate("/EmployeeTaskChart");
+                                        navigate(`/${project._id}`);
                                       }}
                                       class="fa-solid fa-circle-info cursor-pointer"
                                     ></i>
-                                  </td>
+                                  </td>):('')}
                                   <td>
-                                    <span
+                                    {user &&user.permissions.includes('updateProject')?(<span
                                       onClick={() => handleUpdate(project)}
                                       className="update"
                                     >
                                       <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
-                                    </span>
+                                    </span>):('')}
 
-                                    <span
+                                    {user && user.permissions.includes('deleteProject')?(<span
                                       onClick={() =>
                                         handelDeleteClosePopUpClick(project._id)
                                       }
                                       className="delete"
                                     >
                                       <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
-                                    </span>
+                                    </span>):('')}
                                   </td>
                                 </tr>
                               ))}

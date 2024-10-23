@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
 
 
     // Check if username exists in Employee model
-    user = await Employee.findOne({ email }).populate('company','subDate');
+    user = await Employee.findOne({ email }).populate('company','subDate').populate('designation','name permissions').populate('department', 'name');
     if (user) {
 
       if (!(await comparePassword(user,password))) {
@@ -33,7 +33,10 @@ exports.login = async (req, res) => {
       generateTokenAndSetCookie(user, res);
       res.status(200).json({
         user: "employee",
-        name:user.name
+        name:user.name,
+        department: user.department.name,
+        designation: user.designation.name,
+        permissions: user.designation.permissions
       });
     } 
     else {

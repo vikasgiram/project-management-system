@@ -3,6 +3,8 @@ import {
     Route,
     Routes,
 } from "react-router-dom";
+import { useContext } from "react";
+
 import MainDashboard from "./Components/Private/MainDashboard/MainDashboard";
 import { UploadComplaintGrid } from "./Components/Private/MainDashboard/SocialMediaAndOfficerVisit/UploadComplaintGrid/UploadComplaintGrid";
 import { LogIn } from "./Components/Public/Login";
@@ -25,11 +27,11 @@ import { EmployeeTaskChart } from "./Components/Private/EmployeeDashboard/Employ
 import { EmployeeCustomerMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeCustomerMasterGrid/EmployeeCustomerMasterGrid";
 import { EmployeeDashboardEpmloyeeGrid } from "./Components/Private/EmployeeDashboard/EmployeeDashboardEpmloyeeGrid/EmployeeDashboardEpmloyeeGrid";
 
-
+import { UserContext } from "./context/UserContext";
 
 const AllRoutes = () => {
 
-
+const {user} = useContext(UserContext);
 
     return (
         <>
@@ -41,34 +43,43 @@ const AllRoutes = () => {
                     <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
                     <Route exact path="/api/reset-password/:id/:token" element={<ForgotPasswordConfirm />} />
 
-                    <Route exact path="/MainDashboard" element={<MainDashboard />} />
 
-                 {/* master */}
+                 {/* Company */}
 
-                    <Route exact path="/EmployeeMasterGrid" element={<EmployeeMasterGrid />} />
-                    <Route exact path="/CustomerMasterGrid" element={<CustomerMasterGrid />} />
-                    <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
-                    <Route exact path="/DepartmentMasterGrid" element={<DepartmentMasterGrid />} />
-                    <Route exact path="/DesignationMasterGird" element={<DesignationMasterGird />} /> 
-                    <Route exact path="/TaskMasterGrid" element={<TaskMasterGrid />} />
-                    <Route exact path="/:id" element={<TaskSheetMaster />} />
-                    <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
-
-
-
-
-                    {/* Admin Dashboard */}
-                    <Route exact path="/AdminMainDashboard" element={<AdminMainDashboard />} />
+                 {user.user==='company'?(
+                    <>
+                        <Route exact path="/MainDashboard" element={<MainDashboard />} />
+                        <Route exact path="/EmployeeMasterGrid" element={<EmployeeMasterGrid />} />
+                        <Route exact path="/CustomerMasterGrid" element={<CustomerMasterGrid />} />
+                        <Route exact path="/ProjectMasterGrid" element={<ProjectMasterGrid />} />
+                        <Route exact path="/DepartmentMasterGrid" element={<DepartmentMasterGrid />} />
+                        <Route exact path="/DesignationMasterGird" element={<DesignationMasterGird />} /> 
+                        <Route exact path="/TaskMasterGrid" element={<TaskMasterGrid />} />
+                        <Route exact path="/:id" element={<TaskSheetMaster />} />
+                        <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
+                    </>
+                ):null}
 
 
+                    {/* Admin  */}
+                    {user.user==='admin'?(
+                        <>
+                        <Route exact path="/AdminMainDashboard" element={<AdminMainDashboard />} />
 
-                    {/* Employee Dashboard */}
-                    <Route exact path="/EmployeeMainDashboard" element={<EmployeeMainDashboard />} />
-                    <Route exact path="/EmployeeTaskGrid" element={<EmployeeTaskGrid />} />
-                    <Route exact path="/EmployeeProjectGrid" element={<EmployeeProjectGrid />} />
-                    <Route exact path="/EmployeeTaskChart" element={<EmployeeTaskChart />} />
-                    <Route exact path="/EmployeeCustomerMasterGrid" element={<EmployeeCustomerMasterGrid />} />
-                    <Route exact path="/EmployeeDashboardEpmloyeeGrid" element={<EmployeeDashboardEpmloyeeGrid />} />
+                    </>
+                    ):null}
+
+                    {/* Employee  */}
+                    {user.user==='employee'?(
+                        <>
+                            <Route exact path="/EmployeeMainDashboard" element={<EmployeeMainDashboard />} />
+                            <Route exact path="/EmployeeTaskGrid" element={<EmployeeTaskGrid />} />
+                            <Route exact path="/EmployeeProjectGrid" element={<EmployeeProjectGrid />} />
+                            <Route exact path="/:id" element={<EmployeeTaskChart />} />
+                            <Route exact path="/EmployeeCustomerMasterGrid" element={<EmployeeCustomerMasterGrid />} />
+                            <Route exact path="/EmployeeDashboardEpmloyeeGrid" element={<EmployeeDashboardEpmloyeeGrid />} />
+                        </>
+                    ):null}
 
 
 

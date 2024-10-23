@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 import { deleteEmployee, getEmployees } from "../../../../hooks/useEmployees";
 import { EmployeeHeader } from "../EmployeeHeader";
@@ -8,6 +7,8 @@ import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddEmployeePopup from "../../MainDashboard/EmployeeMaster/PopUp/AddEmployeePopup";
 import EmployeeAddEmployeePopup from "./PopUp/EmployeeAddEmployeePopup";
 import EmployeeUpdateEmployeePopUp from "./PopUp/EmployeeUpdateEmployeePopUp";
+
+import { UserContext } from "../../../../context/UserContext";
 
 export const EmployeeDashboardEpmloyeeGrid = () => {
 
@@ -18,6 +19,7 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
         setIsOpen(!isopen);
     };
 
+    const {user} = useContext(UserContext);
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
@@ -118,16 +120,14 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
                                         </h5>
                                     </div>
 
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
+                                    {user.permissions.includes('createEmployee')?(<div className="col-12 col-lg-6  ms-auto text-end">
                                         <button
                                             onClick={() => {
                                                 handleAdd()
                                             }}
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-
-
-                                    </div>
+                                    </div>):('')}
 
                                 </div>
 
@@ -155,17 +155,17 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
                                                             <td>{employee.department.name}</td>
                                                             <td>{employee.designation.name}</td>
                                                             <td>
-                                                                <span
+                                                                {user.permissions.includes('updateEmployee')?(<span
                                                                     onClick={() => handleUpdate(employee)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
-                                                                </span>
+                                                                </span>):('')}
 
-                                                                <span
+                                                                {user.permissions.includes('deleteEmployee')?(<span
                                                                     onClick={() => handelDeleteClosePopUpClick(employee._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                                </span>
+                                                                </span>):('')}
                                                             </td>
                                                         </tr>
                                                     ))}

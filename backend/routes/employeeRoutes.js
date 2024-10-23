@@ -12,13 +12,13 @@ router.get('/',permissionMiddleware(['viewEmployee']),employeeController.showAll
 
 router.get('/search',permissionMiddleware(['viewEmployee']), employeeController.search);
 
-router.post('/',isCompany,employeeController.create);
+router.post('/', permissionMiddleware(['createEmployee']),employeeController.create);
 
 // Delete an employee (Admin only)
-router.delete('/:id', isCompany, employeeController.deleteEmployee);
+router.delete('/:id', permissionMiddleware(['deleteEmployee']), employeeController.deleteEmployee);
 
 // Update an employee (Admin only)
-router.put('/:id', isCompany, employeeController.updateEmployee);   
+router.put('/:id', permissionMiddleware(['updateEmployee']), employeeController.updateEmployee);   
 
 router.get('/:id', permissionMiddleware(['viewEmployee']), employeeController.getEmployee);
 

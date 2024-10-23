@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const designationController = require("../controllers/designationController");
-const { isCompany } = require('../middlewares/auth');
+const { isCompany, permissionMiddleware } = require('../middlewares/auth');
 
-router.get('/Alldesignations', isCompany, designationController.showAll);
+router.get('/Alldesignations', permissionMiddleware(['viewDesignation']), designationController.showAll);
 
-router.get('/', isCompany, designationController.getDesignation);
+router.get('/', permissionMiddleware(['viewDesignation']), designationController.getDesignation);
 
 router.post('/',isCompany, designationController.create);
 

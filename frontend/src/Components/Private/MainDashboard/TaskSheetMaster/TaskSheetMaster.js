@@ -406,7 +406,7 @@ export const TaskSheetMaster = () => {
                                             </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-3  pt-3 mt-3 ">
+                                    {/* <div className="col-12 col-lg-3  pt-3 mt-3 ">
                                         <button
                                             onClick={() => {
                                                 handleAdd();
@@ -421,7 +421,7 @@ export const TaskSheetMaster = () => {
                                             className="btn adbtn btn-danger  px-4 mx-auto"> <i class="fa-solid fa-xmark"></i> Clear</button>
 
 
-                                    </div>
+                                    </div> */}
 
 
 

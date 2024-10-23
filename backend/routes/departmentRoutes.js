@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const departmentController = require('../controllers/departmentController');
-const { isCompany } = require('../middlewares/auth');
+const { isCompany, permissionMiddleware } = require('../middlewares/auth');
 
-router.get('/', isCompany, departmentController.showAll);
+router.get('/', permissionMiddleware(['viewDepartment']), departmentController.showAll);
 
 router.post('/', isCompany, departmentController.create);
 
