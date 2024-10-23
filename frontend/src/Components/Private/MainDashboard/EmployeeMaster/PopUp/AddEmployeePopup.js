@@ -25,6 +25,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hourlyRate, setHourlyRate] = useState();
   const [designation, setDesignation] = useState('');
+  const [gender, setGender] = useState('');
 
 
   useEffect(() => {
@@ -67,8 +68,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
       confirmPassword,
       department,
       designation,
+      // gender
     };
-    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !designation){
+    if(!name || !mobileNo || !email || !hourlyRate || !password || !confirmPassword|| !department || !designation || !gender){
       return toast.error("Please fill all fields");
     }
     if(password!==confirmPassword){
@@ -144,6 +146,30 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       />
                     </div>
                 </div>
+
+                <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label
+                        for="Gender"
+                        className="form-label label_text"
+                      >
+                        Gender
+                      </label>
+                      <select
+                        className="form-select rounded-0"
+                        id="Department"
+                        aria-label="Default select example"
+                        onChange={(e) => setGender(e.target.value)}
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      
+                      </select>
+                    </div>
+                </div>
+
 
                 <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
