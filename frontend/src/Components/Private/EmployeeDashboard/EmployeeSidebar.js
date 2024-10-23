@@ -119,8 +119,8 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>):('')}
 
                     {user.permissions.includes('viewEmployee')?(<li
-                        className={Open || active === "DepartmentMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='' className="nav-link ">
+                        className={Open || active === "EmployeeDashboardEpmloyeeGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeDashboardEpmloyeeGrid' className="nav-link ">
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-user-group ps-3 side_icon_fs"></i>
 
