@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery'
 import { useTranslation } from "react-i18next";
- 
- 
+
+
 export const Sidebar = ({ isopen, active, subMenu }) => {
     // const [toggleactive, settoggleactive] = useState("dashboard")
     const [ReportOpen, setReportOpen] = useState(false)
     const [Open, setOpen] = useState(false)
- 
- 
+
+
     const [AdminReportOpen, setAdminReportOpen] = useState(false)
- 
- 
+
+
     var body = $('body');
- 
+
     const SidebarHideShow = () => {
         if ((body.hasClass('sidebar-icon-only'))) {
             body.toggleClass('sidebar-icon-only');
@@ -23,14 +23,14 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
         //     body.toggleClass('sidebar-icon-only');
         // }
     }
- 
+
     const handelOnCardClick = () => {
- 
+
         body.toggleClass('sidebar-icon-only');
     }
- 
+
     const { t } = useTranslation()
- 
+
     return (
         <div
             className={
@@ -49,7 +49,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                         alt="logo"
                     />
                 </span>
- 
+
             </div>
             <nav
                 className="sidebar  sidebar-offcanvas" id="sidebar"
@@ -57,8 +57,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
             >
                 <ul className="nav d-block">
 
- 
-                <li
+
+                    <li
                         className={Open || active === "dashboard" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/MainDashboard' className="nav-link ">
                             <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
@@ -66,11 +66,11 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                        Dashboard
+                                Dashboard
                             </span>
                         </Link>
                     </li>
- 
+
                     <li
                         className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMasterGrid' className="nav-link ">
@@ -79,7 +79,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-user-group ps-3 side_icon_fs"></i>
- 
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -88,7 +88,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li>
- 
+
                     <li
                         className={Open || active === "CustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/CustomerMasterGrid' className="nav-link ">
@@ -97,7 +97,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
- 
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -106,8 +106,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li>
- 
- 
+
+
                     <li
                         className={Open || active === "ProjectMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/ProjectMasterGrid' className="nav-link ">
@@ -117,7 +117,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
 
- 
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -126,7 +126,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li>
- 
+
                     <li title="Department Master"
                         className={Open || active === "DepartmentMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DepartmentMasterGrid' className="nav-link ">
@@ -135,7 +135,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-brands fa-medium  ps-3 side_icon_fs"></i>
- 
+
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -144,8 +144,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li>
- 
- 
+
+
                     <li
                         className={Open || active === "DesignationMasterGird" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DesignationMasterGird' className="nav-link ">
@@ -160,8 +160,8 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li>
- 
- 
+
+
                     <li
                         className={Open || active === "TaskMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/TaskMasterGrid' className="nav-link ">
@@ -176,10 +176,10 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li>
- 
- 
- 
- 
+
+
+
+
                     {/* <li className={ReportOpen || active === "Master" ? " nav-item active" : "nav-item sidebar_item"}>
  
  
@@ -263,9 +263,9 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </ul>
                         </div>
                     </li> */}
- 
- 
- 
+
+
+
                     {/* <li onClick={() => setOpen(!Open)}
                         className={Open || active === "define_department" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/Master' className="nav-link " >
@@ -278,10 +278,10 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                             </span>
                         </Link>
                     </li> */}
- 
- 
- 
- 
+
+
+
+
                 </ul>
             </nav>
         </div>
