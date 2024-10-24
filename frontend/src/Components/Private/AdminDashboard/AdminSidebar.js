@@ -74,8 +74,8 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
-                        className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='/EmployeeMasterGrid' className="nav-link ">
+                        className={Open || active === "AdminCompanyMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/AdminCompanyMasterGrid' className="nav-link ">
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
                             {/* <i className="fa-solid fa-user-tie ps-3 side_icon_fs" ></i> */}
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
@@ -91,8 +91,8 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
-                        className={Open || active === "CustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='/CustomerMasterGrid' className="nav-link ">
+                        className={Open || active === "AdminmasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/AdminmasterGrid' className="nav-link ">
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
                             {/* <i className="fa-solid fa-users ps-3 side_icon_fs"></i> */}
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
