@@ -61,6 +61,7 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                 <ul className="nav d-block">
 
                     <li
+                    title="Dashboard"
                         className={Open || active === "dashboard" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMainDashboard' className="nav-link ">
                             <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
@@ -74,6 +75,7 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
+                    title="My Projects"
                         className={Open || active === "EmployeeTaskGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeTaskGrid' className="nav-link ">
                             <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i>
@@ -87,7 +89,9 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                         </Link>
                     </li>
 
-                    {user.permissions.includes('viewProject')?(<li
+                    {user.permissions.includes('viewProject')?(
+                        <li
+                        title="All Projects"
                         className={Open || active === "EmployeeProjectGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeProjectGrid' className="nav-link ">
                             <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
@@ -104,7 +108,9 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     }
 
 
-                    {user.permissions.includes('viewCustomer')?(<li
+                    {user.permissions.includes('viewCustomer')?(
+                        <li
+                        title="Customer"
                         className={Open || active === "EmployeeCustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeCustomerMasterGrid' className="nav-link ">
                             <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
@@ -118,7 +124,9 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                         </Link>
                     </li>):('')}
 
-                    {user.permissions.includes('viewEmployee')?(<li
+                    {user.permissions.includes('viewEmployee')?(
+                        <li
+                        title="Employee"
                         className={Open || active === "EmployeeDashboardEpmloyeeGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeDashboardEpmloyeeGrid' className="nav-link ">
                             {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
