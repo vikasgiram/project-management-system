@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const Employee = require('./employeeModel');
 const Company = require('./companyModel');
 const Task = require('./taskModel');
-const Project = require('./projectModel');
+
 
 // Define the taskSheet schema
 const taskSheetSchema = new Schema({
@@ -43,6 +43,10 @@ const taskSheetSchema = new Schema({
   Actions: [{
     action: {
       type: String
+    },
+    actionBy:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Employee
     },
     startTime: {
       type: Date,

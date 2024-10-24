@@ -2,6 +2,7 @@ const { json } = require("express");
 const TaskSheet = require("../models/taskSheetModel");
 const jwt = require("jsonwebtoken");
 
+
 exports.showAll = async (req, res) => {
   try {
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
@@ -102,6 +103,8 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const updatedData= req.body;
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+
     const task = await TaskSheet.findById(req.params.id);
     if (!task) {
       return res.status(400).json({ error: "Tasksheet not found" });
@@ -111,6 +114,7 @@ exports.update = async (req, res) => {
       task.actualEndDate=updatedData.Actions.endTime;
       task.taskStatus=updatedData.taskStatus;
     }
+    task.Actions.actionBy=decoded.user._id;
     task.remark=updatedData.remark;
     task.Actions.push(updatedData.Actions);
     task.save();

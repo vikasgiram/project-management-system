@@ -49,9 +49,16 @@ const employeeSchema = new mongoose.Schema({
     enum:["male","female", "other"]
   },
   profilePic:{
-      type: String,
-      default:"",
-  }
+    type: String,
+    default:"",
+  },
+  performance: [
+    {
+      year: Number,
+      month: Number,
+      performance: Number
+    }
+  ]
 }, {
   timestamps: true,
 });
