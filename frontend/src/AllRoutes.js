@@ -28,6 +28,8 @@ import { EmployeeCustomerMasterGrid } from "./Components/Private/EmployeeDashboa
 import { EmployeeDashboardEpmloyeeGrid } from "./Components/Private/EmployeeDashboard/EmployeeDashboardEpmloyeeGrid/EmployeeDashboardEpmloyeeGrid";
 
 import { UserContext } from "./context/UserContext";
+import { AdminmasterGrid } from "./Components/Private/AdminDashboard/AdminmasterGrid/AdminmasterGrid";
+import { AdminCompanyMasterGrid } from "./Components/Private/AdminDashboard/AdminCompanyMasterGrid/AdminCompanyMasterGrid";
 
 const AllRoutes = () => {
 
@@ -65,6 +67,8 @@ const {user} = useContext(UserContext);
                     {user && user.user==='admin'?(
                         <>
                         <Route exact path="/AdminMainDashboard" element={<AdminMainDashboard />} />
+                        <Route exact path="/AdminCompanyMasterGrid" element={<AdminCompanyMasterGrid />} />
+                        <Route exact path="/AdminmasterGrid" element={<AdminmasterGrid />} />
 
                     </>
                     ):null}
