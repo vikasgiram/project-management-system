@@ -22,6 +22,9 @@ export const ChangePassword = () => {
 
     const handelChangePasword = async (e) =>{
         e.preventDefault();
+        if(newPass ==='' || oldPass ===''){
+            return toast.error("Required Field")
+        }
         if(newPass !== confirmPass){
             return toast.error("New Password and Confirm Password desen't match...");
         }
