@@ -5,7 +5,7 @@ import { AdminInfoPieChart } from "./AdminInfoPieChart"
 // import { CompanyInfoPieChart } from "./CompanyInfoPieChart"
 
 
-export const AdminDashboardCards = ({ totalProjectCount, completedProjectCount, inproccessProjectCount }) => {
+export const AdminDashboardCards = ({ activateCompanys,inactiveSubscriptions,totalCompaines}) => {
 
     const navigate = useNavigate()
 
@@ -27,7 +27,7 @@ export const AdminDashboardCards = ({ totalProjectCount, completedProjectCount, 
                                     <h2 className="pt-2 fw-bold card_count">
                                         {/* {categorywise.inprocess} */}
                                         {/* {completedProjectCount} */}
-                                        10000
+                                        {totalCompaines}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -51,7 +51,7 @@ export const AdminDashboardCards = ({ totalProjectCount, completedProjectCount, 
                                     <h2 className="pt-2 fw-bold card_count demo_bottom">
                                         {/* {categorywise.finished} */}
                                         {/* {totalProjectCount} */}
-                                        5000
+                                        {activateCompanys}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -76,7 +76,7 @@ export const AdminDashboardCards = ({ totalProjectCount, completedProjectCount, 
                                     <h2 className="pt-2 fw-bold card_count">
                                         {/* {categorywise.upcoming} */}
                                         {/* {inproccessProjectCount} */}
-                                        2500
+                                        {inactiveSubscriptions}
                                     </h2>
                                 </div>
                                 <div className="col-3 d-flex align-items-center justify-content-center ">
@@ -100,7 +100,10 @@ export const AdminDashboardCards = ({ totalProjectCount, completedProjectCount, 
 
 
             <AdminInfoPieChart
-            //  categorywise={categorywise}
+              activateCompanys={activateCompanys}
+              inactiveSubscriptions={inactiveSubscriptions}
+              totalCompaines={totalCompaines}
+
              />
         </div>
     )

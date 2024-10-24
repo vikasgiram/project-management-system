@@ -3,13 +3,12 @@ import Chart from "react-google-charts"
 
 
 
-export const AdminInfoPieChart = () => {
+export const AdminInfoPieChart = ({activateCompanys,inactiveSubscriptions}) => {
 
   const data = [
     ["Projects", "Hours per Day"],
-    ["Finish",10],
-    ["Inprocess",30],
-    ["Upcoming", 50],
+    ["Active",{activateCompanys}],
+    ["Inactive",{inactiveSubscriptions}],
   ];
 
   const options = {
@@ -23,7 +22,7 @@ export const AdminInfoPieChart = () => {
         opacity: 0
       },
     },
-    slices: { 0: { color: '#80C783' }, 1: { color: '#56AFFE' }, 2: { color: '#F0BC5E' } } //56AFFE
+    slices: { 0: { color: '#80C783' }, 1: { color: '#56AFFE' } } //56AFFE
 
 
   };
