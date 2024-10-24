@@ -52,10 +52,26 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
 
             </div>
             <nav
+
+
                 className="sidebar  sidebar-offcanvas" id="sidebar"
                 style={{ maxHeight: isopen ? "" : " calc(100vh - 150px)" }}
             >
                 <ul className="nav d-block">
+
+
+                    <li
+                        className={Open || active === "AdminMainDashboard" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/AdminMainDashboard' className="nav-link ">
+                            <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
+                            <span
+                                className="menu-title"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Dashboard
+                            </span>
+                        </Link>
+                    </li>
 
                     <li
                         className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
@@ -69,7 +85,7 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                                Employee Master
+                                Company
                             </span>
                         </Link>
                     </li>
@@ -86,19 +102,15 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                                Customer Master
+                                Admin
                             </span>
                         </Link>
                     </li>
 
 
-                    <li
+                    {/* <li
                         className={Open || active === "ProjectMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/ProjectMasterGrid' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-solid fa-diagram-project ps-3 side_icon_fs"></i> */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
 
                             <span
                                 className="menu-title_m"
@@ -107,14 +119,12 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                                 Project Master
                             </span>
                         </Link>
-                    </li>
+                    </li> */}
 
+                    {/* 
                     <li
                         className={Open || active === "DepartmentMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DepartmentMasterGrid' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-regular fa-building ps-3 side_icon_fs"></i> */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
                             <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
 
                             <span
@@ -124,14 +134,12 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                                 Department Master
                             </span>
                         </Link>
-                    </li>
+                    </li> */}
 
 
-                    <li
+                    {/* <li
                         className={Open || active === "DesignationMasterGird" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DesignationMasterGird' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
                             <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
                             <span
                                 className="menu-title_m"
@@ -140,14 +148,12 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                                 Designation Master
                             </span>
                         </Link>
-                    </li>
+                    </li> */}
 
 
-                    <li
+                    {/* <li
                         className={Open || active === "TaskMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/TaskMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i class="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
                             <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
 
                             <span
@@ -157,7 +163,7 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                                 Task Master
                             </span>
                         </Link>
-                    </li>
+                    </li> */}
 
 
 
