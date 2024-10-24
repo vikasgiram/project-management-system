@@ -7,9 +7,9 @@ router.get('/', isAdmin, adminController.getAdmin);
 
 router.get('/dashboard', isAdmin, adminController.dashboard);
 
-router.get('/active',isAdmin, adminController.active);
+// router.get('/active',isAdmin, adminController.active);
 
-router.get('/inactive', isAdmin, adminController.inactive);
+// router.get('/inactive', isAdmin, adminController.inactive);
 
 router.post('/',isAdmin, adminController.admin);
 
