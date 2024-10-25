@@ -1,8 +1,12 @@
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react";
 
+import { UserContext } from "../../../context/UserContext";
 
 
 export const UserProfile = () => {
+
+	const {user} = useContext(UserContext);
 
     const navigate =useNavigate()
     return (
@@ -15,11 +19,11 @@ export const UserProfile = () => {
                         <div className="col-12 col-lg-4 py-4 rounded border bg-white mx-auto">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
+                                    <img src={user.profilePic} alt="Admin" className="rounded-circle" width="150" />
                                     <div className="mt-3">
-                                        <h4>John Doe</h4>
-                                        <p className="text-secondary mb-1">Full Stack Developer</p>
-                                        <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                        <h4>{user.name}</h4> 
+                                        <p className="text-secondary mb-1">{user.designation}</p>
+                                        <p className="text-muted font-size-sm">{user.department}</p>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +37,7 @@ export const UserProfile = () => {
                                             <h6 className="mb-0">Full Name</h6>
                                         </div>
                                         <div className="col-sm-9 text-secondary">
-                                            Kenneth Valdez
+                                            {user.name}
                                         </div>
                                     </div>
                                     <hr />
@@ -42,25 +46,17 @@ export const UserProfile = () => {
                                             <h6 className="mb-0">Email</h6>
                                         </div>
                                         <div className="col-sm-9 text-secondary">
-                                            fip@jukmuh.al
+                                            {user.email}
                                         </div>
                                     </div>
                                     <hr />
-                                    <div className="row">
-                                        <div className="col-sm-3">
-                                            <h6 className="mb-0">Phone</h6>
-                                        </div>
-                                        <div className="col-sm-9 text-secondary">
-                                            (239) 816-9029
-                                        </div>
-                                    </div>
-                                    <hr />
+                                    
                                     <div className="row">
                                         <div className="col-sm-3">
                                             <h6 className="mb-0">Mobile</h6>
                                         </div>
                                         <div className="col-sm-9 text-secondary">
-                                            (320) 380-4539
+                                            {user.mobileNo}
                                         </div>
                                     </div>
                                     <hr />

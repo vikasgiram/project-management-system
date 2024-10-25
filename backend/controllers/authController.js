@@ -34,6 +34,8 @@ exports.login = async (req, res) => {
       res.status(200).json({
         user: "employee",
         name:user.name,
+        email: user.email,
+        mobileNo:user.mobileNo,
         department: user.department.name,
         designation: user.designation.name,
         permissions: user.designation.permissions,
