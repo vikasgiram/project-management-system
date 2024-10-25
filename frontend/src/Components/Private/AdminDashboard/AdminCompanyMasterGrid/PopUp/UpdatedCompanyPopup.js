@@ -1,84 +1,124 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { updateCompany } from "../../../../../hooks/useCompany";
+import {updateCompany} from "../../../../../hooks/useCompany";
+import { formatDateforupdateSubcription } from "../../../../../utils/formatDate";
 
 const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
-  const [company, setCompany] = useState(selectedCompany);
-  // console.log(selectedCompany,"dkjshdb");
+    const [company, setCompany] = useState({
+      ...selectedCompany,
+    });
+    // console.log(selectedCompany.subDate,"subDate");
+    
+    const [Address,setAddress] = useState(company.Address || {
+        pincode: "",
+        state: "",
+        city: "",
+        country: "",
+        add: "",
+    });
+    const[subDate,setSubDate]=useState(formatDateforupdateSubcription(company.subDate));
 
-  const [Address, setAddress] = useState(
-    company.Address || {
-      pincode: "",
-      state: "",
-      city: "",
-      country: "",
-      add: "",
-    }
-  );
+   
+    
+  
 
-  // useEffect(() => {
-  //     if (company) {
-  //       setAddress(company.Address);
-  //       // setDeliveryAddress(customer.deliveryAddress);
-  //     }
-  //   }, [company]);
 
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setAddress({ ...Address, [name]: value });
-  };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setCompany((prevCompany) => ({ ...prevCompany, [name]: value }));
-  };
+    const handleAddressChange = (e) => {
+        const { name, value } = e.target;
+        setAddress({ ...Address, [name]: value });
+      };
 
-  const handleCompanyUpdate = async (event) => {
-    const updatedCompany = {
-      ...company,
-      Address,
+      // const handleSubDateChange = (e) => {
+      //   const { name, value } = e.target;
+      //   setSubDate({ ...subDate, [name]: value });
+      // };
+    
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setCompany((prevCompany) => ({ ...prevCompany, [name]: value}));
 
-      // deliveryAddress
+        if (name === "subDate") {
+          setSubDate(value); 
+      }
     };
 
-    event.preventDefault();
-    try {
-      await updateCompany(updatedCompany);
-      handleUpdate();
-    } catch (error) {
-      toast.error(error.massage);
-    }
-  };
+    const handleCompanyUpdate = async (event) => {
+      event.preventDefault();
+        const updatedCompany={
+            ...company,
+            Address,
+            subDate
+            
+            
+            // deliveryAddress
+          }
 
-  return (
-    <>
-      <div
-        className="modal fade show"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "#00000090",
-        }}
-      >
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content p-3">
-            <form>
-              <div className="modal-header pt-0">
-                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                  Update Company
-                </h5>
-                <button
-                  onClick={() => handleUpdate()}
-                  type="button"
-                  className="close px-3"
-                  style={{ marginLeft: "auto" }}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="row modal_body_height">
-                  <div className="col-12 col-lg-6 mt-2">
+        
+        try {
+            
+            await updateCompany(updatedCompany);
+            handleUpdate();
+        } catch (error) {
+            toast.error(error.massage);
+        }
+    };
+
+    // const formattedSubDate = formatDateforupdateSubcription(selectedCompany?.subDate);
+
+    // console.log(formatDateforupdateSubcription(selectedCompany?.subDate),"dskhb");
+    // const tempdate='2023-11-30';
+    const tempdate=formatDateforupdateSubcription(selectedCompany?.subDate)
+    console.log(tempdate,"tempdate");
+    
+    
+    
+    
+    return (
+        <>
+            <div
+                className="modal fade show"
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "#00000090",
+                }}
+            >
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content p-3">
+                        <form>
+                            <div className="modal-header pt-0">
+                                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                                    Update Company
+                                </h5>
+                                <button
+                                    onClick={() => handleUpdate()}
+                                    type="button"
+                                    className="close px-3"
+                                    style={{ marginLeft: "auto" }}
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row modal_body_height">
+                                    <div className="col-12 col-lg-6 mt-2">
+                                        <div className="mb-3">
+                                            <label htmlFor="name" className="form-label label_text">
+                                                Full Name
+                                            </label>
+                                            <input
+                                                name="name"
+                                                type="text"
+                                                value={company.name}
+                                                onChange={handleChange}
+                                                className="form-control rounded-0"
+                                                id="name"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label htmlFor="name" className="form-label label_text">
                         Full Name
@@ -113,56 +153,28 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
 
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
-                      <label
-                        htmlFor="mobileNo"
-                        className="form-label label_text"
-                      >
-                        Mobile Number
-                      </label>
-                      <input
-                        type="number"
-                        name="mobileNo"
-                        value={company.mobileNo}
-                        onChange={handleChange}
-                        className="form-control rounded-0"
-                        id="mobileNo"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-6 mt-2">
-                    <div className="mb-3">
-                      <label htmlFor="email" className="form-label label_text">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={company.email}
-                        onChange={handleChange}
-                        className="form-control rounded-0"
-                        id="email"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-6 mt-2">
-                    <div className="mb-3">
-                      <label
-                        htmlFor="subDate"
-                        className="form-label label_text"
-                      >
-                        Subscription End Date
+                      {/* <label htmlFor="subDate" className="form-label label_text">Subscription  End Date
                       </label>
                       <input
                         onChange={handleChange}
-                        value={company.subDate}
+                        value={subDate}
                         name="subDate"
                         type="date"
                         className="form-control rounded-0"
                         id="subDate"
                         aria-describedby="dateHelp"
-                      />
+                      /> */}
+                      <label htmlFor="subDate" 
+                                                name="subDate" className="form-label label_text">Subscription End Date</label>
+                                            <input
+                                                onChange={handleChange}
+                                                value={tempdate}
+                                                name="subDate"
+                                                type="date"
+                                                className="form-control rounded-0"
+                                                id="subDate"
+                                                aria-describedby="dateHelp"
+                                            />
                     </div>
                   </div>
 
