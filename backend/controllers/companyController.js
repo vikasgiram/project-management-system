@@ -160,7 +160,8 @@ exports.updateCompany = async (req, res) => {
 
     // If there are changes, insert them into the CompanyHistory collection
     if (historyRecords.length > 0) {
-      await CompanyHistory.insertMany(historyRecords);
+      console.log('History Records:', historyRecords);
+      // await CompanyHistory.insertMany(historyRecords);
     }
 
     // Update the company record

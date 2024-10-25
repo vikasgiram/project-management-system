@@ -7,6 +7,7 @@ import { AdminHeader } from "../AdminHeader";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddAdminPoup from "./PopUp/AddAdminPoup";
 import UpdateAdminPopup from "./PopUp/UpdateAdminPopup";
+import { getAdmin,deleteAdmin } from "../../../../hooks/useAdmin";
 
 
 export const AdminmasterGrid = () => {
@@ -23,18 +24,28 @@ export const AdminmasterGrid = () => {
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId] = useState(null);
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
-    const [selectedEmp, setSelectedEmp] = useState(null);
+    const [selectedAdmin, setSelectedAdmin] = useState(null);
     const [loading, setLoading] = useState(true);
 
 
-    const [employees, setEmployees] = useState([])
+    const [admins, setAdmins] = useState([])
+    
+    useEffect(() => {
+
+        const fetch=async() => {
+            const data=await getAdmin();
+            setAdmins(data);
+            // setLoading(false);
+        }
+        fetch();
+    }, [AddPopUpShow,deletePopUpShow,updatePopUpShow]);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = (employee = null) => {
-        setSelectedEmp(employee);
+    const handleUpdate = (admin = null) => {
+        setSelectedAdmin(admin);
         // console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
     }
@@ -45,54 +56,10 @@ export const AdminmasterGrid = () => {
         setdeletePopUpShow(!deletePopUpShow);
     }
 
-    // const handelDeleteClick = async () => {
-    //     const data = await deleteEmployee(selectedId);
-    //     if (data) {
-    //         handelDeleteClosePopUpClick();
-    //         return toast.success("Employee Deleted sucessfully...");
-    //     }
-    //     toast.error(data.error);
-    // };
-
-
-    // useEffect(() => {
-
-    //     const fetchData = async () => {
-    //         const data = await getEmployees();
-    //         if (data) {
-
-    //             setEmployees(data.employees || []);
-    //             // console.log(employees,"data from useState");
-    //             setLoading(false);
-    //         }
-
-    //     };
-
-    //     fetchData();
-    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
-
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             setLoading(true);
-
-    //             const data = await getEmployees();
-
-    //             if (data) {
-    //                 setEmployees(data.employees || []);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error fetching employees:", error);
-    //             setLoading(false);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     // Call the function to fetch the data
-    //     fetchData();
-    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+    const handelDeleteClick = async () => {
+        await deleteAdmin(selectedId);
+        setdeletePopUpShow(false);
+    };
 
 
     return (
@@ -141,28 +108,28 @@ export const AdminmasterGrid = () => {
                                                     <th>Sr. No</th>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Designation</th>
+                                                    {/* <th>Department</th>
+                                                    <th>Designation</th> */}
                                                     <th>Action</th>
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {employees && employees.map((employee, index) => (
-                                                        <tr className="border my-4" key={employee.id}>
+                                                    {admins.admin && admins.admin.map((admin, index) => (
+                                                        <tr className="border my-4" key={admin.id}>
                                                             <td>{index + 1}</td>
-                                                            <td>{employee.name}</td>
-                                                            <td>{employee.email}</td>
-                                                            <td>{employee.department.name}</td>
-                                                            <td>{employee.designation.name}</td>
+                                                            <td>{admin.name}</td>
+                                                            <td>{admin.email}</td>
+                                                            {/* <td>{admin.name}</td>
+                                                            <td>{admin.name}</td> */}
                                                             <td>
                                                                 <span
-                                                                    onClick={() => handleUpdate(employee)}
+                                                                    onClick={() => handleUpdate(admin)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                                                 </span>
 
                                                                 <span
-                                                                    onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                    onClick={() => handelDeleteClosePopUpClick(admin._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>
@@ -190,7 +157,7 @@ export const AdminmasterGrid = () => {
                     <DeletePopUP
                         message={"Are you sure! Do you want to Delete ?"}
                         cancelBtnCallBack={handelDeleteClosePopUpClick}
-                        // confirmBtnCallBack={handelDeleteClick}
+                        confirmBtnCallBack={handelDeleteClick}
                         heading="Delete"
                     /> : <></>
             }
@@ -207,7 +174,7 @@ export const AdminmasterGrid = () => {
 
             {updatePopUpShow ?
                 <UpdateAdminPopup
-                    selectedEmp={selectedEmp}
+                selectedAdmin={selectedAdmin}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
