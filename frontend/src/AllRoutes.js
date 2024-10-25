@@ -30,6 +30,7 @@ import { EmployeeDashboardEpmloyeeGrid } from "./Components/Private/EmployeeDash
 import { UserContext } from "./context/UserContext";
 import { AdminmasterGrid } from "./Components/Private/AdminDashboard/AdminmasterGrid/AdminmasterGrid";
 import { AdminCompanyMasterGrid } from "./Components/Private/AdminDashboard/AdminCompanyMasterGrid/AdminCompanyMasterGrid";
+import { UserProfile } from "./Components/Private/MainDashboard/UserProfile";
 
 const AllRoutes = () => {
 
@@ -44,6 +45,7 @@ const {user} = useContext(UserContext);
                     <Route exact path="/ChangePassword" element={<ChangePassword />} />
                     <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
                     <Route exact path="/api/reset-password/:id/:token" element={<ForgotPasswordConfirm />} />
+                    <Route exact path="UserProfile" element={<UserProfile />} />
 
 
                  {/* Company */}

@@ -101,17 +101,20 @@ export const DepartmentMasterGrid = () => {
                                  </button>
                               </div>
                            </div>
+
+
                            <div className="row bg-white p-2 m-1 border rounded">
                               <div className="col-12 py-2">
                                  <div className="table-responsive">
                                     <table className="table table-striped table-class" id="table-id">
-                                       <thead>
+                                 
                                           <tr className="th_border">
                                              <th>Sr. No</th>
                                              <th>Name</th>
                                              <th>Action</th>
                                           </tr>
-                                       </thead>
+                                      
+                                      
                                        <tbody className="broder my-4">
                                           {departments.map((department, index) => (
                                              <tr className="border my-4" key={department._id}>
