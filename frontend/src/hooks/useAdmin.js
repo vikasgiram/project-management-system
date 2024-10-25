@@ -63,6 +63,7 @@ const deleteAdmin = async (id) => {
       return alert(data.error);
     }
 
+    toast.success("Admin Deleted sucessfully...");
     return data;
   } catch (error) {
     console.error(error);

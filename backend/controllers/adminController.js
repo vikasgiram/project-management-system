@@ -9,7 +9,7 @@ exports.getAdmin = async (req, res)=>{
       const limit = parseInt(req.query.limit) || 10;
       const skip = (page - 1) * limit;
       
-      const admin = await Admin.find({ password: 0 }).skip(skip).limit(limit);
+      const admin = await Admin.find({},{ password: 0 }).skip(skip).limit(limit);
 
       const totalRecords = await Admin.countDocuments();
       res.status(200).json({

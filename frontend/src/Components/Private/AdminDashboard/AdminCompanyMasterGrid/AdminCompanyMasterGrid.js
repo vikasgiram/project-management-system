@@ -7,6 +7,10 @@ import { AdminSidebar } from "../AdminSidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCompanyPopup from "./PopUp/AddCompanyPopup";
 import UpdatedCompanyPopup from "./PopUp/UpdatedCompanyPopup";
+// import { getAdmin,deleteAdmin,createAdmin,updateAdmin } from "../../../../hooks/useAdmin";
+import {getCompany} from "../../../../hooks/useCompany";
+import {formatDate} from "../../../../utils/formatDate";
+import { deleteCompany } from "../../../../hooks/useCompany";
 
 export const AdminCompanyMasterGrid = () => {
 
@@ -20,78 +24,67 @@ export const AdminCompanyMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [selectedId, setSelecteId] = useState(null);
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
-    const [selectedEmp, setSelectedEmp] = useState(null);
+    const [selectedCompany, setSelectedCompany] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [selectedId, setSelecteId] = useState(null);
+
+    const[companyData,setCompanyData]=useState([]);
 
 
-    const [employees, setEmployees] = useState([])
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = (employee = null) => {
-        setSelectedEmp(employee);
+    const handleUpdate = (company = null) => {
+        setSelectedCompany(company);
         // console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
     }
 
 
-    const handelDeleteClosePopUpClick = (id) => {
-        setSelecteId(id);
+    const handelDeleteClosePopUpClick = (Id) => {
+        setSelecteId(Id);
         setdeletePopUpShow(!deletePopUpShow);
     }
 
     // const handelDeleteClick = async () => {
-    //     const data = await deleteEmployee(selectedId);
+    //     const data = await deleteCompany(selectedId);
     //     if (data) {
     //         handelDeleteClosePopUpClick();
-    //         return toast.success("Employee Deleted sucessfully...");
+    //         return toast.success("compony Deleted sucessfully...");
     //     }
     //     toast.error(data.error);
     // };
 
-
-    // useEffect(() => {
-
-    //     const fetchData = async () => {
-    //         const data = await getEmployees();
-    //         if (data) {
-
-    //             setEmployees(data.employees || []);
-    //             // console.log(employees,"data from useState");
-    //             setLoading(false);
-    //         }
-
-    //     };
-
-    //     fetchData();
-    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+    const handelDeleteClick = async () => {
+        await deleteCompany(selectedId);
+        setdeletePopUpShow(false);
+    };
+   
 
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             setLoading(true);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const data =await getCompany();
+                if (data) {
+                    setCompanyData(data.companies || []);
+                    
+                }
+            } catch (error) {
+                console.error("Error fetching company:", error);
+                setLoading(false);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    //             const data = await getEmployees();
-
-    //             if (data) {
-    //                 setEmployees(data.employees || []);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error fetching employees:", error);
-    //             setLoading(false);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     // Call the function to fetch the data
-    //     fetchData();
-    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+        // Call the function to fetch the data
+        fetchData();
+    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 
 
     return (
@@ -141,28 +134,32 @@ export const AdminCompanyMasterGrid = () => {
                                                     <th>Sr. No</th>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Designation</th>
+                                                    <th>Admin</th>
+                                                    <th>Created Date</th>
+                                                    <th>Subscription End Date</th>
+                                                    <th>Subscription Amount</th>
                                                     <th>Action</th>
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {employees && employees.map((employee, index) => (
-                                                        <tr className="border my-4" key={employee.id}>
+                                                    {companyData && companyData.map((company, index) => (
+                                                        <tr className="border my-4" key={company.id}>
                                                             <td>{index + 1}</td>
-                                                            <td>{employee.name}</td>
-                                                            <td>{employee.email}</td>
-                                                            <td>{employee.department.name}</td>
-                                                            <td>{employee.designation.name}</td>
+                                                            <td>{company.name}</td>
+                                                            <td>{company.email}</td>
+                                                            <td>{company.admin}</td>
+                                                            <td>{formatDate(company.createdAt)}</td>
+                                                            <td>{formatDate(company.subDate)}</td>
+                                                            <td>{company.subAmount}</td>
                                                             <td>
                                                                 <span
-                                                                    onClick={() => handleUpdate(employee)}
+                                                                    onClick={() => handleUpdate(company)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                                                 </span>
 
                                                                 <span
-                                                                    onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                    onClick={() => handelDeleteClosePopUpClick(company._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>
@@ -190,7 +187,7 @@ export const AdminCompanyMasterGrid = () => {
                     <DeletePopUP
                         message={"Are you sure! Do you want to Delete ?"}
                         cancelBtnCallBack={handelDeleteClosePopUpClick}
-                        // confirmBtnCallBack={handelDeleteClick}
+                        confirmBtnCallBack={handelDeleteClick}
                         heading="Delete"
                     /> : <></>
             }
@@ -207,7 +204,7 @@ export const AdminCompanyMasterGrid = () => {
 
             {updatePopUpShow ?
                 <UpdatedCompanyPopup
-                    selectedEmp={selectedEmp}
+                selectedCompany={selectedCompany}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

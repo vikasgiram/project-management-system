@@ -1,65 +1,58 @@
 import { useEffect, useState } from "react";
-import { updateEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
-import { getDepartment } from "../../../../../hooks/useDepartment";
-import { getDesignation } from "../../../../../hooks/useDesignation";
+import {updateCompany} from "../../../../../hooks/useCompany";
 
-const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
-    const [employee, setEmployee] = useState(selectedEmp);
-    const [departments, setDepartments] = useState([]);
-    const [designations, setDesignations] = useState([]);
+const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
+    const [company, setCompany] = useState(selectedCompany);
+    // console.log(selectedCompany,"dkjshdb");
+    
+    const [Address,setAddress] = useState(company.Address || {
+        pincode: "",
+        state: "",
+        city: "",
+        country: "",
+        add: "",
+    });
+    
+    // useEffect(() => {
+    //     if (company) {
+    //       setAddress(company.Address);
+    //       // setDeliveryAddress(customer.deliveryAddress);
+    //     }
+    //   }, [company]);
 
-    // Handle changes in the form fields
+
+    const handleAddressChange = (e) => {
+        const { name, value } = e.target;
+        setAddress({ ...Address, [name]: value });
+      };
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
-
-        // Check if the department is being changed
-        if (name === "department") {
-            const selectedDept = departments.find(dept => dept._id === value);
-            setEmployee((prevEmployee) => ({
-                ...prevEmployee,
-                department: selectedDept,
-                designation: "", // Reset designation when department changes
-            }));
-        } else {
-            setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
-        }
+        setCompany((prevCompany) => ({ ...prevCompany, [name]: value,
+            
+         }));
     };
 
-    const handleEmpUpdate = async (event) => {
+    const handleCompanyUpdate = async (event) => {
+
+        const updatedCompany={
+            ...company,
+            Address,
+            
+            // deliveryAddress
+          }
 
         event.preventDefault();
         try {
-            await updateEmployee(employee);
+            
+            await updateCompany(updatedCompany);
             handleUpdate();
         } catch (error) {
-            toast.error(error);
+            toast.error(error.massage);
         }
     };
 
-    useEffect(() => {
-        const fetchDepartments = async () => {
-            const data = await getDepartment();
-            if (data) {
-                setDepartments(data.department || []);
-            }
-        };
-
-        fetchDepartments();
-    }, []);
-
-    useEffect(() => {
-        if (employee.department) {
-            const fetchDesignations = async () => {
-                const data = await getDesignation(employee.department._id);
-                if (data) {
-                    setDesignations(data.designations || []);
-                }
-            };
-
-            fetchDesignations();
-        }
-    }, [employee.department]);
 
     return (
         <>
@@ -73,10 +66,10 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
             >
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content p-3">
-                        <form onSubmit={handleEmpUpdate}>
+                        <form>
                             <div className="modal-header pt-0">
                                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                                    Update Employee
+                                    Update Company
                                 </h5>
                                 <button
                                     onClick={() => handleUpdate()}
@@ -89,7 +82,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
                             </div>
                             <div className="modal-body">
                                 <div className="row modal_body_height">
-                                    <div className="col-12">
+                                    <div className="col-12 col-lg-6 mt-2">
                                         <div className="mb-3">
                                             <label htmlFor="name" className="form-label label_text">
                                                 Full Name
@@ -97,13 +90,33 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
                                             <input
                                                 name="name"
                                                 type="text"
-                                                value={employee.name}
+                                                value={company.name}
                                                 onChange={handleChange}
                                                 className="form-control rounded-0"
                                                 id="name"
                                             />
                                         </div>
                                     </div>
+
+                                    <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label
+                        htmlFor="admin"
+                        className="form-label label_text"
+                      >
+                        Admin Name
+                      </label>
+                      <input
+                        type="text"
+                        name="admin"
+                        value={company.admin}
+                        onChange={handleChange}
+                        className="form-control rounded-0"
+                        id="admin"
+                        aria-describedby="emailHelp"
+                      />
+                    </div>
+                  </div>
 
                                     <div className="col-12 col-lg-6 mt-2">
                                         <div className="mb-3">
@@ -113,7 +126,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
                                             <input
                                                 type="number"
                                                 name="mobileNo"
-                                                value={employee.mobileNo}
+                                                value={company.mobileNo}
                                                 onChange={handleChange}
                                                 className="form-control rounded-0"
                                                 id="mobileNo"
@@ -121,27 +134,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="gender" className="form-label label_text">
-                                                Gender
-                                            </label>
-                                            <select
-                                                name="gender"
-                                                value={employee.gender} // Bind this to the state
-                                                onChange={handleChange} // Update the state on change
-                                                className="form-select rounded-0"
-                                                id="gender"
-                                                aria-label="Default select example"
-                                            >
-                                                {/* <option value="">Select Gender</option> */}
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
+                                    
 
                                     <div className="col-12 col-lg-6 mt-2">
                                         <div className="mb-3">
@@ -151,7 +144,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
                                             <input
                                                 type="email"
                                                 name="email"
-                                                value={employee.email}
+                                                value={company.email}
                                                 onChange={handleChange}
                                                 className="form-control rounded-0"
                                                 id="email"
@@ -159,87 +152,187 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedEmp }) => {
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="Department" className="form-label label_text">
-                                                Department
-                                            </label>
-                                            <select
-                                                name="department"
-                                                className="form-select rounded-0"
-                                                onChange={handleChange}
-                                            >
-                                                <option value="" disabled>
-                                                    {employee.department ? employee.department.name : "Select Department"}
-                                                </option>
-                                                {departments.map((department) => (
-                                                    <option
-                                                        key={department._id}
-                                                        value={department._id}
-                                                    >
-                                                        {department.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
 
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="Role" className="form-label label_text">
-                                                Designation
-                                            </label>
-                                            <select
-                                                name="designation"
-                                                className="form-select rounded-0"
-                                                onChange={handleChange}
-                                            >
-                                                <option value="" disabled>
-                                                    {employee.designation ? employee.designation.name : "Select Designation"}
-                                                </option>
-                                                {designations.map((designation) => (
-                                                    <option
-                                                        key={designation._id}
-                                                        value={designation._id}
-                                                    >
-                                                        {designation.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
+                    <div className="mb-3">
+                      <label htmlFor="subDate" className="form-label label_text">Subscription  End Date
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        value={company.subDate}
+                        name="subDate"
+                        type="date"
+                        className="form-control rounded-0"
+                        id="subDate"
+                        aria-describedby="dateHelp"
+                      />
+                    </div>
+                </div> 
 
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="HourlyRate" className="form-label label_text">
-                                                Hourly Rate
-                                            </label>
-                                            <div className="input-group border mb-3">
-                                                <span
-                                                    className="input-group-text rounded-0 bg-white border-0"
-                                                    id="basic-addon1"
-                                                >
-                                                    <i className="fa-solid fa-indian-rupee-sign"></i>
-                                                </span>
-                                                <input
-                                                    type="text"
-                                                    name="hourlyRate"
-                                                    value={employee.hourlyRate}
-                                                    onChange={handleChange}
-                                                    className="form-control rounded-0 border-0"
-                                                    id="HourlyRate"
-                                                    placeholder="eg. 10,000"
-                                                    aria-label="Hourly Rate"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+
+                <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label
+                        for="subAmount"
+                        className="form-label label_text"
+                      >
+                        Subscription Amount
+                      </label>
+                      <div className="input-group border mb-3">
+                        <span
+                          className="input-group-text rounded-0 bg-white border-0"
+                          id="basic-addon1"
+                        >
+                          <span>&#8377;</span>
+                        </span>
+                        <input
+                          type="text"
+                          id="subAmount"
+                          name="subAmount"
+                          value={company.subAmount}
+                          onChange={handleChange}
+                          className="form-control rounded-0 border-0"
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                        />
+                      </div>{" "}
+                    </div>
+                  </div>
+
+
+                  <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label
+                        for="GST"
+                        className="form-label label_text"
+                      >
+                        GST No
+                      </label>
+                      <div className="input-group border mb-3">
+                       
+                        <input
+                          type="text"
+                          id="GST"
+                          name="GST"
+                          value={company.GST}
+                          onChange={handleChange}
+                          className="form-control rounded-0 border-0"
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                        />
+                      </div>{" "}
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-6 mt-2" >
+
+                    <div className="mb-3">
+                      <label for="LOGO" className="form-label label_text">     Logo
+
+                      </label>
+                      <input type="file" name="LOGO" className="form-control rounded-0" id="LOGO" aria-describedby="secemailHelp"
+
+                    //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12  mt-2">
+                    <div className="row border mt-4 bg-gray mx-auto">
+                      <div className="col-12 mb-3">
+                        <span  for="AddressInfo" className="AddressInfo">Address</span>
+                      </div>
+
+                      <div className="col-12 col-lg-6 mt-2">
+                        <div className="mb-3" for="pincode">
+                          <input
+                            type="number"
+                            className="form-control rounded-0"
+                            placeholder="Pincode"
+                            name="pincode"
+                            id="pincode"
+                            onChange={ handleAddressChange
+                            //     (e) =>
+                            //   setAddress({
+                            //     ...Address,
+                            //     pincode: e.target.value,
+                            //   })
+                            }
+                            value={Address.pincode}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-6 mt-2">
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="State"
+                            name="state"
+                            id="exampleInputEmail1"
+                            // onChange={(e) => setAddress({ ...Address, state: e.target.value })}
+                            onChange={handleAddressChange}
+                            value={Address.state}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-6 mt-2">
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="City"
+                            name="city"
+                            id="exampleInputEmail1"
+                            onChange={handleAddressChange}
+                            value={Address.city}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-6 mt-2">
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control rounded-0"
+                            placeholder="Country"
+                            name="country"
+                            id="exampleInputEmail1"
+                            onChange={handleAddressChange}
+                            value={Address.country}
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-12 mt-2">
+                        <div className="mb-3">
+                          <textarea
+                            className="textarea_edit col-12"
+                            id="add"
+                            name="add"
+                            onChange={handleAddressChange}
+                            value={Address.add}
+                            rows="2"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                                   
 
                                     <div className="row">
                                         <div className="col-12 pt-3 mt-2">
                                             <button
                                                 type="submit"
-                                                onClick={handleEmpUpdate}
+                                                onClick={handleCompanyUpdate}
                                                 className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                                             >
                                                 Update

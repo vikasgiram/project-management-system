@@ -7,8 +7,8 @@ export const AdminInfoPieChart = ({activateCompanys,inactiveSubscriptions}) => {
 
   const data = [
     ["Projects", "Hours per Day"],
-    ["Active",{activateCompanys}],
-    ["Inactive",{inactiveSubscriptions}],
+    ["Active",activateCompanys],
+    ["Inactive",inactiveSubscriptions],
   ];
 
   const options = {
