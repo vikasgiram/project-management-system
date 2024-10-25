@@ -2621,5 +2621,37 @@ progress {
 }
 
 
+.center-block {
+  width: 60%; /* or any width you prefer */
+  margin: 0 auto; /* This will center the element horizontally */
+  padding: 40px !important;
+}
 
 
+.center-flex {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  height: 100vh; /* Full height of the viewport */
+}
+
+
+
+
+
+
+.animated-button {
+  padding: 9px 30px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* transition: transform 0.2s, background-color 0.3s; */
+}
+
+.animated-button:hover {
+  /* transform: scale(1.1); */
+  background-color: #000000;
+}

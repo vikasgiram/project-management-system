@@ -8,7 +8,7 @@ export const Header = (props) => {
 	const { toggle, isopen, Click, language, Language, setLanguage } = props
 	const [sticky, setSticky] = useState(false)
 
-	const {user} = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const { t } = useTranslation()
 	const { setUser } = useContext(UserContext);
 	const change = () => {
@@ -32,14 +32,14 @@ export const Header = (props) => {
 
 	const handleLogout = async () => {
 		try {
-		  await logout();
-		  setUser(null); 
+			await logout();
+			setUser(null);
 		} catch (error) {
-		  console.error(error);
+			console.error(error);
 		}
-	  };
+	};
 
-	
+
 
 	return (
 		<div className="wrapper  mb-5" >
@@ -55,7 +55,7 @@ export const Header = (props) => {
 					</button>
 					<div className="nav_swaraj_slogon">
 						<span className="nav_slogon_heading ms-2 header_fontsize" >
-						Project Management System
+							Project Management System
 						</span>
 					</div>
 
@@ -92,14 +92,14 @@ export const Header = (props) => {
 									<div className="drop_item_one my-1">
 										{/* {user.name} */}
 										{user ? user.name : "Guest"}
-										
+
 									</div>
 								</Link>
 
-								<Link to="/ChangePassword"  className="dropdown-item">
+								<Link to="/ChangePassword" className="dropdown-item">
 									<div className="drop_item_one my-1">
 										Change Password
-										
+
 									</div>
 								</Link>
 
