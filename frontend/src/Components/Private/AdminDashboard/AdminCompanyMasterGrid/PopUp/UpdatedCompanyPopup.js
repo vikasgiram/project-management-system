@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {updateCompany} from "../../../../../hooks/useCompany";
+import { formatDateforupdateSubcription } from "../../../../../utils/formatDate";
 
 const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
-    const [company, setCompany] = useState(selectedCompany);
-    // console.log(selectedCompany,"dkjshdb");
+    const [company, setCompany] = useState({
+      ...selectedCompany,
+    });
+    // console.log(selectedCompany.subDate,"subDate");
     
     const [Address,setAddress] = useState(company.Address || {
         pincode: "",
@@ -13,6 +16,10 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
         country: "",
         add: "",
     });
+    const[subDate,setSubDate]=useState(formatDateforupdateSubcription(company.subDate));
+
+   
+    
     
     // useEffect(() => {
     //     if (company) {
@@ -22,28 +29,39 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
     //   }, [company]);
 
 
+
+
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
         setAddress({ ...Address, [name]: value });
       };
+
+      // const handleSubDateChange = (e) => {
+      //   const { name, value } = e.target;
+      //   setSubDate({ ...subDate, [name]: value });
+      // };
     
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setCompany((prevCompany) => ({ ...prevCompany, [name]: value,
-            
-         }));
+        setCompany((prevCompany) => ({ ...prevCompany, [name]: value}));
+
+        if (name === "subDate") {
+          setSubDate(value); 
+      }
     };
 
     const handleCompanyUpdate = async (event) => {
-
+      event.preventDefault();
         const updatedCompany={
             ...company,
             Address,
+            subDate
+            
             
             // deliveryAddress
           }
 
-        event.preventDefault();
+        
         try {
             
             await updateCompany(updatedCompany);
@@ -53,7 +71,16 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
         }
     };
 
+    // const formattedSubDate = formatDateforupdateSubcription(selectedCompany?.subDate);
 
+    // console.log(formatDateforupdateSubcription(selectedCompany?.subDate),"dskhb");
+    // const tempdate='2023-11-30';
+    const tempdate=formatDateforupdateSubcription(selectedCompany?.subDate)
+    console.log(tempdate,"tempdate");
+    
+    
+    
+    
     return (
         <>
             <div
@@ -156,17 +183,28 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
 
                                     <div className="col-12 col-lg-6 mt-2" >
                     <div className="mb-3">
-                      <label htmlFor="subDate" className="form-label label_text">Subscription  End Date
+                      {/* <label htmlFor="subDate" className="form-label label_text">Subscription  End Date
                       </label>
                       <input
                         onChange={handleChange}
-                        value={company.subDate}
+                        value={subDate}
                         name="subDate"
                         type="date"
                         className="form-control rounded-0"
                         id="subDate"
                         aria-describedby="dateHelp"
-                      />
+                      /> */}
+                      <label htmlFor="subDate" 
+                                                name="subDate" className="form-label label_text">Subscription End Date</label>
+                                            <input
+                                                onChange={handleChange}
+                                                value={tempdate}
+                                                name="subDate"
+                                                type="date"
+                                                className="form-control rounded-0"
+                                                id="subDate"
+                                                aria-describedby="dateHelp"
+                                            />
                     </div>
                 </div> 
 

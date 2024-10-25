@@ -17,7 +17,7 @@ const UpdateAdminPopup = ({ handleUpdate, selectedAdmin }) => {
     // console.log(admin);
     
 
-    const handleEmpUpdate = async (event) => {
+    const handleAdminUpdate = async (event) => {
 
         event.preventDefault();
         try {
@@ -44,7 +44,7 @@ const UpdateAdminPopup = ({ handleUpdate, selectedAdmin }) => {
             >
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content p-3">
-                        <form onSubmit={handleEmpUpdate}>
+                        <form onSubmit={handleAdminUpdate}>
                             <div className="modal-header pt-0">
                                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                                     Update Admin
@@ -98,7 +98,7 @@ const UpdateAdminPopup = ({ handleUpdate, selectedAdmin }) => {
                                         <div className="col-12 pt-3 mt-2">
                                             <button
                                                 type="submit"
-                                                onClick={handleEmpUpdate}
+                                                onClick={handleAdminUpdate}
                                                 className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                                             >
                                                 Update
