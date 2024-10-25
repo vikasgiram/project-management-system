@@ -24,15 +24,15 @@ export const CompanyInfoPieChart = ({ categorywise }) => {
       },
     },
     slices: { 
-      0: { color: '#80C783',
-          // offset: 0.2 
-        }, 
+      0: { color: '#80C783',  
+        // offset: 0.2 
+      }, 
       1: { color: '#56AFFE', 
         //  offset: 0.3 
         }, 
       2: { color: '#F0BC5E' },  
-      // offset: 0.4 
-    } //56AFFE
+      // offset: 0.4
+     } //56AFFE
 
 
   };

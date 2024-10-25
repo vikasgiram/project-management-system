@@ -88,7 +88,7 @@ export const EmployeeHeader = (props) => {
 								aria-labelledby="profileDropdown"
 							>
 
-								<Link to="#" className="dropdown-item">
+								<Link to="/UserProfile" className="dropdown-item">
 									<div className="drop_item_one my-1">
 										{/* {user.name} */}
 										{user ? user.name : "Guest"}
