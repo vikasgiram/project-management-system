@@ -54,9 +54,18 @@ const employeeSchema = new mongoose.Schema({
   },
   performance: [
     {
-      year: Number,
-      month: Number,
-      performance: Number
+      year: {
+        type: Number,
+        default: () => new Date().getFullYear() 
+      },
+      month: {
+        type: Number,
+        default: () => new Date().getMonth() + 1 
+      },
+      performance: {
+        type: Number,
+        default: 50 
+      }
     }
   ]
 }, {

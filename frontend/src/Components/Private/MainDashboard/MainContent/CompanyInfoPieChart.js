@@ -7,14 +7,14 @@ export const CompanyInfoPieChart = ({ categorywise }) => {
 
   const data = [
     ["Projects", "Hours per Day"],
-    ["Finish", categorywise.finished],
+    ["Finish", categorywise.completed],
     ["Inprocess", categorywise.inprocess],
     ["Upcoming", categorywise.upcoming],
   ];
 
   const options = {
     pieSliceText: "label",
-    // is3D: true,
+    is3D: true,
     pieSliceText: 'percentage',
     chartArea: {
       height: "100%",
@@ -24,9 +24,15 @@ export const CompanyInfoPieChart = ({ categorywise }) => {
       },
     },
     slices: { 
-      0: { color: '#80C783',  offset: 0.2 }, 
-      1: { color: '#56AFFE',  offset: 0.3 }, 
-      2: { color: '#F0BC5E' },  offset: 0.4 } //56AFFE
+      0: { color: '#80C783',
+          // offset: 0.2 
+        }, 
+      1: { color: '#56AFFE', 
+        //  offset: 0.3 
+        }, 
+      2: { color: '#F0BC5E' },  
+      // offset: 0.4 
+    } //56AFFE
 
 
   };

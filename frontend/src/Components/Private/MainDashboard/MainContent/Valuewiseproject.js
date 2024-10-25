@@ -12,7 +12,7 @@ export const Valuewiseproject = ({valueWise}) => {
   
 const rangeData=valueWise.map((data) => data.range);
 const inProcessData=valueWise.map((data) => data.inprocess);
-const completedData=valueWise.map((data) => data.finished);
+const completedData=valueWise.map((data) => data.completed);
 const upcomingData=valueWise.map((data) => data.upcoming);
 
 // console.log("rangeData",rangeData,"inProcess", inProcessData, "completed",completedData,"upcoming", upcomingData);

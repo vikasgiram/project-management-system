@@ -26,16 +26,16 @@ exports.dashboard = async (req, res) => {
           projectStatus: 'upcoming',
           purchaseOrderValue: { $gte: range.min, $lt: range.max }
         });
-        const finished = await Project.countDocuments({
+        const completed = await Project.countDocuments({
           company: decoded.user._id,
-          projectStatus: 'finished',
+          projectStatus: 'completed',
           purchaseOrderValue: { $gte: range.min, $lt: range.max }
         });
         return {
           range: `${range.min} - ${range.max}`,
           inprocess,
           upcoming,
-          finished
+          completed
         };
       });
 
@@ -57,7 +57,7 @@ exports.dashboard = async (req, res) => {
       const promises = ranges.map(async (range) => {
         const delayedProjects = await Project.countDocuments({
           company: decoded.user._id,
-          projectStatus: { $ne: 'finished' },
+          projectStatus: { $ne: 'completed' },
           endDate: { $lt: new Date() },
           $expr: {
             $and: [
@@ -85,17 +85,17 @@ exports.dashboard = async (req, res) => {
       const categoryPromises = categories.map(async (name) => {
         const inprocess = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'inprocess', category: name });
         const upcoming = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'upcoming', category: name });
-        const finished = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'finished', category: name });
-        return [name, { inprocess, upcoming, finished }];
+        const completed = await Project.countDocuments({ company: decoded.user._id, projectStatus: 'completed', category: name });
+        return [name, { inprocess, upcoming, completed }];
       });
       const category = Object.fromEntries(await Promise.all(categoryPromises));
   
       // Calculate total counts
       const totalInprocess = Object.values(category).reduce((acc, curr) => acc + curr.inprocess, 0);
       const totalUpcoming = Object.values(category).reduce((acc, curr) => acc + curr.upcoming, 0);
-      const totalFinished = Object.values(category).reduce((acc, curr) => acc + curr.finished, 0);
+      const totalFinished = Object.values(category).reduce((acc, curr) => acc + curr.completed, 0);
   
-      return { category, total: { inprocess: totalInprocess, upcoming: totalUpcoming, finished: totalFinished } };
+      return { category, total: { inprocess: totalInprocess, upcoming: totalUpcoming, completed: totalFinished } };
     } catch (err) {
       console.error(err);
     }
@@ -105,7 +105,7 @@ exports.dashboard = async (req, res) => {
     try {
       const delayedProjects = await Project.countDocuments({
         company: decoded.user._id,
-        projectStatus: { $ne: 'finished' },
+        projectStatus: { $ne: 'completed' },
         endDate: { $lt: new Date() }
       });
       return delayedProjects;

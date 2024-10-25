@@ -4,7 +4,7 @@ export const Categorywiseproject = ({ categorywise }) => {
   // Extract category data directly from props
   const categories = Object.keys(categorywise);
   const inprocessData = categories.map(category => categorywise[category].inprocess);
-  const completedData = categories.map(category => categorywise[category].finished);
+  const completedData = categories.map(category => categorywise[category].completed);
   const upcomingData = categories.map(category => categorywise[category].upcoming);
 
   console.log(categories,"categories", inprocessData,"inprocessData", completedData,"completedData", upcomingData,"upcomingData");

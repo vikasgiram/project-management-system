@@ -12,7 +12,7 @@ export const CompanyInfo = ({categorywise}) => {
       <div className="col-12 col-lg-8 py-1 " >
 
         <span className="text-dark  py-4 heading_fontsize_first">Total Projects <span className="count_fontsize" style={{ color: '#4FB4FE' }}> |
-           </span> <span className="count_fontsize">{categorywise.finished+categorywise.inprocess+categorywise.upcoming}</span></span>
+           </span> <span className="count_fontsize">{categorywise.completed+categorywise.inprocess+categorywise.upcoming}</span></span>
         <div className="row pt-3">
 
           <div className="col-12 col-md-4 pb-3 cursor-pointer"
@@ -22,9 +22,9 @@ export const CompanyInfo = ({categorywise}) => {
               <div className="row">
                 <div className="col-9">
                   <h6 className=" text-dark card_heading">
-                    Finish Projects
+                  Completed Projects
                   </h6>
-                  <h2 className="pt-2 fw-bold card_count">{categorywise.finished}</h2>
+                  <h2 className="pt-2 fw-bold card_count">{categorywise.completed}</h2>
                   
                 </div>
                 <div className="col-3 d-flex align-items-center justify-content-center ">
