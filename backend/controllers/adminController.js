@@ -39,11 +39,22 @@ exports.dashboard = async (req, res)=>{
         $sort: { _id: 1 }
       }
     ]);
+    const companiesByYear = await Company.aggregate([
+      {
+          $group: {
+              _id: { $year: "$createdAt" }, 
+              count: { $sum: 1 }
+          }
+      },
+      { $sort: { _id: 1 } } // Sort by year
+    ]);
+
     res.status(200).json({
       activeSubscriptions: active,
       inactiveSubscriptions: inactive,
       totalCompaines: (active+inactive),
-      companiesByMonth
+      companiesByMonth,
+      companiesByYear
     });
   } catch (error) {
     console.log("Error in admin dashboard: "+error.message);

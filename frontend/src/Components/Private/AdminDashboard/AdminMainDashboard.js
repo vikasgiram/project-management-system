@@ -14,6 +14,7 @@ function AdminMainDashboard() {
     const[companiesByMonth, setCompaniesByMonth] = useState([]);
     const[inactiveSubscriptions, setInactiveSubscriptions] = useState("");
     const[totalCompaines, setTotalCompaines] = useState("");
+    const [companiesByYear, setCompaniesByYear]= useState([]);
    
 
 
@@ -27,6 +28,7 @@ function AdminMainDashboard() {
                     setCompaniesByMonth(data.companiesByMonth);
                     setInactiveSubscriptions(data.inactiveSubscriptions);
                     setTotalCompaines(data.totalCompaines);
+                    setCompaniesByYear(data.companiesByYear);
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
@@ -38,17 +40,12 @@ function AdminMainDashboard() {
         fetchData();
     }, []);
 
-    // console.log("dashboard",dashboardData);
+    
 
     const toggle = () => {
         setIsOpen(!isopen);
     };
 
-    // const [Language, setLanguage] = useState({
-    //   DDL: [],
-    //   ID: 0,
-    //   Label: sessionStorage.getItem('LanguageChange')
-    // })
 
     return (
         <>
@@ -98,13 +95,12 @@ function AdminMainDashboard() {
                                         inactiveSubscriptions={inactiveSubscriptions}
                                         totalCompaines={totalCompaines}
 
-                                      />
+                                />
 
-                                {/* <AssignInproccessSection 
-                                    assignedProjects={assignedProjects}
-                                    inproccessProject={inproccessProject}
-                                /> */}
-                                <RegisteredCompaniesChart />
+                                <RegisteredCompaniesChart
+                                    companiesByMonth={companiesByMonth}
+                                    companiesByYear={companiesByYear}
+                                />
 
 
                             </div>

@@ -14,7 +14,7 @@ export const CompanyInfoPieChart = ({ categorywise }) => {
 
   const options = {
     pieSliceText: "label",
-    is3D: true,
+    // is3D: true,
     pieSliceText: 'percentage',
     chartArea: {
       height: "100%",
@@ -23,7 +23,10 @@ export const CompanyInfoPieChart = ({ categorywise }) => {
         opacity: 0
       },
     },
-    slices: { 0: { color: '#80C783' }, 1: { color: '#56AFFE' }, 2: { color: '#F0BC5E' } } //56AFFE
+    slices: { 
+      0: { color: '#80C783',  offset: 0.2 }, 
+      1: { color: '#56AFFE',  offset: 0.3 }, 
+      2: { color: '#F0BC5E' },  offset: 0.4 } //56AFFE
 
 
   };

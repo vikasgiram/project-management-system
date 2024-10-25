@@ -115,6 +115,7 @@ export const AdminCompanyMasterGrid = () => {
                                             onClick={() => {
                                                 handleAdd()
                                             }}
+                                            
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
 

@@ -61,6 +61,7 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
 
 
                     <li
+                    title="Dashboard"
                         className={Open || active === "AdminMainDashboard" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/AdminMainDashboard' className="nav-link ">
                             <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
@@ -74,6 +75,7 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
+                    title="Company"
                         className={Open || active === "AdminCompanyMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/AdminCompanyMasterGrid' className="nav-link ">
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
@@ -91,6 +93,7 @@ export const AdminSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
+                    title="Admin"
                         className={Open || active === "AdminmasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/AdminmasterGrid' className="nav-link ">
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
