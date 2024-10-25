@@ -134,12 +134,24 @@ exports.admin = async (req, res)=>{
     try {
         const admin=await Admin.findByIdAndDelete(req.params.id);
 
-        console.log(admin);
         if(!admin){
             res.status(400).json({error:"Admin not found!!!"});
         }
         res.status(200).json({message:admin.email+" deleted sucessfully"})
     } catch (error) {
         res.status(500).json({error:"Error while deleting admin"});
+    }
+  };
+  
+  exports.update = async (req, res)=>{
+    try {
+        const admin = await Admin.findByIdAndUpdate(req.params.id, req.body, {new: true});
+
+        if(!admin){
+            res.status(400).json({error:"Admin not found!!!"});
+        }
+        res.status(200).json({message:"Admin Updated sucessfully"})
+    } catch (error) {
+        res.status(500).json({error:"Error while Updating admin admin"});
     }
   };

@@ -1,109 +1,102 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import {updateCompany} from "../../../../../hooks/useCompany";
+import { updateCompany } from "../../../../../hooks/useCompany";
 
 const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
-    const [company, setCompany] = useState(selectedCompany);
-    // console.log(selectedCompany,"dkjshdb");
-    
-    const [Address,setAddress] = useState(company.Address || {
-        pincode: "",
-        state: "",
-        city: "",
-        country: "",
-        add: "",
-    });
-    
-    // useEffect(() => {
-    //     if (company) {
-    //       setAddress(company.Address);
-    //       // setDeliveryAddress(customer.deliveryAddress);
-    //     }
-    //   }, [company]);
+  const [company, setCompany] = useState(selectedCompany);
+  // console.log(selectedCompany,"dkjshdb");
 
+  const [Address, setAddress] = useState(
+    company.Address || {
+      pincode: "",
+      state: "",
+      city: "",
+      country: "",
+      add: "",
+    }
+  );
 
-    const handleAddressChange = (e) => {
-        const { name, value } = e.target;
-        setAddress({ ...Address, [name]: value });
-      };
-    
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setCompany((prevCompany) => ({ ...prevCompany, [name]: value,
-            
-         }));
+  // useEffect(() => {
+  //     if (company) {
+  //       setAddress(company.Address);
+  //       // setDeliveryAddress(customer.deliveryAddress);
+  //     }
+  //   }, [company]);
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddress({ ...Address, [name]: value });
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setCompany((prevCompany) => ({ ...prevCompany, [name]: value }));
+  };
+
+  const handleCompanyUpdate = async (event) => {
+    const updatedCompany = {
+      ...company,
+      Address,
+
+      // deliveryAddress
     };
 
-    const handleCompanyUpdate = async (event) => {
+    event.preventDefault();
+    try {
+      await updateCompany(updatedCompany);
+      handleUpdate();
+    } catch (error) {
+      toast.error(error.massage);
+    }
+  };
 
-        const updatedCompany={
-            ...company,
-            Address,
-            
-            // deliveryAddress
-          }
-
-        event.preventDefault();
-        try {
-            
-            await updateCompany(updatedCompany);
-            handleUpdate();
-        } catch (error) {
-            toast.error(error.massage);
-        }
-    };
-
-
-    return (
-        <>
-            <div
-                className="modal fade show"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    backgroundColor: "#00000090",
-                }}
-            >
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content p-3">
-                        <form>
-                            <div className="modal-header pt-0">
-                                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                                    Update Company
-                                </h5>
-                                <button
-                                    onClick={() => handleUpdate()}
-                                    type="button"
-                                    className="close px-3"
-                                    style={{ marginLeft: "auto" }}
-                                >
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="row modal_body_height">
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="name" className="form-label label_text">
-                                                Full Name
-                                            </label>
-                                            <input
-                                                name="name"
-                                                type="text"
-                                                value={company.name}
-                                                onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="name"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-12 col-lg-6 mt-2">
+  return (
+    <>
+      <div
+        className="modal fade show"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#00000090",
+        }}
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content p-3">
+            <form>
+              <div className="modal-header pt-0">
+                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                  Update Company
+                </h5>
+                <button
+                  onClick={() => handleUpdate()}
+                  type="button"
+                  className="close px-3"
+                  style={{ marginLeft: "auto" }}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row modal_body_height">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
-                      <label
-                        htmlFor="admin"
-                        className="form-label label_text"
-                      >
+                      <label htmlFor="name" className="form-label label_text">
+                        Full Name
+                      </label>
+                      <input
+                        name="name"
+                        type="text"
+                        value={company.name}
+                        onChange={handleChange}
+                        className="form-control rounded-0"
+                        id="name"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label htmlFor="admin" className="form-label label_text">
                         Admin Name
                       </label>
                       <input
@@ -118,45 +111,48 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                     </div>
                   </div>
 
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="mobileNo" className="form-label label_text">
-                                                Mobile Number
-                                            </label>
-                                            <input
-                                                type="number"
-                                                name="mobileNo"
-                                                value={company.mobileNo}
-                                                onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="mobileNo"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    
-
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="email" className="form-label label_text">
-                                                Email
-                                            </label>
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                value={company.email}
-                                                onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="email"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    
-
-                                    <div className="col-12 col-lg-6 mt-2" >
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
-                      <label htmlFor="subDate" className="form-label label_text">Subscription  End Date
+                      <label
+                        htmlFor="mobileNo"
+                        className="form-label label_text"
+                      >
+                        Mobile Number
+                      </label>
+                      <input
+                        type="number"
+                        name="mobileNo"
+                        value={company.mobileNo}
+                        onChange={handleChange}
+                        className="form-control rounded-0"
+                        id="mobileNo"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label htmlFor="email" className="form-label label_text">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={company.email}
+                        onChange={handleChange}
+                        className="form-control rounded-0"
+                        id="email"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label
+                        htmlFor="subDate"
+                        className="form-label label_text"
+                      >
+                        Subscription End Date
                       </label>
                       <input
                         onChange={handleChange}
@@ -168,15 +164,11 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                         aria-describedby="dateHelp"
                       />
                     </div>
-                </div> 
+                  </div>
 
-
-                <div className="col-12 col-lg-6 mt-2">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
-                      <label
-                        for="subAmount"
-                        className="form-label label_text"
-                      >
+                      <label for="subAmount" className="form-label label_text">
                         Subscription Amount
                       </label>
                       <div className="input-group border mb-3">
@@ -200,17 +192,12 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                     </div>
                   </div>
 
-
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
-                      <label
-                        for="GST"
-                        className="form-label label_text"
-                      >
+                      <label for="GST" className="form-label label_text">
                         GST No
                       </label>
                       <div className="input-group border mb-3">
-                       
                         <input
                           type="text"
                           id="GST"
@@ -224,15 +211,20 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                       </div>{" "}
                     </div>
                   </div>
-                  <div className="col-12 col-lg-6 mt-2" >
-
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
-                      <label for="LOGO" className="form-label label_text">     Logo
-
+                      <label for="LOGO" className="form-label label_text">
+                        {" "}
+                        Logo
                       </label>
-                      <input type="file" name="LOGO" className="form-control rounded-0" id="LOGO" aria-describedby="secemailHelp"
+                      <input
+                        type="file"
+                        name="LOGO"
+                        className="form-control rounded-0"
+                        id="LOGO"
+                        aria-describedby="secemailHelp"
 
-                    //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
+                        //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
                       />
                     </div>
                   </div>
@@ -240,7 +232,9 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                   <div className="col-12  mt-2">
                     <div className="row border mt-4 bg-gray mx-auto">
                       <div className="col-12 mb-3">
-                        <span  for="AddressInfo" className="AddressInfo">Address</span>
+                        <span for="AddressInfo" className="AddressInfo">
+                          Address
+                        </span>
                       </div>
 
                       <div className="col-12 col-lg-6 mt-2">
@@ -251,12 +245,13 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                             placeholder="Pincode"
                             name="pincode"
                             id="pincode"
-                            onChange={ handleAddressChange
-                            //     (e) =>
-                            //   setAddress({
-                            //     ...Address,
-                            //     pincode: e.target.value,
-                            //   })
+                            onChange={
+                              handleAddressChange
+                              //     (e) =>
+                              //   setAddress({
+                              //     ...Address,
+                              //     pincode: e.target.value,
+                              //   })
                             }
                             value={Address.pincode}
                             aria-describedby="emailHelp"
@@ -325,35 +320,32 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                     </div>
                   </div>
 
-
-                                   
-
-                                    <div className="row">
-                                        <div className="col-12 pt-3 mt-2">
-                                            <button
-                                                type="submit"
-                                                onClick={handleCompanyUpdate}
-                                                className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
-                                            >
-                                                Update
-                                            </button>
-                                            <button
-                                                type="button"
-                                                onClick={handleUpdate}
-                                                className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                  <div className="row">
+                    <div className="col-12 pt-3 mt-2">
+                      <button
+                        type="submit"
+                        onClick={handleCompanyUpdate}
+                        className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
+                      >
+                        Update
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleUpdate}
+                        className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
+                      >
+                        Cancel
+                      </button>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </>
-    );
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default UpdatedCompanyPopup;

@@ -15,4 +15,6 @@ router.post('/',isAdmin, adminController.admin);
 
 router.delete('/:id',isAdmin,adminController.deleteAdmin);
 
+router.put('/:id', isAdmin, adminController.update);
+
 module.exports=router;

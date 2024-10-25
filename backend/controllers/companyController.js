@@ -15,7 +15,7 @@ exports.showAll = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const companies = await Company.find().skip(skip).limit(limit);
+    const companies = await Company.find({}, { password: 0 }).skip(skip).limit(limit);
 
     if (companies.length <= 0) {
       console.log(companies);
@@ -129,12 +129,35 @@ exports.updateCompany = async (req, res) => {
     // Array to hold history records for changed fields
     const historyRecords = [];
 
+    // Define fields to ignore during comparison
+    const ignoredFields = ['_id', 'createdAt', 'updatedAt'];
+
     // Iterate over the fields and compare changes
     Object.keys(updatedData).forEach((key) => {
-      if (typeof updatedData[key] === 'object' && updatedData[key] !== null) {
+      // Skip ignored fields
+      if (ignoredFields.includes(key)) {
+        return;
+      }
+
+      if (key === 'subDate') {
+        // Convert the incoming value to a Date object for comparison
+        const newSubDate = new Date(updatedData[key]);
+        const existingSubDate = new Date(existingCompany[key]);
+
+        // Compare the two Date objects
+        if (existingSubDate.getTime() !== newSubDate.getTime()) {
+          historyRecords.push({
+            companyId: id,
+            fieldName: key,
+            oldValue: existingCompany[key],
+            newValue: updatedData[key],
+            changeReason: req.body.changeReason || 'Updated via company edit'
+          });
+        }
+      } else if (typeof updatedData[key] === 'object' && updatedData[key] !== null) {
         // If it's a nested object like Address, compare its properties
         Object.keys(updatedData[key]).forEach((nestedKey) => {
-          if (existingCompany[key][nestedKey] !== updatedData[key][nestedKey]) {
+          if (existingCompany[key] && existingCompany[key][nestedKey] !== updatedData[key][nestedKey]) {
             historyRecords.push({
               companyId: id,
               fieldName: `${key}.${nestedKey}`, // Indicate nested field
@@ -160,8 +183,8 @@ exports.updateCompany = async (req, res) => {
 
     // If there are changes, insert them into the CompanyHistory collection
     if (historyRecords.length > 0) {
-      console.log('History Records:', historyRecords);
-      // await CompanyHistory.insertMany(historyRecords);
+      // console.log('History Records:', historyRecords);
+      await CompanyHistory.insertMany(historyRecords);
     }
 
     // Update the company record
