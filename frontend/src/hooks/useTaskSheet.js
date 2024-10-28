@@ -42,6 +42,7 @@ const getMyTaskSheet = async (projectId) => {
       console.error(data.error);
       return alert(data.error);
     }
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
