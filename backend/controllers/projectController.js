@@ -107,7 +107,7 @@ exports.create = async (req, res)=>{
             completeLevel:completeLevel,
             POCopy,
             Address:address,
-            projectStatus:completeLevel<=0?"upcoming":completeLevel<100?"inprocess":"finished",
+            projectStatus:(startDate > new Date())? "upcoming" : (completeLevel < 100) ? "inprocess" : "finished",
             company: decoded.user.company? decoded.user.company:decoded.user._id
         });
         
