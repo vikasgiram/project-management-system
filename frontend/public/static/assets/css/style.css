@@ -2655,3 +2655,49 @@ progress {
   /* transform: scale(1.1); */
   background-color: #000000;
 }
+
+.modal_table_width{
+width: 65% !important;
+}
+
+@media  screen and (max-width: 600px) {
+  .modal_table_width{
+    width: 90% !important;
+    }
+}
+
+
+.step-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  /* overflow-x: auto !important;
+  width: 100% !important; */
+}
+.step {
+  text-align: center;
+  flex: 1;
+}
+.icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+.completed .icon {
+  background-color: #28a745; /* Green for completed */
+}
+/* .step h5 {
+  margin: 0;
+}
+.step p {
+  margin: 5px 0 0;
+  font-size: 0.9em;
+  color: #666;
+} */

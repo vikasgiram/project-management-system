@@ -20,9 +20,9 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         setTaskStatus(status);
 
         if (status === "completed") {
-            setTaskLevel(100); 
+            setTaskLevel(100);
         } else {
-            setTaskLevel(""); 
+            setTaskLevel("");
         }
     };
 
@@ -33,24 +33,24 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
             setTaskLevel(100); // Update the state for completion level
         }
         event.preventDefault();
-        const data= {
+        const data = {
             Actions,
             taskLevel: taskStatus === "completed" ? 100 : taskLevel,
             taskStatus,
             remark,
-            };
-           if (!Actions.action|| !Actions.startTime || !Actions.endTime || !taskLevel || !taskStatus || !remark) {
+        };
+        if (!Actions.action || !Actions.startTime || !Actions.endTime || !taskLevel || !taskStatus || !remark) {
             return toast.error("Please fill all fields");
-        }   
-            if(taskLevel>100){
+        }
+        if (taskLevel > 100) {
             return toast.error("Task level should be less than 100");
         }
-        
-       
+
+
         try {
             await updateTask(selectedTask._id, data);
             console.log(data);
-            
+
             handleUpdateTask();
         } catch (error) {
             toast.error(error);
@@ -86,8 +86,65 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div className="row modal_body_height">
 
+                                <span className="">
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style={{ width: "50%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                                    50%
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="step-container">
+                                        <div class="step completed">
+                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
+                                            <p> <strong>2024-10-01</strong></p>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
+                                            <p> <strong>2024-10-10</strong></p>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
+                                            <p> <strong>2024-10-10</strong></p>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
+                                            <p> <strong>2024-10-10</strong></p>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
+                                            <p> <strong>2024-10-10</strong></p>
+                                        </div>
+                                        {/* <div class="step">
+                                            <div class="icon">➤</div>
+                                            <p> <strong>2024-10-20</strong></p>
+                                        </div>
+                                        <div class="step">
+                                            <div class="icon">➤</div>
+                                            <p> <strong>2024-10-30</strong></p>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="icon">➤</div>
+                                            <p> <strong>2024-10-30</strong></p>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="icon">➤</div>
+                                            <p> <strong>2024-10-30</strong></p>
+                                        </div> */}
+
+                                      
+                                         
+                                    </div>
+                                </span>
+
+
+                                <div className="row modal_body_height mt-2">
                                     <div className="col-12 col-lg-12">
                                         <div className="mb-3">
                                             <label htmlFor="Action" className="form-label label_text">
@@ -167,7 +224,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                             // onChange={(e) => setTaskStatus(e.target.value)}
                                             onChange={(e) => handleStatusChange(e.target.value)}
                                             value={taskStatus}
-                                        >   
+                                        >
                                             <option value="">Select Status</option>
                                             <option value="inprocess">Inproccess</option>
                                             <option value="completed">Completed</option>

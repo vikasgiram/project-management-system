@@ -35,7 +35,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
           backgroundColor: "#00000090",
         }}
       >
-        <div className="modal-dialog modal-xl">
+        <div className="modal-dialog modal-xl modal_table_width">
           <div className="modal-content p-3">
             <form
             // onSubmit={handleEmployeeAdd}
@@ -54,7 +54,10 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
+              <div className="modal-body " >
+
+
+
                 <div className="row bg-white p-2 m-1 border rounded modal_body_height">
                   <div className="col-12 py-2">
                     <div className="table-responsive">
@@ -86,18 +89,16 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                                         ? null
                                         : () => handleUpdateTask(task)
                                     }
-                                    className={`update_icon ${
-                                      task.taskStatus === "completed"
+                                    className={`update_icon ${task.taskStatus === "completed"
                                         ? "disabled"
                                         : ""
-                                    }`}
+                                      }`}
                                   >
                                     <i
-                                      className={`fa-solid fa-pen text-success cursor-pointer me-3 ${
-                                        task.taskStatus === "completed"
+                                      className={`fa-solid fa-pen text-success cursor-pointer me-3 ${task.taskStatus === "completed"
                                           ? "text-muted"
                                           : ""
-                                      }`}
+                                        }`}
                                     ></i>
                                   </span>
                                 </td>
@@ -115,7 +116,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                     </div>
                   </div>
 
-                  
+
                 </div>
               </div>
             </form>
@@ -127,8 +128,8 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
         <TaskListUpdatedPopUp
           selectedTask={selectedTask}
           handleUpdateTask={handleUpdateTask}
-          // heading="Forward"
-          // cancelBtnCallBack={handleAddDepartment}
+        // heading="Forward"
+        // cancelBtnCallBack={handleAddDepartment}
         />
       ) : (
         <></>
