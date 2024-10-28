@@ -165,7 +165,7 @@ exports.update = async (req, res) => {
     }
 
     // Update other task properties
-    task.Actions.actionBy = decoded.user._id;
+    updatedData.Actions.actionBy = decoded.user._id;
     task.remark = updatedData.remark;
     task.Actions.push(updatedData.Actions);
     task.taskLevel = updatedData.taskLevel;
