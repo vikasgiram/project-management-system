@@ -2701,3 +2701,8 @@ width: 65% !important;
   font-size: 0.9em;
   color: #666;
 } */
+
+
+.bg_user_img{
+  background: url(../img/user_profile_transperant_bg.jpg) ;
+}
