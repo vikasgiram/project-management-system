@@ -16,7 +16,7 @@ const getProjects = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
+    toast.error(error.response.data.error);
   }
 };
 
@@ -33,7 +33,7 @@ const getMyProjects = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
+    toast.error(error.response.data.error);
   }
 };
 
@@ -52,7 +52,7 @@ const createProject = async (projectData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
+    toast.error(error.response.data.error);
   }
 };
 
@@ -70,7 +70,7 @@ const updateProject = async (updatedProjectData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
+    toast.error(error.response.data.error);
 
   }
 };
@@ -88,7 +88,7 @@ const deleteProject = async (Id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
+    toast.error(error.response.data.error);
   }
 };
 
@@ -105,7 +105,7 @@ const getProject = async (Id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
+    toast.error(error.response.data.error);
   }
 };
 

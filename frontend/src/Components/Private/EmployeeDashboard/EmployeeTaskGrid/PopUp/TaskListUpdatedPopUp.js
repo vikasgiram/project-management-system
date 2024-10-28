@@ -29,10 +29,10 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 
     const handelTaskUpdate = async (event) => {
 
+        event.preventDefault();
         if (taskStatus === "completed") {
             setTaskLevel(100); // Update the state for completion level
         }
-        event.preventDefault();
         const data= {
             Actions,
             taskLevel: taskStatus === "completed" ? 100 : taskLevel,
@@ -49,7 +49,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
        
         try {
             await updateTask(selectedTask._id, data);
-            console.log(data);
+            // console.log(data);
             
             handleUpdateTask();
         } catch (error) {

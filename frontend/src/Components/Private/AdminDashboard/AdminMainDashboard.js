@@ -7,6 +7,7 @@ import {getAdminDashboard} from "../../../hooks/useAdmin";
 
 
 
+
 function AdminMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
     
@@ -15,6 +16,7 @@ function AdminMainDashboard() {
     const[inactiveSubscriptions, setInactiveSubscriptions] = useState("");
     const[totalCompaines, setTotalCompaines] = useState("");
     const [companiesByYear, setCompaniesByYear]= useState([]);
+    const [loading, setLoading] = useState(true);
    
 
 
@@ -32,9 +34,9 @@ function AdminMainDashboard() {
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
-                // setLoading(false);
+                setLoading(false);
             } finally {
-                // setLoading(false);
+                setLoading(false);
             }
         };
         fetchData();
@@ -49,11 +51,11 @@ function AdminMainDashboard() {
 
     return (
         <>
-            {/* {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
-            )} */}
+            )}
 
             <div className="container-scroller">
                 <div className="row background_main_all">

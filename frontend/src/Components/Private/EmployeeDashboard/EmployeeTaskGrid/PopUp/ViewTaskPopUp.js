@@ -23,7 +23,7 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
     };
 
     fetchData();
-  }, [handleUpdateTask]);
+  }, [updateTaskPopUpShow]);
 
   return (
     <>
