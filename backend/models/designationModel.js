@@ -44,6 +44,15 @@ const designationSchema = new mongoose.Schema({
             'updateTaskSheet',
             'deleteTaskSheet',
 
+            'viewDesignation',
+            'createDesignation',
+            'updateDesignation',
+            'deleteDesignation',
+
+            'viewDepartment',
+            'createDepartment',
+            'updateDepartment',
+            'deleteDepartment',
         ],
     }]
 
