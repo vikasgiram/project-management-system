@@ -52,14 +52,46 @@ const AddDesignationPopup = ({ handleAdd }) => {
     fetchData();
   }, []);
 
-  const handlePermissionChange = (permission, isChecked) => {
-    setPermissions(prevPermissions =>
-      isChecked
-        ? [...prevPermissions, permission] // Add permission if checked
-        : prevPermissions.filter(p => p !== permission) // Remove permission if unchecked
-    );
 
+
+  const handlePermissionChange = (permission, isChecked) => {
+    setPermissions(prevPermissions => {
+      let newPermissions;
+  
+      if (isChecked) {
+        newPermissions = [...prevPermissions, permission]; // Add the permission if checked
+      } else {
+        newPermissions = prevPermissions.filter(p => p !== permission); // Remove the permission if unchecked
+      }
+  
+      // Check the dependencies
+      if ((permission === 'createEmployee' || permission === 'updateEmployee') && isChecked) {
+        
+        newPermissions = [...newPermissions, 'viewDesignation','viewDepartment'];
+      } 
+      else if ((permission === 'createProject' || permission === 'updateProject') && isChecked) {
+
+        newPermissions = [...newPermissions, 'viewCustomer'];
+      }
+      else if ((permission === 'createTaskSheet')  && isChecked) {
+
+        newPermissions = [...newPermissions, 'viewDepartment','viewEmployee'];
+      }
+      else if ((permission === 'createDesignation' || permission === 'updateDesignation')  && isChecked) {
+
+        newPermissions = [...newPermissions, 'viewDepartment'];
+      }
+      else if ((permission === 'viewEmployee') && !isChecked) {
+
+        newPermissions = newPermissions.filter(p => p !== 'updateCustomer');
+      }
+  
+      return newPermissions;
+    });
   };
+
+
+  
 
   // Handle role addition
   const handleEmployeeAdd = async () => {
@@ -76,29 +108,6 @@ const AddDesignationPopup = ({ handleAdd }) => {
     // await createDesignation(data);
     handleAdd();
   };
-
-  
-  // console.log(permissions,"permissions");
-  
-
-  // const myPermisssion = [
-  //   { value: "createCustomer", label: 'Create Customer' },
-  //   { value: "updateCustomer", label: 'Update Customer' },
-  //   { value: "deleteCustomer", label: 'Delete Customer ' },
-  //   { value: "viewCustomer", label: 'View Customer' },
-  //   { value: "viewTask", label: 'View Task' },
-  //   { value: "createTask", label: 'Create Task' },
-  //   { value: "updateTask", label: 'Update Task' },
-  //   { value: "deleteTask", label: 'Delete Task' },
-  //   { value: "createProject", label: 'Create Project' },
-  //   { value: "updateProject", label: 'Update Project ' },
-  //   { value: "deleteProject", label: 'Delete Project' },
-  //   { value: "viewProject", label: 'View Project' },
-  //   { value: "createEmployee", label: 'Create Employee' },
-  //   { value: "updateEmployee", label: 'Update Employee' },
-  //   { value: "viewEmployee", label: 'View Employee' },
-  //   { value: "deleteEmployee", label: 'Delete Employee' }
-  // ];
 
 
   return (
@@ -195,7 +204,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
                         <th >Delete</th>
                       </tr>
                       <tbody>
-                        <tr>
+                        {/* <tr>
                           <td>Employee</td>
                           <td>
                             <div>
@@ -323,8 +332,136 @@ const AddDesignationPopup = ({ handleAdd }) => {
                               </label>
                             </div>
                           </td>
-                        </tr>
+                        </tr> */}
                         <tr>
+  <td>Employee</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createEmployee')}
+          onChange={(e) => {
+            handlePermissionChange('createEmployee', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewEmployee')}
+          onChange={(e) => {
+            handlePermissionChange('viewEmployee', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateEmployee')}
+          onChange={(e) => {
+            handlePermissionChange('updateEmployee', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteEmployee')}
+          onChange={(e) => {
+            handlePermissionChange('deleteEmployee', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+
+<tr>
+  <td>Customer</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createCustomer')}
+          onChange={(e) => {
+            handlePermissionChange('createCustomer', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewCustomer')}
+          onChange={(e) => {
+            handlePermissionChange('viewCustomer', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateCustomer')}
+          onChange={(e) => {
+            handlePermissionChange('updateCustomer', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteCustomer')}
+          onChange={(e) => {
+            handlePermissionChange('deleteCustomer', e.target.checked);
+          }}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+
+                        {/* <tr>
                           <td>Project</td>
                           <td>
                             <div>
@@ -573,70 +710,286 @@ const AddDesignationPopup = ({ handleAdd }) => {
                               </label>
                             </div>
                           </td>
-                        </tr>
-
+                        </tr> */}
                         <tr>
-                          <td>Designation</td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('createDesignation', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('viewDesignation', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('updateDesignation', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td> <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('deleteDesignation', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
+  <td>Project</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createProject')}
+          onChange={(e) => handlePermissionChange('createProject', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewProject')}
+          onChange={(e) => handlePermissionChange('viewProject', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateProject')}
+          onChange={(e) => handlePermissionChange('updateProject', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteProject')}
+          onChange={(e) => handlePermissionChange('deleteProject', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>Task Name</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createTask')}
+          onChange={(e) => handlePermissionChange('createTask', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewTask')}
+          onChange={(e) => handlePermissionChange('viewTask', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateTask')}
+          onChange={(e) => handlePermissionChange('updateTask', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteTask')}
+          onChange={(e) => handlePermissionChange('deleteTask', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>Task Sheet</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createTaskSheet')}
+          onChange={(e) => handlePermissionChange('createTaskSheet', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewTaskSheet')}
+          onChange={(e) => handlePermissionChange('viewTaskSheet', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateTaskSheet')}
+          onChange={(e) => handlePermissionChange('updateTaskSheet', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteTaskSheet')}
+          onChange={(e) => handlePermissionChange('deleteTaskSheet', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>Department</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createDepartment')}
+          onChange={(e) => handlePermissionChange('createDepartment', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewDepartment')}
+          onChange={(e) => handlePermissionChange('viewDepartment', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateDepartment')}
+          onChange={(e) => handlePermissionChange('updateDepartment', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteDepartment')}
+          onChange={(e) => handlePermissionChange('deleteDepartment', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>Designation</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('createDesignation')}
+          onChange={(e) => handlePermissionChange('createDesignation', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('viewDesignation')}
+          onChange={(e) => handlePermissionChange('viewDesignation', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('updateDesignation')}
+          onChange={(e) => handlePermissionChange('updateDesignation', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+          checked={permissions.includes('deleteDesignation')}
+          onChange={(e) => handlePermissionChange('deleteDesignation', e.target.checked)}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+
+
+
+
                       </tbody>
                     </table>
                   </div>
