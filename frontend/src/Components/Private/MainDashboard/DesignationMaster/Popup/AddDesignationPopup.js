@@ -14,6 +14,31 @@ const AddDesignationPopup = ({ handleAdd }) => {
   const [name, setName] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
+
+  const DependentCheckboxes = () => {
+    const [checkboxes, setCheckboxes] = useState({
+      parent: false,
+      childA: false,
+      childB: false,
+    });
+  
+    // Handler for Parent checkbox
+    const handleParentChange = () => {
+      const newParentValue = !checkboxes.parent;
+      setCheckboxes({
+        parent: newParentValue,
+        childA: newParentValue,
+        childB: newParentValue,
+      });
+    };
+  
+    // Handler for individual child checkboxes
+    const handleChildChange = (childName) => {
+      setCheckboxes((prevState) => ({
+        ...prevState,
+        [childName]: !prevState[childName],
+      }));
+    };}
  
 
   // Fetch departments
@@ -33,6 +58,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
         ? [...prevPermissions, permission] // Add permission if checked
         : prevPermissions.filter(p => p !== permission) // Remove permission if unchecked
     );
+
   };
 
   // Handle role addition
@@ -46,8 +72,8 @@ const AddDesignationPopup = ({ handleAdd }) => {
     if (!name || !department || permissions.length === 0) {
       return toast.error("Please fill all fields");
     }
-    // console.log(data);
-    await createDesignation(data);
+    console.log(data);
+    // await createDesignation(data);
     handleAdd();
   };
 

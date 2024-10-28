@@ -5,10 +5,10 @@ const { isCompany, permissionMiddleware } = require('../middlewares/auth');
 
 router.get('/', permissionMiddleware(['viewDepartment']), departmentController.showAll);
 
-router.post('/', isCompany, departmentController.create);
+router.post('/', permissionMiddleware(['createDepartment']), departmentController.create);
 
-router.put('/:id', isCompany, departmentController.update);
+router.put('/:id', permissionMiddleware(['updateDepartment']), departmentController.update);
 
-router.delete('/:id', isCompany, departmentController.delete);
+router.delete('/:id', permissionMiddleware(['deleteDepartment']), departmentController.delete);
 
 module.exports = router;

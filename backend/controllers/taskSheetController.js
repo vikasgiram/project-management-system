@@ -1,7 +1,8 @@
-const { json } = require("express");
+
 const TaskSheet = require("../models/taskSheetModel");
 const jwt = require("jsonwebtoken");
 const Employee = require("../models/employeeModel");
+const Project = require('../models/projectModel');
 
 
 exports.showAll = async (req, res) => {
@@ -80,6 +81,8 @@ exports.create = async (req, res) => {
     const { project, employees, taskName, startDate, endDate, remark } =
       req.body;
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const existingProject = await Project.findById(project);
+
     const task = await TaskSheet.create({
       employees,
       taskName,
@@ -90,8 +93,16 @@ exports.create = async (req, res) => {
       company: decoded.user.company ? decoded.user.company : decoded.user._id,
     });
 
+    
+
     if (task) {
       console.log("TaskSheet created for " + task.taskName);
+
+      if(existingProject.projectStatus==='upcoming'){
+        existingProject.projectStatus='inprocess';
+        existingProject.save();
+      }
+
       return res.status(200).json(task);
     }
   } catch (error) {
@@ -157,6 +168,8 @@ exports.update = async (req, res) => {
     task.Actions.actionBy = decoded.user._id;
     task.remark = updatedData.remark;
     task.Actions.push(updatedData.Actions);
+    task.taskLevel = updatedData.taskLevel;
+    task.taskStatus = updatedData.taskStatus;
 
     // Save the updated task
     await task.save();
