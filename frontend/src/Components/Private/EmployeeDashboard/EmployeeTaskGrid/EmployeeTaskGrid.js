@@ -69,13 +69,19 @@ export const EmployeeTaskGrid = () => {
     useEffect(() => {
 
         const fetchData = async () => {
+            try{
             const data = await getMyProjects();
             if (data) {
 
                 setProjects(data.projects || []);
                 setLoading(false);
-
             }
+        }catch(error){
+            console.error("Error fetching projects:", error);
+            setLoading(false);
+        }finally{
+            setLoading(false);
+        }
         };
 
         fetchData();
@@ -84,11 +90,11 @@ export const EmployeeTaskGrid = () => {
 
     return (
         <>
-            {/* {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
-            )} */}
+            )}
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <EmployeeHeader

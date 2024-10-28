@@ -89,11 +89,11 @@ export const AdminCompanyMasterGrid = () => {
 
     return (
         <>
-            {/* {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
-            )} */}
+            )}
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <AdminHeader

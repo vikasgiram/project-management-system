@@ -16,7 +16,7 @@ const getAdmin = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 
@@ -34,8 +34,7 @@ const createAdmin = async (adminData) => {
     toast.success("Admin Created");
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
-};
+    toast.error(error.response.data.error);}};
 
 const updateAdmin = async (updatedAdminData) => {
   try {
@@ -50,7 +49,7 @@ const updateAdmin = async (updatedAdminData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);}
 };
 
 const deleteAdmin = async (id) => {
@@ -67,7 +66,7 @@ const deleteAdmin = async (id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 const getAdminDashboard = async () => {
@@ -83,7 +82,7 @@ const getAdminDashboard = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
   

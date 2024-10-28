@@ -31,12 +31,19 @@ export const AdminmasterGrid = () => {
     const [admins, setAdmins] = useState([])
     
     useEffect(() => {
-
         const fetch=async() => {
+        try{
             const data=await getAdmin();
             setAdmins(data);
             // setLoading(false);
+            }
+        catch(error){
+            console.log(error);
         }
+        finally{
+            setLoading(false);
+        }}
+        
         fetch();
     }, [AddPopUpShow,deletePopUpShow,updatePopUpShow]);
 
@@ -64,11 +71,11 @@ export const AdminmasterGrid = () => {
 
     return (
         <>
-            {/* {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
-            )} */}
+            )}
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <AdminHeader

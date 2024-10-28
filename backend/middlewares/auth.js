@@ -72,7 +72,7 @@ module.exports.permissionMiddleware = (permissions) => {
     });
 
     if (!hasPermissions) {
-      return res.status(403).json({ error: 'You do not have the required permissions' });
+      return res.status(403).json({ error: `You do not have the required permissions, ${permissions}` });
     }
 
     next(); // if employee has the required permissions, continue to the next middleware

@@ -16,7 +16,7 @@ const getDesignation = async (department) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 const getAllDesignations = async (department) => {
@@ -32,7 +32,7 @@ const getAllDesignations = async (department) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 const createDesignation = async (designationData) => {
@@ -48,7 +48,7 @@ const createDesignation = async (designationData) => {
     toast.success("Designations Created");
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 const deleteDesignation = async (Id) => {
@@ -64,7 +64,7 @@ const deleteDesignation = async (Id) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
   export { getDesignation, createDesignation,deleteDesignation , getAllDesignations};

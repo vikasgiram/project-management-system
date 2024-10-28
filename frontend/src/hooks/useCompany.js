@@ -16,8 +16,7 @@ const getDashboardData = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
-  }
+    toast.error(error.response.data.error);  }
 };
 
 const getCompany = async () => {
@@ -32,8 +31,7 @@ const getCompany = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
-  }
+    toast.error(error.response.data.error);  }
 };
 
 const createCompany = async (companyData) => {
@@ -49,7 +47,7 @@ const createCompany = async (companyData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 
@@ -66,7 +64,7 @@ const updateCompany = async (updatedData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 const deleteCompany = async (Id) => {
@@ -81,7 +79,7 @@ const deleteCompany = async (Id) => {
     toast.success("Customer Deleted sucessfully...");
   } catch (error) {
     console.log(error.response.data);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 export { getDashboardData, createCompany, updateCompany, deleteCompany,getCompany };

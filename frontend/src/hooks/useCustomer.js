@@ -7,16 +7,10 @@ const getCustomers = async () => {
   try {
     const response = await axios.get(`${url}`);
     const data = response.data;
-
-    if (data.error) {
-      console.error(data.error);
-      return toast.error(data.error);
-    }
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");
-  }
+    toast.error(error.response.data.error);  }
 };
 
 const createCustomer = async (customerData) => {
@@ -32,7 +26,7 @@ const createCustomer = async (customerData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error); }
 };
 
 
@@ -49,7 +43,7 @@ const updateCustomer = async (updatedData) => {
     return data;
   } catch (error) {
     console.error(error);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 const deleteCustomer = async (Id) => {
@@ -64,7 +58,7 @@ const deleteCustomer = async (Id) => {
     toast.success("Customer Deleted sucessfully...");
   } catch (error) {
     console.log(error.response.data);
-    toast.error("Internal Server Error");  }
+    toast.error(error.response.data.error);  }
 };
 
 export { getCustomers, createCustomer, updateCustomer, deleteCustomer };

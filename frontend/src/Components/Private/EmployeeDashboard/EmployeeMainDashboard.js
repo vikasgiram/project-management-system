@@ -17,13 +17,14 @@ function EmployeeMainDashboard() {
 
     const[assignedProjects,setAssignedProjects]=useState([]);
     const[inproccessProject,setInproccessProject]=useState([]);
+    const [loading, setLoading] = useState(true);
    
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // setLoading(true);
+                setLoading(true);
                 const data = await getEmployeeDashboard();
                 console.log("data",data);
                 if (data) {
@@ -33,25 +34,17 @@ function EmployeeMainDashboard() {
 
                     setAssignedProjects(data.assignedProgects);
                     setInproccessProject(data.inProcessProjects);
-
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
-                // setLoading(false);
+                setLoading(false);
             } finally {
-                // setLoading(false);
+                setLoading(false);
             }
         };
         fetchData();
     }, []);
-
     
-
-
-
-
-    // console.log("dashboard",dashboardData);
-
     const toggle = () => {
         setIsOpen(!isopen);
     };
@@ -64,11 +57,11 @@ function EmployeeMainDashboard() {
 
     return (
         <>
-            {/* {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
-            )} */}
+            )}
 
             <div className="container-scroller">
                 <div className="row background_main_all">
