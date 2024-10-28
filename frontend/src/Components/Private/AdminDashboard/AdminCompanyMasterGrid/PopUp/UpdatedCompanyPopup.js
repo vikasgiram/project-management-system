@@ -17,7 +17,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
         add: "",
     });
     const[subDate,setSubDate]=useState(formatDateforupdateSubcription(company.subDate));
-
+  
    
     
   
@@ -64,15 +64,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
         }
     };
 
-    // const formattedSubDate = formatDateforupdateSubcription(selectedCompany?.subDate);
-
-    // console.log(formatDateforupdateSubcription(selectedCompany?.subDate),"dskhb");
-    // const tempdate='2023-11-30';
-    const tempdate=formatDateforupdateSubcription(selectedCompany?.subDate)
-    console.log(tempdate,"tempdate");
-    
-    
-    
+ 
     
     return (
         <>
@@ -168,7 +160,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                                                 name="subDate" className="form-label label_text">Subscription End Date</label>
                                             <input
                                                 onChange={handleChange}
-                                                value={tempdate}
+                                                value={subDate}
                                                 name="subDate"
                                                 type="date"
                                                 className="form-control rounded-0"
