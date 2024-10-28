@@ -74,7 +74,6 @@ export const EmployeeTaskGrid = () => {
 
                 setProjects(data.projects || []);
                 setLoading(false);
-
             }
         };
 
