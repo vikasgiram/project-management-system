@@ -157,6 +157,8 @@ exports.update = async (req, res) => {
     task.Actions.actionBy = decoded.user._id;
     task.remark = updatedData.remark;
     task.Actions.push(updatedData.Actions);
+    task.taskLevel = updatedData.taskLevel;
+    task.taskStatus = updatedData.taskStatus;
 
     // Save the updated task
     await task.save();
