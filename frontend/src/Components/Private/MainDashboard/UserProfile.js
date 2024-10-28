@@ -11,10 +11,10 @@ export const UserProfile = () => {
     const navigate =useNavigate()
     return (
         <>
-            <div className="row">
+            <div className="row bg_user_img">
                 <div className="col-12  mx-auto center-flex">
 
-                    <div className="row bg-white rounded center-block">
+                    <div className="row bg-white rounded center-block border">
 
                         <div className="col-12 col-lg-4 py-4 rounded border bg-white mx-auto">
                             <div className="card-body">
