@@ -2627,6 +2627,15 @@ progress {
   padding: 40px !important;
 }
 
+@media  screen and (max-width: 600px) {
+  .center-block {
+    width: 100%; /* or any width you prefer */
+    margin: 0 auto; /* This will center the element horizontally */
+    padding: 40px !important;
+  }
+  
+}
+
 
 .center-flex {
   display: flex;

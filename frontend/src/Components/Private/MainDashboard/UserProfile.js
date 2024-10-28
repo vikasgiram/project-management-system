@@ -6,9 +6,9 @@ import { UserContext } from "../../../context/UserContext";
 
 export const UserProfile = () => {
 
-	const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
-    const navigate =useNavigate()
+    const navigate = useNavigate()
     return (
         <>
             <div className="row bg_user_img">
@@ -21,7 +21,7 @@ export const UserProfile = () => {
                                 <div className="d-flex flex-column align-items-center text-center">
                                     <img src={user.profilePic} alt="Admin" className="rounded-circle" width="150" />
                                     <div className="mt-3">
-                                        <h4>{user.name}</h4> 
+                                        <h4>{user.name}</h4>
                                         <p className="text-secondary mb-1">{user.designation}</p>
                                         <p className="text-muted font-size-sm">{user.department}</p>
                                     </div>
@@ -29,8 +29,8 @@ export const UserProfile = () => {
                             </div>
                         </div>
 
-                        <div className="col-12 col-lg-7 border rounded bg-white mx-auto">
-                            <div className=" p-4">
+                        <div className="col-12 col-lg-7 mt-2 mt-lg-0 border rounded bg-white mx-auto">
+                            <div className=" my-3 p-lg-4">
                                 <div className="card-body ">
                                     <div className="row">
                                         <div className="col-sm-3">
@@ -50,7 +50,7 @@ export const UserProfile = () => {
                                         </div>
                                     </div>
                                     <hr />
-                                    
+
                                     <div className="row">
                                         <div className="col-sm-3">
                                             <h6 className="mb-0">Mobile</h6>
@@ -72,9 +72,9 @@ export const UserProfile = () => {
                                 </div>
                             </div>
                         </div>
-                                    <button 
-                                    onClick={() =>navigate('/EmployeeMainDashboard')}
-                                    className="animated-button mt-3 col-lg-2 ms-auto mx-3"> <i className="fa-solid fa-angle-left"></i> Back</button>
+                        <button
+                            onClick={() => navigate('/EmployeeMainDashboard')}
+                            className="animated-button mt-3 col-lg-2 ms-auto mx-3"> <i className="fa-solid fa-angle-left"></i> Back</button>
                     </div>
 
                 </div>
