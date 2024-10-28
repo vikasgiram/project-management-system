@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { updateTask } from "../../../../../hooks/useTaskSheet";
-
+import { formatDate } from "../../../../../utils/formatDate";
 const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 
     // const [action, setAction] = useState("");
     // const [startTime, setStartTime] = useState("");
     // const [ endTime, setEndTime] = useState("");
-    const [taskLevel, setTaskLevel] = useState("");
+    const [taskLevel, setTaskLevel] = useState(0);
     const [taskStatus, setTaskStatus] = useState("");
     const [remark, setRemark] = useState("");
     const [Actions, setActions] = useState({
@@ -16,13 +16,13 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         endTime: "",
     });
 
+    console.log(selectedTask, "dcdkshbh");
+
     const handleStatusChange = (status) => {
         setTaskStatus(status);
 
         if (status === "completed") {
             setTaskLevel(100);
-        } else {
-            setTaskLevel("");
         }
     };
 
@@ -33,24 +33,27 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         if (taskStatus === "completed") {
             setTaskLevel(100); // Update the state for completion level
         }
-        const data= {
-            Actions,
-            taskLevel: taskStatus === "completed" ? 100 : taskLevel,
-            taskStatus,
-            remark,
-        };
         if (!Actions.action || !Actions.startTime || !Actions.endTime || !taskLevel || !taskStatus || !remark) {
             return toast.error("Please fill all fields");
         }
         if (taskLevel > 100) {
             return toast.error("Task level should be less than 100");
         }
+        else if (taskLevel < selectedTask.taskLevel) {
+            return toast.error("Task level must be greater than previous task level");
+        }
+        const data = {
+            Actions,
+            taskLevel: taskStatus === "completed" ? 100 : taskLevel,
+            taskStatus,
+            remark,
+        };
 
 
         try {
             await updateTask(selectedTask._id, data);
-            // console.log(data);
-            
+            console.log(data, "updated data");
+
             handleUpdateTask();
         } catch (error) {
             toast.error(error);
@@ -91,55 +94,29 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                     <div class="row mb-4">
                                         <div class="col-12">
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style={{ width: "50%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                    50%
+                                                <div class="progress-bar" role="progressbar" style={{ width: selectedTask.taskLevel + '%' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                                    {selectedTask.taskLevel && selectedTask.taskLevel + '%'}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="step-container">
-                                        <div class="step completed">
+                                    {/* <div class="step-container">
+                                        {selectedTask.Actions || selectedTask.Actions.map((action, index) => (
+                                            <div class="step completed">
                                             <div class="icon"><i class="fa-solid fa-check"></i></div>
                                             <p> <strong>2024-10-01</strong></p>
                                         </div>
-                                        <div class="step completed">
-                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                            <p> <strong>2024-10-10</strong></p>
-                                        </div>
-                                        <div class="step completed">
-                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                            <p> <strong>2024-10-10</strong></p>
-                                        </div>
-                                        <div class="step completed">
-                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                            <p> <strong>2024-10-10</strong></p>
-                                        </div>
-                                        <div class="step completed">
-                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                            <p> <strong>2024-10-10</strong></p>
-                                        </div>
-                                        {/* <div class="step">
-                                            <div class="icon">➤</div>
-                                            <p> <strong>2024-10-20</strong></p>
-                                        </div>
-                                        <div class="step">
-                                            <div class="icon">➤</div>
-                                            <p> <strong>2024-10-30</strong></p>
-                                        </div>
+                                        ))}
+                                    </div> */}
 
-                                        <div class="step">
-                                            <div class="icon">➤</div>
-                                            <p> <strong>2024-10-30</strong></p>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="icon">➤</div>
-                                            <p> <strong>2024-10-30</strong></p>
-                                        </div> */}
-
-                                      
-                                         
+                                    <div class="step-container">
+                                        {selectedTask.Actions && selectedTask.Actions.map((action, index) => (
+                                            <div key={index} class="step completed">
+                                                <div class="icon"><i class="fa-solid fa-check"></i></div>
+                                                <p><strong>{formatDate(action.endTime)}</strong></p>
+                                            </div>
+                                        ))}
                                     </div>
                                 </span>
 
