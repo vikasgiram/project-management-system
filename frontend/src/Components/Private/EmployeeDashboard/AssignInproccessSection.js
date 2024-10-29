@@ -8,7 +8,8 @@ export const AssignInproccessSection = ({
     <>
       <div className="row   p-2 m-1 ">
         <div className="col-12 col-lg-5 mb-4 mb-lg-0  rounded ">
-          <div className="row bg-white rounded p-lg-3">
+
+          <div className="row bg-white rounded p-lg-3 ">
             <h6 className="mb-0 fw-bold text-success mb-3">
               Assigned Projects
             </h6>
@@ -58,6 +59,7 @@ export const AssignInproccessSection = ({
               </div>
             </div>
           </div>
+          
         </div>
 
         <div className="col-12 col-lg-7  mx-auto  rounded ">

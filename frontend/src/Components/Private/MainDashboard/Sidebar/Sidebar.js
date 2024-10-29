@@ -76,10 +76,6 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     title="Employee Master"
                         className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMasterGrid' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-solid fa-user-tie ps-3 side_icon_fs" ></i> */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-user-group ps-3 side_icon_fs"></i>
 
                             <span
@@ -95,10 +91,6 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     title="Customer Master"
                         className={Open || active === "CustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/CustomerMasterGrid' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-solid fa-users ps-3 side_icon_fs"></i> */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
 
                             <span
@@ -115,10 +107,6 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     title="Project Master"
                         className={Open || active === "ProjectMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/ProjectMasterGrid' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-solid fa-diagram-project ps-3 side_icon_fs"></i> */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
 
 
@@ -134,10 +122,6 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     <li title="Department Master"
                         className={Open || active === "DepartmentMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DepartmentMasterGrid' className="nav-link ">
-                            {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-regular fa-building ps-3 side_icon_fs"></i> */}
-                            {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
                             <i class="fa-brands fa-medium  ps-3 side_icon_fs"></i>
 
                             <span

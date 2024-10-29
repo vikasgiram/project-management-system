@@ -12,13 +12,13 @@ import { getEmployeeDashboard } from "../../../hooks/useEmployees";
 function EmployeeMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
     const [totalProjectCount, setTotalProjectCount] = useState();
-    const[completedProjectCount,setCompletedProjectCount]=useState();
-    const[inproccessProjectCount,setInproccessProjectCount]=useState();
+    const [completedProjectCount, setCompletedProjectCount] = useState();
+    const [inproccessProjectCount, setInproccessProjectCount] = useState();
 
-    const[assignedProjects,setAssignedProjects]=useState([]);
-    const[inproccessProject,setInproccessProject]=useState([]);
+    const [assignedProjects, setAssignedProjects] = useState([]);
+    const [inproccessProject, setInproccessProject] = useState([]);
     const [loading, setLoading] = useState(true);
-   
+
 
 
     useEffect(() => {
@@ -26,7 +26,7 @@ function EmployeeMainDashboard() {
             try {
                 setLoading(true);
                 const data = await getEmployeeDashboard();
-                console.log("data",data);
+                console.log("data", data);
                 if (data) {
                     setTotalProjectCount(data.totalProjects);
                     setCompletedProjectCount(data.completedCount);
@@ -44,7 +44,7 @@ function EmployeeMainDashboard() {
         };
         fetchData();
     }, []);
-    
+
     const toggle = () => {
         setIsOpen(!isopen);
     };
@@ -97,12 +97,12 @@ function EmployeeMainDashboard() {
                                     </div>
 
                                 </div>
-                                <EmployeeDasboardCards 
-                                        totalProjectCount={totalProjectCount} 
-                                        completedProjectCount={completedProjectCount} 
-                                        inproccessProjectCount={inproccessProjectCount} />
+                                <EmployeeDasboardCards
+                                    totalProjectCount={totalProjectCount}
+                                    completedProjectCount={completedProjectCount}
+                                    inproccessProjectCount={inproccessProjectCount} />
 
-                                <AssignInproccessSection 
+                                <AssignInproccessSection
                                     assignedProjects={assignedProjects}
                                     inproccessProject={inproccessProject}
                                 />
