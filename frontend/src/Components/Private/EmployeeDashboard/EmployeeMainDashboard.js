@@ -88,6 +88,7 @@ function EmployeeMainDashboard() {
                                                 src="static/assets/img/satisfaction.png"
                                                 className="customer_img"
                                                 alt="logo"
+                                                
                                             />
                                             <span className="Customer_fs ps-3 text-white">Avg Score |
                                                 <span className="Customer_count ms-2">44%</span></span>

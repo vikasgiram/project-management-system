@@ -61,7 +61,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         }
     };
 
-  
+
 
     return (
         <>
@@ -73,7 +73,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                     backgroundColor: "#00000090",
                 }}
             >
-       
+
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content p-3">
                         <form
@@ -124,7 +124,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                     </div> */}
 
 
-{/* <div className="step-container">
+                                    {/* <div className="step-container">
     {selectedTask.Actions && selectedTask.Actions.length > 0 && (
         <>
             <div className="step completed">
