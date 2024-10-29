@@ -143,16 +143,14 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 <Steps current={2}>
     <Steps.Item
         title={
-            selectedTask.Actions && selectedTask.Actions.length > 0
-                ? formatDateforTaskUpdate(selectedTask.Actions[0].endTime)
-                : "No actions available"
+             formatDateforTaskUpdate(selectedTask.startDate)
         }
     />
     <Steps.Item
         title={
             selectedTask.Actions && selectedTask.Actions.length > 0
                 ? formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)
-                : "No actions available"
+                : "No actions performed"
         }
     />
 </Steps>

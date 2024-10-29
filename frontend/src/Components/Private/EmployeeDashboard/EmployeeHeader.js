@@ -89,7 +89,7 @@ export const EmployeeHeader = (props) => {
 							>
 
 								<Link to="/UserProfile" className="dropdown-item">
-									<div className="drop_item_one my-1 text-danger">
+									<div className="drop_item_one my-1 fw-bold">
 										{/* {user.name} */}
 										{user ? user.name : "Guest"}
 										<i class=" ms-3 fa-solid fa-angle-right"></i>
