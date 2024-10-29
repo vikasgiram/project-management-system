@@ -140,17 +140,34 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     )}
 </div> */}
 
+<Steps current={2}>
+    <Steps.Item
+        title={
+            selectedTask.Actions && selectedTask.Actions.length > 0
+                ? formatDateforTaskUpdate(selectedTask.Actions[0].endTime)
+                : "No actions available"
+        }
+    />
+    <Steps.Item
+        title={
+            selectedTask.Actions && selectedTask.Actions.length > 0
+                ? formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)
+                : "No actions available"
+        }
+    />
+</Steps>
+
                                 </span>
 
-                                <div className="progress-steps">
+{/* <div className="progress-steps">
 
-                                    <Steps current={2}>
-
-                                        <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[0].endTime)} />
-                                        <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)} />
-
-                                    </Steps>
-                                </div>
+<Steps current={2}>
+    
+    <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[0].endTime)}  />
+    <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)} />
+  
+</Steps>
+</div> */}
 
                                 <div className="row modal_body_height mt-2">
                                     <div className="col-12 col-lg-12">
