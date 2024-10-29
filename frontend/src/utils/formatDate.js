@@ -47,3 +47,14 @@ export function formatDateforupdateSubcription(dateString) {
   // return `${month}-${day}-${year}`;
   return `${year}-${month}-${day}`;
 }
+
+export function formatDateforTaskUpdate(dateString) {
+  /**
+   * Format a date string from ISO 8601 to DD MMM YY
+   */
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear().toString().slice(-2); // Get last two digits of the year
+  return `${day} ${month} ${year}`;
+}

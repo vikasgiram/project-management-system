@@ -8,20 +8,12 @@ import ViewTaskPopUp from "./PopUp/ViewTaskPopUp";
 import { getMyProjects } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 
-
-
-
-
-
 export const EmployeeTaskGrid = () => {
-
-
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isopen);
     };
-
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [TaskPopUpShow, setTaskPopUpShow] = useState(false)
@@ -31,31 +23,24 @@ export const EmployeeTaskGrid = () => {
     const [selectedEmp, setSelectedEmp] = useState(null);
     const [loading, setLoading] = useState(true);
 
-
     const [projects, setProjects] = useState([])
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
-
-
     const handleViewTask = (id) => {
         setSelecteId(id);
         setTaskPopUpShow(!TaskPopUpShow)
     }
-
     const handleUpdate = (employee = null) => {
         setSelectedEmp(employee);
         // console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
     }
-
-
     const handelDeleteClosePopUpClick = (id) => {
         setSelecteId(id);
         setdeletePopUpShow(!deletePopUpShow);
     }
-
     // const handelDeleteClick = async () => {
     //     const data = await deleteEmployee(selectedId);
     //     if (data) {
@@ -65,9 +50,7 @@ export const EmployeeTaskGrid = () => {
     //     toast.error(data.error);
     // };
 
-
     useEffect(() => {
-
         const fetchData = async () => {
             try{
             const data = await getMyProjects();
@@ -83,11 +66,8 @@ export const EmployeeTaskGrid = () => {
             setLoading(false);
         }
         };
-
         fetchData();
     }, []);
-
-
     return (
         <>
             {loading && (
@@ -103,14 +83,12 @@ export const EmployeeTaskGrid = () => {
                         <EmployeeSidebar isopen={isopen} active="EmployeeTaskGrid" />
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
-
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
                                             My Projects
                                         </h5>
                                     </div>
-
                                     {/* <div className="col-12 col-lg-6  ms-auto text-end">
                                         <button
                                             onClick={() => {
@@ -118,18 +96,12 @@ export const EmployeeTaskGrid = () => {
                                             }}
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-
-
                                     </div> */}
-
                                 </div>
-
                                 <div className="row  bg-white p-2 m-1 border rounded" >
                                     <div className="col-12 py-2">
-
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-
                                                 <tr className="th_border" >
                                                     <th>Project No.</th>
                                                     <th>Project Name</th>
@@ -138,7 +110,6 @@ export const EmployeeTaskGrid = () => {
                                                     <th>Finish Date</th>
                                                     <th>Tasks</th>
                                                 </tr>
-
                                                 <tbody className="broder my-4">
                                                     {projects && projects.length>0 ? ( projects.map((project, index) => (
                                                     <tr className="border my-4" key={project.id}>
@@ -161,8 +132,7 @@ export const EmployeeTaskGrid = () => {
                                                             </td>
                                                         </tr>
                                                     )
-                                                    }
-                                                    
+                                                    }                               
                                                 </tbody>
                                             </table>
                                         </div>
@@ -174,7 +144,6 @@ export const EmployeeTaskGrid = () => {
                     </div>
                 </div>
             </div>
-
             {
                 deletePopUpShow ?
                     <DeletePopUP
@@ -184,8 +153,6 @@ export const EmployeeTaskGrid = () => {
                         heading="Delete"
                     /> : <></>
             }
-
-
             {TaskPopUpShow ?
                 <ViewTaskPopUp
                     message="Task"
@@ -195,7 +162,6 @@ export const EmployeeTaskGrid = () => {
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
             }
-
             {/* {updatePopUpShow ?
                 <UpdateEmployeePopUp
                     selectedEmp= {selectedEmp}
