@@ -56,39 +56,83 @@ const AddDesignationPopup = ({ handleAdd }) => {
 
   const handlePermissionChange = (permission, isChecked) => {
     setPermissions(prevPermissions => {
-      let newPermissions;
+      // Create a copy of the existing permissions
+      let newPermissions = [...prevPermissions];
   
       if (isChecked) {
-        newPermissions = [...prevPermissions, permission]; // Add the permission if checked
-      } else {
-        newPermissions = prevPermissions.filter(p => p !== permission); // Remove the permission if unchecked
-      }
+        // Add the permission if checked
+        if (!newPermissions.includes(permission)) {
+          newPermissions.push(permission);
+        }
   
-      // Check the dependencies
-      if ((permission === 'createEmployee' || permission === 'updateEmployee') && isChecked) {
-        
-        newPermissions = [...newPermissions, 'viewDesignation','viewDepartment'];
-      } 
-      else if ((permission === 'createProject' || permission === 'updateProject') && isChecked) {
-
-        newPermissions = [...newPermissions, 'viewCustomer'];
-      }
-      else if ((permission === 'createTaskSheet')  && isChecked) {
-
-        newPermissions = [...newPermissions, 'viewDepartment','viewEmployee'];
-      }
-      else if ((permission === 'createDesignation' || permission === 'updateDesignation')  && isChecked) {
-
-        newPermissions = [...newPermissions, 'viewDepartment'];
-      }
-      else if ((permission === 'viewEmployee') && !isChecked) {
-
-        newPermissions = newPermissions.filter(p => p !== 'updateCustomer');
+        // Add dependencies when permission is checked
+        switch (permission) {
+          case 'createEmployee':
+          case 'updateEmployee':
+            if (!newPermissions.includes('viewDesignation')) {
+              newPermissions.push('viewDesignation');
+            }
+            if (!newPermissions.includes('viewDepartment')) {
+              newPermissions.push('viewDepartment');
+            }
+            break;
+  
+          case 'createProject':
+          case 'updateProject':
+            if (!newPermissions.includes('viewCustomer')) {
+              newPermissions.push('viewCustomer');
+            }
+            break;
+  
+          case 'createTaskSheet':
+            if (!newPermissions.includes('viewDepartment')) {
+              newPermissions.push('viewDepartment');
+            }
+            if (!newPermissions.includes('viewEmployee')) {
+              newPermissions.push('viewEmployee');
+            }
+            break;
+  
+          case 'createDesignation':
+          case 'updateDesignation':
+            if (!newPermissions.includes('viewDepartment')) {
+              newPermissions.push('viewDepartment');
+            }
+            break;
+  
+        }
+      } else {
+        // Remove the permission if unchecked
+        newPermissions = newPermissions.filter(p => p !== permission);
+        // console.log(newPermissions,"unchecked");
+  
+        switch (permission) {
+          case 'createEmployee':
+          case 'updateEmployee':
+            newPermissions = newPermissions.filter(p => p !== 'viewDesignation' && p !== 'viewDepartment');
+            break;
+  
+          case 'createProject':
+          case 'updateProject':
+            newPermissions = newPermissions.filter(p => p !== 'viewCustomer');
+            break;
+  
+          case 'createTaskSheet':
+            newPermissions = newPermissions.filter(p => p !== 'viewDepartment' && p !== 'viewEmployee');
+            break;
+  
+          case 'createDesignation':
+          case 'updateDesignation':
+            newPermissions = newPermissions.filter(p => p !== 'viewDepartment');
+            break;
+  
+        }
       }
   
       return newPermissions;
     });
   };
+  
 
 
   
@@ -104,8 +148,9 @@ const AddDesignationPopup = ({ handleAdd }) => {
     if (!name || !department || permissions.length === 0) {
       return toast.error("Please fill all fields");
     }
-    console.log(data);
-    // await createDesignation(data);
+    // console.log(data);
+    await createDesignation(data);
+    toast.success("Designation created successfully");
     handleAdd();
   };
 
@@ -115,7 +160,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
       <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
-            <form onSubmit={handleEmployeeAdd}>
+            <form>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Create New Designation
@@ -170,23 +215,6 @@ const AddDesignationPopup = ({ handleAdd }) => {
                   </div>
                 </div>
 
-                {/* Permissions Multi-Select */}
-                {/* <div className="col-12 col-lg-6 mt-2">
-                  <label htmlFor="permissions" className="form-label label_text">
-                    Permissions
-                  </label>
-                  <Select
-                    isMulti // Enable multiple selection
-                    options={myPermisssion} // Pass the options array
-                    value={permissions} // The current selected permissions
-                    onChange={(selected) => setPermissions(selected)} // Update state when selections change
-                    placeholder="Select permissions"
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    closeMenuOnSelect={false}
-                  />
-                </div> */}
-
                 <div class="col-10 col-lg-12">
 
                 <label htmlFor="permissions" className="form-label label_text">
@@ -204,7 +232,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
                         <th >Delete</th>
                       </tr>
                       <tbody>
-                        {/* <tr>
+                         {/* <tr>
                           <td>Employee</td>
                           <td>
                             <div>
@@ -269,70 +297,9 @@ const AddDesignationPopup = ({ handleAdd }) => {
                               </label>
                             </div>
                           </td>
-                        </tr>
-
-                        <tr>
-                          <td>Customer</td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('createCustomer', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('viewCustomer', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('updateCustomer', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td> <td>
-                            <div>
-                              <label class="toggler-wrapper style-22">
-                              <input type="checkbox"
-                                onChange={(e) =>{
-                                  setIsChecked(e.target.checked);
-                                  handlePermissionChange('deleteCustomer', e.target.checked)}
-                                }
-                                />
-                                <div class="toggler-slider">
-                                  <div class="toggler-knob"></div>
-                                </div>
-                              </label>
-                            </div>
-                          </td>
                         </tr> */}
+
+                        
                         <tr>
   <td>Employee</td>
   <td>

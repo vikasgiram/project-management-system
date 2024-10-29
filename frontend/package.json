@@ -24,6 +24,7 @@
     "react-select": "^5.8.1",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
+    "rsuite": "^5.73.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
