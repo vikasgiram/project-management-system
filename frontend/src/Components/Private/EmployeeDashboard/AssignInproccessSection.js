@@ -28,7 +28,7 @@ export const AssignInproccessSection = ({
                     <tbody>
                       {assignedProjects.length === 0 ? (
                         <tr className="text-center">
-                          <td colSpan="4">No projects assigned</td>
+                          <td colSpan="4">No New Assigned Projects...</td>
                         </tr>
                       ) : (
                         assignedProjects.map((project) => (

@@ -109,7 +109,7 @@ exports.dashboard = async (req, res) => {
     // Count completed projects
     const completedCount = await Project.countDocuments({
       _id: { $in: uniqueProjectIds },
-      projectStatus: 'finished' // Count completed projects
+      projectStatus: 'completed' // Count completed projects
     });
 
     // Send the response with separate project lists and counts
