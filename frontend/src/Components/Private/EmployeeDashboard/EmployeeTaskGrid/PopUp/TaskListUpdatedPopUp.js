@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { updateTask } from "../../../../../hooks/useTaskSheet";
-import { formatDate } from "../../../../../utils/formatDate";
+import { formatDateforTaskUpdate } from "../../../../../utils/formatDate";
+import { Steps } from 'rsuite';
 const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 
     // const [action, setAction] = useState("");
     // const [startTime, setStartTime] = useState("");
     // const [ endTime, setEndTime] = useState("");
-    const [taskLevel, setTaskLevel] = useState(0);
+    const [taskLevel, setTaskLevel] = useState(selectedTask.taskLevel);
     const [taskStatus, setTaskStatus] = useState("");
     const [remark, setRemark] = useState("");
     const [Actions, setActions] = useState({
@@ -16,7 +17,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         endTime: "",
     });
 
-    console.log(selectedTask, "dcdkshbh");
+    // console.log(selectedTask, "dcdkshbh");
 
     const handleStatusChange = (status) => {
         setTaskStatus(status);
@@ -60,6 +61,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         }
     };
 
+  
+
     return (
         <>
             <div
@@ -70,6 +73,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                     backgroundColor: "#00000090",
                 }}
             >
+       
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content p-3">
                         <form
@@ -110,16 +114,43 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                         ))}
                                     </div> */}
 
-                                    <div class="step-container">
+                                    {/* <div class="step-container">
                                         {selectedTask.Actions && selectedTask.Actions.map((action, index) => (
                                             <div key={index} class="step completed">
                                                 <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                                <p><strong>{formatDate(action.endTime)}</strong></p>
+                                                <p><strong>{formatDateforTaskUpdate(action.endTime)}</strong></p>
                                             </div>
                                         ))}
-                                    </div>
+                                    </div> */}
+
+
+{/* <div className="step-container">
+    {selectedTask.Actions && selectedTask.Actions.length > 0 && (
+        <>
+            <div className="step completed">
+                <div className="icon"><i className="fa-solid fa-check"></i></div>
+                <p><strong>{formatDateforTaskUpdate(selectedTask.Actions[0].endTime)}</strong></p>
+            </div>
+
+            <div className="step completed">
+                <div className="icon"><i className="fa-solid fa-check"></i></div>
+                <p><strong>{formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)}</strong></p>
+            </div>
+        </>
+    )}
+</div> */}
+
                                 </span>
 
+<div className="progress-steps">
+
+<Steps current={2}>
+ 
+    <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[0].endTime)}  />
+    <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)} />
+  
+</Steps>
+</div>
 
                                 <div className="row modal_body_height mt-2">
                                     <div className="col-12 col-lg-12">

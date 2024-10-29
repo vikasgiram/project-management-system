@@ -98,12 +98,8 @@ export const DesignationMasterGird = () => {
                                             }}
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-
-
                                     </div>
-
                                 </div>
-
                                 <div className="row  bg-white p-2 m-1 border rounded" >
                                     <div className="col-12 py-2">
 
@@ -126,10 +122,7 @@ export const DesignationMasterGird = () => {
                                                             <td>
                                                                 {designation.name}
                                                             </td>
-
-
                                                             <td>
-
                                                                 <span
                                                                     onClick={() =>handelDeleteClosePopUpClick(designation._id) }
                                                                     className="delete">
@@ -139,15 +132,9 @@ export const DesignationMasterGird = () => {
                                                         </tr>
                                                     ))}
                                                 </tbody>
-
                                             </table>
                                         </div>
-
-
-
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
