@@ -22,7 +22,7 @@ export const CompanyInfEmployeeDashboardPieChartoPieChart = ({completedProjectCo
         opacity: 0
       },
     },
-    slices: { 0: { color: '#80C783' }, 1: { color: '#56AFFE' }} //56AFFE
+    slices: { 0: { color: '#80C783' }, 1: { color: '#ebc682' }} //56AFFE
 
 
   };
