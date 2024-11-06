@@ -7,13 +7,14 @@ import { toast } from "react-toastify";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
 import UpdateProjectPopup from "./PopUp/UpdateProjectPopup";
+import DownloadPopup from "./PopUp/DownloadProjectPopup";
 
 import { getProjects, deleteProject, exportProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 import GaintchartPoup from "./PopUp/GaintchartPoup";
 import { HashLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import { TaskSheetMaster } from "../TaskSheetMaster/TaskSheetMaster";
+
 
 export const ProjectMasterGrid = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export const ProjectMasterGrid = () => {
   const [deletePopUpShow, setdeletePopUpShow] = useState(false);
   const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
   const [DetailsPopUpShow, setDetailsPopUpShow] = useState(false);
+  const [DownloadPopUpShow, setDownloadPopUpShow] = useState(false);
 
   const [selectedId, setSelecteId] = useState(null);
   const [project, setProject] = useState([]);
@@ -51,6 +53,11 @@ export const ProjectMasterGrid = () => {
   const handelDeleteClosePopUpClick = (id) => {
     setSelecteId(id);
     setdeletePopUpShow(!deletePopUpShow);
+  };
+
+  const handleDownloads = () => {
+    // setSelectedProject(project);
+    setDownloadPopUpShow(!DownloadPopUpShow);
   };
 
   const handelDeleteClick = async () => {
@@ -139,7 +146,7 @@ export const ProjectMasterGrid = () => {
 
                       <button
                         onClick={() => {
-                          handleExport();
+                          handleDownloads(project);
                         }}
                         type="button"
                         className="btn adbtn btn-dark mx-3"
@@ -259,6 +266,22 @@ export const ProjectMasterGrid = () => {
       ) : (
         <></>
       )}
+      {DownloadPopUpShow ? (
+        <DownloadPopup
+        handleDownloads={handleDownloads}
+          // selectedProject={selectedProject}
+          // heading="Forward"
+          // cancelBtnCallBack={handleAddDepartment}
+        />
+      ) : (
+        <></>
+      )}
+      {/* {DownloadPopUpShow ? (
+    <DownloadPopup
+        handleDownloads={handleDownloads}
+        // selectedProject={selectedProject}
+    />
+) : null} */}
     </>
   );
 };
