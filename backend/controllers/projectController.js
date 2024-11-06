@@ -126,11 +126,32 @@ exports.create = async (req, res)=>{
 exports.exportProjects = async (req, res) => {
   try {
       const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-      const projects = await Project.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id })
-          .populate('custId', 'custName');
+      const { startDate, endDate, status } = req.body;
+
+      // Build query for projects based on filters
+      const query = {
+          company: decoded.user.company ? decoded.user.company : decoded.user._id,
+          ...(status && { projectStatus: status }), // Include status only if specified
+      };
+
+      // Handle startDate and endDate filtering
+      if (startDate) {
+          query.startDate = { $gte: new Date(startDate) }; // Include projects starting from the provided start date
+      }
+
+      if (endDate) {
+          query.endDate = { $lte: new Date(endDate) }; // Include projects ending by the provided end date
+      } else {
+          query.endDate = { $lte: new Date() }; // If no end date is provided, include projects up to the current date
+      }
+
+      const projects = await Project.find(query).populate('custId', 'custName');
 
       // Create a new PDF document
       const doc = new PDFDocument();
+      const tableWidth = 500;
+      const columnCount = 9; // Number of columns after removing "PO No"
+      const columnWidth = tableWidth / columnCount;
 
       // Set response headers for PDF download
       res.setHeader('Content-Type', 'application/pdf');
@@ -143,22 +164,64 @@ exports.exportProjects = async (req, res) => {
       doc.fontSize(16).text('Projects Report', { align: 'center' });
       doc.moveDown();
 
-      projects.forEach((project, index) => {
-          doc.fontSize(14).text(`Project ${index + 1}: ${project.name}`);
-          doc.fontSize(12).text(`Customer: ${project.custId ? project.custId.custName : 'N/A'}`);
-          doc.text(`Purchase Order No: ${project.purchaseOrderNo}`);
-          doc.text(`Purchase Order Date: ${project.purchaseOrderDate}`);
-          doc.text(`Purchase Order Value: ${project.purchaseOrderValue}`);
-          doc.text(`Category: ${project.category}`);
-          doc.text(`Start Date: ${project.startDate}`);
-          doc.text(`End Date: ${project.endDate}`);
-          doc.text(`Advance Payment: ${project.advancePay}`);
-          doc.text(`Pay Against Delivery: ${project.payAgainstDelivery}`);
-          doc.text(`Pay After Completion: ${project.payfterCompletion}`);
-          doc.text(`Remarks: ${project.remark}`);
-          doc.text(`Project Status: ${project.projectStatus}`);
-          doc.moveDown();
+      // Table header
+      const tableHeaders = [
+          'S.No', 'Project Name', 'Customer', 'PO Date', 
+          'PO Value', 'Category', 'Start Date', 'End Date', 
+          'Project Status'
+      ];
+
+      // Draw the header row
+      let y = doc.y; // Store the current y position
+      doc.fontSize(12).font('Helvetica-Bold');
+      tableHeaders.forEach((header, index) => {
+          doc.rect(50 + index * columnWidth, y, columnWidth, 30).stroke(); // Draw cell border
+          doc.text(header, 50 + index * columnWidth + 5, y + 5, { width: columnWidth - 10, align: 'center' }); // Add header text
       });
+      y += 30; // Move down for the next row
+
+      // Draw a line below the header
+      doc.moveTo(50, y).lineTo(50 + tableWidth, y).stroke();
+      y += 5; // Move down for the data rows
+
+      // Draw table rows
+      doc.fontSize(10).font('Helvetica'); // Decreased font size for data
+      projects.forEach((project, index) => {
+          const rowData = [
+              index + 1,
+              project.name,
+              project.custId ? project.custId.custName : 'N/A',
+              project.purchaseOrderDate ? project.purchaseOrderDate.toDateString() : 'N/A',
+              project.purchaseOrderValue.toString(),
+              project.category,
+              project.startDate ? project.startDate.toDateString() : 'N/A',
+              project.endDate ? project.endDate.toDateString() : 'N/A',
+              project.projectStatus || 'N/A' // Show 'N/A' if project status is not specified
+          ];
+
+          const rowHeight = 30; // Default row height
+          let maxRowHeight = rowHeight; // Track the maximum height needed for this row
+
+          // Calculate the height needed for each cell based on its content
+          rowData.forEach((data, index) => {
+              const textHeight = doc.heightOfString(data, { width: columnWidth - 10 });
+              const cellHeight = Math.ceil(textHeight / 10) * 10; // Round up to nearest 10 for height
+              if (cellHeight > maxRowHeight) {
+                  maxRowHeight = cellHeight; // Update max height if current cell needs more space
+              }
+          });
+
+          // Draw the cells with the calculated height
+          rowData.forEach((data, index) => {
+              doc.rect(50 + index * columnWidth, y, columnWidth, maxRowHeight).stroke(); // Draw cell border
+              doc.text(data, 50 + index * columnWidth + 5, y + 5, { width: columnWidth - 10, align: 'center', height: maxRowHeight }); // Add cell text
+          });
+
+          y += maxRowHeight; // Move down for the next row
+      });
+
+      // Draw the outer border of the table
+      doc.rect(50, 60, tableWidth, y - 60).stroke(); // Adjust the height as needed
 
       // Finalize the PDF and end the stream
       doc.end();

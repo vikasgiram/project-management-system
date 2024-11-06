@@ -63,7 +63,9 @@ export const ProjectMasterGrid = () => {
   };
 
   const handleExport = async () => {
-    await exportProject();
+    if(!startDate)
+      return toast.error("Start Date is Required field...");
+    await exportProject(startDate, endDate, status);
 };
 
   // useEffect(() => {

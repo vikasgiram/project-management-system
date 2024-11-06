@@ -56,9 +56,9 @@ const createProject = async (projectData) => {
   }
 };
 
-const exportProject = async () => {
+const exportProject = async (startDate, endDate, status) => {
   try {
-    const response = await axios.get(`${url}/export-pdf`, {
+    const response = await axios.get(`${url}/export-pdf`, { startDate, endDate, status }, {
       responseType: "blob",
     });
     const URL = window.URL.createObjectURL(new Blob([response.data]));
