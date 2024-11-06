@@ -7,12 +7,14 @@ router.get('/', permissionMiddleware(['viewProject']), projectController.showAll
 
 router.get('/my', permissionMiddleware(['viewProject']), projectController.myProjects);
 
-router.get('/:id', permissionMiddleware(['viewProject']), projectController.getProject);
 
 router.get('/search',permissionMiddleware(['viewProject']), projectController.search);
 
+router.get('/export-pdf', projectController.exportProjects);
 
 router.post('/', permissionMiddleware(['createProject']) ,projectController.create);
+
+router.get('/:id', permissionMiddleware(['viewProject']), projectController.getProject);
 
 router.put('/:id', permissionMiddleware(['updateProject']), projectController.updateProject);
 

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const moment = require('moment');
 const { ObjectId } = require('mongodb');
+const PDFDocument = require('pdfkit');
 
 const Project = require('../models/projectModel');
 const Tasksheet = require('../models/taskSheetModel');
@@ -45,7 +45,7 @@ exports.showAll = async (req, res) => {
       }
       res.status(200).json(project);
     } catch (error) {
-      res.status(500).json({error:"Error in getProject: "+error.message});
+      res.status(500).json({error:"Error in getProject Controller : "+error.message});
     }
   };
 
@@ -120,6 +120,52 @@ exports.create = async (req, res)=>{
     } catch (error) {
         res.status(500).json({error:"Error while creating Project: "+error.message});
     }
+};
+
+
+exports.exportProjects = async (req, res) => {
+  try {
+      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const projects = await Project.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id })
+          .populate('custId', 'custName');
+
+      // Create a new PDF document
+      const doc = new PDFDocument();
+
+      // Set response headers for PDF download
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=projects_report.pdf');
+
+      // Pipe the PDF document to the response
+      doc.pipe(res);
+
+      // Add content to the PDF
+      doc.fontSize(16).text('Projects Report', { align: 'center' });
+      doc.moveDown();
+
+      projects.forEach((project, index) => {
+          doc.fontSize(14).text(`Project ${index + 1}: ${project.name}`);
+          doc.fontSize(12).text(`Customer: ${project.custId ? project.custId.custName : 'N/A'}`);
+          doc.text(`Purchase Order No: ${project.purchaseOrderNo}`);
+          doc.text(`Purchase Order Date: ${project.purchaseOrderDate}`);
+          doc.text(`Purchase Order Value: ${project.purchaseOrderValue}`);
+          doc.text(`Category: ${project.category}`);
+          doc.text(`Start Date: ${project.startDate}`);
+          doc.text(`End Date: ${project.endDate}`);
+          doc.text(`Advance Payment: ${project.advancePay}`);
+          doc.text(`Pay Against Delivery: ${project.payAgainstDelivery}`);
+          doc.text(`Pay After Completion: ${project.payfterCompletion}`);
+          doc.text(`Remarks: ${project.remark}`);
+          doc.text(`Project Status: ${project.projectStatus}`);
+          doc.moveDown();
+      });
+
+      // Finalize the PDF and end the stream
+      doc.end();
+  } catch (error) {
+      console.error("Export error:", error);
+      res.status(500).json({ error: "Error exporting projects: " + error.message });
+  }
 };
 
 exports.delete = async (req, res) => {

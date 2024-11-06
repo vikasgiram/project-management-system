@@ -8,7 +8,7 @@ import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddProjectPopup from "./PopUp/AddProjectPopup";
 import UpdateProjectPopup from "./PopUp/UpdateProjectPopup";
 
-import { getProjects, deleteProject } from "../../../../hooks/useProjects";
+import { getProjects, deleteProject, exportProject } from "../../../../hooks/useProjects";
 import { formatDate } from "../../../../utils/formatDate";
 import GaintchartPoup from "./PopUp/GaintchartPoup";
 import { HashLoader } from "react-spinners";
@@ -61,6 +61,10 @@ export const ProjectMasterGrid = () => {
     }
     toast.error(data.error);
   };
+
+  const handleExport = async () => {
+    await exportProject();
+};
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -132,7 +136,19 @@ export const ProjectMasterGrid = () => {
                         {" "}
                         <i className="fa-solid fa-plus"></i> Add
                       </button>
+
+                      <button
+                        onClick={() => {
+                          handleExport();
+                        }}
+                        type="button"
+                        className="btn adbtn btn-dark mx-3"
+                      >
+                        {" "}
+                        <i class="fa-solid fa-download"></i> Download Report
+                      </button>
                     </div>
+
                   </div>
 
                   <div className="row  bg-white p-2 m-1 border rounded">

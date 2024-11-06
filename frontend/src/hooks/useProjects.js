@@ -1,7 +1,7 @@
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const url="api/project";
+const url = "api/project";
 
 const getProjects = async () => {
   try {
@@ -39,7 +39,7 @@ const getMyProjects = async () => {
 
 const createProject = async (projectData) => {
   try {
-    console.log("project Data in api",projectData);
+    console.log("project Data in api", projectData);
     const response = await axios.post(`${url}`, projectData);
     const data = response.data;
 
@@ -56,9 +56,29 @@ const createProject = async (projectData) => {
   }
 };
 
+const exportProject = async () => {
+  try {
+    const response = await axios.get(`${url}/export-pdf`, {
+      responseType: "blob",
+    });
+    const URL = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = URL;
+    link.setAttribute("download", "projects_report.pdf");
+    document.body.appendChild(link);
+    link.click();
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.error || "Error exporting projects");
+  }
+};
+
 const updateProject = async (updatedProjectData) => {
   try {
-    const response = await axios.put(`${url}/${updatedProjectData._id}`, updatedProjectData);
+    const response = await axios.put(
+      `${url}/${updatedProjectData._id}`,
+      updatedProjectData
+    );
     const data = response.data;
 
     if (data.error) {
@@ -71,7 +91,6 @@ const updateProject = async (updatedProjectData) => {
   } catch (error) {
     console.error(error);
     toast.error(error.response.data.error);
-
   }
 };
 
@@ -109,4 +128,12 @@ const getProject = async (Id) => {
   }
 };
 
-export { getProjects,  createProject, updateProject, deleteProject,getProject, getMyProjects };
+export {
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+  getProject,
+  getMyProjects,
+  exportProject
+};
