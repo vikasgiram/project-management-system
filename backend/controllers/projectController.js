@@ -126,7 +126,8 @@ exports.create = async (req, res)=>{
 exports.exportProjects = async (req, res) => {
   try {
       const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-      const { startDate, endDate, status } = req.body;
+      const { startDate, endDate, status } = req.params;
+
 
       // Build query for projects based on filters
       const query = {

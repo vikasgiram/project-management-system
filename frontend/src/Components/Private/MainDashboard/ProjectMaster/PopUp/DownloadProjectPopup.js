@@ -1,19 +1,23 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { exportProject } from "../../../../../hooks/useProjects";
 
 const DownloadPopup = ({ handleDownloads }) => {
   const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [status, setStatus] = useState("upcoming");
+  const [endDate, setEndDate] = useState();
+  const [status, setStatus] = useState();
 
-  const handleDownloadClick = () => {
-    if (!startDate || !endDate) {
-      toast.error("Please select both start and end dates.");
-      return;
+  const handleDownloadClick = async() => {
+    
+    if(!startDate){
+      return toast.error("Start Date is Required field...");
     }
+    await exportProject(startDate, endDate, status);
 
-    handleDownloads({ startDate, endDate, status });
+
+    handleDownloads();
   };
+
 
   return (
     <>
