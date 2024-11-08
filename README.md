@@ -53,7 +53,7 @@ Manual task management can lead to miscommunication and lack of accountability. 
 ### 4. Data Security and Access Control
 In many systems, data access lacks restriction, which can lead to security vulnerabilities. This project’s role-based access control ensures employees only see information relevant to their role, enhancing data security and preventing data breaches.
 
-###5. Historical Record and Compliance
+### 5. Historical Record and Compliance
 Auditing and compliance require a comprehensive historical record, often missing in project management solutions. This system’s audit trail and historical data storage allow for complete data transparency, helping companies meet regulatory standards and perform thorough internal audits.
 
 ## Technologies Used
@@ -70,7 +70,7 @@ Auditing and compliance require a comprehensive historical record, often missing
 - Email notifications for task assignments and deadlines.
 - Advanced analytics for project and employee performance tracking.
   
-##Contribution
+## Contribution
 - Contributions are welcome! Please feel free to submit a pull request or raise an issue for any feature requests or bugs.
 
 ## License
