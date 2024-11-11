@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
+const { ObjectId } = require("mongodb");
 const Employee = require('../models/employeeModel');
 const Project = require('../models/projectModel');
 const EmployeeHistory = require('../models/employeeHistoryModel');
@@ -194,57 +194,56 @@ exports.deleteEmployee = async (req, res) => {
 exports.updateEmployee = async (req, res) => {
   try {
     // Fetch original employee data before update
-    const originalEmployee = await Employee.findById(req.params.id);
+    const {id} = req.params;
+    const originalData = await Employee.findById(id);
+    const {name, department, mobileNo, hourlyRate, designation, email}= req.body
 
-    if (!originalEmployee) {
+    
+    if (!originalData) {
       return res.status(404).json({ error: 'Employee not found' });
     }
+    
+    const updateData = {
+      name,
+      department,
+      mobileNo,
+      hourlyRate,
+      designation,
+      email
+    };
 
-    const updateData = {};
-    for (const key in req.body) {
-      if (key !== 'username' && key !== 'password' && key !== '_id') {
-        // Check if the field is a department or designation and only store the _id
-        if (key === 'department' || key === 'designation') {
-          updateData[key] = req.body[key]._id; // Extract only the _id
-        } else {
-          updateData[key] = req.body[key];
-        }
+    let changes=[];
+ 
+    const trackChanges = (fieldName, oldValue, newValue) => {
+      if (typeof newValue === 'object' && newValue._id) {
+        newValue = new ObjectId(newValue._id);
+      }
+      if (oldValue.toString() !== newValue.toString()) {
+        changes.push({
+          employeeId: id,
+          fieldName: fieldName,
+          oldValue: oldValue,
+          newValue: newValue,
+          changeReason: req.body.changeReason || 'Updated via Employee edit',
+        });
+      }
+    };
+
+    for (const key in updateData) {
+      if (updateData[key] !== originalData[key]) {
+        trackChanges(key, originalData[key], updateData[key]);
       }
     }
-
-    // Update employee data
-    const employee = await Employee.findByIdAndUpdate(req.params.id, { $set: updateData }, { new: true });
-
-    if (!employee) {
-      return res.status(404).json({ error: 'Employee not found' });
-    }
-
-    // Log changes to history
-    const changes = Object.keys(updateData)
-      .map(key => {
-        const originalValue = originalEmployee[key];
-        const newValue = updateData[key];
-
-        // Only log changes if values are different
-        if (JSON.stringify(originalValue) !== JSON.stringify(newValue)) {
-          return {
-            fieldName: key,
-            oldValue: originalValue,
-            newValue: newValue,
-            changeDate: new Date(),
-            changeReason: 'Employee update',
-            employeeId: req.params.id,
-          };
-        }
-      })
-      .filter(change => change); // Filter out undefined values
 
     if (changes.length > 0) {
       await EmployeeHistory.insertMany(changes);
     }
+    console.log(updateData);
+    await Employee.findByIdAndUpdate(id, { $set: updateData });
 
     res.status(200).json({ message: 'Employee data updated successfully' });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: 'Error while updating Employee: ' + error.message });
   }
 };
