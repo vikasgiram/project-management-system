@@ -89,7 +89,7 @@ export const ProjectDurationBar = ({duration}) => {
                 <Bar
                     options={FirstCompBar}
                     data={FirstCompdata}
-                    height={'120px'}
+                    height={'65px'}
                 />
             </div>
         </div>
