@@ -60,8 +60,9 @@ const DownloadPopup = ({ handleDownloads }) => {
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
                 >
+                  <option value="">Select Status</option>
                   <option value="upcoming">Upcoming</option>
-                  <option value="inprocess">InProcess</option>
+                  <option value="inprocess">Inprocess</option>
                   <option value="completed">Complete</option>
                 </select>
               </div>

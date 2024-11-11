@@ -5,9 +5,7 @@ import { formatDateforTaskUpdate } from "../../../../../utils/formatDate";
 import { Steps } from 'rsuite';
 const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 
-    // const [action, setAction] = useState("");
-    // const [startTime, setStartTime] = useState("");
-    // const [ endTime, setEndTime] = useState("");
+    const [isVisible, setIsVisible] = useState(false);
     const [taskLevel, setTaskLevel] = useState(selectedTask.taskLevel);
     const [taskStatus, setTaskStatus] = useState("");
     const [remark, setRemark] = useState("");
@@ -17,7 +15,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         endTime: "",
     });
 
-    // console.log(selectedTask, "dcdkshbh");
+    console.log(selectedTask, "dcdkshbh");
 
     const handleStatusChange = (status) => {
         setTaskStatus(status);
@@ -27,6 +25,9 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         }
     };
 
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible);
+      };
 
     const handelTaskUpdate = async (event) => {
 
@@ -157,20 +158,46 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 
                                 </span>
 
-{/* <div className="progress-steps">
-
-<Steps current={2}>
-    
-    <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[0].endTime)}  />
-    <Steps.Item title={formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)} />
-  
-</Steps>
-</div> */}
-
+                                                  
                                 <div className="row modal_body_height mt-2">
                                     <div className="col-12 col-lg-12">
-                                        <div className="mb-3">
-                                            <label htmlFor="Action" className="form-label label_text">
+                                <button 
+                                type="button"
+                                className="w-80 btn btn-sm addbtn rounded-0 add_button m-2 px-4 float-end"
+                                onClick={toggleVisibility}>
+        {isVisible ? 'Hide' : 'Show More...'}
+      </button>
+
+      {isVisible && (
+        <div >
+            <table
+                 className="table table-striped table-class"
+                        id="table-id"
+            >
+            <tr className="th_border">
+                          <th>Actions</th>
+                          <th>Action By</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                        </tr>
+                <tbody className="broder my-4">
+          {selectedTask.Actions && selectedTask.Actions.map((action, index) => (      
+              <tr className="border my-4" key={index}>
+                <td>{action.action}</td>
+                <td>{action.actionBy.name}</td>
+                <td>{formatDateforTaskUpdate(action.startTime)}</td>
+                <td>{formatDateforTaskUpdate(action.endTime)}</td>
+              </tr>
+          ))}
+          </tbody>
+          </table>
+        </div>
+      )}
+      </div>
+                                    <div className="col-12 col-lg-12 ">
+                                        <div className="md-3">
+                                            
+                                            <label htmlFor="Action" className="form-label label_text ">
                                                 Action
                                             </label>
                                             <textarea

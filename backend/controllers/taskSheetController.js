@@ -59,8 +59,11 @@ exports.myTask = async (req, res) => {
     const task = await TaskSheet.find({
       company: decoded.user.company,
       employees: decoded.user._id,
-      project:projectId
-    }).populate('taskName','name');
+      project: projectId
+    })
+    .populate('taskName', 'name') 
+    .populate('Actions.actionBy', 'name'); 
+    
 
     if (task.length <= 0) {
       return res.status(400).json({ error: "Their is no task" });
