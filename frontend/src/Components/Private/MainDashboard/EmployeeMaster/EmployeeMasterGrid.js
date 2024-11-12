@@ -156,8 +156,8 @@ export const EmployeeMasterGrid = () => {
                                                             <td>{index + 1}</td>
                                                             <td>{employee.name}</td>
                                                             <td>{employee.email}</td>
-                                                            <td>{employee.department.name}</td>
-                                                            <td>{employee.designation.name}</td>
+                                                            <td>{employee.department&&employee.department.name}</td>
+                                                            <td>{employee.designation&& employee.designation.name}</td>
                                                             <td>
                                                                 <span
                                                                     onClick={() => handleUpdate(employee)}
