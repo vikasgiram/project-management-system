@@ -22,6 +22,7 @@ export const Header = (props) => {
 
 
 	function toggleuser() {
+		
 		let side = document.getElementById("userdata")
 		side.classList.toggle("hidden1")
 		side.classList.toggle("visible")
@@ -107,7 +108,7 @@ export const Header = (props) => {
 
 									<div className="drop_item_two my-1">
 										<i className="text-danger mr-2" >
-											signoff
+										<i class="fa-solid fa-power-off"></i> signoff
 										</i>
 
 									</div>
