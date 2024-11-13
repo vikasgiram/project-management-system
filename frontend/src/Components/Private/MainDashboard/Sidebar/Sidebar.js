@@ -50,6 +50,9 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     />
                 </span>
 
+
+
+
             </div>
             <nav
                 className="sidebar  sidebar-offcanvas" id="sidebar"
@@ -59,7 +62,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
 
 
                     <li
-                    title="Dashboard"
+                        title="Dashboard"
                         className={Open || active === "dashboard" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/MainDashboard' className="nav-link ">
                             <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
@@ -73,7 +76,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
-                    title="Employee Master"
+                        title="Employee Master"
                         className={Open || active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMasterGrid' className="nav-link ">
                             <i class="fa-solid fa-user-group ps-3 side_icon_fs"></i>
@@ -88,7 +91,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
-                    title="Customer Master"
+                        title="Customer Master"
                         className={Open || active === "CustomerMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/CustomerMasterGrid' className="nav-link ">
                             <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i>
@@ -104,7 +107,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
 
 
                     <li
-                    title="Project Master"
+                        title="Project Master"
                         className={Open || active === "ProjectMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/ProjectMasterGrid' className="nav-link ">
                             <i class="fa-solid fa-list-check ps-3 side_icon_fs"></i>
@@ -135,12 +138,13 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
 
 
                     <li
-                    title="Designation Master"
+                        title="Designation Master"
                         className={Open || active === "DesignationMasterGird" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/DesignationMasterGird' className="nav-link ">
                             {/* <i className="fa-solid fa-circle dic_style  "></i>   */}
                             {/* <i className="fa-solid fa-asterisk ps-3 star_fs" ></i> */}
-                            <i className="fa-brands fa-usps ps-3 side_icon_fs"></i>
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-diamond ps-3 side_icon_fs"></i>
                             <span
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
@@ -152,7 +156,7 @@ export const Sidebar = ({ isopen, active, subMenu }) => {
 
 
                     <li
-                    title="Task Master"
+                        title="Task Master"
                         className={Open || active === "TaskMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/TaskMasterGrid' className="nav-link ">
                             {/* <i class="fa-solid fa-circle dic_style  "></i>   */}

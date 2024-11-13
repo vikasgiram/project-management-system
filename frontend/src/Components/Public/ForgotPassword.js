@@ -95,8 +95,6 @@ export const ForgotPassword = () => {
                     )}
                   </button>
                 </form>
-
-
               </div>
 
             </div>
@@ -104,7 +102,6 @@ export const ForgotPassword = () => {
 
           <div className="col-12 col-md-7 col-lg-5 px-5  mx-auto   d-none d-lg-block"></div>
         </div>
-
       </div>
     </>
   );
