@@ -37,7 +37,7 @@ export const Mailsentsuccessfully = () => {
 
                                 <a href=""
                                     onClick={() => navigation('/')}
-                                >Back to login page</a>
+                                > <i class="fa-solid fa-angle-left"></i>  Back to login page</a>
 
                             </div>
 

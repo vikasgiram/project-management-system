@@ -21,10 +21,14 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
         department: selectedDept,
         designation: "", // Reset designation when department changes
       }));
+      setDesignations([]);
     } else {
       setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
     }
   };
+
+  // console.log(employee,"ds");
+  
 
   const handleEmpUpdate = async (event) => {
 
@@ -170,7 +174,7 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         onChange={handleChange}
                       >
                         <option value="" disabled>
-                          {employee.department ? employee.department.name : "Select Department"}
+                          {employee.department.name}
                         </option>
                         {departments.map((department) => (
                           <option
@@ -193,9 +197,11 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         name="designation"
                         className="form-select rounded-0"
                         onChange={handleChange}
+                        value={employee.designation._id}
                       >
                         <option value="" disabled>
-                          {employee.designation ? employee.designation.name : "Select Designation"}
+                          {/* {employee.designation.name} */}
+                          {employee.designation.name}
                         </option>
                         {designations.map((designation) => (
                           <option

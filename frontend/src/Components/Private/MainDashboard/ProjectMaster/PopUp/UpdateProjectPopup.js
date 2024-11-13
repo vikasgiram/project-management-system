@@ -203,7 +203,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <label for="PurchaseOrderNumber" 
                                             name="purchaseOrderNo"
                                             className="form-label label_text">Purchase Order Number</label>
-                                            <input type="number" className="form-control rounded-0" id="PurchaseOrderNumber" 
+                                            <input type="text" className="form-control rounded-0" id="PurchaseOrderNumber" 
                                             name="purchaseOrderNo"
                                             value={projects.purchaseOrderNo} onChange={handleChange}  aria-describedby="emailHelp" />
                                         </div>
