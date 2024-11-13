@@ -15,7 +15,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         endTime: "",
     });
 
-    console.log(selectedTask, "dcdkshbh");
+    // console.log(selectedTask, "dcdkshbh");
 
     const handleStatusChange = (status) => {
         setTaskStatus(status);
@@ -54,7 +54,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 
         try {
             await updateTask(selectedTask._id, data);
-            console.log(data, "updated data");
+            // console.log(data, "updated data");
 
             handleUpdateTask();
         } catch (error) {
@@ -106,40 +106,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                         </div>
                                     </div>
 
-                                    {/* <div class="step-container">
-                                        {selectedTask.Actions || selectedTask.Actions.map((action, index) => (
-                                            <div class="step completed">
-                                            <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                            <p> <strong>2024-10-01</strong></p>
-                                        </div>
-                                        ))}
-                                    </div> */}
 
-                                    {/* <div class="step-container">
-                                        {selectedTask.Actions && selectedTask.Actions.map((action, index) => (
-                                            <div key={index} class="step completed">
-                                                <div class="icon"><i class="fa-solid fa-check"></i></div>
-                                                <p><strong>{formatDateforTaskUpdate(action.endTime)}</strong></p>
-                                            </div>
-                                        ))}
-                                    </div> */}
-
-
-                                    {/* <div className="step-container">
-    {selectedTask.Actions && selectedTask.Actions.length > 0 && (
-        <>
-            <div className="step completed">
-                <div className="icon"><i className="fa-solid fa-check"></i></div>
-                <p><strong>{formatDateforTaskUpdate(selectedTask.Actions[0].endTime)}</strong></p>
-            </div>
-
-            <div className="step completed">
-                <div className="icon"><i className="fa-solid fa-check"></i></div>
-                <p><strong>{formatDateforTaskUpdate(selectedTask.Actions[selectedTask.Actions.length - 1].endTime)}</strong></p>
-            </div>
-        </>
-    )}
-</div> */}
 
 <Steps current={2}>
     <Steps.Item
@@ -179,6 +146,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                           <th>Action By</th>
                           <th>Start Date</th>
                           <th>End Date</th>
+                          <th>Edit</th>
                         </tr>
                 <tbody className="broder my-4">
           {selectedTask.Actions && selectedTask.Actions.map((action, index) => (      
@@ -187,12 +155,20 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                 <td>{action.actionBy.name}</td>
                 <td>{formatDateforTaskUpdate(action.startTime)}</td>
                 <td>{formatDateforTaskUpdate(action.endTime)}</td>
+                 <td>
+              {index === selectedTask.Actions.length - 1 && (
+                <button type="button" onClick={() => console.log('Edit action')}>Edit</button>
+              )}
+            </td>
               </tr>
           ))}
           </tbody>
           </table>
         </div>
       )}
+
+
+
       </div>
                                     <div className="col-12 col-lg-12 ">
                                         <div className="md-3">

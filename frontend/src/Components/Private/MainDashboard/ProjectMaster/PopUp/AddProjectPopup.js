@@ -156,13 +156,13 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                     <div className="mb-3">
                       <label for="purchaseOrderNo" className="form-label label_text">Purchase Order Number</label>
-                      <input type="number" className="form-control rounded-0" id="purchaseOrderNo" onChange={(e) => setPurchaseOrderNo(e.target.value)} value={purchaseOrderNo} aria-describedby="emailHelp" />
+                      <input type="text" className="form-control rounded-0" id="purchaseOrderNo" onChange={(e) => setPurchaseOrderNo(e.target.value)} value={purchaseOrderNo} aria-describedby="emailHelp" />
                     </div>
 
                 </div>
                 <div className="col-12 col-lg-6 mt-2" >
                     <div className="mb-3">
-                      <label for="purchaseOrderValue" className="form-label label_text">Purchase Order Value (Rs/USD)
+                      <label for="purchaseOrderValue" className="form-label label_text">Purchase Order Value (Rs)
                       </label>
                       <input type="number" className="form-control rounded-0" id="purchaseOrderValue" onChange={(e) => setPurchaseOrderValue(e.target.value)} value={purchaseOrderValue} aria-describedby="emailHelp" />
                     </div>
