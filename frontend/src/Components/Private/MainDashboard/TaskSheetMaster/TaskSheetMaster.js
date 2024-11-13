@@ -79,7 +79,7 @@ export const TaskSheetMaster = () => {
         handleTaskAdd();
     }
     const handleTaskChange = (task) => {
-        console.log("On date change Id:" + task.id);
+        // console.log("On date change Id:" + task.id);
         let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
         if (task.project) {
             const [start, end] = getStartEndDateForProject(newTasks, task.project);
@@ -106,17 +106,17 @@ export const TaskSheetMaster = () => {
     };
     const handleProgressChange = async (task) => {
         setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-        console.log("On progress change Id:" + task.id);
+        // console.log("On progress change Id:" + task.id);
     };
     const handleDblClick = (task) => {
         alert("On Double Click event Id:" + task.id);
     };
     const handleSelect = (task, isSelected) => {
-        console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
+        // console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
     };
     const handleExpanderClick = (task) => {
         setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-        console.log("On expander click Id:" + task.id);
+        // console.log("On expander click Id:" + task.id);
     };
 
 
@@ -125,7 +125,7 @@ export const TaskSheetMaster = () => {
             try {
 
                 const response = await getTaskSheet(id);
-                // console.log(response.task[0].project.name);
+                console.log(response);
                 
                 setProjectName(response.task[0].project.name);
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
@@ -203,7 +203,7 @@ export const TaskSheetMaster = () => {
         fetchData();
     }, [department]);
 
-    // console.log(employees,"employee");
+ 
 
 
     const transformProjectToTasks = (projectData) => {
@@ -231,7 +231,7 @@ export const TaskSheetMaster = () => {
             progress: task.taskLevel || 0,  // Set default to 0 if undefined
         }));
         
-        console.log("Task list"+taskList);
+        // console.log("Task list"+taskList);
         // Return an array containing the project task followed by its task list
         return [projectTask, ...taskList];
     };
