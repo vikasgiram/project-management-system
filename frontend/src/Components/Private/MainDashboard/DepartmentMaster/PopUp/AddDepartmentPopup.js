@@ -38,7 +38,8 @@ const AddDepartmentPopup = ({ handleAdd }) => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <div className="row modal_body_height">
+                            <div className="row ">
+                            {/* modal_body_height */}
                                 <div className="col-12" >
 
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { createCustomer } from "../../../../../hooks/useCustomer";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const AddCustomerPopUp = ({ handleAdd }) => {
   const [custName, setCustName] = useState("");
@@ -96,26 +97,26 @@ const AddCustomerPopUp = ({ handleAdd }) => {
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
             <form onSubmit={handleCustomerAdd}>
-            <div className="modal-header pt-0">
-              <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                Create New Customer
-                {/* Forward */}
-              </h5>
-              <button
-                onClick={() => handleAdd()}
-                type="button"
-                className="close px-3"
-                style={{ marginLeft: "auto" }}
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="row modal_body_height">
-                <div className="col-12">
+              <div className="modal-header pt-0">
+                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                  Create New Customer
+                  {/* Forward */}
+                </h5>
+                <button
+                  onClick={() => handleAdd()}
+                  type="button"
+                  className="close px-3"
+                  style={{ marginLeft: "auto" }}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row modal_body_height">
+                  <div className="col-12">
                     <div className="">
                       <label for="FullName" className="form-label label_text">
-                        Full Name
+                        Full Name <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -124,15 +125,15 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         value={custName}
                         onChange={(e) => setCustName(e.target.value)}
                         aria-describedby="nameHelp"
-                        required 
+                        required
                       />
                     </div>
-                </div>
+                  </div>
 
-                <div className="col-12">
+                  <div className="col-12 mt-3">
                     <div className="mb-3">
                       <label for="email" className="form-label label_text">
-                        Email
+                        Email <RequiredStar />
                       </label>
                       <input
                         type="email"
@@ -141,23 +142,24 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
-                </div>
+                  </div>
 
-                <div className="col-12  mt-2">
-                  <div className="row border bg-gray mx-auto">
-                    <div className="col-10 mb-3">
-                      <span className="SecondaryInfo">Secondary Info</span>
-                    </div>
+                  <div className="col-12  mt-2">
+                    <div className="row border bg-gray mx-auto">
+                      <div className="col-10 mb-3">
+                        <span className="SecondaryInfo">Secondary Info</span>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="SecondaryPersonName"
                             className="form-label label_text"
                           >
-                            Customer Contact Person Name 1
+                            Customer Contact Person Name 1 <RequiredStar />
                           </label>
                           <input
                             type="text"
@@ -168,17 +170,18 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                               setCustomerContactPersonName1(e.target.value)
                             }
                             aria-describedby="emailHelp"
+                            required
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="SecondaryPersonName2"
                             className="form-label label_text"
                           >
-                            Customer Contact Person Name 2
+                            Customer Contact Person Name 2 <RequiredStar />
                           </label>
                           <input
                             type="text"
@@ -189,36 +192,39 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                               setCustomerContactPersonName2(e.target.value)
                             }
                             aria-describedby="emailHelp"
+                            required
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="MobileNumber"
                             className="form-label label_text"
                           >
-                            Mobile Number
+                            Mobile Number <RequiredStar />
                           </label>
                           <input
-                            type="number"
+                            type="tel"
                             className="form-control rounded-0"
                             id="MobileNumber"
                             value={phoneNumber1}
                             onChange={(e) => setPhoneNumber1(e.target.value)}
                             aria-describedby="mobileNoHelp"
+                            maxLength={10}
+                            required
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="mobileNo"
                             className="form-label label_text"
                           >
-                            Mobile No
+                            Mobile No <RequiredStar />
                           </label>
                           <input
                             type="number"
@@ -227,19 +233,20 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             value={phoneNumber2}
                             onChange={(e) => setPhoneNumber2(e.target.value)}
                             aria-describedby="MobileNoHelp"
+                            required
                           />
                         </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="col-12  mt-2">
-                  <div className="row border mt-4 bg-gray mx-auto">
-                    <div className="col-12 mb-3">
-                      <span className="AddressInfo">Address</span>
-                    </div>
+                  <div className="col-12  mt-2">
+                    <div className="row border mt-4 bg-gray mx-auto">
+                      <div className="col-12 mb-3">
+                        <span className="AddressInfo">Address <RequiredStar /></span>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="number"
@@ -256,9 +263,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="text"
@@ -270,9 +277,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="text"
@@ -284,9 +291,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="text"
@@ -298,9 +305,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-12 mt-2">
+                      <div className="col-12 col-lg-12 mt-2">
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
@@ -312,11 +319,11 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             rows="2"
                           ></textarea>
                         </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* <div className="col-12  mt-2">
+                  {/* <div className="col-12  mt-2">
                   <div className="row border mt-4 bg-gray mx-auto">
                     <div className="col-12 mb-4">
                       <div className="row">
@@ -423,10 +430,10 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                   </div>
                 </div> */}
 
-                <div className="col-12 col-lg-6 mt-2">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="">
                       <label for="GSTNumber" className="form-label label_text">
-                        GST Number
+                        GST Number <RequiredStar />
                       </label>
                       <input
                         type="number"
@@ -435,33 +442,34 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         onChange={(e) => setGSTNo(e.target.value)}
                         value={GSTNo}
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
-                </div>
+                  </div>
 
-                <div className="row">
-                  <div className="col-12 pt-3 mt-2">
-                    <button
-                      type="submit"
-                      onClick={handleCustomerAdd}
-                      className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
-                    >
-                      Add
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleAdd}
-                      className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
-                    >
-                      Cancel
-                    </button>
+                  <div className="row">
+                    <div className="col-12 pt-3 mt-2">
+                      <button
+                        type="submit"
+                        onClick={handleCustomerAdd}
+                        className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleAdd}
+                        className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </form>
           </div>
-        </div> 
+        </div>
       </div>
     </>
   );

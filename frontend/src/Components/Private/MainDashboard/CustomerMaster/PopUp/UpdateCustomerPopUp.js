@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateCustomer } from "../../../../../hooks/useCustomer";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
@@ -57,15 +58,15 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-      setCustomer((prevCustomer) => ({
-        ...prevCustomer,
-        [name]: value,
-      
+    setCustomer((prevCustomer) => ({
+      ...prevCustomer,
+      [name]: value,
+
     }))
   };
 
   const handleCustUpdate = async () => {
-    const updatedCustomer={
+    const updatedCustomer = {
       ...customer,
       billingAddress,
       // deliveryAddress
@@ -87,26 +88,26 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
             <form onSubmit={handleCustUpdate}>
-            <div className="modal-header pt-0">
-              <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                Update Customer
-                {/* Forward */}
-              </h5>
-              <button
-                onClick={() => handleUpdate()}
-                type="button"
-                className="close px-3"
-                style={{ marginLeft: "auto" }}
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="row modal_body_height">
-                <div className="col-12">
+              <div className="modal-header pt-0">
+                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                  Update Customer
+                  {/* Forward */}
+                </h5>
+                <button
+                  onClick={() => handleUpdate()}
+                  type="button"
+                  className="close px-3"
+                  style={{ marginLeft: "auto" }}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row modal_body_height">
+                  <div className="col-12">
                     <div className="">
                       <label for="FullName" className="form-label label_text">
-                        Full Name
+                        Full Name <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -116,14 +117,15 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                         value={customer.custName}
                         onChange={handleChange}
                         aria-describedby="nameHelp"
+                        required
                       />
                     </div>
-                </div>
+                  </div>
 
-                <div className="col-12">
+                  <div className="col-12 mt-3">
                     <div className="mb-3">
                       <label for="Email" className="form-label label_text">
-                        Email
+                        Email <RequiredStar />
                       </label>
                       <input
                         type="email"
@@ -133,23 +135,24 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                         value={customer.email}
                         onChange={handleChange}
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
-                </div>
+                  </div>
 
-                <div className="col-12  mt-2">
-                  <div className="row border bg-gray mx-auto">
-                    <div className="col-10 mb-3">
-                      <span className="SecondaryInfo">Secondary Info</span>
-                    </div>
+                  <div className="col-12  mt-2">
+                    <div className="row border bg-gray mx-auto">
+                      <div className="col-10 mb-3">
+                        <span className="SecondaryInfo">Secondary Info</span>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="ContactPerson1"
                             className="form-label label_text"
                           >
-                            Contact Person 1
+                            Contact Person 1 <RequiredStar />
                           </label>
                           <input
                             type="text"
@@ -159,17 +162,18 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             onChange={handleChange}
                             value={customer.customerContactPersonName1}
                             aria-describedby="mobileNoHelp"
+                            required
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="phoneNumber1"
                             className="form-label label_text"
                           >
-                            Contact no
+                            Contact no <RequiredStar />
                           </label>
                           <input
                             type="number"
@@ -179,37 +183,40 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             onChange={handleChange}
                             value={customer.phoneNumber1}
                             aria-describedby="secemailHelp"
+                            required
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="ContactPerson2"
                             className="form-label label_text"
                           >
-                            Contact Person 2
+                            Contact Person 2 <RequiredStar />
                           </label>
                           <input
                             type="text"
+
                             className="form-control rounded-0"
                             id="ContactPerson2"
                             name="customerContactPersonName2"
                             onChange={handleChange}
                             value={customer.customerContactPersonName2}
                             aria-describedby="mobileNoHelp"
+                            required
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <label
                             for="phoneNumber2"
                             className="form-label label_text"
                           >
-                            Contact no 2
+                            Contact no 2 <RequiredStar />
                           </label>
                           <input
                             type="number"
@@ -219,19 +226,20 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             name="phoneNumber2"
                             value={customer.phoneNumber2}
                             aria-describedby="secemailHelp"
+                            required
                           />
                         </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="col-12  mt-2">
-                  <div className="row border mt-4 bg-gray mx-auto">
-                    <div className="col-12 mb-3">
-                      <span className="AddressInfo">Address</span>
-                    </div>
+                  <div className="col-12  mt-2">
+                    <div className="row border mt-4 bg-gray mx-auto">
+                      <div className="col-12 mb-3">
+                        <span className="AddressInfo">Address <RequiredStar /></span>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="number"
@@ -244,9 +252,10 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      </div>
+
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="text"
@@ -259,9 +268,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="text"
@@ -274,9 +283,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="col-12 col-lg-6 mt-2">
                         <div className="mb-3">
                           <input
                             type="text"
@@ -289,9 +298,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             aria-describedby="emailHelp"
                           />
                         </div>
-                    </div>
+                      </div>
 
-                    <div className="col-12 col-lg-12 mt-2">
+                      <div className="col-12 col-lg-12 mt-2">
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
@@ -303,11 +312,11 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             rows="2"
                           ></textarea>
                         </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* <div className="col-12 col-lg-4 mt-4 mt-lg-0">
+                  {/* <div className="col-12 col-lg-4 mt-4 mt-lg-0">
                   <span className=" ms-lg-6 AddressInfo">
                     <input
                       type="checkbox"
@@ -416,10 +425,10 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                   </div>
                 </div>} */}
 
-                <div className="col-12 col-lg-6 mt-2">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="">
                       <label for="GSTNo" className="form-label label_text">
-                        GST Number
+                        GST Number <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -431,28 +440,28 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                         aria-describedby="emailHelp"
                       />
                     </div>
-                </div>
+                  </div>
 
-                <div className="row">
-                  <div className="col-12 pt-3 mt-2">
-                    <button
-                      type="submit"
-                      onClick={handleCustUpdate}
-                      className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
-                    >
-                      Update
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleUpdate}
-                      className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
-                    >
-                      Cancel
-                    </button>
+                  <div className="row">
+                    <div className="col-12 pt-3 mt-2">
+                      <button
+                        type="submit"
+                        onClick={handleCustUpdate}
+                        className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
+                      >
+                        Update
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleUpdate}
+                        className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </form>
           </div>
         </div>
