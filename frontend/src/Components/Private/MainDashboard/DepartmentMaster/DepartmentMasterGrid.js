@@ -4,15 +4,18 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { toast } from "react-toastify";
 import { getDepartment, deleteDepartment } from "../../../../hooks/useDepartment";
 import AddDepartmentPopup from "./PopUp/AddDepartmentPopup";
+import UpdateDepartmentPopup from "./PopUp/UpdateDepartmentPopup";
 import { HashLoader } from "react-spinners";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 
 export const DepartmentMasterGrid = () => {
    const [AddPopUpShow, setAddPopUpShow] = useState(false);
+   const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
    const [deletePopUpShow, setdeletePopUpShow] = useState(false);
    const [isopen, setIsOpen] = useState(false);
    const [departments, setDepartments] = useState([]);
    const [selectedId, setSelecteId] = useState(null);
+   const [selectedDep, setSelectedDep] = useState(null);
    const [loading, setLoading] = useState(true);
 
    const toggle = () => {
@@ -22,6 +25,12 @@ export const DepartmentMasterGrid = () => {
    const handleAdd = () => {
       setAddPopUpShow(!AddPopUpShow);
    };
+
+   const handleUpdate = (department = null) => {
+      setSelectedDep(department);
+      // console.log("HandleUpdate CAlled");
+      setUpdatePopUpShow(!updatePopUpShow);
+  }
 
    const handelDeleteClosePopUpClick = (id) => {
       setSelecteId(id);
@@ -65,7 +74,7 @@ export const DepartmentMasterGrid = () => {
       };
   
       fetchData();
-  }, [AddPopUpShow, deletePopUpShow]);
+  }, [AddPopUpShow, deletePopUpShow,updatePopUpShow]);
   
 
    return (
@@ -121,6 +130,12 @@ export const DepartmentMasterGrid = () => {
                                                 <td>{index + 1}</td>
                                                 <td>{department.name}</td>
                                                 <td>
+                                                <span
+                                                                    onClick={() => handleUpdate(department)}
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
+                                                                </span>
+
                                                    <span
                                                       onClick={() => handelDeleteClosePopUpClick(department._id)}
                                                       className="delete"
@@ -151,6 +166,15 @@ export const DepartmentMasterGrid = () => {
                heading="Delete"
             />
          )}
+
+{updatePopUpShow ?
+                <UpdateDepartmentPopup
+                selectedDep={selectedDep}
+                    handleUpdate={handleUpdate}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
 
          {/* Add Department Popup */}
          {AddPopUpShow && (

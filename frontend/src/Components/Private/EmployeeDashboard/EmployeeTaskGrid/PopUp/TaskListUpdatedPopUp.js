@@ -201,6 +201,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                                 onChange={(e) => setActions({ ...Actions, startTime: e.target.value })}
                                                 value={Actions.startTime}
                                                 className="form-control rounded-0"
+                                                min={new Date().toISOString().slice(0, 16)}
                                                 id="processStartDate"
                                             />
                                         </div>
@@ -216,33 +217,16 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                                 name="processEndDate"
                                                 onChange={(e) => setActions({ ...Actions, endTime: e.target.value })}
                                                 value={Actions.endTime}
+                                                min={new Date().toISOString().slice(0, 16)}
                                                 className="form-control rounded-0"
                                                 id="processEndDate"
                                             />
                                         </div>
                                     </div>
 
-                                    {/* <div className="col-12 col-lg-6 mt-2 pt-lg-4">
-                                        <span className="px-4 ">
-                                            <input type="radio" className="me-2 cursor-pointer" id="Inproccess" name="fav_language" value="Inproccess" />
-                                            <label for="Inproccess">Inproccess</label>
-                                        </span>
 
-                                        <br className="d-lg-none" />
 
-                                        <span className="px-4 ">
-                                            <input type="radio" className="me-2 cursor-pointer" id="Finish" name="fav_language" value="Finish" />
-                                            <label for="Finish">Finish</label>
-                                        </span>
 
-                                        <br className="d-lg-none" />
-
-                                        <span className="px-4 ">
-                                            <input type="radio" className="me-2 cursor-pointer" id="Stuck" name="fav_language" value="Stuck" />
-                                            <label for="Stuck">Stuck</label>
-                                        </span>
-
-                                    </div> */}
 
                                     <div className="col-12 col-lg-3 mt-2">
                                         <label htmlFor="projectStatus" className="form-label label_text">Status</label>

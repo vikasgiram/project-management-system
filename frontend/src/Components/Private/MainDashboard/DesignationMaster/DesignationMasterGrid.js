@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 import AddDesignationPopup from "./Popup/AddDesignationPopup";
+import UpdateDesignationPopup from "./Popup/UpdateDesignationPopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import { getAllDesignations, deleteDesignation } from "../../../../hooks/useDesignation";
 
@@ -15,10 +16,12 @@ export const DesignationMasterGird = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false);
     const [deletePopUpShow, setdeletePopUpShow] = useState(false);
+    const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
     const [isopen, setIsOpen] = useState(false);
 
 
     const [selectedId, setSelecteId] = useState(null);
+    const [selectedDes, setSelectedDes] = useState(null);
 
     const [designations, setDesignation] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,6 +38,12 @@ export const DesignationMasterGird = () => {
     const handelDeleteClosePopUpClick = (id) => {
         setSelecteId(id);
         setdeletePopUpShow(!deletePopUpShow);
+    }
+
+    const handleUpdate = (designation = null) => {
+        setSelectedDes(designation);
+        // console.log("HandleUpdate CAlled");
+        setUpdatePopUpShow(!UpdatePopUpShow);
     }
 
     const handelDeleteClick = async () => {
@@ -64,7 +73,7 @@ export const DesignationMasterGird = () => {
         };
 
         fetchData();
-    }, [AddPopUpShow,deletePopUpShow]);
+    }, [AddPopUpShow,deletePopUpShow,UpdatePopUpShow]);
 
 
     return (
@@ -123,6 +132,12 @@ export const DesignationMasterGird = () => {
                                                                 {designation.name}
                                                             </td>
                                                             <td>
+                                                            <span
+                                                                    onClick={() => handleUpdate(designation)}
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
+                                                                </span>
+
                                                                 <span
                                                                     onClick={() =>handelDeleteClosePopUpClick(designation._id) }
                                                                     className="delete">
@@ -160,6 +175,16 @@ export const DesignationMasterGird = () => {
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
             }
+
+{UpdatePopUpShow ?
+                <UpdateDesignationPopup
+                selectedDes={selectedDes}
+                    handleUpdate={handleUpdate}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
+
 
 
         </>
