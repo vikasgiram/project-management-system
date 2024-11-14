@@ -51,6 +51,22 @@ const createDesignation = async (designationData) => {
     toast.error(error.response.data.error);  }
 };
 
+const updateDesignation = async (updatedDesignationData) => {
+  try {
+    const response = await axios.put(`${url}/${updatedDesignationData._id}`, updatedDesignationData);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return toast.error(data.error);
+    }
+    toast.success("Designation Updated sucessfully...");
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);  }
+};
+
 const deleteDesignation = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`);
@@ -67,4 +83,4 @@ const deleteDesignation = async (Id) => {
     toast.error(error.response.data.error);  }
 };
 
-  export { getDesignation, createDesignation,deleteDesignation , getAllDesignations};
+  export { getDesignation, createDesignation,deleteDesignation, updateDesignation , getAllDesignations};
