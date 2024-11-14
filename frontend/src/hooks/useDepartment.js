@@ -35,6 +35,22 @@ const createDepartment = async (departmentData) => {
     toast.error(error.response.data.error);  }
 };
 
+const updateDepartment = async (updatedDepartmentData) => {
+  try {
+    const response = await axios.put(`${url}/${updatedDepartmentData._id}`, updatedDepartmentData);
+    const data = response.data;
+
+    if (data.error) {
+      console.error(data.error);
+      return toast.error(data.error);
+    }
+    toast.success("Department Updated sucessfully...");
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.error);  }
+};
+
 const deleteDepartment = async (departmentId) => {
   try {
     const response = await axios.delete(`${url}/${departmentId}`);
@@ -51,4 +67,4 @@ const deleteDepartment = async (departmentId) => {
     toast.error(error.response.data.error);  }
 };
 
-  export { getDepartment, deleteDepartment,createDepartment };
+  export { getDepartment, deleteDepartment,updateDepartment,createDepartment };
