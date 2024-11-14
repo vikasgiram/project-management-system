@@ -85,20 +85,12 @@ const ViewTaskPopUp = ({ handleViewTask, selectedId }) => {
                                 <td>
                                   <span
                                     onClick={
-                                      task.taskStatus === "completed"
-                                        ? null
-                                        : () => handleUpdateTask(task)
+                                      () => handleUpdateTask(task)
                                     }
-                                    className={`update_icon ${task.taskStatus === "completed"
-                                        ? "disabled"
-                                        : ""
-                                      }`}
+                                    className={`update_icon`}
                                   >
                                     <i
-                                      className={`fa-solid fa-pen text-success cursor-pointer me-3 ${task.taskStatus === "completed"
-                                          ? "text-muted"
-                                          : ""
-                                        }`}
+                                      className={`fa-solid fa-pen text-success cursor-pointer me-3 `}
                                     ></i>
                                   </span>
                                 </td>

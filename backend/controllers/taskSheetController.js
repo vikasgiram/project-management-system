@@ -34,14 +34,20 @@ exports.getTaskSheet = async (req, res) => {
     const { id } = req.params;
     const task = await TaskSheet.find(
       {
-        company: decoded.user.company ? decoded.user.company : decoded.user._id, project:id
+        company: decoded.user.company ? decoded.user.company : decoded.user._id,
+        project: id
       }
-    ).populate({
-      path: "project",
-      select: "name startDate endDate completeLevel",
+    )
+    .populate({
+      path: 'project',
+      select: 'name startDate endDate completeLevel custId', // Include custId here
+      populate: {
+        path: 'custId', 
+        select: 'custName' 
+      }
     })
-    .populate('taskName','name')
-    .populate('employees','name');
+    .populate('taskName', 'name')
+    .populate('employees', 'name');
 
     if (task.length <=0) {
       return res.status(400).json({ error: "No Task Found " });
