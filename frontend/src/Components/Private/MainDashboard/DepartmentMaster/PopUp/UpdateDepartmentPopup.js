@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { updateDepartment } from "../../../../../hooks/useDepartment";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
-const UpdateDepartmentPopup = ({ handleUpdate,selectedDep }) => {
+const UpdateDepartmentPopup = ({ handleUpdate, selectedDep }) => {
 
 
     const [name, setName] = useState("");
@@ -14,14 +15,15 @@ const UpdateDepartmentPopup = ({ handleUpdate,selectedDep }) => {
         setDepartment((prevDepartment) => ({
             ...prevDepartment,
             [name]: value
-        }));}
+        }));
+    }
 
     const handleProjectUpdate = async (event) => {
         event.preventDefault();
-        try{
-        await updateDepartment(department);
-        handleUpdate();
-        }catch(error){
+        try {
+            await updateDepartment(department);
+            handleUpdate();
+        } catch (error) {
             toast.error(error);
         }
     };
@@ -32,20 +34,21 @@ const UpdateDepartmentPopup = ({ handleUpdate,selectedDep }) => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content p-3">
                         <form onSubmit={handleProjectUpdate}>
-                        <div className="modal-header pt-0">
+                            <div className="modal-header pt-0">
 
-                            <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
 
-                                Update Department
-                                {/* Forward */}
-                            </h5>
-                            <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="row modal_body_height">
-                                <div className="col-12" >
+                                    Update Department <RequiredStar />
+                                    {/* Forward */}
+                                </h5>
+                                <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row ">
+                                    {/* modal_body_height */}
+                                    <div className="col-12" >
 
 
 
@@ -56,27 +59,27 @@ const UpdateDepartmentPopup = ({ handleUpdate,selectedDep }) => {
                                         </div>
 
 
-                                </div>
+                                    </div>
 
-                                <div className="row">
-                                    <div className="col-12 pt-3 mt-2">
-                                        <button
-                                            type='submit'
-                                            // onClick={handleProjectUpdate}
-                                            className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                                            Update
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={handleUpdate}
-                                            className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
-                                            Cancel
+                                    <div className="row">
+                                        <div className="col-12 pt-3 mt-2">
+                                            <button
+                                                type='submit'
+                                                // onClick={handleProjectUpdate}
+                                                className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
+                                                Update
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={handleUpdate}
+                                                className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
+                                                Cancel
 
-                                        </button>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </form>
                     </div>
                 </div>

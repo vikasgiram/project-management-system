@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { createTask } from "../../../../../hooks/useTask";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
@@ -53,7 +54,8 @@ const AddTaskPopUp = ({ handleAdd }) => {
                         
                         <div className="modal-body">
                         <form onSubmit={handleTaskAdd}>
-                            <div className="row modal_body_height">
+                            <div className="row ">
+                            {/* modal_body_height */}
                                 <div className="col-12">
                                     
                                         <div className="mb-3">
@@ -61,7 +63,7 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                                 for="taskname"
                                                 className="form-label label_text"
                                             >
-                                                Task Name
+                                                Task Name <RequiredStar />
                                             </label>
                                             <input
                                                 type="text"

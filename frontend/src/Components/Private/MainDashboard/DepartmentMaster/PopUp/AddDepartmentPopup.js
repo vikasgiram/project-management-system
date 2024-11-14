@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { createDepartment } from "../../../../../hooks/useDepartment";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 const AddDepartmentPopup = ({ handleAdd }) => {
@@ -45,7 +46,7 @@ const AddDepartmentPopup = ({ handleAdd }) => {
 
 
                                         <div className="mb-3">
-                                            <label for="Name" className="form-label label_text">     Department Name
+                                            <label for="Name" className="form-label label_text">     Department Name <RequiredStar />
                                             </label>
                                             <input type="text" className="form-control rounded-0" id="Name" onChange={(e) => setName(e.target.value)} value={name} aria-describedby="secemailHelp" />
                                         </div>

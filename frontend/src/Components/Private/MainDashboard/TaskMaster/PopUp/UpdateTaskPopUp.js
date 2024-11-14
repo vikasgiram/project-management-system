@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { updateTask } from "../../../../../hooks/useTask";
 import { useState ,useEffect} from "react";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const UpdateTaskPopUp = ({ handleUpdate, selectedTask }) => {
 
@@ -49,11 +50,12 @@ const[task,setTask]=useState(selectedTask);
               </button>
             </div>
             <div className="modal-body">
-              <div className="row modal_body_height">
+              <div className="row ">
+              {/* modal_body_height */}
                 <div className="col-12">
                     <div className="mb-3">
                       <label htmlFor="name" className="form-label label_text">
-                        Full Name
+                        Task Name <RequiredStar />
                       </label>
                       <input
                         name="name"
