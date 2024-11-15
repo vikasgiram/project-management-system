@@ -52,7 +52,7 @@ const AddTaskPopUp = ({ handleAdd }) => {
                         </div>
                         
                         <div className="modal-body">
-                        <form onSubmit={handleTaskAdd}>
+                        <form >
                             <div className="row modal_body_height">
                                 <div className="col-12">
                                     
@@ -83,7 +83,7 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                     <div className="col-12 pt-3 mt-2">
                                         <button
                                             type="submit"
-                                            // onClick={handleTaskAdd}
+                                            onClick={handleTaskAdd}
                                             className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                                         >
                                             Add

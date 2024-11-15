@@ -40,24 +40,6 @@ const taskSheetSchema = new Schema({
   actualEndDate:{
     type: Date,
   },
-  Actions: [{
-    action: {
-      type: String
-    },
-    actionBy:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: Employee
-    },
-    startTime: {
-      type: Date,
-      required:false
-    },
-    endTime: {
-      type: Date,
-      required:false
-    },  
-  }],
-
   remark: {
     type: String // Additional remarks or comments about the task
   },

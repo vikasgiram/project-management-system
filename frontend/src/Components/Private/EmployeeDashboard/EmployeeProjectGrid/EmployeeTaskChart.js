@@ -78,7 +78,7 @@ export const EmployeeTaskChart = () => {
         handleTaskAdd();
     }
     const handleTaskChange = (task) => {
-        console.log("On date change Id:" + task.id);
+        // console.log("On date change Id:" + task.id);
         let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
         if (task.project) {
             const [start, end] = getStartEndDateForProject(newTasks, task.project);
@@ -126,11 +126,12 @@ export const EmployeeTaskChart = () => {
                 const response = await getTaskSheet(id);
                 // console.log(response.task[0].project.name);
                 
-                setProjectName(response.task[0].project.name);
+                setProjectName(response.task[0].project);
+                
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
 
                 setTasks(transformedTasks);
-                console.log("Transformed tasks: ", response);
+                // console.log("Transformed tasks: ", response);
 
                 setLoading(false);
             } catch (error) {
@@ -233,7 +234,7 @@ export const EmployeeTaskChart = () => {
             progress: task.taskLevel || 0,  // Set default to 0 if undefined
         }));
         
-        console.log("Task list"+taskList);
+        // console.log("Task list"+taskList);
         // Return an array containing the project task followed by its task list
         return [projectTask, ...taskList];
     };
@@ -298,7 +299,7 @@ export const EmployeeTaskChart = () => {
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
-                                           Project Name: {projectName}
+                                           Project Name: {projectName && projectName.name+" - "+ projectName.custId.custName}
                                         </h5>
                                     </div>
                                 </div>
