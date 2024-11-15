@@ -4,6 +4,7 @@ import Select from 'react-select'; // Import Select from react-select
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import toast from "react-hot-toast";
 import { updateDesignation } from "../../../../../hooks/useDesignation";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
   const { t } = useTranslation();
@@ -184,7 +185,7 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
                 <div className="col-12">
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label label_text">
-                      Designation Name
+                      Designation Name <RequiredStar />
                     </label>
                     <input
                       type="text"
@@ -203,7 +204,7 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
                 <div className="col-12 col-lg-6 my-3">
                   <div className="mb-3">
                     <label htmlFor="Department" className="form-label label_text">
-                      Department
+                      Department <RequiredStar />
                     </label>
                     <select
                       className="form-select rounded-0"

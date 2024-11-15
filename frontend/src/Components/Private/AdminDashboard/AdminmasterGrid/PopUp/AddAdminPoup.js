@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import {createAdmin} from "../../../../../hooks/useAdmin";
 import toast from "react-hot-toast";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
@@ -75,7 +76,7 @@ const AddAdminPoup = ({ handleAdd }) => {
                         for="name"
                         className="form-label label_text"
                       >
-                        Full Name
+                        Full Name <RequiredStar />
                       </label>
                       <input
                         type="text"
