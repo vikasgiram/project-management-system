@@ -9,6 +9,7 @@ import { createEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
 import { getDesignation } from "../../../../../hooks/useDesignation";
 import { createCompany } from "../../../../../hooks/useCompany";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
@@ -26,14 +27,14 @@ const AddCompanyPopup = ({ handleAdd }) => {
   const [subDate, setSubDate] = useState("");
   const [subAmount, setSubAmount] = useState("");
   const [logo, setLogo] = useState("");
-  const[GST, setGST] = useState("");
+  const [GST, setGST] = useState("");
   const [Address, setAddress] = useState({
     pincode: "",
     state: "",
     city: "",
     country: "",
     add: ""
-});
+  });
 
 
   const handleCompanyAdd = async (event) => {
@@ -49,9 +50,9 @@ const AddCompanyPopup = ({ handleAdd }) => {
       subAmount,
       GST,
       Address,
-      
+
     };
-    if (!name || !mobileNo || !email  || !password || !confirmPassword || !subDate || !subAmount || !admin) {
+    if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
       return toast.error("Please fill all fields");
     }
     if (password !== confirmPassword) {
@@ -97,7 +98,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         for="name"
                         className="form-label label_text"
                       >
-                        Company Name
+                        Company Name <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -106,6 +107,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         className="form-control rounded-0"
                         id="name"
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
                   </div>
@@ -115,7 +117,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         for="name"
                         className="form-label label_text"
                       >
-                        Admin Name
+                        Admin Name <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -124,6 +126,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         className="form-control rounded-0"
                         id="name"
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
                   </div>
@@ -134,7 +137,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         for="MobileNumber"
                         className="form-label label_text"
                       >
-                        Mobile Number
+                        Mobile Number <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -143,6 +146,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         className="form-control rounded-0"
                         id="MobileNumber"
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
                   </div>
@@ -153,7 +157,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         for="Email"
                         className="form-label label_text"
                       >
-                        Email
+                        Email <RequiredStar />
                       </label>
                       <input
                         type="email"
@@ -162,13 +166,14 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         className="form-control rounded-0"
                         id="Email"
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-6 mt-2" >
                     <div className="mb-3">
-                      <label htmlFor="Subscription" className="form-label label_text">Subscription  End Date
+                      <label htmlFor="Subscription" className="form-label label_text">Subscription End Date  <RequiredStar />
                       </label>
                       <input
                         onChange={(e) => setSubDate(e.target.value)}
@@ -177,11 +182,12 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         className="form-control rounded-0"
                         id="Subscription"
                         aria-describedby="dateHelp"
+                        required
                       />
                     </div>
-                </div>
+                  </div>
 
-                {/* <div className="col-12 col-lg-6 mt-2" >
+                  {/* <div className="col-12 col-lg-6 mt-2" >
                     <div className="mb-3">
                       <label htmlFor="ProjectEndDate" className="form-label label_text">Project End Date
                       </label>
@@ -196,13 +202,13 @@ const AddCompanyPopup = ({ handleAdd }) => {
                     </div>
                 </div> */}
 
-<div className="col-12 col-lg-6 mt-2">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label
                         for="SubscriptionAmount"
                         className="form-label label_text"
                       >
-                        Subscription Amount
+                        Subscription Amount <RequiredStar />
                       </label>
                       <div className="input-group border mb-3">
                         <span
@@ -219,6 +225,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                           className="form-control rounded-0 border-0"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
+                          required
                         />
                       </div>{" "}
                     </div>
@@ -232,10 +239,10 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         for="gstNo"
                         className="form-label label_text"
                       >
-                        GST No
+                        GST No <RequiredStar />
                       </label>
                       <div className="input-group border mb-3">
-                       
+
                         <input
                           type="text"
                           id="gstNo"
@@ -244,6 +251,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                           className="form-control rounded-0 border-0"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
+                          required
                         />
                       </div>{" "}
                     </div>
@@ -257,7 +265,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       </label>
                       <input type="file" className="form-control rounded-0" id="LOGO" aria-describedby="secemailHelp"
 
-                      onChange={(e) => setLogo(e.target.files[0])} files={logo}
+                        onChange={(e) => setLogo(e.target.files[0])} files={logo}
                       />
                     </div>
                   </div>
@@ -265,7 +273,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                   <div className="col-12  mt-2">
                     <div className="row border mt-4 bg-gray mx-auto">
                       <div className="col-12 mb-3">
-                        <span className="AddressInfo">Address</span>
+                        <span className="AddressInfo">Address <RequiredStar /></span>
                       </div>
 
                       <div className="col-12 col-lg-6 mt-2">
@@ -302,7 +310,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       </div>
 
                       <div className="col-12 col-lg-6 mt-2">
-                        <div className="mb-3">
+                        <div className="mb-3">  
                           <input
                             type="text"
                             className="form-control rounded-0"
@@ -346,13 +354,13 @@ const AddCompanyPopup = ({ handleAdd }) => {
                   </div>
 
                   <div className="row">
-                    <div className="col-12 col-lg-6 mt-2">
+                    <div className="col-12 col-lg-6 mt-3">
                       <div className="mb-3">
                         <label
                           for="password"
                           className="form-label label_text"
                         >
-                          Password
+                          Password <RequiredStar />
                         </label>
                         <input
                           type="password"
@@ -365,13 +373,13 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       </div>
                     </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
+                    <div className="col-12 col-lg-6 mt-3">
                       <div className="mb-3">
                         <label
                           for="ConfirmPassword"
                           className="form-label label_text"
                         >
-                          Confirm Password
+                          Confirm Password <RequiredStar />
                         </label>
                         <input
                           type="password"

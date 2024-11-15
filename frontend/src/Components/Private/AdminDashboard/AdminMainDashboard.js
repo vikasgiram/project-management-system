@@ -3,21 +3,21 @@ import { AdminHeader } from "./AdminHeader";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminDashboardCards } from "./AdminDashboardCards";
 import { RegisteredCompaniesChart } from "./RegisteredCompaniesChart";
-import {getAdminDashboard} from "../../../hooks/useAdmin";
+import { getAdminDashboard } from "../../../hooks/useAdmin";
 
 
 
 
 function AdminMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
-    
-    const[activateCompanys, setActivateCompanys] = useState("");
-    const[companiesByMonth, setCompaniesByMonth] = useState([]);
-    const[inactiveSubscriptions, setInactiveSubscriptions] = useState("");
-    const[totalCompaines, setTotalCompaines] = useState("");
-    const [companiesByYear, setCompaniesByYear]= useState([]);
+
+    const [activateCompanys, setActivateCompanys] = useState("");
+    const [companiesByMonth, setCompaniesByMonth] = useState([]);
+    const [inactiveSubscriptions, setInactiveSubscriptions] = useState("");
+    const [totalCompaines, setTotalCompaines] = useState("");
+    const [companiesByYear, setCompaniesByYear] = useState([]);
     const [loading, setLoading] = useState(true);
-   
+
 
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function AdminMainDashboard() {
         fetchData();
     }, []);
 
-    
+
 
     const toggle = () => {
         setIsOpen(!isopen);
@@ -63,7 +63,7 @@ function AdminMainDashboard() {
                         // Language={Language}
                         // setLanguage={setLanguage}
                         toggle={toggle} isopen={isopen}
-                        
+
                     />
                     <div className="container-fluid page-body-wrapper">
                         <AdminSidebar isopen={isopen} active="AdminMainDashboard" />
@@ -77,7 +77,7 @@ function AdminMainDashboard() {
                                         </h5>
                                     </div>
 
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
+                                    {/* <div className="col-12 col-lg-6  ms-auto text-end">
                                         <span>
                                             <img
                                                 src="static/assets/img/satisfaction.png"
@@ -89,13 +89,13 @@ function AdminMainDashboard() {
                                         </span>
 
 
-                                    </div>
+                                    </div> */}
 
                                 </div>
-                                <AdminDashboardCards 
-                                        activateCompanys={activateCompanys}
-                                        inactiveSubscriptions={inactiveSubscriptions}
-                                        totalCompaines={totalCompaines}
+                                <AdminDashboardCards
+                                    activateCompanys={activateCompanys}
+                                    inactiveSubscriptions={inactiveSubscriptions}
+                                    totalCompaines={totalCompaines}
 
                                 />
 
