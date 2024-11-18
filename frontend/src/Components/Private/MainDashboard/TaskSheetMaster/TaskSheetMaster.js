@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { getTask } from "../../../../hooks/useTask";
 import { getEmployee, getEmployees } from "../../../../hooks/useEmployees";
 import { getDepartment } from "../../../../hooks/useDepartment";
+import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
 
 
 
@@ -64,6 +65,7 @@ export const TaskSheetMaster = () => {
     const [department, setDepartment] = useState(null);
     const [projectName, setProjectName] = useState('');
     const [renderPage, setRenderPage] = useState(false);
+    const [AddPopUpShow, setAddPopUpShow] = useState(false)
 
 
     let columnWidth = 90;
@@ -73,10 +75,15 @@ export const TaskSheetMaster = () => {
         columnWidth = 250;
     }
 
-    const handleAdd=(event)=>{
+    const handleAddRender=(event)=>{
         // event.preventDefault();
         setRenderPage(!renderPage)
         handleTaskAdd();
+    }
+
+    const handleAdd = () => {
+        setAddPopUpShow(!AddPopUpShow)
+        setRenderPage(!renderPage)
     }
     const handleTaskChange = (task) => {
         // console.log("On date change Id:" + task.id);
@@ -125,13 +132,13 @@ export const TaskSheetMaster = () => {
             try {
 
                 const response = await getTaskSheet(id);
-                console.log(response);
+                // console.log(response,"egdhh");
                 
                 setProjectName(response.task[0].project.name);
                 const transformedTasks = transformProjectToTasks(response); // Transform the data
 
                 setTasks(transformedTasks);
-                console.log("Transformed tasks: ", response);
+                // console.log("Transformed tasks: ", response);
 
                 setLoading(false);
             } catch (error) {
@@ -146,6 +153,8 @@ export const TaskSheetMaster = () => {
             try {
                 setLoading(true);
                 const data = await getTask();
+                console.log(data, "task");
+                
                 if (data) {
                     setTaskDropDown(data.task || []);
                 }
@@ -158,7 +167,7 @@ export const TaskSheetMaster = () => {
             }
         };
         fetchData();
-    }, [])
+    }, [renderPage])
     // console.log(taskName,"task n ");
 
     useEffect(() => {
@@ -317,6 +326,32 @@ export const TaskSheetMaster = () => {
                                                     }
 
                                                 </select>
+                                                <button 
+  type="button"
+  className="btn adbtn btn-dark" 
+  onClick={() => handleAdd()} 
+>
+  <i className="fa-solid fa-plus"></i> Add
+</button>
+
+{/* <button 
+          type="button"
+          className="btn adbtn btn-dark" 
+          onClick={handleAdd}
+        >
+          <i className="fa-solid fa-plus"></i> Add
+        </button>
+        {AddPopUpShow && (
+          <div className="popup">
+              <AddTaskPopUp
+                 
+                 handleAdd={handleAdd}
+             /> 
+              <button onClick={() => setAddPopUpShow(false)}>Cancel</button>
+          </div>
+        )} */}
+
+
                                             </div>
                                     </div>
 
@@ -409,7 +444,7 @@ export const TaskSheetMaster = () => {
                                     <div className="col-12 col-lg-3  pt-3 mt-3 ">
                                         <button
                                             onClick={() => {
-                                                handleAdd();
+                                                handleAddRender();
                                             }}
                                             type="submit"
                                             className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
@@ -471,6 +506,16 @@ export const TaskSheetMaster = () => {
                     </form>
                 </div>
             </div>
+
+
+            {AddPopUpShow ?
+                <AddTaskPopUp
+                 
+                    handleAdd={handleAdd}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
         </>
     )
 }
