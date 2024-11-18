@@ -38,6 +38,15 @@ const Option = (props) => {
 };
 
 export const TaskSheetMaster = () => {
+/**
+ * Component for displaying a Gantt chart of a project's tasks.
+ *
+ * The component fetches the project data from the server and transforms it
+ * into a format that can be used by the Gantt component. It also provides
+ * functionality for adding new tasks to the project.
+ *
+ * @returns {JSX.Element} The component.
+ */
   const [isopen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isopen);
@@ -320,50 +329,6 @@ export const TaskSheetMaster = () => {
                         </button>
                       </div>
                     </div>
-                                <div className="row  bg-white p-2 m-1 border rounded"  >
-                                    <div className="col-12 col-md-6 col-lg-3">
-                                            <div className="mb-3">
-                                                <label htmlFor="taskName" className="form-label label_text">Task Name</label>
-                                                <select className="form-select rounded-0" aria-label="Default select example"
-                                                    onChange={(e) => setTaskName(e.target.value)}
-                                                    value={taskName}
-                                                >
-                                                    <option value=""  >-- Select Task Name --</option>
-                                                    {
-                                                        taskDropDown && taskDropDown.map((task) => (
-                                                            <option value={task._id}>{task.name}</option>
-                                                        ))
-                                                    }
-
-                                                </select>
-                                                <button 
-  type="button"
-  className="btn adbtn btn-dark" 
-  onClick={() => handleAdd()} 
->
-  <i className="fa-solid fa-plus"></i> Add
-</button>
-
-{/* <button 
-          type="button"
-          className="btn adbtn btn-dark" 
-          onClick={handleAdd}
-        >
-          <i className="fa-solid fa-plus"></i> Add
-        </button>
-        {AddPopUpShow && (
-          <div className="popup">
-              <AddTaskPopUp
-                 
-                 handleAdd={handleAdd}
-             /> 
-              <button onClick={() => setAddPopUpShow(false)}>Cancel</button>
-          </div>
-        )} */}
-
-
-                                            </div>
-                                    </div>
 
                     <div className="col-12 col-md-6 col-lg-3">
                       <div className="mb-3">
