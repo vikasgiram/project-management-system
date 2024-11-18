@@ -4,6 +4,7 @@ import { updateProject } from "../../../../../hooks/useProjects";
 import { formatDateforupdate } from "../../../../../utils/formatDate";
 
 import toast from "react-hot-toast";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
@@ -16,9 +17,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         purchaseOrderDate: selectedProject?.purchaseOrderDate,
         startDate: selectedProject?.startDate,
         endDate: selectedProject?.endDate
-       
-      });
-      
+
+    });
+
 
     const [address, setAddress] = useState({
         add: selectedProject?.Address?.add || "",
@@ -26,11 +27,11 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         state: selectedProject?.Address?.state || "",
         country: selectedProject?.Address?.country || "",
         pincode: selectedProject?.Address?.pincode || "",
-      });
-    
-     
+    });
+
+
     //   console.log(selectedProject?.Address?.city,"address");
-      
+
 
 
     useEffect(() => {
@@ -74,22 +75,22 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         }
     };
 
-  
+
 
     // Function to handle changes in billing address fields
     const handleAddressChange = (e) => {
-      const { name, value } = e.target;
-      setAddress({ ...address, [name]: value });
-      
+        const { name, value } = e.target;
+        setAddress({ ...address, [name]: value });
+
     };
     const handleProjectUpdate = async (event) => {
         event.preventDefault();
-        const updatedProject ={
+        const updatedProject = {
             ...projects,
             Address: { // Ensure the address is nested under "Address"
                 ...address // Spread the address state
             }
-          }
+        }
         try {
             await updateProject(updatedProject);
             handleUpdate();
@@ -98,77 +99,77 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         }
     };
 
- 
+
 
     //   const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
 
-      const formattedPurchaseOrderDate = formatDateforupdate(projects?.purchaseOrderDate);
-      const formattedStartDate = formatDateforupdate(projects?.startDate);
-      const formattedEndDate = formatDateforupdate(projects?.endDate);
-   
+    const formattedPurchaseOrderDate = formatDateforupdate(projects?.purchaseOrderDate);
+    const formattedStartDate = formatDateforupdate(projects?.startDate);
+    const formattedEndDate = formatDateforupdate(projects?.endDate);
+
     return (
         <>
-        <form onSubmit={handleProjectUpdate}>
-            <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
-                
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content p-3">
-                        <div className="modal-header pt-0">
+            <form onSubmit={handleProjectUpdate}>
+                <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
 
-                            <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content p-3">
+                            <div className="modal-header pt-0">
 
-                                Update Project
-                                {/* Forward */}
-                            </h5>
-                            <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="row modal_body_height">
-                                <div className="col-12" >
+                                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+
+                                    Update Project
+                                    {/* Forward */}
+                                </h5>
+                                <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row modal_body_height">
+                                    <div className="col-12" >
 
                                         <div className="mb-3">
-                                            <label htmlFor="CustomerName" className="form-label label_text">Customer Name</label>
+                                            <label htmlFor="CustomerName" className="form-label label_text">Customer Name <RequiredStar /></label>
                                             <select className="form-select rounded-0" aria-label="Default select example"
                                                 id="CustomerName"
                                                 name="custId"
                                                 onChange={handleChange}
                                                 value={projects.custId._id || ''}
-                                            >   
+                                            >
                                                 {/* {console.log(projects.custId._id,"projects.custId._id")} */}
-                                                
+
                                                 {customers && customers.map((cust) => (
                                                     <option key={cust._id} value={cust._id}>{cust.custName}</option>
                                                 ))}
                                             </select>
-                                          
-                                            
+
+
                                         </div>
-                                </div>
+                                    </div>
 
                                     <div className="mb-3">
-                                        <label for="ProjectName" className="form-label label_text">Project Name</label>
+                                        <label for="ProjectName" className="form-label label_text">Project Name <RequiredStar /></label>
                                         <input type="text" className="form-control rounded-0" id="ProjectName" name="name" onChange={handleChange} value={projects.name} aria-describedby="emailHelp" />
                                     </div>
                                     <div className="col-12 col-lg-6 mt-2">
-                                        <label for="ProjectName" className="form-label label_text">Project Status</label>
+                                        <label for="ProjectName" className="form-label label_text">Project Status <RequiredStar /></label>
                                         <select className="form-select rounded-0" aria-label="Default select example"
                                             name="projectStatus"
-                                                onChange={handleChange}
-                                                value={projects.projectStatus}
-                                            >
-                                                <option value="upcoming">Upcoming</option>
-                                                <option value="inprocess">Inprocess</option>
-                                                <option value="completed">Complete</option>
-                                               
-                                            </select>
+                                            onChange={handleChange}
+                                            value={projects.projectStatus}
+                                        >
+                                            <option value="upcoming">Upcoming</option>
+                                            <option value="inprocess">Inprocess</option>
+                                            <option value="completed">Complete</option>
+
+                                        </select>
                                     </div>
 
                                     <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label htmlFor="completeLevel" 
-                                                name="completeLevel" className="form-label label_text">Completion level</label>
+                                            <label htmlFor="completeLevel"
+                                                name="completeLevel" className="form-label label_text">Completion level <RequiredStar /></label>
                                             <input
                                                 onChange={handleChange}
                                                 value={projects.completeLevel}
@@ -180,12 +181,12 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             />
                                             {/* {console.log(projects.purchaseOrderDate,"projects")} */}
                                         </div>
-                                        </div>
+                                    </div>
 
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label htmlFor="purchaseOrderDate" 
-                                                name="purchaseOrderDate" className="form-label label_text">Purchase Order Date</label>
+                                            <label htmlFor="purchaseOrderDate"
+                                                name="purchaseOrderDate" className="form-label label_text">Purchase Order Date <RequiredStar /></label>
                                             <input
                                                 onChange={handleChange}
                                                 value={formattedPurchaseOrderDate}
@@ -197,32 +198,32 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             />
                                             {/* {console.log(projects.purchaseOrderDate,"projects")} */}
                                         </div>
-                                        </div>
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label for="PurchaseOrderNumber" 
-                                            name="purchaseOrderNo"
-                                            className="form-label label_text">Purchase Order Number</label>
-                                            <input type="text" className="form-control rounded-0" id="PurchaseOrderNumber" 
-                                            name="purchaseOrderNo"
-                                            value={projects.purchaseOrderNo} onChange={handleChange}  aria-describedby="emailHelp" />
+                                            <label for="PurchaseOrderNumber"
+                                                name="purchaseOrderNo"
+                                                className="form-label label_text">Purchase Order Number <RequiredStar /></label>
+                                            <input type="text" className="form-control rounded-0" id="PurchaseOrderNumber"
+                                                name="purchaseOrderNo"
+                                                value={projects.purchaseOrderNo} onChange={handleChange} aria-describedby="emailHelp" />
                                         </div>
-                                </div>
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label for="PurchaseOrderValu" className="form-label label_text">Purchase Order Value (Rs/USD)
+                                            <label for="PurchaseOrderValu" className="form-label label_text">Purchase Order Value (Rs/USD) <RequiredStar />
                                             </label>
-                                            <input type="number" className="form-control rounded-0" 
-                                            name="purchaseOrderValue"
-                                            id="PurchaseOrderValu" onChange={handleChange} value={projects.purchaseOrderValue} aria-describedby="emailHelp" />
+                                            <input type="number" className="form-control rounded-0"
+                                                name="purchaseOrderValue"
+                                                id="PurchaseOrderValu" onChange={handleChange} value={projects.purchaseOrderValue} aria-describedby="emailHelp" />
                                         </div>
-                                </div>
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label for="exampleInputEmail1" className="form-label label_text">Category of Project
+                                            <label for="exampleInputEmail1" className="form-label label_text">Category of Project <RequiredStar />
                                             </label>
                                             <select className="form-select rounded-0" aria-label="Default select example"
-                                            name="category"
+                                                name="category"
                                                 onChange={handleChange}
                                                 value={projects.category}
                                             >
@@ -244,10 +245,10 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 <option value="IP PA and Communication System">IP PA and Communication System</option>
                                             </select>
                                         </div>
-                                </div>
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label htmlFor="startDate" className="form-label label_text">Project Start Date
+                                            <label htmlFor="startDate" className="form-label label_text">Project Start Date <RequiredStar />
                                             </label>
                                             <input
                                                 onChange={handleChange}
@@ -259,10 +260,10 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 aria-describedby="dateHelp"
                                             />
                                         </div>
-                                </div>
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
                                         <div className="mb-3">
-                                            <label htmlFor="EndDate" className="form-label label_text">Project End Date</label>
+                                            <label htmlFor="EndDate" className="form-label label_text">Project End Date <RequiredStar /></label>
                                             <input
                                                 onChange={handleChange}
                                                 value={formattedEndDate} // Make sure to handle the case where it might be undefined
@@ -273,187 +274,187 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                                 aria-describedby="dateHelp"
                                             />
                                         </div>
-                                </div>
+                                    </div>
 
 
 
-                                <div className="col-12  mt-2" >
+                                    <div className="col-12  mt-2" >
 
-                                    <div className="row border bg-gray mx-auto">
-                                        <div className="col-10 mb-3">
-                                            <span className="SecondaryInfo">
-                                                Payment terms:
+                                        <div className="row border bg-gray mx-auto">
+                                            <div className="col-10 mb-3">
+                                                <span className="SecondaryInfo">
+                                                    Payment terms:
 
-                                            </span>
-                                        </div>
+                                                </span>
+                                            </div>
 
-                                        <div className="col-12 col-lg-6 mt-2" >
+                                            <div className="col-12 col-lg-6 mt-2" >
                                                 <div className="mb-3">
-                                                    <label for="advancePay" className="form-label label_text">     Advance Payment
+                                                    <label for="advancePay" className="form-label label_text">     Advance Payment <RequiredStar />
                                                     </label>
-                                                    <input type="number" className="form-control rounded-0" id="advancePay" 
-                                                    name="advancePay"
-                                                    onChange={handleChange} value={projects.advancePay} aria-describedby="mobileNoHelp" />
+                                                    <input type="number" className="form-control rounded-0" id="advancePay"
+                                                        name="advancePay"
+                                                        onChange={handleChange} value={projects.advancePay} aria-describedby="mobileNoHelp" />
                                                 </div>
-                                        </div>
-                                        <div className="col-12 col-lg-6 mt-2" >
+                                            </div>
+                                            <div className="col-12 col-lg-6 mt-2" >
                                                 <div className="mb-3">
-                                                    <label for="payAgainstDelivery" className="form-label label_text">          Pay Against Delivery
+                                                    <label for="payAgainstDelivery" className="form-label label_text">          Pay Against Delivery <RequiredStar />
 
                                                     </label>
-                                                    <input type="number" className="form-control rounded-0" id="payAgainstDelivery" 
-                                                    name="payAgainstDelivery"
-                                                    onChange={handleChange} value={projects.payAgainstDelivery} aria-describedby="mobileNoHelp" />
+                                                    <input type="number" className="form-control rounded-0" id="payAgainstDelivery"
+                                                        name="payAgainstDelivery"
+                                                        onChange={handleChange} value={projects.payAgainstDelivery} aria-describedby="mobileNoHelp" />
                                                 </div>
-                                        </div>
+                                            </div>
 
-                                        <div className="col-12 col-lg-6 mt-2" >
+                                            <div className="col-12 col-lg-6 mt-2" >
                                                 <div className="mb-3">
-                                                    <label for="payfterCompletion" className="form-label label_text">     Pay After Completion
+                                                    <label for="payfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
                                                     </label>
-                                                    <input type="text" className="form-control rounded-0" id="payfterCompletion" 
-                                                    name="payfterCompletion"
-                                                    onChange={handleChange} value={projects.payfterCompletion} aria-describedby="secemailHelp" />
+                                                    <input type="text" className="form-control rounded-0" id="payfterCompletion"
+                                                        name="payfterCompletion"
+                                                        onChange={handleChange} value={projects.payfterCompletion} aria-describedby="secemailHelp" />
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-12  mt-2">
-                  <div className="row border mt-4 bg-gray mx-auto">
-                    <div className="col-12 mb-3">
-                      <span className="AddressInfo">Address</span>
-                    </div>
+                                    <div className="col-12  mt-2">
+                                        <div className="row border mt-4 bg-gray mx-auto">
+                                            <div className="col-12 mb-3">
+                                                <span className="AddressInfo">Address <RequiredStar /></span>
+                                            </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
-                        <div className="mb-3">
-                          <input
-                            type="number"
-                            className="form-control rounded-0"
-                            placeholder="Pincode"
-                            id="Pincode"
-                            name="pincode"
-                            onChange={handleAddressChange}
-                            value={address.pincode}
-                            aria-describedby="emailHelp"
-                          />
-                          
-                        </div>
-                    </div>
+                                            <div className="col-12 col-lg-6 mt-2">
+                                                <div className="mb-3">
+                                                    <input
+                                                        type="number"
+                                                        className="form-control rounded-0"
+                                                        placeholder="Pincode"
+                                                        id="Pincode"
+                                                        name="pincode"
+                                                        onChange={handleAddressChange}
+                                                        value={address.pincode}
+                                                        aria-describedby="emailHelp"
+                                                    />
 
-                    <div className="col-12 col-lg-6 mt-2">
-                        <div className="mb-3">
-                          <input
-                            type="text"
-                            className="form-control rounded-0"
-                            placeholder="State"
-                            id="State"
-                            onChange={handleAddressChange}
-                            name="state"
-                            value={address.state}
-                            aria-describedby="emailHelp"
-                          />
-                        </div>
-                    </div>
+                                                </div>
+                                            </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
-                        <div className="mb-3">
-                          <input
-                            type="text"
-                            className="form-control rounded-0"
-                            placeholder="City"
-                            id="city"
-                            onChange={handleAddressChange}
-                            name="city"
-                            value={address.city}
-                            aria-describedby="emailHelp"
-                          />
-                        </div>
-                    </div>
+                                            <div className="col-12 col-lg-6 mt-2">
+                                                <div className="mb-3">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control rounded-0"
+                                                        placeholder="State"
+                                                        id="State"
+                                                        onChange={handleAddressChange}
+                                                        name="state"
+                                                        value={address.state}
+                                                        aria-describedby="emailHelp"
+                                                    />
+                                                </div>
+                                            </div>
 
-                    <div className="col-12 col-lg-6 mt-2">
-                        <div className="mb-3">
-                          <input
-                            type="text"
-                            className="form-control rounded-0"
-                            placeholder="Country"
-                            id="country"
-                            name="country"
-                            onChange={handleAddressChange}
-                            value={address.country}
-                            aria-describedby="emailHelp"
-                          />
-                        </div>
-                    </div>
+                                            <div className="col-12 col-lg-6 mt-2">
+                                                <div className="mb-3">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control rounded-0"
+                                                        placeholder="City"
+                                                        id="city"
+                                                        onChange={handleAddressChange}
+                                                        name="city"
+                                                        value={address.city}
+                                                        aria-describedby="emailHelp"
+                                                    />
+                                                </div>
+                                            </div>
 
-                    <div className="col-12 col-lg-12 mt-2">
-                        <div className="mb-3">
-                          <textarea
-                            className="textarea_edit col-12"
-                            id="add"
-                            name="add"
-                            placeholder="House NO., Building Name, Road Name, Area, Colony"
-                            onChange={handleAddressChange}
-                            value={address.add}
-                            rows="2"
-                          ></textarea>
-                        </div>
-                    </div>
-                  </div>
-                </div>
+                                            <div className="col-12 col-lg-6 mt-2">
+                                                <div className="mb-3">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control rounded-0"
+                                                        placeholder="Country"
+                                                        id="country"
+                                                        name="country"
+                                                        onChange={handleAddressChange}
+                                                        value={address.country}
+                                                        aria-describedby="emailHelp"
+                                                    />
+                                                </div>
+                                            </div>
 
-               
-
-                
+                                            <div className="col-12 col-lg-12 mt-2">
+                                                <div className="mb-3">
+                                                    <textarea
+                                                        className="textarea_edit col-12"
+                                                        id="add"
+                                                        name="add"
+                                                        placeholder="House NO., Building Name, Road Name, Area, Colony"
+                                                        onChange={handleAddressChange}
+                                                        value={address.add}
+                                                        rows="2"
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
 
 
-                                <div className="col-12 col-lg-6 mt-2" >
+
+
+
+
+                                    <div className="col-12 col-lg-6 mt-2" >
 
                                         <div className="mb-3">
-                                            <label for="PurchaseOrderCopy" className="form-label label_text">     Purchase Order Copy
+                                            <label for="PurchaseOrderCopy" className="form-label label_text">     Purchase Order Copy  <RequiredStar />
 
                                             </label>
                                             <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp" />
                                         </div>
-                                </div>
-                                <div className="col-12 col-lg-6 mt-2" >
+                                    </div>
+                                    <div className="col-12 col-lg-6 mt-2" >
 
                                         <div className="mb-3">
-                                            <label for="remark" className="form-label label_text">     remark
+                                            <label for="remark" className="form-label label_text">     remark <RequiredStar />
                                             </label>
-                                            <input type="email" className="form-control rounded-0" id="remark" 
-                                            name="remark"
-                                            onChange={handleChange} value={projects.remark} aria-describedby="secemailHelp" />
+                                            <input type="email" className="form-control rounded-0" id="remark"
+                                                name="remark"
+                                                onChange={handleChange} value={projects.remark} aria-describedby="secemailHelp" />
                                         </div>
-                                </div>
+                                    </div>
 
 
 
 
-                                <div className="row">
-                                    <div className="col-12 pt-3 mt-2">
-                                        <button
-                                            type='submit'
-                                            onClick={handleProjectUpdate}
-                                            className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                                            Update
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={handleUpdate}
-                                            className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
-                                            Cancel
+                                    <div className="row">
+                                        <div className="col-12 pt-3 mt-2">
+                                            <button
+                                                type='submit'
+                                                onClick={handleProjectUpdate}
+                                                className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
+                                                Update
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={handleUpdate}
+                                                className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
+                                                Cancel
 
-                                        </button>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-                </form>
+            </form>
 
         </>);
 }

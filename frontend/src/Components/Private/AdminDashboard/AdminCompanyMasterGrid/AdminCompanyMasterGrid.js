@@ -8,8 +8,8 @@ import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCompanyPopup from "./PopUp/AddCompanyPopup";
 import UpdatedCompanyPopup from "./PopUp/UpdatedCompanyPopup";
 // import { getAdmin,deleteAdmin,createAdmin,updateAdmin } from "../../../../hooks/useAdmin";
-import {getCompany} from "../../../../hooks/useCompany";
-import {formatDate} from "../../../../utils/formatDate";
+import { getCompany } from "../../../../hooks/useCompany";
+import { formatDate } from "../../../../utils/formatDate";
 import { deleteCompany } from "../../../../hooks/useCompany";
 
 export const AdminCompanyMasterGrid = () => {
@@ -29,7 +29,7 @@ export const AdminCompanyMasterGrid = () => {
     const [loading, setLoading] = useState(true);
     const [selectedId, setSelecteId] = useState(null);
 
-    const[companyData,setCompanyData]=useState([]);
+    const [companyData, setCompanyData] = useState([]);
 
 
 
@@ -62,17 +62,17 @@ export const AdminCompanyMasterGrid = () => {
         await deleteCompany(selectedId);
         setdeletePopUpShow(false);
     };
-   
+
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const data =await getCompany();
+                const data = await getCompany();
                 if (data) {
                     setCompanyData(data.companies || []);
-                    
+
                 }
             } catch (error) {
                 console.error("Error fetching company:", error);
@@ -115,7 +115,7 @@ export const AdminCompanyMasterGrid = () => {
                                             onClick={() => {
                                                 handleAdd()
                                             }}
-                                            
+
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
 
@@ -204,7 +204,7 @@ export const AdminCompanyMasterGrid = () => {
 
             {updatePopUpShow ?
                 <UpdatedCompanyPopup
-                selectedCompany={selectedCompany}
+                    selectedCompany={selectedCompany}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

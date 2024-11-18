@@ -56,24 +56,24 @@ export const DesignationMasterGird = () => {
     };
     useEffect(() => {
         const fetchData = async () => {
-            try{
+            try {
                 setLoading(true);
-            const data = await getAllDesignations();
-            if (data) {
-                setDesignation(data.designations || []);
-                // console.log(departments,"data from useState"); 
+                const data = await getAllDesignations();
+                if (data) {
+                    setDesignation(data.designations || []);
+                    // console.log(departments,"data from useState"); 
+                }
             }
-        }
-        catch(error){
-            setLoading(false);
-        }
-        finally{
-            setLoading(false);
-        }
+            catch (error) {
+                setLoading(false);
+            }
+            finally {
+                setLoading(false);
+            }
         };
 
         fetchData();
-    }, [AddPopUpShow,deletePopUpShow,UpdatePopUpShow]);
+    }, [AddPopUpShow, deletePopUpShow, UpdatePopUpShow]);
 
 
     return (
@@ -98,7 +98,7 @@ export const DesignationMasterGird = () => {
                                             Designation Master
                                         </h5>
                                     </div>
-                                    
+
                                     {/* <span class="loader"></span> */}
                                     <div className="col-12 col-lg-6  ms-auto text-end">
                                         <button
@@ -132,14 +132,14 @@ export const DesignationMasterGird = () => {
                                                                 {designation.name}
                                                             </td>
                                                             <td>
-                                                            <span
+                                                                <span
                                                                     onClick={() => handleUpdate(designation)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                                                 </span>
 
                                                                 <span
-                                                                    onClick={() =>handelDeleteClosePopUpClick(designation._id) }
+                                                                    onClick={() => handelDeleteClosePopUpClick(designation._id)}
                                                                     className="delete">
                                                                     <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>
@@ -156,7 +156,7 @@ export const DesignationMasterGird = () => {
                     </div>
                 </div>
             </div>
-                                             
+
 
             {deletePopUpShow ?
                 <DeletePopUP
@@ -176,9 +176,9 @@ export const DesignationMasterGird = () => {
                 /> : <></>
             }
 
-{UpdatePopUpShow ?
+            {UpdatePopUpShow ?
                 <UpdateDesignationPopup
-                selectedDes={selectedDes}
+                    selectedDes={selectedDes}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

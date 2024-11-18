@@ -25,7 +25,7 @@ export const CustomerMasterGrid = () => {
 
     const [selectedId, setSelecteId] = useState(null);
     const [customers, setCustomers] = useState([]);
-    const [selectedCust, setSelectedCust]= useState(null);
+    const [selectedCust, setSelectedCust] = useState(null);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -78,22 +78,22 @@ export const CustomerMasterGrid = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchData();
     }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
-    
 
-   
+
+
 
 
     return (
         <>
-              {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
             )}
-           
+
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <Header
@@ -135,7 +135,7 @@ export const CustomerMasterGrid = () => {
                                                     <th>Phone</th>
                                                     <th>GST No</th>
                                                     <th>Action</th>
-                                                    
+
                                                 </tr>
                                                 <tbody>
                                                     {customers && customers.map((customer, index) => (
@@ -147,7 +147,7 @@ export const CustomerMasterGrid = () => {
                                                             <td>{customer.GSTNo}</td>
                                                             <td>
                                                                 <span
-                                                                    onClick={()=>handleUpdate(customer)}
+                                                                    onClick={() => handleUpdate(customer)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
                                                                 </span>
@@ -175,11 +175,11 @@ export const CustomerMasterGrid = () => {
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
-         
+
             {deletePopUpShow ?
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}

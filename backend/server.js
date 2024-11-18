@@ -1,6 +1,8 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
 
 const dotenv = require('dotenv');
 
@@ -15,11 +17,14 @@ const taskSheetRoutes = require('./routes/taskSheetRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const designationRoutes = require('./routes/designationRoutes');
+const actionRoutes = require('./routes/actionRoutes');
 
 dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -44,6 +49,8 @@ app.use('/api/task', taskRoutes);
 app.use('/api/designation',designationRoutes);
 
 app.use('/api/department',departmentRoutes);
+
+app.use('/api/action', actionRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);

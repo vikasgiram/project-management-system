@@ -34,14 +34,20 @@ exports.getTaskSheet = async (req, res) => {
     const { id } = req.params;
     const task = await TaskSheet.find(
       {
-        company: decoded.user.company ? decoded.user.company : decoded.user._id, project:id
+        company: decoded.user.company ? decoded.user.company : decoded.user._id,
+        project: id
       }
-    ).populate({
-      path: "project",
-      select: "name startDate endDate completeLevel",
+    )
+    .populate({
+      path: 'project',
+      select: 'name startDate endDate completeLevel custId', // Include custId here
+      populate: {
+        path: 'custId', 
+        select: 'custName' 
+      }
     })
-    .populate('taskName','name')
-    .populate('employees','name');
+    .populate('taskName', 'name')
+    .populate('employees', 'name');
 
     if (task.length <=0) {
       return res.status(400).json({ error: "No Task Found " });
@@ -61,8 +67,7 @@ exports.myTask = async (req, res) => {
       employees: decoded.user._id,
       project: projectId
     })
-    .populate('taskName', 'name') 
-    .populate('Actions.actionBy', 'name'); 
+    .populate('taskName', 'name'); 
     
 
     if (task.length <= 0) {
@@ -117,66 +122,16 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const updatedData = req.body;
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    // const updatedData = req.body;
+    // const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
-    const emp = await Employee.findById(decoded.user._id);
+    // const task = await TaskSheet.findById(req.params.id);
+    // if (!task) {
+    //   return res.status(400).json({ error: "Tasksheet not found" });
+    // }
 
-    const task = await TaskSheet.findById(req.params.id);
-    if (!task) {
-      return res.status(400).json({ error: "Tasksheet not found" });
-    }
-
-    // Check if the task is completed
-    if (updatedData.taskStatus === 'completed') {
-      const basePerformance =emp.performance.performance;
-      const timeframe = Math.ceil((task.endDate - task.startDate) / (1000 * 60 * 60 * 24)); // Calculate timeframe in days
-      const actualEndDate = new Date(updatedData.Actions.endTime);
-      const daysTaken = Math.ceil((actualEndDate - task.startDate) / (1000 * 60 * 60 * 24)); // Calculate actual days taken
-
-      let performanceAdjustment;
-
-      // Calculate performance adjustment
-      if (daysTaken < timeframe) {
-        performanceAdjustment = (timeframe - daysTaken) + 2;
-      } else if (daysTaken === timeframe) {
-        performanceAdjustment = 2;
-      } else { // daysTaken > timeframe
-        performanceAdjustment = -((daysTaken - timeframe) * 1);
-      }
-
-      // Calculate final performance
-      const finalPerformance = basePerformance + performanceAdjustment;
-
-      // Get current year and month
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth() + 1; // Months are 0-based in JavaScript
-
-      // Update task properties
-      task.taskLevel = 100; // Assuming task is fully completed
-      task.actualEndDate = updatedData.Actions.endTime;
-      task.taskStatus = updatedData.taskStatus;
-
-      // Update performance array
-      const existingPerformance = emp.performance.find(p => p.year === year && p.month === month);
-      if (existingPerformance) {
-        existingPerformance.performance = finalPerformance; // Update existing performance
-      } else {
-        emp.performance.push({ year, month, performance: finalPerformance }); // Add new performance entry
-      }
-    }
-
-    // Update other task properties
-    updatedData.Actions.actionBy = decoded.user._id;
-    task.remark = updatedData.remark;
-    task.Actions.push(updatedData.Actions);
-    task.taskLevel = updatedData.taskLevel;
-    task.taskStatus = updatedData.taskStatus;
-
-    // Save the updated task
-    await task.save();
-    res.status(200).json({ message: "Tasksheet Updated", performance: task.performance });
+    // await task.save();
+    res.status(200).json({ message: "Update functions is not done now"});
   } catch (error) {
     res.status(500).json({ error: "Error while Updating Task Sheet: " + error.message });
   }

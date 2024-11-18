@@ -1,119 +1,104 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import {updateCompany} from "../../../../../hooks/useCompany";
+import { updateCompany } from "../../../../../hooks/useCompany";
 import { formatDateforupdateSubcription } from "../../../../../utils/formatDate";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
-    const [company, setCompany] = useState({
-      ...selectedCompany,
-    });
-    // console.log(selectedCompany.subDate,"subDate");
-    
-    const [Address,setAddress] = useState(company.Address || {
-        pincode: "",
-        state: "",
-        city: "",
-        country: "",
-        add: "",
-    });
-    const[subDate,setSubDate]=useState(formatDateforupdateSubcription(company.subDate));
-  
-   
-    
-  
+  const [company, setCompany] = useState({
+    ...selectedCompany,
+  });
+  // console.log(selectedCompany.subDate,"subDate");
+
+  const [Address, setAddress] = useState(company.Address || {
+    pincode: "",
+    state: "",
+    city: "",
+    country: "",
+    add: "",
+  });
+  const [subDate, setSubDate] = useState(formatDateforupdateSubcription(company.subDate));
 
 
 
-    const handleAddressChange = (e) => {
-        const { name, value } = e.target;
-        setAddress({ ...Address, [name]: value });
-      };
 
-      // const handleSubDateChange = (e) => {
-      //   const { name, value } = e.target;
-      //   setSubDate({ ...subDate, [name]: value });
-      // };
-    
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setCompany((prevCompany) => ({ ...prevCompany, [name]: value}));
 
-        if (name === "subDate") {
-          setSubDate(value); 
-      }
-    };
 
-    const handleCompanyUpdate = async (event) => {
-      event.preventDefault();
-        const updatedCompany={
-            ...company,
-            Address,
-            subDate
-            
-            
-            // deliveryAddress
-          }
 
-        
-        try {
-            
-            await updateCompany(updatedCompany);
-            handleUpdate();
-        } catch (error) {
-            toast.error(error.massage);
-        }
-    };
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddress({ ...Address, [name]: value });
+  };
 
- 
-    
-    return (
-        <>
-            <div
-                className="modal fade show"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    backgroundColor: "#00000090",
-                }}
-            >
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content p-3">
-                        <form>
-                            <div className="modal-header pt-0">
-                                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                                    Update Company
-                                </h5>
-                                <button
-                                    onClick={() => handleUpdate()}
-                                    type="button"
-                                    className="close px-3"
-                                    style={{ marginLeft: "auto" }}
-                                >
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="row modal_body_height">
-                                    <div className="col-12 col-lg-6 mt-2">
-                                        <div className="mb-3">
-                                            <label htmlFor="name" className="form-label label_text">
-                                                Full Name
-                                            </label>
-                                            <input
-                                                name="name"
-                                                type="text"
-                                                value={company.name}
-                                                onChange={handleChange}
-                                                className="form-control rounded-0"
-                                                id="name"
-                                            />
-                                        </div>
-                                    </div>
+  // const handleSubDateChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setSubDate({ ...subDate, [name]: value });
+  // };
 
-                                    <div className="col-12 col-lg-6 mt-2">
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setCompany((prevCompany) => ({ ...prevCompany, [name]: value }));
+
+    if (name === "subDate") {
+      setSubDate(value);
+    }
+  };
+
+  const handleCompanyUpdate = async (event) => {
+    event.preventDefault();
+    const updatedCompany = {
+      ...company,
+      Address,
+      subDate
+
+
+      // deliveryAddress
+    }
+
+
+    try {
+
+      await updateCompany(updatedCompany);
+      handleUpdate();
+    } catch (error) {
+      toast.error(error.massage);
+    }
+  };
+
+
+
+  return (
+    <>
+      <div
+        className="modal fade show"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#00000090",
+        }}
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content p-3">
+            <form>
+              <div className="modal-header pt-0">
+                <h5 className="card-title fw-bold" id="exampleModalLongTitle">
+                  Update Company
+                </h5>
+                <button
+                  onClick={() => handleUpdate()}
+                  type="button"
+                  className="close px-3"
+                  style={{ marginLeft: "auto" }}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row modal_body_height">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label htmlFor="name" className="form-label label_text">
-                        Full Name
+                        Full Name <RequiredStar />
                       </label>
                       <input
                         name="name"
@@ -122,6 +107,24 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                         onChange={handleChange}
                         className="form-control rounded-0"
                         id="name"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      <label htmlFor="name" className="form-label label_text">
+                        Full Name <RequiredStar />
+                      </label>
+                      <input
+                        name="name"
+                        type="text"
+                        value={company.name}
+                        onChange={handleChange}
+                        className="form-control rounded-0"
+                        id="name"
+                        required
                       />
                     </div>
                   </div>
@@ -129,7 +132,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label htmlFor="admin" className="form-label label_text">
-                        Admin Name
+                        Admin Name <RequiredStar />
                       </label>
                       <input
                         type="text"
@@ -139,6 +142,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                         className="form-control rounded-0"
                         id="admin"
                         aria-describedby="emailHelp"
+                        required
                       />
                     </div>
                   </div>
@@ -156,24 +160,25 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                         id="subDate"
                         aria-describedby="dateHelp"
                       /> */}
-                      <label htmlFor="subDate" 
-                                                name="subDate" className="form-label label_text">Subscription End Date</label>
-                                            <input
-                                                onChange={handleChange}
-                                                value={subDate}
-                                                name="subDate"
-                                                type="date"
-                                                className="form-control rounded-0"
-                                                id="subDate"
-                                                aria-describedby="dateHelp"
-                                            />
+                      <label htmlFor="subDate"
+                        name="subDate" className="form-label label_text">Subscription End Date <RequiredStar /></label>
+                      <input
+                        onChange={handleChange}
+                        value={subDate}
+                        name="subDate"
+                        type="date"
+                        className="form-control rounded-0"
+                        id="subDate"
+                        aria-describedby="dateHelp"
+                        required
+                      />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label for="subAmount" className="form-label label_text">
-                        Subscription Amount
+                        Subscription Amount <RequiredStar />
                       </label>
                       <div className="input-group border mb-3">
                         <span
@@ -191,6 +196,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                           className="form-control rounded-0 border-0"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
+                          required
                         />
                       </div>{" "}
                     </div>
@@ -199,7 +205,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label for="GST" className="form-label label_text">
-                        GST No
+                        GST No <RequiredStar />
                       </label>
                       <div className="input-group border mb-3">
                         <input
@@ -211,6 +217,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                           className="form-control rounded-0 border-0"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
+                          required
                         />
                       </div>{" "}
                     </div>
@@ -228,7 +235,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                         id="LOGO"
                         aria-describedby="secemailHelp"
 
-                        //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
+                      //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
                       />
                     </div>
                   </div>
@@ -237,7 +244,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                     <div className="row border mt-4 bg-gray mx-auto">
                       <div className="col-12 mb-3">
                         <span for="AddressInfo" className="AddressInfo">
-                          Address
+                          Address <RequiredStar />
                         </span>
                       </div>
 
