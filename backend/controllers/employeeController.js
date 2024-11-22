@@ -9,7 +9,7 @@ const TaskSheet = require('../models/taskSheetModel');
 // show all employees
 exports.showAll = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -40,7 +40,7 @@ exports.showAll = async (req, res) => {
 exports.getEmployee = async (req, res)=>{
   try {
     const {id}= req.params;
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const employee = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id, department:id},{ password: 0 });
     if(!employee){
       return res.status(400).json({error:"Employee not found"});
@@ -53,7 +53,7 @@ exports.getEmployee = async (req, res)=>{
 
 exports.search = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const query = req.query.search;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -89,8 +89,8 @@ exports.search = async (req, res) => {
 
 exports.dashboard = async (req, res) => {
   try {
-    console.log(req.cookies.jwt);
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
 
     // Get unique project IDs from tasks for the specific company
     const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company, employees:decoded.user._id});
@@ -143,7 +143,7 @@ exports.create=async (req, res) => {
     const salt=await bcrypt.genSalt(10);
     const hashPassword=await bcrypt.hash(password,salt);
 
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${email}`;
 		const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${email}`;
     const otherProfilePic= `https://avatar.iran.liara.run/username?username=${name}`;

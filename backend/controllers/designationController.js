@@ -4,7 +4,7 @@ const Designation = require('../models/DesignationModel');
 
 exports.showAll = async (req, res) => {
     try {
-      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
      
   
       const designations = await Designation.find({
@@ -19,7 +19,7 @@ exports.showAll = async (req, res) => {
 
   exports.getDesignation = async (req, res) => {
     try {
-      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
       const departmentId = req.query.department; // Get departmentId from query params
   
       if (!departmentId) {
@@ -43,7 +43,7 @@ exports.showAll = async (req, res) => {
 
 exports.create = async (req, res)=>{
     try {
-        const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+        const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
         const {name, department, permissions}= req.body;
         const newDesignation = await Designation({
             name,

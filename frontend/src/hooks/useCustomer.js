@@ -6,7 +6,7 @@ const url=baseUrl+"/api/customer";
 
 const getCustomers = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`, );
     const data = response.data;
     return data;
   } catch (error) {

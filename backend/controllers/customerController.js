@@ -21,7 +21,7 @@ exports.getCustomer = async (req, res)=>{
 // end point /customers?page=1&limit=10
 exports.showAll = async (req, res) => {
     try {
-      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const skip = (page - 1) * limit;
@@ -51,7 +51,7 @@ exports.showAll = async (req, res) => {
 // create customer
 exports. createCustomer= async(req, res)=>{
     try{
-        const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+        const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
         const {custName, billingAddress,email, deliveryAddress, GSTNo, customerContactPersonName1, phoneNumber1, customerContactPersonName2, phoneNumber2}=req.body;
 
         const customer= await Customer.find({company:decoded.user.company?decoded.user.company:decoded.user._id, email:email});

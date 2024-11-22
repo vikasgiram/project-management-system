@@ -7,7 +7,7 @@ const Project = require('../models/projectModel');
 
 exports.showAll = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const task = await TaskSheet.find({
       company: decoded.user.company ? decoded.user.company : decoded.user._id,
     }).populate("project", "name");
@@ -30,7 +30,7 @@ exports.showAll = async (req, res) => {
 
 exports.getTaskSheet = async (req, res) => {
  try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const { id } = req.params;
     const task = await TaskSheet.find(
       {
@@ -60,7 +60,7 @@ exports.getTaskSheet = async (req, res) => {
 
 exports.myTask = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const {projectId} = req.params;
     const task = await TaskSheet.find({
       company: decoded.user.company,
@@ -88,7 +88,7 @@ exports.create = async (req, res) => {
   try {
     const { project, employees, taskName, startDate, endDate, remark } =
       req.body;
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const existingProject = await Project.findById(project);
 
     const task = await TaskSheet.create({
@@ -123,7 +123,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     // const updatedData = req.body;
-    // const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    // const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
 
     // const task = await TaskSheet.findById(req.params.id);
     // if (!task) {
