@@ -13,6 +13,7 @@ const { resetTokenLink, verifyResetToken, generateTokenAndSendResponse} = requir
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     let user;
     const date = new Date(Date.now()); // Create a Date object from the current timestamp
 

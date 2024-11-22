@@ -47,7 +47,11 @@ export const resetPassword= async (id, token, password, confirmPassword)=>{
 
 export const logout = async ()=>{
   try {
-    const res= await axios.get(`${baseUrl}/api/logout`);
+    const res= await axios.get(`${baseUrl}/api/logout`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     if (res.status === 200) {
       // Clear the token from localStorage
       localStorage.removeItem('token');
