@@ -30,7 +30,7 @@ export const loginUser = async (username, password) => {
 
 export const resetPassword= async (id, token, password, confirmPassword)=>{
   try {
-    const res= await axios.post(`${baseUrl}/${token}`,{
+    const res= await axios.post(`${baseUrl}/api/reset-password/${id}/${token}`,{
       password,
       confirmPassword
     });

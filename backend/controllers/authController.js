@@ -73,7 +73,7 @@ exports.login = async (req, res) => {
 exports.changePassword = async (req, res)=>{
   try {
     const {oldPass, newPass} = req.body;
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
     const [employee, company, admin] = await Promise.all([
       Employee.findById(decoded.user._id),
       Company.findById(decoded.user._id),

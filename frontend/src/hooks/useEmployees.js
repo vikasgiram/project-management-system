@@ -108,7 +108,7 @@ const deleteEmployee = async (employeeId) => {
 
 const getEmployeeDashboard = async () => {
   try {
-    const response = await axios.get(`${url}/dashboard`,{ withCredentials: true,},{
+    const response = await axios.get(`${url}/dashboard`,{
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
