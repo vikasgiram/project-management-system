@@ -1,22 +1,26 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+const baseUrl= process.env.REACT_APP_API_URL;
+
 export const loginUser = async (username, password) => {
     try {
 
     if(username===undefined|| password === undefined){
       return toast.error("Username and password Required");
     }
-    const res = await axios.post("api/login", {
+    const res = await axios.post(`${baseUrl}/api/login`, {
       email: username,
       password: password
     });
 
-    if(res.data.error){
-      return toast.error(res.data.error);
-    }
-    toast.success(`Welcome Back, ${res.data.name}`);
-    return res.data; 
+    if (res.data.success) {
+      // Save the token in local storage
+      localStorage.setItem('token', res.data.token);
+      return res.data.user;
+  } else {
+      console.error('Error:', res.data.message);
+  }
 
   } catch (error) {
     console.error(error.response.data);
@@ -26,7 +30,7 @@ export const loginUser = async (username, password) => {
 
 export const resetPassword= async (id, token, password, confirmPassword)=>{
   try {
-    const res= await axios.post(`${token}`,{
+    const res= await axios.post(`${baseUrl}/${token}`,{
       password,
       confirmPassword
     });
@@ -43,12 +47,15 @@ export const resetPassword= async (id, token, password, confirmPassword)=>{
 
 export const logout = async ()=>{
   try {
-    const res= await axios.get("api/logout");
-    if(res.data.error){
-      return toast.error("res.data.error");
-    }
-    toast.success("Logged out .....");
-    return res.data;
+    const res= await axios.get(`${baseUrl}/api/logout`);
+    if (res.status === 200) {
+      // Clear the token from localStorage
+      localStorage.removeItem('token');
+      console.log('Logout successful:', res.data.message);
+
+      // Optionally, redirect the user or update the UI
+      window.location.href = '/'; // Redirect to login page
+  }
   } catch (error) {
     console.error(error.response.data);
     toast.error(error.response.data.error);
@@ -56,20 +63,35 @@ export const logout = async ()=>{
 
 };
 
-export const changePassword = async(oldPass, newPass, confirmPass)=>{
+export const changePassword = async (oldPass, newPass, confirmPass) => {
   try {
-    if(newPass !== confirmPass){
-      return toast.error("New Password and confirm password desen't Match...");
-    }
-    const res=await axios.post("api/change-password",{oldPass,newPass});
-    if(res.data.error){
-      console.log(res.data.error);
-      return res.data;
-    }
-    return res.data;
+      // Check if new password and confirm password match
+      if (newPass !== confirmPass) {
+          return toast.error("New Password and confirm password don't match...");
+      }
+
+      const token = localStorage.getItem('token'); // Retrieve the token from local storage
+
+      // Make the API call with the token in the headers
+      const res = await axios.post(`${baseUrl}/api/change-password`, 
+          { oldPass, newPass }, 
+          {
+              headers: {
+                  Authorization: `Bearer ${token}` // Set the token in the Authorization header
+              }
+          }
+      );
+
+      // Check for errors in the response
+      if (res.data.error) {
+          console.log(res.data.error);
+          return res.data;
+      }
+
+      return res.data; // Return the response data if successful
   } catch (error) {
-    console.log(error.response.data.error);
-    toast.error(error.response.data.error);
+      console.log(error.response?.data?.error || error.message);
+      toast.error(error.response?.data?.error || "An error occurred while changing the password.");
   }
 };
 
@@ -78,7 +100,7 @@ export const forgetPassword= async (email)  =>{
     if(email===''){
       return toast.error("Email is required");
     }
-    const res=await axios.post("api/forget-password",{email});
+    const res=await axios.post(`${baseUrl}/api/forget-password`,{email});
     if(res.data.error){
       console.log(res.data.error);
       return res.data;

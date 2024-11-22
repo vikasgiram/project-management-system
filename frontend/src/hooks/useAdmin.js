@@ -1,11 +1,16 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/admin";
+const baseUrl= process.env.REACT_APP_API_URL;
+const url=baseUrl+"/api/admin";
 
 const getAdmin = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -23,7 +28,11 @@ const getAdmin = async () => {
 
 const createAdmin = async (adminData) => {
   try {
-    const response = await axios.post(`${url}`, adminData);
+    const response = await axios.post(`${url}`, adminData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -38,7 +47,11 @@ const createAdmin = async (adminData) => {
 
 const updateAdmin = async (updatedAdminData) => {
   try {
-    const response = await axios.put(`${url}/${updatedAdminData._id}`, updatedAdminData);
+    const response = await axios.put(`${url}/${updatedAdminData._id}`, updatedAdminData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -54,7 +67,11 @@ const updateAdmin = async (updatedAdminData) => {
 
 const deleteAdmin = async (id) => {
   try {
-    const response = await axios.delete(`${url}/${id}`);
+    const response = await axios.delete(`${url}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -71,7 +88,11 @@ const deleteAdmin = async (id) => {
 
 const getAdminDashboard = async () => {
   try {
-    const response = await axios.get(`${url}/dashboard`);
+    const response = await axios.get(`${url}/dashboard`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

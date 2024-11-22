@@ -20,13 +20,13 @@ export const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // console.log(username + " " + password);
+    console.log("login details: "+username + " " + password);
 
     setLoading(true);
     try {
       const data = await loginUser(username, password);
       // console.log(username,password);
-      // console.log(data,"login data");
+      console.log(data,"login data");
       setUser(data);
       if (data.user === "employee") {
         navigation("/EmployeeMainDashboard");
@@ -60,7 +60,7 @@ export const LogIn = () => {
               <h4 className="text-center pb-2 fw-bold login_text">LOG IN</h4>
 
               <div className="col-lg-9 mx-auto">
-                <form onSubmit={handleLogin} action="" method="post">
+                <form onSubmit={handleLogin} >
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">
                       <i className="fa-solid fa-user"></i>
@@ -131,21 +131,7 @@ export const LogIn = () => {
                       </a>
                     </span>
                   </div>
-                  {/* <span
-                    style={{ textDecoration: "none" }}
-                    onClick={handleLogin}
-                  >
-                     {loading && (
-                
-                    <span className="loader"></span>
-                
-            )}
-                    <input
-                      type="submit"
-                      value="Log In"
-                      className="btn btn-block btn_submit form-control fw-bold"
-                    />
-                  </span> */}
+              
 
                   <button
                     type="submit"
@@ -171,46 +157,14 @@ export const LogIn = () => {
                 className="col-12 text-center pb-1 pt-4 mb-5  pt-lg-3"
                 style={{ alignSelf: "center" }}
               >
-                {/* 
-                                <div className='mb-1'>
-                                    <h6 className='text-dark f7'> <i className="fa-solid fa-circle-info "></i> Help Desk</h6>
-                                </div>
-
-                                <div className="">
-                                    <h6 className='text-danger f7'>Customer Support</h6>
-                                </div> */}
-
-                {/* <div className='pt-1 '>
-                                    <h6 className="text-dark f7"><i className="fa-solid fa-phone  pe-1"></i>
-
-                                        <a
-                                            href="tel:91726 50917" /><span className="text-dark ml-2">  +91 91726 50917</span> </h6>
-                                </div> */}
-
-                {/* <div className='pt-1'>
-                                    <h6 className="text-dark pb-2 f7"><i className="fa-solid fa-envelope  pe-1"></i>
-
-                                        <a
-                                            href="mailto:info@cdat.co.in" /><span className="text-dark ml-2">  info@cdat.co.in</span> </h6>
-                                </div> */}
+              
               </div>
             </div>
           </div>
 
           <div className="col-12 col-md-7 col-lg-5 px-5  mx-auto   d-none d-lg-block"></div>
         </div>
-        {/* 
-                <div className='row g-0'>
-                    <div className='col-12 px-3 px-lg-0 text-center  mt-md-0 d-flex align-items-center justify-content-center  nmmc_blue_bg py-4' >
-                        <span className="text-white text-center "
-                        >
-                            &copy;
-
-                            <span className="silver text-dark  ">{new Date().getFullYear()} Copyright Daccess. All Rights Reserved.
-                            </span>
-                        </span>
-                    </div>
-                </div> */}
+       
       </div>
     </>
   );

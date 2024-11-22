@@ -3,7 +3,9 @@ const Project = require('../models/projectModel');
 const Customer = require('../models/customerModel');
 
 exports.dashboard = async (req, res) => {
-  const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  const token = req.headers['authorization'].split(' ')[1];
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   async function getValueWiseProjectData() {
     try {

@@ -89,6 +89,7 @@ exports.search = async (req, res) => {
 
 exports.dashboard = async (req, res) => {
   try {
+    console.log(req.cookies.jwt);
     const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
     // Get unique project IDs from tasks for the specific company

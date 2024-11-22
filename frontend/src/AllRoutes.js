@@ -31,6 +31,7 @@ import { UserContext } from "./context/UserContext";
 import { AdminmasterGrid } from "./Components/Private/AdminDashboard/AdminmasterGrid/AdminmasterGrid";
 import { AdminCompanyMasterGrid } from "./Components/Private/AdminDashboard/AdminCompanyMasterGrid/AdminCompanyMasterGrid";
 import { UserProfile } from "./Components/Private/MainDashboard/UserProfile";
+import NotFound from "./Components/NotFound";
 
 const AllRoutes = () => {
 
@@ -87,7 +88,7 @@ const {user} = useContext(UserContext);
                         </>
                     ):null}
 
-
+                    <Route path="*" element={<NotFound/>} />
 
                 </Routes>
             </Router>

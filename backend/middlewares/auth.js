@@ -16,7 +16,9 @@ module.exports.isLoggedIn = async (req, res, next) => {
 module.exports.isCompany = async (req, res, next) => {
 
   try {
-    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+    const token = req.headers['authorization'].split(' ')[1];
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // This is the company ID of the logged in user
     const company = await Company.findById(decoded.user._id);
     if (company) {
