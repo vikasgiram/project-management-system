@@ -6,7 +6,11 @@ const url=baseUrl+"/api/department";
 
 const getDepartment = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -22,7 +26,11 @@ const getDepartment = async () => {
 
 const createDepartment = async (departmentData) => {
   try {
-    const response = await axios.post(`${url}`, departmentData);
+    const response = await axios.post(`${url}`, departmentData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -38,7 +46,11 @@ const createDepartment = async (departmentData) => {
 
 const updateDepartment = async (updatedDepartmentData) => {
   try {
-    const response = await axios.put(`${url}/${updatedDepartmentData._id}`, updatedDepartmentData);
+    const response = await axios.put(`${url}/${updatedDepartmentData._id}`, updatedDepartmentData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -54,7 +66,11 @@ const updateDepartment = async (updatedDepartmentData) => {
 
 const deleteDepartment = async (departmentId) => {
   try {
-    const response = await axios.delete(`${url}/${departmentId}`);
+    const response = await axios.delete(`${url}/${departmentId}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

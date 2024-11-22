@@ -6,7 +6,11 @@ const url =baseUrl+"/api/project";
 
 const getProjects = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -23,7 +27,11 @@ const getProjects = async () => {
 
 const getMyProjects = async () => {
   try {
-    const response = await axios.get(`${url}/my`);
+    const response = await axios.get(`${url}/my`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -40,8 +48,12 @@ const getMyProjects = async () => {
 
 const createProject = async (projectData) => {
   try {
-    console.log("project Data in api", projectData);
-    const response = await axios.post(`${url}`, projectData);
+    // console.log("project Data in api", projectData);
+    const response = await axios.post(`${url}`, projectData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -66,6 +78,10 @@ const exportProject = async (startDate, endDate, status) => {
         status
       },
       responseType: "blob",
+    },{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     });
     const URL = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement("a");
@@ -83,7 +99,11 @@ const updateProject = async (updatedProjectData) => {
   try {
     const response = await axios.put(
       `${url}/${updatedProjectData._id}`,
-      updatedProjectData
+      updatedProjectData,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }
     );
     const data = response.data;
 
@@ -102,7 +122,11 @@ const updateProject = async (updatedProjectData) => {
 
 const deleteProject = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -119,7 +143,11 @@ const deleteProject = async (Id) => {
 
 const getProject = async (Id) => {
   try {
-    const response = await axios.get(`${url}/${Id}`);
+    const response = await axios.get(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

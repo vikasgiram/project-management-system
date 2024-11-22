@@ -6,7 +6,11 @@ const url=baseUrl+"/api/task";
 
 const getTask = async () => {
   try {
-    const response = await axios.get(`${url}/`);
+    const response = await axios.get(`${url}/`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -22,7 +26,11 @@ const getTask = async () => {
 
 const createTask = async (taskData) => {
   try {
-    const response = await axios.post(`${url}`, taskData);
+    const response = await axios.post(`${url}`, taskData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -38,7 +46,11 @@ const createTask = async (taskData) => {
 
 const updateTask = async (Id, updatedData) => {
   try {
-    const response = await axios.put(`${url}/${Id}`, updatedData);
+    const response = await axios.put(`${url}/${Id}`, updatedData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -54,7 +66,11 @@ const updateTask = async (Id, updatedData) => {
 
 const deleteTask = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

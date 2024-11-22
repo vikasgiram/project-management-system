@@ -6,7 +6,11 @@ const url=baseUrl+"/api/tasksheet";
 
 const getAllTask = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -21,7 +25,11 @@ const getAllTask = async () => {
 
 const getTaskSheet = async (id) => {
   try {
-    const response = await axios.get(`${url}/${id}`);
+    const response = await axios.get(`${url}/${id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -36,7 +44,11 @@ const getTaskSheet = async (id) => {
 
 const getMyTaskSheet = async (projectId) => {
   try {
-    const response = await axios.get(`${url}/my/${projectId}`);
+    const response = await axios.get(`${url}/my/${projectId}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -52,7 +64,11 @@ const getMyTaskSheet = async (projectId) => {
 
 const createTask = async (taskData) => {
   try {
-    const response = await axios.post(`${url}`, taskData);
+    const response = await axios.post(`${url}`, taskData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -68,7 +84,11 @@ const createTask = async (taskData) => {
 
 const updateTask = async (id, updatedData) => {
   try {
-    const response = await axios.put(`${url}/${id}`, updatedData);
+    const response = await axios.put(`${url}/${id}`, updatedData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -84,7 +104,11 @@ const updateTask = async (id, updatedData) => {
 
 const deleteTask = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

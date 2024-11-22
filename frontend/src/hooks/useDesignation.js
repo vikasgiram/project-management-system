@@ -6,7 +6,11 @@ const url=baseUrl+"/api/designation";
 
 const getDesignation = async (department) => {
   try {
-    const response = await axios.get(`${url}?department=${department}`);
+    const response = await axios.get(`${url}?department=${department}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -22,7 +26,11 @@ const getDesignation = async (department) => {
 
 const getAllDesignations = async (department) => {
   try {
-    const response = await axios.get(`${url}/allDesignations`);
+    const response = await axios.get(`${url}/allDesignations`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -38,7 +46,11 @@ const getAllDesignations = async (department) => {
 
 const createDesignation = async (designationData) => {
   try {
-    const response = await axios.post(`${url}`, designationData);
+    const response = await axios.post(`${url}`, designationData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -54,7 +66,11 @@ const createDesignation = async (designationData) => {
 
 const updateDesignation = async (updatedDesignationData) => {
   try {
-    const response = await axios.put(`${url}/${updatedDesignationData._id}`, updatedDesignationData);
+    const response = await axios.put(`${url}/${updatedDesignationData._id}`, updatedDesignationData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -70,7 +86,11 @@ const updateDesignation = async (updatedDesignationData) => {
 
 const deleteDesignation = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
