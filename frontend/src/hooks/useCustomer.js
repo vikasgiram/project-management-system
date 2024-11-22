@@ -1,7 +1,8 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/customer";
+const baseUrl= process.env.REACT_APP_API_URL;
+const url=baseUrl+"/api/customer";
 
 const getCustomers = async () => {
   try {

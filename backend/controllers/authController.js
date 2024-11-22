@@ -7,7 +7,7 @@ const Admin = require('../models/adminModel.js');
 const {formatDate}= require ('../utils/formatDate.js');
 const { comparePassword, changePassword, validateEmail } = require('../utils/login.js');
 const { sendMail } = require('../utils/email.js');
-const {generateTokenAndSetCookie, resetTokenLink, verifyResetToken} = require('../utils/generateToken.js');
+const { resetTokenLink, verifyResetToken, generateTokenAndSendResponse} = require('../utils/generateToken.js');
 
 
 exports.login = async (req, res) => {
@@ -16,7 +16,9 @@ exports.login = async (req, res) => {
     let user;
     const date = new Date(Date.now()); // Create a Date object from the current timestamp
 
-
+    if(!email || !password){
+      return res.status(400).json({message: "Please enter both email and password"});
+    }
     // Check if username exists in Employee model
     user = await Employee.findOne({ email }).populate('company','subDate').populate('designation','name permissions').populate('department', 'name');
     if (user) {
@@ -30,17 +32,8 @@ exports.login = async (req, res) => {
       }
 
 
-      generateTokenAndSetCookie(user, res);
-      res.status(200).json({
-        user: "employee",
-        name:user.name,
-        email: user.email,
-        mobileNo:user.mobileNo,
-        department: user.department.name,
-        designation: user.designation.name,
-        permissions: user.designation.permissions,
-        profilePic: user.profilePic
-      });
+      generateTokenAndSendResponse(user, res, "employee");
+     
     } 
     else {
       // If not found in Employee model, check if it exists in Company model
@@ -55,11 +48,8 @@ exports.login = async (req, res) => {
           return res.status(400).json({ error: 'Your account has been deactivated on: '+ formatDate(user.subDate) });
         }
 
-        generateTokenAndSetCookie(user, res); 
-        res.status(200).json({
-          name:user.name,
-          user: "company"
-        });
+        generateTokenAndSendResponse(user, res,"company"); 
+        
       } 
       else {
         user= await Admin.findOne({email});
@@ -67,11 +57,8 @@ exports.login = async (req, res) => {
           if (!(await comparePassword(user,password))) {
             return res.status(400).json({ error: 'Invalid username or password' });
           }
-          generateTokenAndSetCookie(user, res);
-          res.status(200).json({
-            name:user.name,
-            user: "admin"
-          });
+          generateTokenAndSendResponse(user, res,"admin");
+          
         }
         else
           return res.status(400).json({ error: 'Invalid username or password' });
@@ -175,13 +162,15 @@ exports.resetPassword = async (req, res)=>{
 };
 
 
-exports.logout=async (req,res)=>{
-    try {
-        res.cookie("jwt", "", {maxAge:0});
-        res.status(200).json({message:"Logout successfully"});
-    } catch (err) {
-        console.log("Error in logout controller:",err.message);
-        res.status(500).json({error:"Internal Server Error: "+err.message});
-    }
+exports.logout = async (req, res) => {
+  try {
+      // You might want to invalidate the token on the server side if needed
+      // For example, by adding it to a blacklist or similar mechanism
+      
+      res.status(200).json({ message: "Logout successfully" });
+  } catch (err) {
+      console.log("Error in logout controller:", err.message);
+      res.status(500).json({ error: "Internal Server Error: " + err.message });
+  }
 };
 

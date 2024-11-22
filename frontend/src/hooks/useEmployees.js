@@ -1,7 +1,8 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/employee";
+const baseUrl= process.env.REACT_APP_API_URL;
+const url=baseUrl+"/api/employee";
 
 const getEmployees = async () => {
   try {
@@ -87,7 +88,7 @@ const deleteEmployee = async (employeeId) => {
 
 const getEmployeeDashboard = async () => {
   try {
-    const response = await axios.get(`${url}/dashboard`);
+    const response = await axios.get(`${url}/dashboard`,{ withCredentials: true,});
     const data = response.data;
 
     if (data.error) {

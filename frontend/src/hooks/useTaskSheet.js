@@ -1,7 +1,8 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/tasksheet";
+const baseUrl= process.env.REACT_APP_API_URL;
+const url=baseUrl+"/api/tasksheet";
 
 const getAllTask = async () => {
   try {

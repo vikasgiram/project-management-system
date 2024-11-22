@@ -1,11 +1,16 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/action";
+const baseUrl= process.env.REACT_APP_API_URL;
+const url=baseUrl+"/api/action";
 
 const getAllActions = async (taskId) => {
   try {
-    const response = await axios.get(`${url}/${taskId}`);
+    const response = await axios.get(`${url}/${taskId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     return data;
@@ -18,7 +23,11 @@ const getAllActions = async (taskId) => {
 
 const createAction = async (actionData) => {
   try {
-    const response = await axios.post(`${url}`, actionData);
+    const response = await axios.post(`${url}`, actionData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -34,7 +43,11 @@ const createAction = async (actionData) => {
 
 const updateAction = async (id, updatedData) => {
   try {
-    const response = await axios.put(`${url}/${id}`, updatedData);
+    const response = await axios.put(`${url}/${id}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -50,7 +63,11 @@ const updateAction = async (id, updatedData) => {
 
 const deleteAction = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

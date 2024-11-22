@@ -1,19 +1,25 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const url="api/company";
+const baseUrl= process.env.REACT_APP_API_URL;
+const url=baseUrl+"/api/company";
+
 
 const getDashboardData = async () => {
   try {
-    const response = await axios.get(`${url}/dashboard`);
+    const response = await axios.get(`${url}/dashboard`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
       console.error(data.error);
       return toast.error(data.error);
     }
-
-    return data;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     toast.error(error.response.data.error);  }
@@ -21,7 +27,11 @@ const getDashboardData = async () => {
 
 const getCompany = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -36,7 +46,11 @@ const getCompany = async () => {
 
 const createCompany = async (companyData) => {
   try {
-    const response = await axios.post(`${url}`, companyData);
+    const response = await axios.post(`${url}`, companyData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -53,7 +67,11 @@ const createCompany = async (companyData) => {
 
 const updateCompany = async (updatedData) => {
   try {
-    const response = await axios.put(`${url}/${updatedData._id}`, updatedData);
+    const response = await axios.put(`${url}/${updatedData._id}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -69,7 +87,11 @@ const updateCompany = async (updatedData) => {
 
 const deleteCompany = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
