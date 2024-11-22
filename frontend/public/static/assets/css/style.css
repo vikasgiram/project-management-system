@@ -2721,3 +2721,14 @@ width: 65% !important;
   height: 20vh !important;
   overflow: auto;
 }
+
+
+.modal_widthhh{
+  width: 65% !important;
+}
+
+@media  screen and (max-width: 600px) {
+  .modal_widthhh{
+    width: 95% !important;
+  }
+}

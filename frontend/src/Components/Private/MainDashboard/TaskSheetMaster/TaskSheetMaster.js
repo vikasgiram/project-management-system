@@ -325,7 +325,9 @@ export const TaskSheetMaster = () => {
                           className="btn adbtn btn-success px-4 me-sm-4 mx-auto"
                         >
                           {" "}
-                          <i className="fa-solid fa-plus"></i> Add Task
+                          <i className="fa-solid fa-plus" 
+                        
+                          ></i> Add Task
                         </button>
                       </div>
                     </div>
@@ -380,12 +382,14 @@ export const TaskSheetMaster = () => {
                           value={department}
                         >
                           <option value="">-- Select Department Name --</option>
+                          
                           {departmentName &&
                             departmentName.map((department) => (
                               <option value={department._id}>
                                 {department.name}
                               </option>
-                            ))}
+                              ))}
+                             
                         </select>
                       </div>
                     </div>

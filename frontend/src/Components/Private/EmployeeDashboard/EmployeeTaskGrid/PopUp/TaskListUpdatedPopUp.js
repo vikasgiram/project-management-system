@@ -13,6 +13,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [actionHistory, setActionHistory]= useState();
+  const [hideInput, setHideInput] = useState(false);
 
   // console.log(selectedTask, "dcdkshbh");
 
@@ -22,6 +23,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     if (status === "completed") {
       setTaskLevel(100);
     }
+ 
   };
 
   const toggleVisibility =async () => {
@@ -72,6 +74,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     }
   };
 
+
+
   return (
     <>
       <div
@@ -82,8 +86,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
           backgroundColor: "#00000090",
         }}
       >
-        <div className="modal-dialog modal-xl">
-          <div className="modal-content p-3">
+        <div className="modal-dialog modal-xl modal_widthhh" >
+          <div className="modal-content p-3"> 
             <form
             // onSubmit={handleEmpUpdate}
             >
@@ -195,6 +199,17 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                       </div>
                     )}
                   </div>
+
+                  {/* {!hideInput && (
+        <div>
+          <label>Specific Input:</label>
+          <input type="text" placeholder="Enter something" />
+        </div>
+      )} */}
+ {selectedTask.taskLevel !== 100 && (
+    
+      
+    <div className="row modal_body_height mt-2">
                   <div className="col-12 col-lg-12 ">
                     <div className="md-3">
                       <label
@@ -209,7 +224,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                         name="Action"
                         placeholder="Details ..."
                         rows="2"
-                        onChange={(e) => setAction(e.target.value)}
+                        onChange={(e) => {setAction(e.target.value)}}
                         value={action}
                       ></textarea>
                     </div>
@@ -226,11 +241,15 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                       <input
                         type="datetime-local"
                         name="processStartDate"
-                        onChange={(e) => setStartTime(e.target.value)}
+                        onChange={(e) => {
+                          setStartTime(e.target.value);
+                         
+                        }}
                         value={startTime}
                         className="form-control rounded-0"
-                        min={new Date().toISOString().slice(0, 16)}
+                        // min={new Date().toISOString().slice(0, 16)}
                         id="processStartDate"
+
                       />
                     </div>
                   </div>
@@ -343,6 +362,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                       </button>
                     </div>
                   </div>
+                  </div>
+                  )}
                 </div>
               </div>
             </form>
