@@ -38,6 +38,15 @@ const Option = (props) => {
 };
 
 export const TaskSheetMaster = () => {
+/**
+ * Component for displaying a Gantt chart of a project's tasks.
+ *
+ * The component fetches the project data from the server and transforms it
+ * into a format that can be used by the Gantt component. It also provides
+ * functionality for adding new tasks to the project.
+ *
+ * @returns {JSX.Element} The component.
+ */
   const [isopen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isopen);
@@ -316,7 +325,9 @@ export const TaskSheetMaster = () => {
                           className="btn adbtn btn-success px-4 me-sm-4 mx-auto"
                         >
                           {" "}
-                          <i className="fa-solid fa-plus"></i> Add Task
+                          <i className="fa-solid fa-plus" 
+                        
+                          ></i> Add Task
                         </button>
                       </div>
                     </div>
@@ -371,12 +382,14 @@ export const TaskSheetMaster = () => {
                           value={department}
                         >
                           <option value="">-- Select Department Name --</option>
+                          
                           {departmentName &&
                             departmentName.map((department) => (
                               <option value={department._id}>
                                 {department.name}
                               </option>
-                            ))}
+                              ))}
+                             
                         </select>
                       </div>
                     </div>

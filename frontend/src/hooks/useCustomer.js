@@ -6,7 +6,11 @@ const url=baseUrl+"/api/customer";
 
 const getCustomers = async () => {
   try {
-    const response = await axios.get(`${url}`, );
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
     return data;
   } catch (error) {
@@ -16,7 +20,11 @@ const getCustomers = async () => {
 
 const createCustomer = async (customerData) => {
   try {
-    const response = await axios.post(`${url}`, customerData);
+    const response = await axios.post(`${url}`, customerData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -33,7 +41,11 @@ const createCustomer = async (customerData) => {
 
 const updateCustomer = async (updatedData) => {
   try {
-    const response = await axios.put(`${url}/${updatedData._id}`, updatedData);
+    const response = await axios.put(`${url}/${updatedData._id}`, updatedData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -49,7 +61,11 @@ const updateCustomer = async (updatedData) => {
 
 const deleteCustomer = async (Id) => {
   try {
-    const response = await axios.delete(`${url}/${Id}`);
+    const response = await axios.delete(`${url}/${Id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

@@ -6,7 +6,11 @@ const url=baseUrl+"/api/employee";
 
 const getEmployees = async () => {
   try {
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -22,7 +26,11 @@ const getEmployees = async () => {
 
 const getEmployee = async (id) => {
   try {
-    const response = await axios.get(`${url}/${id}`);
+    const response = await axios.get(`${url}/${id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -40,7 +48,11 @@ const getEmployee = async (id) => {
 
 const createEmployee = async (employeeData) => {
   try {
-    const response = await axios.post(`${url}`, employeeData);
+    const response = await axios.post(`${url}`, employeeData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -56,7 +68,11 @@ const createEmployee = async (employeeData) => {
 
 const updateEmployee = async (updatedEmployeeData) => {
   try {
-    const response = await axios.put(`${url}/${updatedEmployeeData._id}`, updatedEmployeeData);
+    const response = await axios.put(`${url}/${updatedEmployeeData._id}`, updatedEmployeeData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -72,7 +88,11 @@ const updateEmployee = async (updatedEmployeeData) => {
 
 const deleteEmployee = async (employeeId) => {
   try {
-    const response = await axios.delete(`${url}/${employeeId}`);
+    const response = await axios.delete(`${url}/${employeeId}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {
@@ -88,7 +108,11 @@ const deleteEmployee = async (employeeId) => {
 
 const getEmployeeDashboard = async () => {
   try {
-    const response = await axios.get(`${url}/dashboard`,{ withCredentials: true,});
+    const response = await axios.get(`${url}/dashboard`,{ withCredentials: true,},{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     const data = response.data;
 
     if (data.error) {

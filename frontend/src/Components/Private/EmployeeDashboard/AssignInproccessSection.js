@@ -11,7 +11,7 @@ export const AssignInproccessSection = ({
 
           <div className="row bg-white rounded p-lg-3 ">
             <h6 className="mb-0 fw-bold text-success mb-3">
-              Assigned Projects
+              Assigned Tasks
             </h6>
             <div className="col-12">
               <div className="shadow_custom ">
@@ -29,7 +29,7 @@ export const AssignInproccessSection = ({
                     <tbody>
                       {assignedProjects.length === 0 ? (
                         <tr className="text-center">
-                          <td colSpan="4">No New Assigned Projects...</td>
+                          <td colSpan="4">No New Assigned Tasks...</td>
                         </tr>
                       ) : (
                         assignedProjects.map((project) => (
@@ -64,7 +64,7 @@ export const AssignInproccessSection = ({
 
         <div className="col-12 col-lg-7  mx-auto  rounded ">
           <div className="row  bg-white ms-1 rounded p-3">
-            <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Inprocess</h6>
+            <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Inprocess Projects</h6>
             <div className="col-12">
               <div className="shadow_custom ">
                 <div className="table-responsive">
