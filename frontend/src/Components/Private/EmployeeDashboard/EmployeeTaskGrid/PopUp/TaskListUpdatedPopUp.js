@@ -14,6 +14,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   const [endTime, setEndTime] = useState("");
   const [actionHistory, setActionHistory]= useState();
   const [hideInput, setHideInput] = useState(false);
+  const [forEdit, setForEdit] = useState(false);
 
   // console.log(selectedTask, "dcdkshbh");
 
@@ -74,7 +75,9 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     }
   };
 
-
+const editTask=()=>{
+  setForEdit(true);
+}
 
   return (
     <>
@@ -167,6 +170,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                             <th>Edit</th>
                           </tr>
                           <tbody className="broder my-4">
+                          {console.log("actionHistory", actionHistory)}
+
                             {actionHistory &&
                               actionHistory.map((action, index) => (
                                 <tr className="border my-4" key={index}>
@@ -185,7 +190,9 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                       <button
                                         type="button"
                                         onClick={() =>
-                                          console.log("Edit action")
+                                          editTask(action._id)
+                                          // console.log(action._id,"action id")
+                                          
                                         }
                                       >
                                         Edit
@@ -200,12 +207,9 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                     )}
                   </div>
 
-                  {/* {!hideInput && (
-        <div>
-          <label>Specific Input:</label>
-          <input type="text" placeholder="Enter something" />
-        </div>
-      )} */}
+          
+{setForEdit &&("This is for edit")}
+          
  {selectedTask.taskLevel !== 100 && (
     
       
