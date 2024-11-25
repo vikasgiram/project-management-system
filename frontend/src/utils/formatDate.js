@@ -65,3 +65,19 @@ export function formatDateforTaskUpdate(dateString) {
   
   return `${hours}:${minutes}:${seconds} ${day}-${month}-${year}`;
 }
+
+export function formatDateforEditAction(dateString) {
+  /**
+   * Format a date string to the `datetime-local` input format: YYYY-MM-DDTHH:MM
+   */
+  const date = new Date(dateString);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2 digits for month
+  const day = String(date.getDate()).padStart(2, '0'); // Ensure 2 digits for day
+  const hours = String(date.getHours()).padStart(2, '0'); // Ensure 2 digits for hours
+  const minutes = String(date.getMinutes()).padStart(2, '0'); // Ensure 2 digits for minutes
+
+  // Format the date as YYYY-MM-DDTHH:MM
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
