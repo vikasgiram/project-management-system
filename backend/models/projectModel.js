@@ -1,15 +1,12 @@
 const mongoose = require('mongoose');
-const Customer = require('./customerModel.js');
-const Employee = require('./employeeModel.js');
-const Company = require('./companyModel.js');
-const TaskSheet = require('./taskSheetModel.js');
+
 
 // Define the Project schema
 const projectSchema = new mongoose.Schema({
   custId: {
     // Reference to the customer for this project
     type: mongoose.Schema.Types.ObjectId,
-    ref: Customer,
+    ref: 'Customer',
   },
   name:{
     type:String,
@@ -17,7 +14,7 @@ const projectSchema = new mongoose.Schema({
   },
   company:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:Company
+    ref:'Company'
   },
   purchaseOrderNo: {
     // Purchase order number

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Project = require('./projectModel');
+
 
 const projectHistorySchema = new mongoose.Schema({
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Project,
+    ref: 'Project',
     required: true
   },
   fieldName: {

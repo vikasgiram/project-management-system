@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const Department = require('./departmentModel');
-const Company = require('./companyModel');
+
 
 const designationSchema = new mongoose.Schema({
     name:{
@@ -9,11 +8,11 @@ const designationSchema = new mongoose.Schema({
     },
     company:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: Company
+        ref: 'Company'
     },
     department:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: Department
+        ref: 'Department'
     },
     permissions:[{
         type: String,

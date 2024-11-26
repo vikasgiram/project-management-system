@@ -1,6 +1,8 @@
-const Department = require('../models/departmentModel');
 const jwt = require('jsonwebtoken');
+
+const Department = require('../models/departmentModel');
 const Designation = require('../models/designationModel');
+const Employee = require('../models/employeeModel');
 
 
 exports.showAll = async (req, res)=>{
@@ -54,16 +56,26 @@ exports.create = async ( req, res)=>{
     }
 }
 
-exports.delete =async (req, res)=>{
+exports.delete = async (req, res) => {
     try {
-        const dep= await Department.findByIdAndDelete(req.params.id);
-        await Designation.deleteMany({ department: req.params.id });
-        if(!dep){
-            return res.status(400).json({error:"Department Not Found "});
+        const designationCount = await Designation.countDocuments({ department: req.params.id });
+        if (designationCount > 0) {
+            return res.status(400).json({ error: "Cannot delete department because there are designations associated with it." });
         }
-        res.status(200).json({dep});
+
+        const employeeCount = await Employee.countDocuments({ department: req.params.id });
+        if (employeeCount > 0) {
+            return res.status(400).json({ error: "Cannot delete department because there are employees associated with it." });
+        }
+
+        const dep = await Department.findByIdAndDelete(req.params.id);
+        if (!dep) {
+            return res.status(400).json({ error: "Department Not Found." });
+        }
+
+        res.status(200).json({ dep });
     } catch (error) {
-        res.status(500).json({error:"Error while deleting Department: "+error.message});
+        res.status(500).json({ error: "Error while deleting department: " + error.message });
     }
 }
 

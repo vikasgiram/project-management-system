@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Company = require('./companyModel');
 const Schema = mongoose.Schema;
 
 // Define the taskSheet schema
@@ -11,7 +10,7 @@ const taskSchema = new Schema({
   },
   company:{
     type:mongoose.Schema.Types.ObjectId,
-    ref: Company,
+    ref: 'Company',
     required: true
   },
 

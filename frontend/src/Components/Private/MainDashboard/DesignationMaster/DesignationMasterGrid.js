@@ -52,7 +52,7 @@ export const DesignationMasterGird = () => {
             handelDeleteClosePopUpClick();
             return toast.success("Designation Deleted sucessfully...");
         }
-        toast.error(data.error);
+
     };
     useEffect(() => {
         const fetchData = async () => {

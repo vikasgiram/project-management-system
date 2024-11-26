@@ -1,6 +1,7 @@
 
 const jwt = require('jsonwebtoken');
 const Designation = require('../models/designationModel');
+const Employee = require('../models/employeeModel');
 
 exports.showAll = async (req, res) => {
     try {
@@ -83,14 +84,21 @@ exports.update = async ( req, res)=>{
     }
 }
 
-exports.delete = async (req, res)=>{
-    try {
-        const designation= await Designation.findByIdAndDelete(req.params.id);
-        if(!designation){
-            return res.status(400).json({error:"Designation not found "});
-        }
-        res.status(200).json({designation});
-    } catch (error) {
-        res.status(500).json({error:"Error while Deleting Designation: "+error.message});
-    }
+exports.delete = async (req, res) => {
+  try {
+      const employeeCount = await Employee.countDocuments({ designation: req.params.id });
+      
+      if (employeeCount > 0) {
+          return res.status(400).json({ error: "Cannot delete designation because there are employees associated with it." });
+      }
+
+      const designation = await Designation.findByIdAndDelete(req.params.id);
+      if (!designation) {
+          return res.status(400).json({ error: "Designation not found." });
+      }
+
+      res.status(200).json({ designation });
+  } catch (error) {
+      res.status(500).json({ error: "Error while deleting designation: " + error.message });
+  }
 }

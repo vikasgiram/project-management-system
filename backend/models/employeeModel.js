@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-const Company = require("./companyModel");
-const Department = require('./departmentModel');
-const Designation = require('./departmentModel');
 
 
 const employeeSchema = new mongoose.Schema({
@@ -12,12 +9,12 @@ const employeeSchema = new mongoose.Schema({
   },
   department:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: Department,
+    ref: 'Department',
     required:true
   },
   company:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:Company,
+    ref:'Company',
     required:true
   },
   mobileNo: {
@@ -31,7 +28,7 @@ const employeeSchema = new mongoose.Schema({
   },
   designation: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:Designation,
+    ref:'Designation',
     required: true,
   },email: {
     type: String,
