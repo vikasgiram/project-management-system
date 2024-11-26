@@ -106,6 +106,13 @@ exports.dashboard = async (req, res) => {
     // Get unique project IDs from tasks for the specific company
     const uniqueProjectIds = await TaskSheet.distinct("project", { company: decoded.user.company, employees:decoded.user._id});
     const assignedTasks= await TaskSheet.find({company:decoded.user.company, employees:decoded.user._id, taskStatus:'upcomming'}).populate('taskName','name');
+    const inprocessTasks= await TaskSheet.find({company:decoded.user.company, employees:decoded.user._id, taskStatus:'inprocess'}).populate('taskName','name');
+
+    // Fetch upcoming projects
+    const assignedProgects = await Project.find({
+      _id: { $in: uniqueProjectIds },
+      projectStatus: 'upcoming' // Filter for upcoming projects
+    });
 
     // Fetch in-process projects
     const inProcessProjects = await Project.find({
@@ -122,7 +129,7 @@ exports.dashboard = async (req, res) => {
     // Send the response with separate project lists and counts
     res.status(200).json({
       assignedTasks,
-      inProcessProjects,
+      inprocessTasks,
       completedCount,
       inprocessCount: inProcessProjects.length,
       totalProjects: (completedCount+ inProcessProjects.length + assignedProgects.length)
