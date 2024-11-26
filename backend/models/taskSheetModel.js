@@ -24,8 +24,8 @@ const taskSheetSchema = new Schema({
   },
   taskStatus: {
     type: String,
-    enum: ['stuck','inprocess', 'completed'], // taskStatus can only be one of these values
-    default: 'inprocess'
+    enum: ['stuck','inprocess', 'completed', 'upcomming'], // taskStatus can only be one of these values
+    default: 'upcomming'
   },
   startDate:{
     type: Date,
