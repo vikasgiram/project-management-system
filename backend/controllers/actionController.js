@@ -50,7 +50,9 @@ exports.update = async (req,res)=>{
 
 exports.create= async(req, res)=>{
     try {
-        const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const {task, action, startTime, endTime, taskStatus, taskLevel, remark} = req.body;
         const tasksheet= await TaskSheet.findById(task);

@@ -9,7 +9,9 @@ const TaskSheet = require("../models/taskSheetModel");
 
 exports.showAll = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -59,7 +61,9 @@ exports.getProject = async (req, res) => {
 
 exports.myProjects = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Get unique project IDs from tasks for the specific company
     const uniqueProjectIds = await TaskSheet.distinct("project", {
@@ -82,7 +86,9 @@ exports.myProjects = async (req, res) => {
 
 exports.search = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const query = req.query.search;
 
     const projects = await Project.find({
@@ -121,7 +127,9 @@ exports.create = async (req, res) => {
       remark,
       POCopy,
     } = req.body;
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     completeLevel = completeLevel === undefined ? 0 : completeLevel;
     console.log("At Backend" + address);
     const newProject = await Project({
@@ -163,7 +171,9 @@ exports.create = async (req, res) => {
 
 exports.exportProjects = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { startDate, endDate, status } = req.params;
 
     // Build query for projects based on filters

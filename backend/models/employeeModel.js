@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Company = require("./companyModel");
 const Department = require('./departmentModel');
-const Designation = require('./DesignationModel');
+const Designation = require('./departmentModel');
 
 
 const employeeSchema = new mongoose.Schema({

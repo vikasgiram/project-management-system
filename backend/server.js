@@ -77,6 +77,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html')); 
 });
 
+app.use((err, req, res, next) => {
+  console.error(err); // Log the error for debugging
+  res.status(500).json({
+    message: 'Something went wrong, please try again later.',
+  });
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

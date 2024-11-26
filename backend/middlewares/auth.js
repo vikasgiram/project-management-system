@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const Company = require('../models/companyModel');
 const Admin = require('../models/adminModel');
 const { formatDate } = require('../utils/formatDate');
-const Designation = require('../models/DesignationModel');
+const Designation = require('../models/designationModel');
 
 
 module.exports.isLoggedIn = async (req, res, next) => {
@@ -16,7 +16,7 @@ module.exports.isLoggedIn = async (req, res, next) => {
 module.exports.isCompany = async (req, res, next) => {
 
   try {
-    const token = req.headers['authorization'].split(' ')[1];
+    const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // This is the company ID of the logged in user
@@ -34,8 +34,8 @@ module.exports.isCompany = async (req, res, next) => {
 module.exports.isAdmin = async (req, res, next) => {
 
   try {
-    
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // This is the employee ID of the logged in user
     const user=await Admin.findById(decoded.user._id);
   
@@ -51,7 +51,8 @@ module.exports.isAdmin = async (req, res, next) => {
 
 module.exports.permissionMiddleware = (permissions) => {
   return async (req, res, next) => {
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await Company.findById(decoded.user._id);
 
     const date = new Date(Date.now()); // Create a Date object from the current timestamp

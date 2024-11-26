@@ -6,8 +6,8 @@ const Project = require('../models/projectModel');
 const Employee = require('../models/employeeModel');
 const Department = require('../models/departmentModel');
 const TaskSheet = require('../models/taskSheetModel');
-const Designation = require('../models/DesignationModel');
 const CompanyHistory = require('../models/companyHistoryModel');
+const Designation = require('../models/designationModel');
 
 exports.showAll = async (req, res) => {
   try {

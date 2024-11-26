@@ -5,7 +5,9 @@ const TaskSheet = require('../models/taskSheetModel');
 exports.create = async (req, res) => {
   try {
     const { name } = req.body;
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const task = await Task.create({
       name,
       company: decoded.user.company ? decoded.user.company : decoded.user._id
@@ -22,7 +24,9 @@ exports.create = async (req, res) => {
 
 exports.showAll = async (req, res) => {
   try {
-    const decoded = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET);
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const task = await Task.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id });
 
     if (task.length <= 0) {
