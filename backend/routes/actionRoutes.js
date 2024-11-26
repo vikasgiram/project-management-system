@@ -7,7 +7,7 @@ router.get('/:taskId',actionController.showAll);
 
 router.post('/',actionController.create);
 
-router.put('/id',actionController.update);
+router.put('/:id',actionController.update);
 
 router.delete('/:id', actionController.delete);
 

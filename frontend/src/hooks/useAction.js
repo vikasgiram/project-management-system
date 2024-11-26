@@ -12,7 +12,7 @@ const getAllActions = async (taskId) => {
       }
     });
     const data = response.data;
-
+    // console.log("api actions",data);
     return data;
   } catch (error) {
     console.error(error);
@@ -23,6 +23,7 @@ const getAllActions = async (taskId) => {
 
 const createAction = async (actionData) => {
   try {
+    // console.log("new action data",actionData);
     const response = await axios.post(`${url}`, actionData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -43,6 +44,7 @@ const createAction = async (actionData) => {
 
 const updateAction = async (id, updatedData) => {
   try {
+    // console.log(updatedData);
     const response = await axios.put(`${url}/${id}`, updatedData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`

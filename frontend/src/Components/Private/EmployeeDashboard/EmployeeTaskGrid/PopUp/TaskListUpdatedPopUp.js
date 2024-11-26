@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { updateTask } from "../../../../../hooks/useTaskSheet";
-import { formatDate, formatDateforTaskUpdate,formatDateforEditAction } from "../../../../../utils/formatDate";
+import { formatDate, formatDateforTaskUpdate, formatDateforEditAction } from "../../../../../utils/formatDate";
 import { Steps } from "rsuite";
 import { createAction, getAllActions } from "../../../../../hooks/useAction";
+import e from "cors";
+import { updateAction } from "../../../../../hooks/useAction";
 
 
 
@@ -25,6 +27,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   const [hideInput, setHideInput] = useState(false);
   const [forEdit, setForEdit] = useState(false);
   const [editAction, setEditAction] = useState(""); //editAction used for for  update as parameter 
+  const [addAction, setAddAction] = useState(true);
 
   // console.log(selectedTask, "dcdkshbh");
 
@@ -41,7 +44,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     setIsVisible(!isVisible);
     const res = await getAllActions(selectedTask._id);
     setActionHistory(res);
-    // console.log("action history",actionHistory);
+    // console.log("all actions",res);
   };
 
   const handelTaskUpdate = async (event) => {
@@ -88,16 +91,28 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   const editTask = (action) => {
     setEditAction(action);
     setForEdit(true);
+    setAddAction(false);
   }
 
-  const handleEditTask = (event) => {
+  const handleEditTask = async (event) => {
     const { name, value } = event.target;
     setEditAction((prevAction) => ({
-        ...prevAction,
-        [name]: value
+      ...prevAction,
+      [name]: value
     }));
-}
-console.log(editAction,"editAction");
+  }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try{
+    await updateAction(editAction._id, editAction);
+    handleUpdateTask();
+    }catch(error){
+      toast.error(error);
+    }
+  }
+  // console.log("editAction", editAction);
+  
+
 
   return (
     <>
@@ -227,9 +242,9 @@ console.log(editAction,"editAction");
                     )}
                   </div>
 
-{/* //for edit the actions */}
+                  {/* //for edit the actions */}
                   {forEdit ? (
-                      <div className="row modal_body_height mt-2">
+                    <div className="row modal_body_height mt-2">
                       <div className="col-12 col-lg-12 ">
                         <div className="md-3">
                           <label
@@ -282,7 +297,7 @@ console.log(editAction,"editAction");
                             name="endTime"
                             onChange={handleEditTask}
                             value={formatDateforEditAction(editAction.endTime)}
-                           
+
                             className="form-control rounded-0"
                             id="endTime"
                           />
@@ -300,13 +315,13 @@ console.log(editAction,"editAction");
                           id="taskStatus"
                           name="taskStatus"
                           className="form-select"
-                     
+
                           onChange={handleEditTask}
-                          value={taskStatus}
-                          
+                          value={editAction.taskStatus}
+
                         >
                           {/* {console.log("editAction.taskStatus", editAction.taskStatus)}; */}
-                          
+
                           <option value="">Select Status</option>
                           <option value="inprocess">Inproccess</option>
                           <option value="completed">Completed</option>
@@ -331,7 +346,7 @@ console.log(editAction,"editAction");
                               className="form-control rounded-0 border-0"
                               id="complated"
                               placeholder="eg. 65 %"
-                             
+
                               readOnly={taskStatus === "completed"}
                             />
 
@@ -347,13 +362,13 @@ console.log(editAction,"editAction");
 
                       <div className="col-12 col-lg-12">
                         <div className="mb-3">
-                          <label htmlFor="name" className="form-label label_text">
+                          <label htmlFor="remark" className="form-label label_text">
                             Remark
                           </label>
                           <textarea
                             className="textarea_edit col-12"
-                            id=""
-                            name=""
+                            id="remark"
+                            name="remark"
                             placeholder="Remark ..."
                             rows="2"
                             onChange={handleEditTask}
@@ -366,7 +381,7 @@ console.log(editAction,"editAction");
                         <div className="col-12 pt-3 mt-2">
                           <button
                             type="submit"
-                            onClick={handelTaskUpdate}
+                            onClick={handleSubmit}
                             className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                           >
                             Update
@@ -381,9 +396,9 @@ console.log(editAction,"editAction");
                         </div>
                       </div>
                     </div>
-                  ):" "}
+                  ) : " "}
 
-                  {selectedTask.taskLevel !== 100 && (
+                  {selectedTask.taskLevel !== 100 && addAction && (
 
 
                     <div className="row modal_body_height mt-2">
