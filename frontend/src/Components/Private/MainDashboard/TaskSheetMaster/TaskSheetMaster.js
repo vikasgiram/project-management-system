@@ -1,41 +1,34 @@
-import { useEffect } from "react";
+import React,{ useEffect, useState } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { ViewMode, Gantt } from "gantt-task-react";
-import {
-  getStartEndDateForProject,
-  initTasks,
-} from "../../../Helper/GanttChartHelper";
-import React, { useState } from "react";
+import {initTasks} from "../../../Helper/GanttChartHelper";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-import { getProject } from "../../../../hooks//useProjects";
 import { createTask } from "../../../../hooks/useTaskSheet";
-import { HashLoader } from "react-spinners";
-import { default as ReactSelect, components } from "react-select";
+import { default as ReactSelect } from "react-select";
 import { useParams } from "react-router-dom";
 import { getTaskSheet } from "../../../../hooks/useTaskSheet";
 import toast from "react-hot-toast";
 import { getTask } from "../../../../hooks/useTask";
-import { getEmployee, getEmployees } from "../../../../hooks/useEmployees";
+import { getEmployee} from "../../../../hooks/useEmployees";
 import { getDepartment } from "../../../../hooks/useDepartment";
-
 import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
 
-const Option = (props) => {
-  return (
-    <div>
-      <components.Option {...props}>
-        <input
-          type="checkbox"
-          checked={props.isSelected}
-          onChange={() => null}
-        />{" "}
-        <label>{props.label}</label>
-      </components.Option>
-    </div>
-  );
-};
+// const Option = (props) => {
+//   return (
+//     <div>
+//       <components.Option {...props}>
+//         <input
+//           type="checkbox"
+//           checked={props.isSelected}
+//           onChange={() => null}
+//         />{" "}
+//         <label>{props.label}</label>
+//       </components.Option>
+//     </div>
+//   );
+// };
 
 export const TaskSheetMaster = () => {
 /**
@@ -71,6 +64,7 @@ export const TaskSheetMaster = () => {
   const [projectName, setProjectName] = useState("");
   const [renderPage, setRenderPage] = useState(false);
   const [taskAddPopUpShow, setTaskAddPopUpShow] = useState(false);
+  
 
   let columnWidth = 90;
   if (view === ViewMode.Month) {
@@ -84,29 +78,33 @@ export const TaskSheetMaster = () => {
     setRenderPage(!renderPage);
     handleTaskAdd();
   };
-
-  const handleAddTaskName = () => {
+  const handleTaskSelection = (value) => {
+    if (value === "AddNewTask") {
+      setTaskAddPopUpShow(!taskAddPopUpShow); 
+    } else {
+      setTaskName(value); // Update task name for selected task
+    }
     setTaskAddPopUpShow(!taskAddPopUpShow);
   };
-  const handleTaskChange = (task) => {
-    // console.log("On date change Id:" + task.id);
-    let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
-    if (task.project) {
-      const [start, end] = getStartEndDateForProject(newTasks, task.project);
-      const project =
-        newTasks[newTasks.findIndex((t) => t.id === task.project)];
-      if (
-        project.start.getTime() !== start.getTime() ||
-        project.end.getTime() !== end.getTime()
-      ) {
-        const changedProject = { ...project, start, end };
-        newTasks = newTasks.map((t) =>
-          t.id === task.project ? changedProject : t
-        );
-      }
-    }
-    setTasks(newTasks);
-  };
+  // const handleTaskChange = (task) => {
+  //   // console.log("On date change Id:" + task.id);
+  //   let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
+  //   if (task.project) {
+  //     const [start, end] = getStartEndDateForProject(newTasks, task.project);
+  //     const project =
+  //       newTasks[newTasks.findIndex((t) => t.id === task.project)];
+  //     if (
+  //       project.start.getTime() !== start.getTime() ||
+  //       project.end.getTime() !== end.getTime()
+  //     ) {
+  //       const changedProject = { ...project, start, end };
+  //       newTasks = newTasks.map((t) =>
+  //         t.id === task.project ? changedProject : t
+  //       );
+  //     }
+  //   }
+  //   setTasks(newTasks);
+  // };
   const handleTaskDelete = (task) => {
     const conf = window.confirm("Are you sure about " + task.name + " ?");
     if (conf) {
@@ -308,7 +306,7 @@ export const TaskSheetMaster = () => {
                         <select
                           className="form-select rounded-0"
                           aria-label="Default select example"
-                          onChange={(e) => setTaskName(e.target.value)}
+                          onChange={(e) => handleTaskSelection(e.target.value)}
                           value={taskName}
                         >
                           <option value="">-- Select Task Name --</option>
@@ -316,8 +314,9 @@ export const TaskSheetMaster = () => {
                             taskDropDown.map((task) => (
                               <option value={task._id}>{task.name}</option>
                             ))}
+                            <option value="AddNewTask" >-- Add New Task --</option>
                         </select>
-                        <button
+                        {/* <button
                           onClick={() => {
                             handleAddTaskName();
                           }}
@@ -328,7 +327,7 @@ export const TaskSheetMaster = () => {
                           <i className="fa-solid fa-plus" 
                         
                           ></i> Add Task
-                        </button>
+                        </button> */}
                       </div>
                     </div>
 
@@ -504,7 +503,7 @@ export const TaskSheetMaster = () => {
                         />
                         {taskAddPopUpShow ? (
                           <AddTaskPopUp
-                            handleAdd={handleAddTaskName}
+                            handleAdd={handleTaskSelection}
                             // heading="Forward"
                             // cancelBtnCallBack={handleAddDepartment}
                           />

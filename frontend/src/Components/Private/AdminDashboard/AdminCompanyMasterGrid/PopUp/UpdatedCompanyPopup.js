@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import toast from "react-hot-toast";
 import { updateCompany } from "../../../../../hooks/useCompany";
 import { formatDateforupdateSubcription } from "../../../../../utils/formatDate";
@@ -19,21 +19,11 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
   });
   const [subDate, setSubDate] = useState(formatDateforupdateSubcription(company.subDate));
 
-
-
-
-
-
-
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setAddress({ ...Address, [name]: value });
   };
 
-  // const handleSubDateChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setSubDate({ ...subDate, [name]: value });
-  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,9 +40,6 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
       ...company,
       Address,
       subDate
-
-
-      // deliveryAddress
     }
 
 

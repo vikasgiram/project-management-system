@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { updateAdmin } from "../../../../../hooks/useAdmin";
-import { set } from "mongoose";
 
 const UpdateAdminPopup = ({ handleUpdate, selectedAdmin }) => {
     const [admin, setAdmin] = useState(selectedAdmin);

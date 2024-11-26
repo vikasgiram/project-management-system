@@ -1,7 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
 import { AdminSidebar } from "../AdminSidebar";
 import { AdminHeader } from "../AdminHeader";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
@@ -11,15 +8,10 @@ import { getAdmin,deleteAdmin } from "../../../../hooks/useAdmin";
 
 
 export const AdminmasterGrid = () => {
-
-
-
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isopen);
     };
-
-
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId] = useState(null);

@@ -1,15 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { UserContext } from "../../../context/UserContext";
 
 export const AdminHeader = (props) => {
-	const { toggle, isopen, Click, language, Language, setLanguage } = props
+	const { toggle, isopen } = props
 	const [sticky, setSticky] = useState(false)
 
-	const {user} = useContext(UserContext);
-	const { t } = useTranslation()
-	const { setUser } = useContext(UserContext);
+	const {user} = useContext(UserContext)
 	const change = () => {
 		const scrollValue = document.documentElement.scrollTop
 		if (scrollValue > 50) {
@@ -18,7 +15,6 @@ export const AdminHeader = (props) => {
 			setSticky(false)
 		}
 	}
-
 
 	function toggleuser() {
 		let side = document.getElementById("userdata")

@@ -5,13 +5,8 @@ import { useTranslation } from "react-i18next";
 
 
 export const AdminSidebar = ({ isopen, active, subMenu }) => {
-    // const [toggleactive, settoggleactive] = useState("dashboard")
-    const [ReportOpen, setReportOpen] = useState(false)
+ 
     const [Open, setOpen] = useState(false)
-
-
-    const [AdminReportOpen, setAdminReportOpen] = useState(false)
-
 
     var body = $('body');
 

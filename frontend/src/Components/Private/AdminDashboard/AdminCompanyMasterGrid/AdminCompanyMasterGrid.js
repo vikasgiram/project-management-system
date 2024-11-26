@@ -1,27 +1,18 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
 import { AdminHeader } from "../AdminHeader";
 import { AdminSidebar } from "../AdminSidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCompanyPopup from "./PopUp/AddCompanyPopup";
 import UpdatedCompanyPopup from "./PopUp/UpdatedCompanyPopup";
-// import { getAdmin,deleteAdmin,createAdmin,updateAdmin } from "../../../../hooks/useAdmin";
-import { getCompany } from "../../../../hooks/useCompany";
+import { getCompany,deleteCompany } from "../../../../hooks/useCompany";
 import { formatDate } from "../../../../utils/formatDate";
-import { deleteCompany } from "../../../../hooks/useCompany";
+
 
 export const AdminCompanyMasterGrid = () => {
-
-
-
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isopen);
     };
-
-
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
