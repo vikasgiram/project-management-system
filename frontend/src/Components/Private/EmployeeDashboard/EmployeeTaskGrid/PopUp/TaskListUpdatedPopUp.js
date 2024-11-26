@@ -44,7 +44,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     setIsVisible(!isVisible);
     const res = await getAllActions(selectedTask._id);
     setActionHistory(res);
-    // console.log("action history",actionHistory);
+    // console.log("all actions",res);
   };
 
   const handelTaskUpdate = async (event) => {
@@ -105,12 +105,12 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     event.preventDefault();
     try{
     await updateAction(editAction._id, editAction);
-    console.log(" in a updated try block");
+    handleUpdateTask();
     }catch(error){
       toast.error(error);
     }
   }
-  console.log("editAction", editAction);
+  // console.log("editAction", editAction);
   
 
 
@@ -317,7 +317,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                           className="form-select"
 
                           onChange={handleEditTask}
-                          value={taskStatus}
+                          value={editAction.taskStatus}
 
                         >
                           {/* {console.log("editAction.taskStatus", editAction.taskStatus)}; */}

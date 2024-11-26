@@ -24,16 +24,17 @@ exports.showAll = async (req,res)=>{
 exports.update = async (req,res)=>{
     try {
         const {id}= req.params;
-        const {task,action,startTime,endTime,taskStatus,complateLevel} = req.body;
+        const {task,action,startTime,endTime,taskStatus,complated} = req.body;
         const updatedData={
           action,
           startTime,
           endTime,
+          complated,
         }
-        const tasksheet= await TaskSheet.find({task});
+        const tasksheet= await TaskSheet.findById(task);
         const newAction=await Action.findByIdAndUpdate(id, updatedData, { new: true });
         tasksheet.taskStatus=taskStatus;
-        tasksheet.complateLevel=complateLevel;
+        tasksheet.taskLevel=complated;
 
         await tasksheet.save();
         if(newAction.length<=0){
@@ -57,14 +58,13 @@ exports.create= async(req, res)=>{
         const {task, action, startTime, endTime, taskStatus, taskLevel, remark} = req.body;
         const tasksheet= await TaskSheet.findById(task);
 
+
         const newAction =await Action({
             task,
             action,
             actionBy:decoded.user._id,
             startTime,
             endTime,
-            taskStatus,
-            taskLevel,
             complated:taskLevel,
             remark
         });
@@ -75,6 +75,7 @@ exports.create= async(req, res)=>{
           tasksheet.taskLevel=100;
           tasksheet.actualEndDate=endTime;
         }
+       
         tasksheet.taskLevel=taskLevel;
         tasksheet.taskStatus=taskStatus;
         

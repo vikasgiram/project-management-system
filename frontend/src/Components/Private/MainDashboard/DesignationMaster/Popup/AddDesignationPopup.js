@@ -140,7 +140,8 @@ const AddDesignationPopup = ({ handleAdd }) => {
 
 
   // Handle role addition
-  const handleEmployeeAdd = async () => {
+  const handleDesignationAdd = async (e) => {
+    e.preventDefault();
     const data = {
       name,
       department,
@@ -150,7 +151,6 @@ const AddDesignationPopup = ({ handleAdd }) => {
     if (!name || !department || permissions.length === 0) {
       return toast.error("Please fill all fields");
     }
-    // console.log(data);
     await createDesignation(data);
     toast.success("Designation created successfully");
     handleAdd();
@@ -968,7 +968,7 @@ const AddDesignationPopup = ({ handleAdd }) => {
                   <div className="col-12 pt-3 mt-2">
                     <button
                       type="submit"
-                      onClick={handleEmployeeAdd}
+                      onClick={handleDesignationAdd}
                       className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                     >
                       Add
