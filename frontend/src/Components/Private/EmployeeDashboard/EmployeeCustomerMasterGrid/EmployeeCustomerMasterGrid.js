@@ -6,8 +6,6 @@ import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import EmployeeAddCustomerPopUp from "./PopUp/EmployeeAddCustomerPopUp";
 import EmployeeUpdateCustomerPopUp from "./PopUp/EmployeeUpdateCustomerPopUp";
 import { UserContext } from "../../../../context/UserContext";
-import { use } from "i18next";
-
 export const EmployeeCustomerMasterGrid = () => {
 
     const [isopen, setIsOpen] = useState(false);

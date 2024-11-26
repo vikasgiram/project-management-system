@@ -1,13 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { updateDepartment } from "../../../../../hooks/useDepartment";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
-
-
 const UpdateDepartmentPopup = ({ handleUpdate, selectedDep }) => {
 
-
-    const [name, setName] = useState("");
     const [department, setDepartment] = useState(selectedDep);
 
     const handleInputChange = (event) => {

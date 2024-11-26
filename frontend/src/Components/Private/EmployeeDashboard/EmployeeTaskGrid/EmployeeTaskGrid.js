@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
+import { useState,useEffect } from "react";
 import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";

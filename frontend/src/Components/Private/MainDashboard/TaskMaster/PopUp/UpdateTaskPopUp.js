@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { updateTask } from "../../../../../hooks/useTask";
-import { useState ,useEffect} from "react";
+import { useState } from "react";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const UpdateTaskPopUp = ({ handleUpdate, selectedTask }) => {
@@ -21,7 +21,7 @@ const[task,setTask]=useState(selectedTask);
       toast.error(error);
     }
   };
-  console.log(selectedTask);
+  // console.log(selectedTask);
 
   return (
     <>

@@ -1,16 +1,10 @@
-
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useState ,useEffect} from "react";
 import toast from "react-hot-toast";
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getDesignation } from "../../../../../hooks/useDesignation";
 import { createEmployee } from "../../../../../hooks/useEmployees";
 
-
-
 const EmployeeAddEmployeePopup = ({ handleAdd }) => {
-  const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);

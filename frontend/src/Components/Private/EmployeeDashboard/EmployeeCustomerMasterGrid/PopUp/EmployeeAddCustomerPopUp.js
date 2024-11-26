@@ -28,22 +28,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
   //   country: "",
   // });
 
-  const handleCheckboxChange = (e) => {
-    setSameAsAbove(e.target.checked);
-    // if (e.target.checked) {
-    //   setDeliveryAddress({ ...billingAddress });
-    // } else {
-    //   setDeliveryAddress({
-    //     pincode: "",
-    //     state: "",
-    //     city: "",
-    //     add: "",
-    //     country:""
-    //   });
-    // }
-  };
-
-  const handleCustomerAdd = async (event) => {
+    const handleCustomerAdd = async (event) => {
     event.preventDefault();
 
     const data = {

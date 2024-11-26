@@ -5,16 +5,7 @@ import { DashboardGroupBtn } from "./MainContent/DashboardGroupBtn";
 import { CompanyInfo } from "./MainContent/CompanyInfo";
 import { ProjectBar } from "./MainContent/ProjectBar";
 import { ProjectDuration } from "./MainContent/ProjectDuration";
-
 import { getDashboardData } from "../../../hooks/useCompany";
-
-import { data } from "jquery";
-import HashLoader from "react-spinners/HashLoader";
-import { Loader } from "../../Helper/Loader/Loader";
-
-
-
-
 
 function MainDashboard() {
   const [isopen, setIsOpen] = useState(false);

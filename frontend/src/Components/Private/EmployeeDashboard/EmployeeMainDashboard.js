@@ -6,9 +6,6 @@ import { AssignInproccessSection } from "./AssignInproccessSection";
 import { PerFormanceChart } from "./PerFormanceChart";
 import { getEmployeeDashboard } from "../../../hooks/useEmployees";
 
-
-
-
 function EmployeeMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
     const [totalProjectCount, setTotalProjectCount] = useState();

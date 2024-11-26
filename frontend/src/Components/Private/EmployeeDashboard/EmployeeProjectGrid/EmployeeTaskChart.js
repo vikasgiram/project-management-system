@@ -1,6 +1,5 @@
-import { useEffect, useContext } from "react";
+import React,{ useState,useEffect, useContext } from "react";
 import { ViewMode, Gantt } from "gantt-task-react";
-import React, { useState } from "react";
 import "gantt-task-react/dist/index.css";
 import { default as ReactSelect, components } from "react-select";
 import { useParams } from "react-router-dom";
@@ -13,24 +12,23 @@ import { getEmployee } from "../../../../hooks/useEmployees";
 import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-
 import { UserContext } from "../../../../context/UserContext";
 
 
-const Option = (props) => {
-    return (
-        <div>
-            <components.Option {...props}>
-                <input
-                    type="checkbox"
-                    checked={props.isSelected}
-                    onChange={() => null}
-                />{" "}
-                <label>{props.label}</label>
-            </components.Option>
-        </div>
-    );
-};
+// const Option = (props) => {
+//     return (
+//         <div>
+//             <components.Option {...props}>
+//                 <input
+//                     type="checkbox"
+//                     checked={props.isSelected}
+//                     onChange={() => null}
+//                 />{" "}
+//                 <label>{props.label}</label>
+//             </components.Option>
+//         </div>
+//     );
+// };
 
 
 

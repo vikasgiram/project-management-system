@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 import AddDesignationPopup from "./Popup/AddDesignationPopup";

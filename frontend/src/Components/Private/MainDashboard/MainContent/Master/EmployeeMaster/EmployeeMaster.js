@@ -7,10 +7,8 @@ import DeletePopUP from '../../../../CommonPopUp/DeletePopUp.js';
 import { DesignationName } from '../../../../CommonLabel/DesignationName.js';
 import { EmployeeName } from '../../../../CommonLabel/EmployeeName.js';
 import Select from 'react-select'
-import { useTranslation } from "react-i18next";
 
 export const EmployeeMaster = () => {
-    const {t}=useTranslation()
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
