@@ -100,6 +100,7 @@ function EmployeeMainDashboard() {
                                     completedProjectCount={completedProjectCount}
                                     inproccessProjectCount={inproccessProjectCount} />
 
+
                                 <AssignInproccessSection
                                     assignedTasks={assignedTasks}
                                     inprocessTasks={inprocessTasks}

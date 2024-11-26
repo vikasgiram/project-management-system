@@ -61,8 +61,9 @@ export const AssignInproccessSection = ({
           </div>
           
         </div>
-
+ 
         <div className="col-12 col-lg-7  mx-auto  rounded ">
+          
           <div className="row  bg-white ms-1 rounded p-3">
             <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Inprocess Tasks</h6>
             <div className="col-12">
