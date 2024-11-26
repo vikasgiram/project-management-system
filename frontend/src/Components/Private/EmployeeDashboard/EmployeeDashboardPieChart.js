@@ -1,7 +1,4 @@
-
 import Chart from "react-google-charts"
-
-
 
 export const CompanyInfEmployeeDashboardPieChartoPieChart = ({completedProjectCount,inproccessProjectCount}) => {
 

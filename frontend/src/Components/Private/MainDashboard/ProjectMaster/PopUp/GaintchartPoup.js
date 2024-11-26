@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { updateProject } from "../../../../../hooks/useProjects";
-import toast from "react-hot-toast";
 import { Gantt, ViewMode } from "gantt-task-react";
 import { ViewSwitcher } from "../../../../Helper/ViewSwitcher";
-import { HashLoader } from "react-spinners";
 
 const GaintchartPoup = ({ handleDetails, selectedProject }) => {
   const [loading, setLoading] = useState(true);

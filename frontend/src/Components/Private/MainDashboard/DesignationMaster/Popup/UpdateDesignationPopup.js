@@ -1,47 +1,41 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import Select from 'react-select'; // Import Select from react-select
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import toast from "react-hot-toast";
 import { updateDesignation } from "../../../../../hooks/useDesignation";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
-  const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
-  const [department, setDepartment] = useState(null);
   const [permissions, setPermissions] = useState([]);
-  const [name, setName] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
   const [designation, setDesignation] = useState(selectedDes);
 
 
     
-  const DependentCheckboxes = () => {
-    const [checkboxes, setCheckboxes] = useState({
-      parent: false,
-      childA: false,
-      childB: false,
-    });
+  // const DependentCheckboxes = () => {
+  //   const [checkboxes, setCheckboxes] = useState({
+  //     parent: false,
+  //     childA: false,
+  //     childB: false,
+  //   });
   
-    // Handler for Parent checkbox
-    const handleParentChange = () => {
-      const newParentValue = !checkboxes.parent;
-      setCheckboxes({
-        parent: newParentValue,
-        childA: newParentValue,
-        childB: newParentValue,
-      });
-    };
+  //   // Handler for Parent checkbox
+  //   const handleParentChange = () => {
+  //     const newParentValue = !checkboxes.parent;
+  //     setCheckboxes({
+  //       parent: newParentValue,
+  //       childA: newParentValue,
+  //       childB: newParentValue,
+  //     });
+  //   };
   
-    // Handler for individual child checkboxes
-    const handleChildChange = (childName) => {
-      setCheckboxes((prevState) => ({
-        ...prevState,
-        [childName]: !prevState[childName],
-      }));
-    };}
+  //   // Handler for individual child checkboxes
+  //   const handleChildChange = (childName) => {
+  //     setCheckboxes((prevState) => ({
+  //       ...prevState,
+  //       [childName]: !prevState[childName],
+  //     }));
+  //   };}
  
 
   // Fetch departments
@@ -57,84 +51,84 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
 
 
 
-  const handlePermissionChange = (permission, isChecked) => {
-    setPermissions(prevPermissions => {
-      // Create a copy of the existing permissions
-      let newPermissions = [...prevPermissions];
+  // const handlePermissionChange = (permission, isChecked) => {
+  //   setPermissions(prevPermissions => {
+  //     // Create a copy of the existing permissions
+  //     let newPermissions = [...prevPermissions];
   
-      if (isChecked) {
-        // Add the permission if checked
-        if (!newPermissions.includes(permission)) {
-          newPermissions.push(permission);
-        }
+  //     if (isChecked) {
+  //       // Add the permission if checked
+  //       if (!newPermissions.includes(permission)) {
+  //         newPermissions.push(permission);
+  //       }
   
-        // Add dependencies when permission is checked
-        switch (permission) {
-          case 'createEmployee':
-          case 'updateEmployee':
-            if (!newPermissions.includes('viewDesignation')) {
-              newPermissions.push('viewDesignation');
-            }
-            if (!newPermissions.includes('viewDepartment')) {
-              newPermissions.push('viewDepartment');
-            }
-            break;
+  //       // Add dependencies when permission is checked
+  //       switch (permission) {
+  //         case 'createEmployee':
+  //         case 'updateEmployee':
+  //           if (!newPermissions.includes('viewDesignation')) {
+  //             newPermissions.push('viewDesignation');
+  //           }
+  //           if (!newPermissions.includes('viewDepartment')) {
+  //             newPermissions.push('viewDepartment');
+  //           }
+  //           break;
   
-          case 'createProject':
-          case 'updateProject':
-            if (!newPermissions.includes('viewCustomer')) {
-              newPermissions.push('viewCustomer');
-            }
-            break;
+  //         case 'createProject':
+  //         case 'updateProject':
+  //           if (!newPermissions.includes('viewCustomer')) {
+  //             newPermissions.push('viewCustomer');
+  //           }
+  //           break;
   
-          case 'createTaskSheet':
-            if (!newPermissions.includes('viewDepartment')) {
-              newPermissions.push('viewDepartment');
-            }
-            if (!newPermissions.includes('viewEmployee')) {
-              newPermissions.push('viewEmployee');
-            }
-            break;
+  //         case 'createTaskSheet':
+  //           if (!newPermissions.includes('viewDepartment')) {
+  //             newPermissions.push('viewDepartment');
+  //           }
+  //           if (!newPermissions.includes('viewEmployee')) {
+  //             newPermissions.push('viewEmployee');
+  //           }
+  //           break;
   
-          case 'createDesignation':
-          case 'updateDesignation':
-            if (!newPermissions.includes('viewDepartment')) {
-              newPermissions.push('viewDepartment');
-            }
-            break;
+  //         case 'createDesignation':
+  //         case 'updateDesignation':
+  //           if (!newPermissions.includes('viewDepartment')) {
+  //             newPermissions.push('viewDepartment');
+  //           }
+  //           break;
   
-        }
-      } else {
-        // Remove the permission if unchecked
-        newPermissions = newPermissions.filter(p => p !== permission);
-        // console.log(newPermissions,"unchecked");
+  //       }
+  //     } else {
+  //       // Remove the permission if unchecked
+  //       newPermissions = newPermissions.filter(p => p !== permission);
+  //       // console.log(newPermissions,"unchecked");
   
-        switch (permission) {
-          case 'createEmployee':
-          case 'updateEmployee':
-            newPermissions = newPermissions.filter(p => p !== 'viewDesignation' && p !== 'viewDepartment');
-            break;
+  //       switch (permission) {
+  //         case 'createEmployee':
+  //         case 'updateEmployee':
+  //           newPermissions = newPermissions.filter(p => p !== 'viewDesignation' && p !== 'viewDepartment');
+  //           break;
   
-          case 'createProject':
-          case 'updateProject':
-            newPermissions = newPermissions.filter(p => p !== 'viewCustomer');
-            break;
+  //         case 'createProject':
+  //         case 'updateProject':
+  //           newPermissions = newPermissions.filter(p => p !== 'viewCustomer');
+  //           break;
   
-          case 'createTaskSheet':
-            newPermissions = newPermissions.filter(p => p !== 'viewDepartment' && p !== 'viewEmployee');
-            break;
+  //         case 'createTaskSheet':
+  //           newPermissions = newPermissions.filter(p => p !== 'viewDepartment' && p !== 'viewEmployee');
+  //           break;
   
-          case 'createDesignation':
-          case 'updateDesignation':
-            newPermissions = newPermissions.filter(p => p !== 'viewDepartment');
-            break;
+  //         case 'createDesignation':
+  //         case 'updateDesignation':
+  //           newPermissions = newPermissions.filter(p => p !== 'viewDepartment');
+  //           break;
   
-        }
-      }
+  //       }
+  //     }
   
-      return newPermissions;
-    });
-  };
+  //     return newPermissions;
+  //   });
+  // };
   
   const handleInputChange = (event) => {
     const { name, value,type, checked } = event.target;

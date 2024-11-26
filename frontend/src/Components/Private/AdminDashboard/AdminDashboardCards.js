@@ -1,13 +1,6 @@
-
-import { useNavigate } from "react-router-dom"
 import { AdminInfoPieChart } from "./AdminInfoPieChart"
-// import { CompanyInfEmployeeDashboardPieChartoPieChart } from "./EmployeeDashboardPieChart"
-// import { CompanyInfoPieChart } from "./CompanyInfoPieChart"
-
 
 export const AdminDashboardCards = ({ activateCompanys,inactiveSubscriptions,totalCompaines}) => {
-
-    const navigate = useNavigate()
 
     return (
         <div className="row  bg-white p-2 m-1 border rounded" >

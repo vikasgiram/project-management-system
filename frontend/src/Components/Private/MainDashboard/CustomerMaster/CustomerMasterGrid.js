@@ -1,15 +1,10 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
-
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddCustomerPopUp from "./PopUp/AddCustomerPopUp";
 import UpdateCustomerPopUp from "./PopUp/UpdateCustomerPopUp";
-
-import { useEffect } from "react";
-
 import { getCustomers, deleteCustomer } from "../../../../hooks/useCustomer";
-import { HashLoader } from "react-spinners";
 
 export const CustomerMasterGrid = () => {
 

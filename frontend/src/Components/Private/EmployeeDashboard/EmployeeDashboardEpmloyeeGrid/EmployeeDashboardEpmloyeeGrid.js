@@ -4,10 +4,8 @@ import { deleteEmployee, getEmployees } from "../../../../hooks/useEmployees";
 import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-import AddEmployeePopup from "../../MainDashboard/EmployeeMaster/PopUp/AddEmployeePopup";
 import EmployeeAddEmployeePopup from "./PopUp/EmployeeAddEmployeePopup";
 import EmployeeUpdateEmployeePopUp from "./PopUp/EmployeeUpdateEmployeePopUp";
-
 import { UserContext } from "../../../../context/UserContext";
 
 export const EmployeeDashboardEpmloyeeGrid = () => {

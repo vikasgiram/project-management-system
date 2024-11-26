@@ -1,22 +1,13 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import UpdateEmployeePopUp from "./PopUp/UpdateEmployeePopUp";
-import HashLoader from "react-spinners/HashLoader";
-
-import { useEffect } from "react";
 import toast from "react-hot-toast";
-
 import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
-import { useNavigate } from "react-router-dom";
-
 
 export const EmployeeMasterGrid = () => {
-
-
-
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isopen);

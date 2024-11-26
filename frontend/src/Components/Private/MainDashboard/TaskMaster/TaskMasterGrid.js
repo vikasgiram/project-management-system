@@ -4,7 +4,6 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import AddTaskPopUp from "./PopUp/AddTaskPopUp";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import UpdateTaskPopUp from "./PopUp/UpdateTaskPopUp";
-import HashLoader from "react-spinners/HashLoader";
 
 import { useEffect } from "react";
 import toast from "react-hot-toast";

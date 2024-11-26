@@ -5,9 +5,6 @@ import { AdminDashboardCards } from "./AdminDashboardCards";
 import { RegisteredCompaniesChart } from "./RegisteredCompaniesChart";
 import { getAdminDashboard } from "../../../hooks/useAdmin";
 
-
-
-
 function AdminMainDashboard() {
     const [isopen, setIsOpen] = useState(false);
 
@@ -23,7 +20,6 @@ function AdminMainDashboard() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // setLoading(true);
                 const data = await getAdminDashboard();
                 if (data) {
                     setActivateCompanys(data.activeSubscriptions);

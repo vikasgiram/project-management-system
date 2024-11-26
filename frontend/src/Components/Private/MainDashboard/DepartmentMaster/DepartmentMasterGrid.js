@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { getDepartment, deleteDepartment } from "../../../../hooks/useDepartment";
 import AddDepartmentPopup from "./PopUp/AddDepartmentPopup";
 import UpdateDepartmentPopup from "./PopUp/UpdateDepartmentPopup";
-import { HashLoader } from "react-spinners";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 
 export const DepartmentMasterGrid = () => {

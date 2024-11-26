@@ -1,46 +1,42 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import Select from 'react-select'; // Import Select from react-select
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import toast from "react-hot-toast";
 import { createDesignation } from "../../../../../hooks/useDesignation";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const AddDesignationPopup = ({ handleAdd }) => {
-  const { t } = useTranslation();
 
   const [getDepartments, setGetDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
   const [permissions, setPermissions] = useState([]);
   const [name, setName] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
 
 
-  const DependentCheckboxes = () => {
-    const [checkboxes, setCheckboxes] = useState({
-      parent: false,
-      childA: false,
-      childB: false,
-    });
+  // const DependentCheckboxes = () => {
+  //   const [checkboxes, setCheckboxes] = useState({
+  //     parent: false,
+  //     childA: false,
+  //     childB: false,
+  //   });
 
-    // Handler for Parent checkbox
-    const handleParentChange = () => {
-      const newParentValue = !checkboxes.parent;
-      setCheckboxes({
-        parent: newParentValue,
-        childA: newParentValue,
-        childB: newParentValue,
-      });
-    };
+  //   // Handler for Parent checkbox
+  //   const handleParentChange = () => {
+  //     const newParentValue = !checkboxes.parent;
+  //     setCheckboxes({
+  //       parent: newParentValue,
+  //       childA: newParentValue,
+  //       childB: newParentValue,
+  //     });
+  //   };
 
-    // Handler for individual child checkboxes
-    const handleChildChange = (childName) => {
-      setCheckboxes((prevState) => ({
-        ...prevState,
-        [childName]: !prevState[childName],
-      }));
-    };
-  }
+  //   // Handler for individual child checkboxes
+  //   const handleChildChange = (childName) => {
+  //     setCheckboxes((prevState) => ({
+  //       ...prevState,
+  //       [childName]: !prevState[childName],
+  //     }));
+  //   };
+  // }
 
 
   // Fetch departments

@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
-
 import toast from "react-hot-toast";
 import { getCustomers } from "../../../../../hooks/useCustomer";
 import { updateProject } from "../../../../../hooks/useProjects";
 import { formatDateforupdate } from "../../../../../utils/formatDate";
-
 const EmployeeUpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
-
-
-
     const [customers, setCustomers] = useState([]);
-
     const [projects, setProjects] = useState({
         ...selectedProject,
         purchaseOrderDate: selectedProject?.purchaseOrderDate,

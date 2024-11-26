@@ -1,22 +1,12 @@
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-
-import { getDepartment } from "../../../../../hooks/useDepartment";
-
-import { createEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
-import { getDesignation } from "../../../../../hooks/useDesignation";
 import { createCompany } from "../../../../../hooks/useCompany";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
 const AddCompanyPopup = ({ handleAdd }) => {
-  const { t } = useTranslation();
-
-
 
   const [name, setName] = useState("");
   const [mobileNo, setMobileNo] = useState("");

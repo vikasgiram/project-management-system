@@ -3,13 +3,10 @@ import Select from 'react-select'
 import { Header } from "../../../Header/Header";
 import { Sidebar } from "../../../Sidebar/Sidebar";
 import DeletePopUP from "../../../../CommonPopUp/DeletePopUp";
-import { ZoneName } from "../../../../CommonLabel/ZoneName";
 import ZonewiseVehicleMappingAddPopUp from "./ZonewiseVehicleMappingAddPopUp";
 import { VehicleName } from "../../../../CommonLabel/VehicleName";
-import { useTranslation } from "react-i18next";
 
 export const ZonewiseVehicleMapping = () => {
-    const {t}=useTranslation()
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {

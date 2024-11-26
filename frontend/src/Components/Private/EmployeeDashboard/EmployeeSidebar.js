@@ -1,38 +1,26 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import $ from 'jquery'
-import { useTranslation } from "react-i18next";
 import { UserContext } from "../../../context/UserContext";
 
 
 export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
-    // const [toggleactive, settoggleactive] = useState("dashboard")
-    const [ReportOpen, setReportOpen] = useState(false)
     const [Open, setOpen] = useState(false)
 	const {user} = useContext(UserContext);
 
+    // const SidebarHideShow = () => {
+    //     if ((body.hasClass('sidebar-icon-only'))) {
+    //         body.toggleClass('sidebar-icon-only');
+    //     }
+    //     // else {
+    //     //     body.toggleClass('sidebar-icon-only');
+    //     // }
+    // }
 
+    // const handelOnCardClick = () => {
 
-    const [AdminReportOpen, setAdminReportOpen] = useState(false)
+    //     body.toggleClass('sidebar-icon-only');
+    // }
 
-
-    var body = $('body');
-
-    const SidebarHideShow = () => {
-        if ((body.hasClass('sidebar-icon-only'))) {
-            body.toggleClass('sidebar-icon-only');
-        }
-        // else {
-        //     body.toggleClass('sidebar-icon-only');
-        // }
-    }
-
-    const handelOnCardClick = () => {
-
-        body.toggleClass('sidebar-icon-only');
-    }
-
-    const { t } = useTranslation()
 
     return (
         <div

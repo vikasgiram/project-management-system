@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DesignationName } from "../../../../CommonLabel/DesignationName";
 import Select from 'react-select'
 import { EmployeeName } from "../../../../CommonLabel/EmployeeName";
@@ -7,15 +7,8 @@ import { MobileNumber } from "../../../../CommonLabel/MobileNumber";
 import { JoiningDate } from "../../../../CommonLabel/JoiningDate";
 import { EmailID } from "../../../../CommonLabel/EmailID";
 
-import axios from 'axios';
-
-
 const EmployeeMasterAddPopUp = ({ cancelBtnCallBack, confirmBtnCallBack, deleteRecord, message, heading }) => {
-    // DDL
-
-
-
-
+   
 
     const [DDLID, setDDLID] = useState({
         DDL: [],

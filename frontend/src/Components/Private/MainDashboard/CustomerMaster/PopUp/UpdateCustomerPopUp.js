@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { updateCustomer } from "../../../../../hooks/useCustomer";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
-
-
 const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
   const [customer, setCustomer] = useState(selectedCust);
 

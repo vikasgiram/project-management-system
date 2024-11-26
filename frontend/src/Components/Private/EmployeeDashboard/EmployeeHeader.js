@@ -4,12 +4,11 @@ import { useTranslation } from "react-i18next";
 import { UserContext } from "../../../context/UserContext";
 
 export const EmployeeHeader = (props) => {
-	const { toggle, isopen, Click, language, Language, setLanguage } = props
+	const { toggle, isopen} = props
 	const [sticky, setSticky] = useState(false)
 
 	const {user} = useContext(UserContext);
-	const { t } = useTranslation()
-	const { setUser } = useContext(UserContext);
+
 	const change = () => {
 		const scrollValue = document.documentElement.scrollTop
 		if (scrollValue > 50) {

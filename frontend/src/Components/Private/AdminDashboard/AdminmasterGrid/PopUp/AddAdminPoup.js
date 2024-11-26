@@ -1,7 +1,5 @@
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 import {createAdmin} from "../../../../../hooks/useAdmin";
 import toast from "react-hot-toast";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
@@ -9,18 +7,10 @@ import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 const AddAdminPoup = ({ handleAdd }) => {
-  const { t } = useTranslation();
-
-
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-
-
-  
   const handleEmployeeAdd = async (event) => {
     event.preventDefault();
     const data = {

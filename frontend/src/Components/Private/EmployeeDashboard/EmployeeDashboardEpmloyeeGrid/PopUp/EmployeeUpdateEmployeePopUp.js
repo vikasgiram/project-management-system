@@ -4,17 +4,7 @@ import { updateEmployee } from "../../../../../hooks/useEmployees";
 import { getDepartment } from "../../../../../hooks/useDepartment";
 import { getDesignation } from "../../../../../hooks/useDesignation";
 
-
-
-
-
-
-
-
 const EmployeeUpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
-
-
-
     const [employee, setEmployee] = useState(selectedEmp);
     const [departments, setDepartments] = useState([]);
     const [designations, setDesignations] = useState([]);
