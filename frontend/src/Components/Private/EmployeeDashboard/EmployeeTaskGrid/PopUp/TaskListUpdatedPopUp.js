@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { updateTask } from "../../../../../hooks/useTaskSheet";
-import { formatDate, formatDateforTaskUpdate } from "../../../../../utils/formatDate";
+import { formatDate, formatDateforTaskUpdate,formatDateforEditAction } from "../../../../../utils/formatDate";
 import { Steps } from "rsuite";
 import { createAction, getAllActions } from "../../../../../hooks/useAction";
+
+
+
+//work for tommorow
+//Task status not present in Action API 
+// make a function for update Actions
+// make logic for if edit icon is comming then create task will gone automatic
+
+
 const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [taskLevel, setTaskLevel] = useState(selectedTask.taskLevel);
@@ -12,8 +21,10 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   const [action, setAction] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [actionHistory, setActionHistory]= useState();
+  const [actionHistory, setActionHistory] = useState();
   const [hideInput, setHideInput] = useState(false);
+  const [forEdit, setForEdit] = useState(false);
+  const [editAction, setEditAction] = useState(""); //editAction used for for  update as parameter 
 
   // console.log(selectedTask, "dcdkshbh");
 
@@ -23,12 +34,12 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     if (status === "completed") {
       setTaskLevel(100);
     }
- 
+
   };
 
-  const toggleVisibility =async () => {
+  const toggleVisibility = async () => {
     setIsVisible(!isVisible);
-    const res= await getAllActions(selectedTask._id);
+    const res = await getAllActions(selectedTask._id);
     setActionHistory(res);
     // console.log("action history",actionHistory);
   };
@@ -39,9 +50,9 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
       setTaskLevel(100); // Update the state for completion level
     }
     if (
-        !action ||
-        !startTime ||
-        !endTime ||
+      !action ||
+      !startTime ||
+      !endTime ||
       !taskLevel ||
       !taskStatus ||
       !remark
@@ -54,7 +65,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
       return toast.error("Task level must be greater than previous task level");
     }
     const data = {
-        task:selectedTask._id,
+      task: selectedTask._id,
       action,
       startTime,
       endTime,
@@ -64,7 +75,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     };
 
     try {
-        // console.log("action Data:",data);
+      // console.log("action Data:",data);
       await createAction(data);
 
 
@@ -74,7 +85,19 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
     }
   };
 
+  const editTask = (action) => {
+    setEditAction(action);
+    setForEdit(true);
+  }
 
+  const handleEditTask = (event) => {
+    const { name, value } = event.target;
+    setEditAction((prevAction) => ({
+        ...prevAction,
+        [name]: value
+    }));
+}
+console.log(editAction,"editAction");
 
   return (
     <>
@@ -87,7 +110,7 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
         }}
       >
         <div className="modal-dialog modal-xl modal_widthhh" >
-          <div className="modal-content p-3"> 
+          <div className="modal-content p-3">
             <form
             // onSubmit={handleEmpUpdate}
             >
@@ -130,12 +153,12 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                     />
                     <Steps.Item
                       title={
-                        actionHistory &&actionHistory.length > 0
+                        actionHistory && actionHistory.length > 0
                           ? formatDate(
-                              actionHistory[
-                                actionHistory.length - 1
-                              ].endTime
-                            )
+                            actionHistory[
+                              actionHistory.length - 1
+                            ].endTime
+                          )
                           : "No actions performed"
                       }
                     />
@@ -167,6 +190,8 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                             <th>Edit</th>
                           </tr>
                           <tbody className="broder my-4">
+                            {/* {console.log("actionHistory", actionHistory)} */}
+
                             {actionHistory &&
                               actionHistory.map((action, index) => (
                                 <tr className="border my-4" key={index}>
@@ -182,15 +207,17 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                                   <td>
                                     {index ===
                                       actionHistory.length - 1 && (
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          console.log("Edit action")
-                                        }
-                                      >
-                                        Edit
-                                      </button>
-                                    )}
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            editTask(action)
+                                            // console.log(action._id,"action id")
+
+                                          }
+                                        >
+                                          Edit
+                                        </button>
+                                      )}
                                   </td>
                                 </tr>
                               ))}
@@ -200,169 +227,319 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                     )}
                   </div>
 
-                  {/* {!hideInput && (
-        <div>
-          <label>Specific Input:</label>
-          <input type="text" placeholder="Enter something" />
-        </div>
-      )} */}
- {selectedTask.taskLevel !== 100 && (
-    
-      
-    <div className="row modal_body_height mt-2">
-                  <div className="col-12 col-lg-12 ">
-                    <div className="md-3">
-                      <label
-                        htmlFor="Action"
-                        className="form-label label_text "
-                      >
-                        Action
-                      </label>
-                      <textarea
-                        className="textarea_edit col-12"
-                        id="Action"
-                        name="Action"
-                        placeholder="Details ..."
-                        rows="2"
-                        onChange={(e) => {setAction(e.target.value)}}
-                        value={action}
-                      ></textarea>
-                    </div>
-                  </div>
+{/* //for edit the actions */}
+                  {forEdit ? (
+                      <div className="row modal_body_height mt-2">
+                      <div className="col-12 col-lg-12 ">
+                        <div className="md-3">
+                          <label
+                            htmlFor="action"
+                            className="form-label label_text "
+                          >
+                            Action
+                          </label>
+                          <textarea
+                            className="textarea_edit col-12"
+                            id="action"
+                            name="action"
+                            rows="2"
+                            onChange={handleEditTask}
+                            value={editAction.action}
+                          ></textarea>
+                        </div>
+                      </div>
 
-                  <div className="col-12 col-lg-3 mt-2">
-                    <div className="mb-3">
-                      <label
-                        htmlFor="processStartDate"
-                        className="form-label label_text"
-                      >
-                        Process Start Date
-                      </label>
-                      <input
-                        type="datetime-local"
-                        name="processStartDate"
-                        onChange={(e) => {
-                          setStartTime(e.target.value);
-                         
-                        }}
-                        value={startTime}
-                        className="form-control rounded-0"
-                        // min={new Date().toISOString().slice(0, 16)}
-                        id="processStartDate"
+                      <div className="col-12 col-lg-3 mt-2">
+                        <div className="mb-3">
+                          <label
+                            htmlFor="startTime"
+                            className="form-label label_text"
+                          >
+                            Process Start Date
+                          </label>
+                          <input
+                            type="datetime-local"
+                            name="startTime"
+                            onChange={handleEditTask}
+                            value={formatDateforEditAction(editAction.startTime)}
+                            className="form-control rounded-0"
+                            // min={new Date().toISOString().slice(0, 16)}
+                            id="startTime"
+                          />
+                        </div>
+                      </div>
 
-                      />
-                    </div>
-                  </div>
+                      <div className="col-12 col-lg-3 mt-2">
+                        <div className="mb-3">
+                          <label
+                            htmlFor="endTime"
+                            className="form-label label_text"
+                          >
+                            Proccess End Date
+                          </label>
+                          <input
+                            type="datetime-local"
+                            name="endTime"
+                            onChange={handleEditTask}
+                            value={formatDateforEditAction(editAction.endTime)}
+                           
+                            className="form-control rounded-0"
+                            id="endTime"
+                          />
+                        </div>
+                      </div>
 
-                  <div className="col-12 col-lg-3 mt-2">
-                    <div className="mb-3">
-                      <label
-                        htmlFor="processEndDate"
-                        className="form-label label_text"
-                      >
-                        Proccess End Date
-                      </label>
-                      <input
-                        type="datetime-local"
-                        name="processEndDate"
-                        onChange={(e) => setEndTime(e.target.value)}
-                        value={endTime}
-                        min={new Date().toISOString().slice(0, 16)}
-                        className="form-control rounded-0"
-                        id="processEndDate"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3 mt-2">
-                    <label
-                      htmlFor="projectStatus"
-                      className="form-label label_text"
-                    >
-                      Status
-                    </label>
-                    <select
-                      id="projectStatus"
-                      name="projectStatus"
-                      className="form-select"
-                      // onChange={(e) => setTaskStatus(e.target.value)}
-                      onChange={(e) => handleStatusChange(e.target.value)}
-                      value={taskStatus}
-                    >
-                      <option value="">Select Status</option>
-                      <option value="inprocess">Inproccess</option>
-                      <option value="completed">Completed</option>
-                      <option value="stuck">Stuck</option>
-                    </select>
-                  </div>
-
-                  <div className="col-12 col-lg-3 mt-2">
-                    <div className="">
-                      <label
-                        htmlFor="processEndDate"
-                        className="form-label label_text"
-                      >
-                        Complete Level
-                      </label>
-                      <div className="input-group border mb-3">
-                        <input
-                          type="text"
-                          name="hourlyRate"
-                          onChange={(e) => setTaskLevel(e.target.value)}
-                          value={taskLevel}
-                          className="form-control rounded-0 border-0"
-                          id="HourlyRate"
-                          placeholder="eg. 65 %"
-                          aria-label="Hourly Rate"
-                          readOnly={taskStatus === "completed"}
-                        />
-
-                        <span
-                          className="input-group-text rounded-0 bg-white border-0"
-                          id="basic-addon1"
+                      <div className="col-12 col-lg-3 mt-2">
+                        <label
+                          htmlFor="taskStatus"
+                          className="form-label label_text"
                         >
-                          %
-                        </span>
+                          Status
+                        </label>
+                        <select
+                          id="taskStatus"
+                          name="taskStatus"
+                          className="form-select"
+                     
+                          onChange={handleEditTask}
+                          value={taskStatus}
+                          
+                        >
+                          {/* {console.log("editAction.taskStatus", editAction.taskStatus)}; */}
+                          
+                          <option value="">Select Status</option>
+                          <option value="inprocess">Inproccess</option>
+                          <option value="completed">Completed</option>
+                          <option value="stuck">Stuck</option>
+                        </select>
+                      </div>
+
+                      <div className="col-12 col-lg-3 mt-2">
+                        <div className="">
+                          <label
+                            htmlFor="complated"
+                            className="form-label label_text"
+                          >
+                            Complete Level
+                          </label>
+                          <div className="input-group border mb-3">
+                            <input
+                              type="text"
+                              name="complated"
+                              onChange={handleEditTask}
+                              value={editAction.complated}
+                              className="form-control rounded-0 border-0"
+                              id="complated"
+                              placeholder="eg. 65 %"
+                             
+                              readOnly={taskStatus === "completed"}
+                            />
+
+                            <span
+                              className="input-group-text rounded-0 bg-white border-0"
+                              id="basic-addon1"
+                            >
+                              %
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-12">
+                        <div className="mb-3">
+                          <label htmlFor="name" className="form-label label_text">
+                            Remark
+                          </label>
+                          <textarea
+                            className="textarea_edit col-12"
+                            id=""
+                            name=""
+                            placeholder="Remark ..."
+                            rows="2"
+                            onChange={handleEditTask}
+                            value={editAction.remark}
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-12 pt-3 mt-2">
+                          <button
+                            type="submit"
+                            onClick={handelTaskUpdate}
+                            className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
+                          >
+                            Update
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleUpdateTask}
+                            className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ):" "}
 
-                  <div className="col-12 col-lg-12">
-                    <div className="mb-3">
-                      <label htmlFor="name" className="form-label label_text">
-                        Remark
-                      </label>
-                      <textarea
-                        className="textarea_edit col-12"
-                        id=""
-                        name=""
-                        placeholder="Remark ..."
-                        rows="2"
-                        onChange={(e) => setRemark(e.target.value)}
-                        value={remark}
-                      ></textarea>
-                    </div>
-                  </div>
+                  {selectedTask.taskLevel !== 100 && (
 
-                  <div className="row">
-                    <div className="col-12 pt-3 mt-2">
-                      <button
-                        type="submit"
-                        onClick={handelTaskUpdate}
-                        className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
-                      >
-                        Submit Work
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleUpdateTask}
-                        className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
-                      >
-                        Cancel
-                      </button>
+
+                    <div className="row modal_body_height mt-2">
+                      <div className="col-12 col-lg-12 ">
+                        <div className="md-3">
+                          <label
+                            htmlFor="Action"
+                            className="form-label label_text "
+                          >
+                            Action
+                          </label>
+                          <textarea
+                            className="textarea_edit col-12"
+                            id="Action"
+                            name="Action"
+                            placeholder="Details ..."
+                            rows="2"
+                            onChange={(e) => { setAction(e.target.value) }}
+                            value={action}
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-3 mt-2">
+                        <div className="mb-3">
+                          <label
+                            htmlFor="processStartDate"
+                            className="form-label label_text"
+                          >
+                            Process Start Date
+                          </label>
+                          <input
+                            type="datetime-local"
+                            name="processStartDate"
+                            onChange={(e) => {
+                              setStartTime(e.target.value);
+
+                            }}
+                            value={startTime}
+                            className="form-control rounded-0"
+                            // min={new Date().toISOString().slice(0, 16)}
+                            id="processStartDate"
+
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-3 mt-2">
+                        <div className="mb-3">
+                          <label
+                            htmlFor="processEndDate"
+                            className="form-label label_text"
+                          >
+                            Proccess End Date
+                          </label>
+                          <input
+                            type="datetime-local"
+                            name="processEndDate"
+                            onChange={(e) => setEndTime(e.target.value)}
+                            value={endTime}
+                            min={new Date().toISOString().slice(0, 16)}
+                            className="form-control rounded-0"
+                            id="processEndDate"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-3 mt-2">
+                        <label
+                          htmlFor="projectStatus"
+                          className="form-label label_text"
+                        >
+                          Status
+                        </label>
+                        <select
+                          id="projectStatus"
+                          name="projectStatus"
+                          className="form-select"
+                          // onChange={(e) => setTaskStatus(e.target.value)}
+                          onChange={(e) => handleStatusChange(e.target.value)}
+                          value={taskStatus}
+                        >
+                          <option value="">Select Status</option>
+                          <option value="inprocess">Inproccess</option>
+                          <option value="completed">Completed</option>
+                          <option value="stuck">Stuck</option>
+                        </select>
+                      </div>
+
+                      <div className="col-12 col-lg-3 mt-2">
+                        <div className="">
+                          <label
+                            htmlFor="processEndDate"
+                            className="form-label label_text"
+                          >
+                            Complete Level
+                          </label>
+                          <div className="input-group border mb-3">
+                            <input
+                              type="text"
+                              name="hourlyRate"
+                              onChange={(e) => setTaskLevel(e.target.value)}
+                              value={taskLevel}
+                              className="form-control rounded-0 border-0"
+                              id="HourlyRate"
+                              placeholder="eg. 65 %"
+                              aria-label="Hourly Rate"
+                              readOnly={taskStatus === "completed"}
+                            />
+
+                            <span
+                              className="input-group-text rounded-0 bg-white border-0"
+                              id="basic-addon1"
+                            >
+                              %
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-lg-12">
+                        <div className="mb-3">
+                          <label htmlFor="name" className="form-label label_text">
+                            Remark
+                          </label>
+                          <textarea
+                            className="textarea_edit col-12"
+                            id=""
+                            name=""
+                            placeholder="Remark ..."
+                            rows="2"
+                            onChange={(e) => setRemark(e.target.value)}
+                            value={remark}
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-12 pt-3 mt-2">
+                          <button
+                            type="submit"
+                            onClick={handelTaskUpdate}
+                            className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
+                          >
+                            Submit Work
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleUpdateTask}
+                            className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  </div>
                   )}
                 </div>
               </div>
@@ -375,3 +552,4 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
 };
 
 export default TaskListUpdatedPopUp;
+
