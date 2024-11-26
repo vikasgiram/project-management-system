@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Employee = require('./employeeModel');
+
 
 const employeeHistorySchema = new mongoose.Schema({
   employeeId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Employee,
+    ref: 'Employee',
     required: true
   },
   fieldName: {

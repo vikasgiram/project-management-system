@@ -43,7 +43,6 @@ export const DepartmentMasterGrid = () => {
          handelDeleteClosePopUpClick();
          return toast.success("Department Deleted successfully...");
       }
-      toast.error(data.error);
    };
 
    // useEffect(() => {

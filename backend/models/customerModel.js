@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
-const Employee = require('./employeeModel');
-const Company = require("./companyModel");
+
 
 // Define the Customer schema
 const customerSchema = new mongoose.Schema({
   createdBy: {
     // Reference to the employee who created this customer entry
     type: mongoose.Schema.Types.ObjectId,
-    ref: Employee, 
+    ref: 'Employee', 
   },
   email:{
     type: String,
@@ -29,7 +28,7 @@ const customerSchema = new mongoose.Schema({
   },
   company:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:Company
+    ref:'Company'
   },
   deliveryAddress: {
     // Delivery address of the customer

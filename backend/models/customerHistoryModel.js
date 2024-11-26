@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Customer = require('./customerModel');
+
 
 const customerHistorySchema = new mongoose.Schema({
   customerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Customer,
+    ref: 'Customer',
     required: true
   },
   fieldName: {

@@ -203,12 +203,12 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                         name="designation"
                         className="form-select rounded-0"
                         onChange={handleChange}
-                        value={employee.designation._id}
+                        value={employee.designation &&employee.designation._id}
                         required
                       >
                         <option value="" disabled>
                           {/* {employee.designation.name} */}
-                          {employee.designation.name}
+                          {employee.designation &&employee.designation.name}
                         </option>
                         {designations.map((designation) => (
                           <option

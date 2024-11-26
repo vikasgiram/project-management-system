@@ -28,6 +28,7 @@ exports.showAll = async (req, res) => {
     }
 
     const totalRecords = await Employee.countDocuments({company:decoded.user.company? decoded.user.company: decoded.user._id});
+
     res.status(200).json({
       employees,
       currentPage:page,
@@ -249,7 +250,7 @@ exports.updateEmployee = async (req, res) => {
     if (changes.length > 0) {
       await EmployeeHistory.insertMany(changes);
     }
-    console.log(updateData);
+  
     await Employee.findByIdAndUpdate(id, { $set: updateData });
 
     res.status(200).json({ message: 'Employee data updated successfully' });

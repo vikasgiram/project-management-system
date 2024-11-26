@@ -85,6 +85,7 @@ export const EmployeeMasterGrid = () => {
     
                 if (data) {
                     setEmployees(data.employees || []);
+                    console.log(employees);
                 }
             } catch (error) {
                 console.error("Error fetching employees:", error);
@@ -152,7 +153,7 @@ export const EmployeeMasterGrid = () => {
 
                                                 <tbody className="broder my-4">
                                                     {employees && employees.map((employee, index) => (
-                                                        <tr className="border my-4" key={employee.id}>
+                                                        <tr className="border my-4" key={employee._id}>
                                                             <td>{index + 1}</td>
                                                             <td>{employee.name}</td>
                                                             <td>{employee.email}</td>

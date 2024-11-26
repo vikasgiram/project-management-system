@@ -92,16 +92,13 @@ const deleteDesignation = async (Id) => {
       }
     });
     const data = response.data;
-
-    if (data.error) {
-      console.error(data.error);
-      return alert(data.error);
-    }
-
+    
     return data;
   } catch (error) {
     console.error(error);
-    toast.error(error.response.data.error);  }
+    console.log("error is :",error.response.data.error);
+    toast.error(error.response.data.error); 
+   }
 };
 
   export { getDesignation, createDesignation,deleteDesignation, updateDesignation , getAllDesignations};
