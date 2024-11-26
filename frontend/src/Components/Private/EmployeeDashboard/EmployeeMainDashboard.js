@@ -12,8 +12,8 @@ function EmployeeMainDashboard() {
     const [completedProjectCount, setCompletedProjectCount] = useState();
     const [inproccessProjectCount, setInproccessProjectCount] = useState();
 
-    const [assignedProjects, setAssignedProjects] = useState([]);
-    const [inproccessProject, setInproccessProject] = useState([]);
+    const [assignedTasks, setAssignedTasks] = useState([]);
+    const [inprocessTasks, setInproccessTasks] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
@@ -29,8 +29,8 @@ function EmployeeMainDashboard() {
                     setCompletedProjectCount(data.completedCount);
                     setInproccessProjectCount(data.inprocessCount);
 
-                    setAssignedProjects(data.assignedProgects);
-                    setInproccessProject(data.inProcessProjects);
+                    setAssignedTasks(data.assignedTasks);
+                    setInproccessTasks(data.inprocessTasks);
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
@@ -101,8 +101,8 @@ function EmployeeMainDashboard() {
                                     inproccessProjectCount={inproccessProjectCount} />
 
                                 <AssignInproccessSection
-                                    assignedProjects={assignedProjects}
-                                    inproccessProject={inproccessProject}
+                                    assignedTasks={assignedTasks}
+                                    inprocessTasks={inprocessTasks}
                                 />
                                 <PerFormanceChart />
 

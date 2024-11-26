@@ -1,8 +1,8 @@
 import { formatDate } from "../../../utils/formatDate";
 
 export const AssignInproccessSection = ({
-  assignedProjects,
-  inproccessProject,
+  assignedTasks,
+  inprocessTasks,
 }) => {
   return (
     <>
@@ -19,7 +19,7 @@ export const AssignInproccessSection = ({
                   <table className="table align-items-center table-flush">
                     <thead className="thead-light">
                       <tr>
-                        <th className="text-center">Project Name</th>
+                        <th className="text-center">Task Name</th>
                         <th className="text-center">Start Date</th>
                         <th className="text-center">Expected End Date</th>
                         <th className="text-center">Status</th>
@@ -27,24 +27,24 @@ export const AssignInproccessSection = ({
                     </thead>
 
                     <tbody>
-                      {assignedProjects.length === 0 ? (
+                      {assignedTasks.length === 0 ? (
                         <tr className="text-center">
                           <td colSpan="4">No New Assigned Tasks...</td>
                         </tr>
                       ) : (
-                        assignedProjects.map((project) => (
-                          <tr className="text-center" key={project.id}>
+                        assignedTasks.map((task) => (
+                          <tr className="text-center" key={task.id}>
                             <th className="text-center">
                               <div className="media align-items-center">
                                 <div className="media-body">
                                   <span className="mb-0 text-sm">
-                                    {project.name}
+                                    {task.taskName.name}
                                   </span>
                                 </div>
                               </div>
                             </th>
-                            <td>{formatDate(project.startDate)}</td>
-                            <td>{formatDate(project.endDate)}</td>
+                            <td>{formatDate(task.startDate)}</td>
+                            <td>{formatDate(task.endDate)}</td>
                             <td>
                               <span className="badge badge-dot mr-4 text-dark">
                                 <i className="bg-success"></i> Assigned
@@ -64,14 +64,14 @@ export const AssignInproccessSection = ({
 
         <div className="col-12 col-lg-7  mx-auto  rounded ">
           <div className="row  bg-white ms-1 rounded p-3">
-            <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Inprocess Projects</h6>
+            <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Inprocess Tasks</h6>
             <div className="col-12">
               <div className="shadow_custom ">
                 <div className="table-responsive">
                   <table className="table align-items-center table-flush">
                     <thead className="thead-light">
                       <tr>
-                        <th className="text-center">Project Name</th>
+                        <th className="text-center">task Name</th>
                         <th className="text-center">Start Date</th>
                         <th className="text-center">Expected End Date</th>
                         <th className="text-center">Status</th>
@@ -80,45 +80,45 @@ export const AssignInproccessSection = ({
                     </thead>
 
                     <tbody>
-                      {inproccessProject.length === 0 ? (
+                      {inprocessTasks.length === 0 ? (
                         <tr className="text-center">
-                          <td colSpan="5">No projects in progress</td>
+                          <td colSpan="5">No tasks in progress</td>
                         </tr>
                       ) : (
-                        inproccessProject.map((project) => (
-                          <tr className="text-center" key={project.id}>
+                        inprocessTasks.map((task) => (
+                          <tr className="text-center" key={task.id}>
                             <th className="text-center">
                               <div className="media align-items-center">
                                 <div className="media-body">
                                   <span className="mb-0 text-sm">
-                                    {project.name}
+                                    {task.taskName.name}
                                   </span>
                                 </div>
                               </div>
                             </th>
-                            <td>{formatDate(project.startDate)}</td>
-                            <td>{formatDate(project.endDate)}</td>
+                            <td>{formatDate(task.startDate)}</td>
+                            <td>{formatDate(task.endDate)}</td>
                             <td>
                               <span className="badge badge-dot mr-4 text-dark">
                                 <i className="bg-warning"></i>
-                                {project.projectStatus}
+                                {task.taskStatus}
                               </span>
                             </td>
                             <td className="text-center">
                               <div className="d-flex align-items-center">
                                 <span className="text_a">
-                                  {project.completeLevel}%
+                                  {task.taskLevel}%
                                 </span>
                                 <div className="m-auto">
                                   <span className="progress">
                                     <div
                                       className="progress-bar bg-warning"
                                       role="progressbar"
-                                      aria-valuenow={project.completeLevel}
+                                      aria-valuenow={task.taskLevel}
                                       aria-valuemin="0"
                                       aria-valuemax="100"
                                       style={{
-                                        width: `${project.completeLevel}%`,
+                                        width: `${task.taskLevel}%`,
                                       }}
                                     ></div>
                                   </span>
