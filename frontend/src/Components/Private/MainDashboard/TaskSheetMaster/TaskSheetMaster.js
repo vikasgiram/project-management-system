@@ -1,14 +1,15 @@
 import React,{ useEffect, useState } from "react";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { ViewMode, Gantt } from "gantt-task-react";
 import {initTasks} from "../../../Helper/GanttChartHelper";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
-import { createTask } from "../../../../hooks/useTaskSheet";
 import { default as ReactSelect } from "react-select";
 import { useParams } from "react-router-dom";
-import { getTaskSheet } from "../../../../hooks/useTaskSheet";
+import { getTaskSheet, createTaskSheet, deleteTaskSheet} from "../../../../hooks/useTaskSheet";
 import toast from "react-hot-toast";
 import { getTask } from "../../../../hooks/useTask";
 import { getEmployee} from "../../../../hooks/useEmployees";
@@ -106,11 +107,25 @@ export const TaskSheetMaster = () => {
   //   setTasks(newTasks);
   // };
   const handleTaskDelete = (task) => {
-    const conf = window.confirm("Are you sure about " + task.name + " ?");
-    if (conf) {
-      setTasks(tasks.filter((t) => t.id !== task.id));
-    }
-    return conf;
+    confirmAlert({
+      title: 'Confirm to Delete',
+      message: `Are you sure to delete `+task.name+` ?`,
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+            await deleteTaskSheet(task.id);
+            setTasks(tasks.filter((t) => t.id !== task.id));
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+            return
+          }
+        }
+      ]
+    });
   };
   const handleProgressChange = async (task) => {
     setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
@@ -249,7 +264,7 @@ export const TaskSheetMaster = () => {
       return toast.error("Please fill all fields");
     }
 
-    await createTask(data);
+    await createTaskSheet(data);
     toast.success("Task added successfully");
     clearForm();
   };

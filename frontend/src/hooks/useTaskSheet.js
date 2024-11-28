@@ -62,7 +62,7 @@ const getMyTaskSheet = async (projectId) => {
     toast.error(error.response.data.error);  }
 };
 
-const createTask = async (taskData) => {
+const createTaskSheet = async (taskData) => {
   try {
     const response = await axios.post(`${url}`, taskData,{
       headers: {
@@ -82,7 +82,7 @@ const createTask = async (taskData) => {
     toast.error(error.response.data.error);  }
 };
 
-const updateTask = async (id, updatedData) => {
+const updateTaskSheet = async (id, updatedData) => {
   try {
     const response = await axios.put(`${url}/${id}`, updatedData,{
       headers: {
@@ -102,7 +102,7 @@ const updateTask = async (id, updatedData) => {
     toast.error(error.response.data.error);  }
 };
 
-const deleteTask = async (Id) => {
+const deleteTaskSheet = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`,{
       headers: {
@@ -122,4 +122,4 @@ const deleteTask = async (Id) => {
     toast.error(error.response.data.error);}
 };
 
-export { getAllTask,  createTask, updateTask, deleteTask, getTaskSheet, getMyTaskSheet };
+export { getAllTask,  createTaskSheet, updateTaskSheet, deleteTaskSheet, getTaskSheet, getMyTaskSheet };
