@@ -101,15 +101,15 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try{
-    await updateAction(editAction._id, editAction);
-    handleUpdateTask();
-    }catch(error){
+    try {
+      await updateAction(editAction._id, editAction);
+      handleUpdateTask();
+    } catch (error) {
       toast.error(error);
     }
   }
   // console.log("editAction", editAction);
-  
+
 
 
   return (
@@ -185,58 +185,68 @@ const TaskListUpdatedPopUp = ({ handleUpdateTask, selectedTask }) => {
                       className="w-80 btn btn-sm addbtn rounded-0 add_button m-2 px-4 float-end"
                       onClick={toggleVisibility}
                     >
-                      {isVisible ? "Hide" : "Show More..."}
+                      {isVisible ? "x" : "Show More..."}
                     </button>
 
                     {isVisible && (
-                      <div>
-                        <table
-                          className="table table-striped table-class"
-                          id="table-id"
-                        >
-                          <tr className="th_border">
-                            <th>Actions</th>
-                            <th>Action By</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Complated</th>
-                            <th>Edit</th>
-                          </tr>
-                          <tbody className="broder my-4">
-                            {/* {console.log("actionHistory", actionHistory)} */}
 
-                            {actionHistory &&
-                              actionHistory.map((action, index) => (
-                                <tr className="border my-4" key={index}>
-                                  <td>{action.action}</td>
-                                  <td>{action.actionBy.name}</td>
-                                  <td>
-                                    {formatDateforTaskUpdate(action.startTime)}
-                                  </td>
-                                  <td>
-                                    {formatDateforTaskUpdate(action.endTime)}
-                                  </td>
-                                  <td>{action.complated}%</td>
-                                  <td>
-                                    {index ===
-                                      actionHistory.length - 1 && (
-                                        <button
-                                          type="button"
-                                          onClick={() =>
-                                            editTask(action)
-                                            // console.log(action._id,"action id")
+                      <div className="  bg-white ms-1 rounded p-lg-3">
+                        <div className="col-12">
+                          <div className="shadow_custom ">
+                            <div className="table-responsive">
+                              <table className="table align-items-center table-flush">
+                                <thead className="thead-light">
+                                  <tr >
+                                    <th className="text-center">Action</th>
+                                    <th className="text-center">Action By</th>
+                                    <th className="text-center">Start Date</th>
+                                    <th className="text-center">End Time</th>
+                                    <th className="text-center">Complated</th>
+                                    <th className="text-center">Edit</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
 
-                                          }
-                                        >
-                                          Edit
-                                        </button>
-                                      )}
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                                  {actionHistory &&
+                                    actionHistory.map((action, index) => (
+                                      <tr className="text-center" key={index} >
+
+                                        <td>{action.action}</td>
+                                        <td>{action.actionBy.name}</td>
+                                        <td>{formatDateforTaskUpdate(action.startTime)}</td>
+                                        <td>{formatDateforTaskUpdate(action.endTime)}</td>
+                                        <td>{action.complated}%</td>
+                                        <td>  {index ===
+                                          actionHistory.length - 1 && (
+                                            <button
+                                              type="button"
+                                              onClick={() =>
+                                                editTask(action)
+                                                // console.log(action._id,"action id")
+
+                                              }
+                                            >
+                                              <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                          )}</td>
+                                      </tr>
+                                    ))}
+
+                                </tbody>
+
+                              </table>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+
+
+
+
+
+
+
+
                     )}
                   </div>
 

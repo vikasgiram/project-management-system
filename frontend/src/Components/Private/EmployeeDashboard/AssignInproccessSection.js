@@ -6,7 +6,7 @@ export const AssignInproccessSection = ({
 }) => {
   return (
     <>
-      <div className="row   p-2 m-1 ">
+      <div className="row   p-lg-2 m-1 ">
         <div className="col-12 col-lg-5 mb-4 mb-lg-0  rounded ">
 
           <div className="row bg-white rounded p-lg-3 ">
@@ -64,7 +64,7 @@ export const AssignInproccessSection = ({
  
         <div className="col-12 col-lg-7  mx-auto  rounded ">
           
-          <div className="row  bg-white ms-1 rounded p-3">
+          <div className="row  bg-white ms-md-1 rounded p-lg-3">
             <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Inprocess Tasks</h6>
             <div className="col-12">
               <div className="shadow_custom ">
@@ -135,6 +135,7 @@ export const AssignInproccessSection = ({
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </>

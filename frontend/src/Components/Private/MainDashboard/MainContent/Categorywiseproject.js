@@ -34,6 +34,7 @@ export const Categorywiseproject = ({ categorywise }) => {
     ],
   };
 
+  
   const FirstCompBar = {
     responsive: true,
     maintainAspectRatio: true,
