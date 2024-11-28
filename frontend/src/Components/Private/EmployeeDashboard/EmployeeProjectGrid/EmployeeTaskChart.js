@@ -5,7 +5,7 @@ import { default as ReactSelect, components } from "react-select";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChartHelper";
-import { createTask, getTaskSheet } from "../../../../hooks/useTaskSheet";
+import { createTaskSheet, getTaskSheet } from "../../../../hooks/useTaskSheet";
 import { getTask } from "../../../../hooks/useTask";
 import { getDepartment } from "../../../../hooks/useDepartment";
 import { getEmployee } from "../../../../hooks/useEmployees";
@@ -261,7 +261,7 @@ export const EmployeeTaskChart = () => {
         }
 
 
-        await createTask(data);
+        await createTaskSheet(data);
         toast.success("Task added successfully");
         clearForm();
     };
