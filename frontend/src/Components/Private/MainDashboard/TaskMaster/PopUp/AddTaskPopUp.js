@@ -54,7 +54,8 @@ const AddTaskPopUp = ({ handleAdd }) => {
                         
                         <div className="modal-body">
                         <form >
-                            <div className="row modal_body_height">
+                            <div className="row">
+                            {/* modal_body_height */}
                                 <div className="col-12">
                                     
                                         <div className="mb-3">
