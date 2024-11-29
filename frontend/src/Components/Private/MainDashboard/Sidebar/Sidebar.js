@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 
 
-export const Sidebar = ({ is, active }) => {
+export const Sidebar = ({ isopen, active }) => {
     // const [toggleactive, settoggleactive] = useState("dashboard")
     // const [, set] = useState(false)
 
@@ -11,16 +11,16 @@ export const Sidebar = ({ is, active }) => {
     return (
         <div
             className={
-                is
+                isopen
                     ? "left-slidebar dark-shadow sidebar-block"
                     : "left-slidebar dark-shadow sidebar-none"
             }
-            style={{ width: is ? "210px" : "97px" }}
+            style={{ width: isopen ? "210px" : "97px" }}
         >
             <div className="navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <span className="navbar-brand brand-logo">
                     <img
-                        style={{ width: is ? "100%" : "100%" }}
+                        style={{ width: isopen ? "100%" : "100%" }}
                         src="static/assets/img/nav/DACCESS.png"
                         className="logo"
                         alt="logo"
@@ -33,7 +33,7 @@ export const Sidebar = ({ is, active }) => {
             </div>
             <nav
                 className="sidebar  sidebar-offcanvas" id="sidebar"
-                style={{ maxHeight: is ? "" : " calc(100vh - 150px)" }}
+                style={{ maxHeight: isopen ? "" : " calc(100vh - 150px)" }}
             >
                 <ul className="nav d-block">
 
@@ -45,7 +45,7 @@ export const Sidebar = ({ is, active }) => {
                             <img src="static/assets/img/nav/dashboard.png" className="menu-icon" />
                             <span
                                 className="menu-title"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Dashboard
                             </span>
@@ -60,7 +60,7 @@ export const Sidebar = ({ is, active }) => {
 
                             <span
                                 className="menu-title_m"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Employee Master
                             </span>
@@ -75,7 +75,7 @@ export const Sidebar = ({ is, active }) => {
 
                             <span
                                 className="menu-title_m"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Customer Master
                             </span>
@@ -92,7 +92,7 @@ export const Sidebar = ({ is, active }) => {
 
                             <span
                                 className="menu-title_m"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Project Master
                             </span>
@@ -106,7 +106,7 @@ export const Sidebar = ({ is, active }) => {
 
                             <span
                                 className="menu-title_m"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Department Master
                             </span>
@@ -124,7 +124,7 @@ export const Sidebar = ({ is, active }) => {
                             <i class="fa-solid fa-diamond ps-3 side_icon_fs"></i>
                             <span
                                 className="menu-title_m"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Designation Master
                             </span>
@@ -141,7 +141,7 @@ export const Sidebar = ({ is, active }) => {
                             <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i>
                             <span
                                 className="menu-title_m"
-                                style={{ display: is ? "" : "none" }}
+                                style={{ display: isopen ? "" : "none" }}
                             >
                                 Task Master
                             </span>

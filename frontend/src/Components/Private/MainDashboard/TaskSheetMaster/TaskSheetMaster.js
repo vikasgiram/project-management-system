@@ -131,7 +131,7 @@ export const TaskSheetMaster = () => {
     forActionShow(task.id);
 
   };
-  
+
   const handleSelect = (task, isSelected) => {
     // console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
   };
@@ -288,7 +288,7 @@ export const TaskSheetMaster = () => {
           <form>
             <Header toggle={toggle} isopen={isopen} />
             <div className="container-fluid page-body-wrapper">
-              <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} />
+              <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }} />
 
               <div
                 className="main-panel"
@@ -543,22 +543,29 @@ export const TaskSheetMaster = () => {
                     {showAction ? (<div className="col-12 col-lg-12  mx-auto  rounded ">
 
                       <div className="row  bg-white ms-1 rounded p-3">
-                        <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name
+
+
+
+
+                        <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name </h6>
+                        <div className="col-12 col-lg-6">
                         <button
-                  onClick={() => setShowAction(false)}
-                  type="button"
-                  className="close px-3"
-                  style={{ marginLeft: "1150px" }}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                        </h6>
+                            onClick={() => setShowAction(false)}
+                            type="button"
+                            className=" px-3"
+                            style={{ marginLeft: "1150px" }}
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+
                       
+
                         <div className="col-12">
                           <div className="shadow_custom ">
                             <div className="table-responsive">
 
-                         
+
                               <table className="table align-items-center table-flush">
                                 <thead className="thead-light">
                                   <tr>
@@ -570,22 +577,22 @@ export const TaskSheetMaster = () => {
                                   </tr>
                                 </thead>
 
-                          {forTask && forTask.length !== 0 ? (
-                            
-                          
-                                <tbody>
-                                  {forTask && forTask.map((action) => (
-                                    <tr className="text-center" >
-                                      <td>{action.action}</td>
-                                      <td>{action.actionBy.name}</td>
-                                      <td>{formatDateforEditAction(action.startTime)}</td>
-                                      <td>{formatDateforEditAction(action.endTime)}</td>
-                                      <td>{action.complated}</td>
-                                    </tr>
-                                  ))}
+                                {forTask && forTask.length !== 0 ? (
 
-                                </tbody>
-):(<h3 style={{marginLeft:"450px"}}>No Action performed....</h3>)}
+
+                                  <tbody>
+                                    {forTask && forTask.map((action) => (
+                                      <tr className="text-center" >
+                                        <td>{action.action}</td>
+                                        <td>{action.actionBy.name}</td>
+                                        <td>{formatDateforEditAction(action.startTime)}</td>
+                                        <td>{formatDateforEditAction(action.endTime)}</td>
+                                        <td>{action.complated}</td>
+                                      </tr>
+                                    ))}
+
+                                  </tbody>
+                                ) : (<h3 style={{ marginLeft: "450px" }}>No Action performed....</h3>)}
                               </table>
                             </div>
                           </div>
@@ -593,7 +600,7 @@ export const TaskSheetMaster = () => {
                       </div>
 
                     </div>) : (<></>)}
-                    
+
 
                   </div>
                 </div>
