@@ -591,12 +591,33 @@ export const TaskSheetMaster = () => {
                                         <td>{action.actionBy.name}</td>
                                         <td>{formatDateforEditAction(action.startTime)}</td>
                                         <td>{formatDateforEditAction(action.endTime)}</td>
-                                        <td>{action.complated}</td>
+                                        <td className="text-center">
+                              <div className="d-flex align-items-center"
+                                style={{ justifyContent: "center" }}
+                              >
+                              {action.complated}%
+                                  <span className="progress"
+                                        style={{ marginLeft: "10px" }}
+                                  >
+                                    <div
+                                      className="progress-bar bg-warning"
+                                      role="progressbar"
+                                      aria-valuenow={action.complated}
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                      style={{
+                                        width: `${action.complated}%`,
+                                      }}
+                                    ></div>
+                                  </span>
+                                
+                              </div>
+                            </td>
                                       </tr>
                                     ))}
 
                                   </tbody>
-                                ) : (<h3 style={{ marginLeft: "450px" }}>No Action performed....</h3>)}
+                                ) : (<h6 style={{ marginLeft: "450px" }}>No Action performed....</h6>)}
                               </table>
                             </div>
                           </div>
