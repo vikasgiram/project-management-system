@@ -58,7 +58,8 @@ function AdminMainDashboard() {
                     <AdminHeader
                         // Language={Language}
                         // setLanguage={setLanguage}
-                        toggle={toggle} isopen={isopen}
+                        toggle={toggle}
+                         isopen={isopen}
 
                     />
                     <div className="container-fluid page-body-wrapper">

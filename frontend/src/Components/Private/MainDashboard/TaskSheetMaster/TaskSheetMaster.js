@@ -1,20 +1,24 @@
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { ViewMode, Gantt } from "gantt-task-react";
-import {initTasks} from "../../../Helper/GanttChartHelper";
+import { initTasks } from "../../../Helper/GanttChartHelper";
 import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
 import { default as ReactSelect } from "react-select";
 import { useParams } from "react-router-dom";
-import { getTaskSheet, createTaskSheet, deleteTaskSheet} from "../../../../hooks/useTaskSheet";
+import { getTaskSheet, createTaskSheet, deleteTaskSheet } from "../../../../hooks/useTaskSheet";
 import toast from "react-hot-toast";
 import { getTask } from "../../../../hooks/useTask";
-import { getEmployee} from "../../../../hooks/useEmployees";
+import { getEmployee } from "../../../../hooks/useEmployees";
 import { getDepartment } from "../../../../hooks/useDepartment";
 import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
+import { getAllActions } from "../../../../hooks/useAction";
+import { formatDateforEditAction } from "../../../../utils/formatDate";
+import { set } from "mongoose";
+
 
 // const Option = (props) => {
 //   return (
@@ -32,15 +36,15 @@ import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
 // };
 
 export const TaskSheetMaster = () => {
-/**
- * Component for displaying a Gantt chart of a project's tasks.
- *
- * The component fetches the project data from the server and transforms it
- * into a format that can be used by the Gantt component. It also provides
- * functionality for adding new tasks to the project.
- *
- * @returns {JSX.Element} The component.
- */
+  /**
+   * Component for displaying a Gantt chart of a project's tasks.
+   *
+   * The component fetches the project data from the server and transforms it
+   * into a format that can be used by the Gantt component. It also provides
+   * functionality for adding new tasks to the project.
+   *
+   * @returns {JSX.Element} The component.
+   */
   const [isopen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isopen);
@@ -65,7 +69,9 @@ export const TaskSheetMaster = () => {
   const [projectName, setProjectName] = useState("");
   const [renderPage, setRenderPage] = useState(false);
   const [taskAddPopUpShow, setTaskAddPopUpShow] = useState(false);
-  
+  const [forTask, setForTask] = useState();
+  const [showAction, setShowAction] = useState(false);
+
 
   let columnWidth = 90;
   if (view === ViewMode.Month) {
@@ -81,35 +87,23 @@ export const TaskSheetMaster = () => {
   };
   const handleTaskSelection = (value) => {
     if (value === "AddNewTask") {
-      setTaskAddPopUpShow(!taskAddPopUpShow); 
+      setTaskAddPopUpShow(!taskAddPopUpShow);
     } else {
       setTaskName(value); // Update task name for selected task
     }
     setTaskAddPopUpShow(!taskAddPopUpShow);
   };
-  // const handleTaskChange = (task) => {
-  //   // console.log("On date change Id:" + task.id);
-  //   let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
-  //   if (task.project) {
-  //     const [start, end] = getStartEndDateForProject(newTasks, task.project);
-  //     const project =
-  //       newTasks[newTasks.findIndex((t) => t.id === task.project)];
-  //     if (
-  //       project.start.getTime() !== start.getTime() ||
-  //       project.end.getTime() !== end.getTime()
-  //     ) {
-  //       const changedProject = { ...project, start, end };
-  //       newTasks = newTasks.map((t) =>
-  //         t.id === task.project ? changedProject : t
-  //       );
-  //     }
-  //   }
-  //   setTasks(newTasks);
-  // };
+  const forActionShow = async (id) => {
+
+    const actions = await getAllActions(id);
+    setForTask(actions);
+    setShowAction(true);
+  }
+
   const handleTaskDelete = (task) => {
     confirmAlert({
       title: 'Confirm to Delete',
-      message: `Are you sure to delete `+task.name+` ?`,
+      message: `Are you sure to delete ` + task.name + ` ?`,
       buttons: [
         {
           label: 'Yes',
@@ -132,8 +126,12 @@ export const TaskSheetMaster = () => {
     // console.log("On progress change Id:" + task.id);
   };
   const handleDblClick = (task) => {
-    alert("On Double Click event Id:" + task.id);
+    // alert("On Double Click event Id:" + task.id);
+    console.log(task.id);
+    forActionShow(task.id);
+
   };
+
   const handleSelect = (task, isSelected) => {
     // console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
   };
@@ -290,7 +288,7 @@ export const TaskSheetMaster = () => {
           <form>
             <Header toggle={toggle} isopen={isopen} />
             <div className="container-fluid page-body-wrapper">
-              <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} />
+              <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }} />
 
               <div
                 className="main-panel"
@@ -303,8 +301,8 @@ export const TaskSheetMaster = () => {
                   <div className="row px-2 py-1   ">
                     <div className="col-12 col-lg-6">
                       <h5 className="text-white py-2">
-                        
-                        Project Name: {projectName && projectName.name+" - "+ projectName.custId.custName}
+
+                        Project Name: {projectName && projectName.name + " - " + projectName.custId.custName}
                       </h5>
                     </div>
                   </div>
@@ -329,7 +327,7 @@ export const TaskSheetMaster = () => {
                             taskDropDown.map((task) => (
                               <option value={task._id}>{task.name}</option>
                             ))}
-                            <option value="AddNewTask" >-- Add New Task --</option>
+                          <option value="AddNewTask" >-- Add New Task --</option>
                         </select>
                         {/* <button
                           onClick={() => {
@@ -396,14 +394,14 @@ export const TaskSheetMaster = () => {
                           value={department}
                         >
                           <option value="">-- Select Department Name --</option>
-                          
+
                           {departmentName &&
                             departmentName.map((department) => (
                               <option value={department._id}>
                                 {department.name}
                               </option>
-                              ))}
-                             
+                            ))}
+
                         </select>
                       </div>
                     </div>
@@ -519,8 +517,8 @@ export const TaskSheetMaster = () => {
                         {taskAddPopUpShow ? (
                           <AddTaskPopUp
                             handleAdd={handleTaskSelection}
-                            // heading="Forward"
-                            // cancelBtnCallBack={handleAddDepartment}
+                          // heading="Forward"
+                          // cancelBtnCallBack={handleAddDepartment}
                           />
                         ) : (
                           <></>
@@ -541,6 +539,69 @@ export const TaskSheetMaster = () => {
                                             /> */}
                       </div>
                     </div>
+
+                    {showAction ? (<div className="col-12 col-lg-12  mx-auto  rounded ">
+
+                      <div className="row  bg-white ms-1 rounded p-3">
+
+
+
+
+                        <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name </h6>
+                        <div className="col-12 col-lg-6">
+                        <button
+                            onClick={() => setShowAction(false)}
+                            type="button"
+                            className=" px-3"
+                            style={{ marginLeft: "1150px" }}
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+
+                      
+
+                        <div className="col-12">
+                          <div className="shadow_custom ">
+                            <div className="table-responsive">
+
+
+                              <table className="table align-items-center table-flush">
+                                <thead className="thead-light">
+                                  <tr>
+                                    <th className="text-center">Action</th>
+                                    <th className="text-center">Action By</th>
+                                    <th className="text-center">Start Time </th>
+                                    <th className="text-center">End Time</th>
+                                    <th className="text-center">Completion</th>
+                                  </tr>
+                                </thead>
+
+                                {forTask && forTask.length !== 0 ? (
+
+
+                                  <tbody>
+                                    {forTask && forTask.map((action) => (
+                                      <tr className="text-center" >
+                                        <td>{action.action}</td>
+                                        <td>{action.actionBy.name}</td>
+                                        <td>{formatDateforEditAction(action.startTime)}</td>
+                                        <td>{formatDateforEditAction(action.endTime)}</td>
+                                        <td>{action.complated}</td>
+                                      </tr>
+                                    ))}
+
+                                  </tbody>
+                                ) : (<h3 style={{ marginLeft: "450px" }}>No Action performed....</h3>)}
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>) : (<></>)}
+
+
                   </div>
                 </div>
               </div>

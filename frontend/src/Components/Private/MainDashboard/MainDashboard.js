@@ -84,6 +84,7 @@ function MainDashboard() {
                     <span className="loader"></span>
                 </div>
             )}
+            
       <div className="container-scroller">
         <div className="row background_main_all">
           <Header
