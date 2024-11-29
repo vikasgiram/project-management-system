@@ -34,7 +34,7 @@ const UpdateDepartmentPopup = ({ handleUpdate, selectedDep }) => {
 
                                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
 
-                                    Update Department <RequiredStar />
+                                    Update Department 
                                     {/* Forward */}
                                 </h5>
                                 <button onClick={() => handleUpdate()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
@@ -49,7 +49,7 @@ const UpdateDepartmentPopup = ({ handleUpdate, selectedDep }) => {
 
 
                                         <div className="mb-3">
-                                            <label for="name" className="form-label label_text">     Department Name
+                                            <label for="name" className="form-label label_text">     Department Name <RequiredStar />
                                             </label>
                                             <input type="text" className="form-control rounded-0" id="name" name="name" onChange={handleInputChange} value={department.name} aria-describedby="secemailHelp" />
                                         </div>
