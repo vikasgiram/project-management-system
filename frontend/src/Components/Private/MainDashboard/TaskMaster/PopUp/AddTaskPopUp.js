@@ -1,14 +1,12 @@
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { createTask } from "../../../../../hooks/useTask";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
-const AddTaskPopUp = ({ handleAdd }) => {
-    const { t } = useTranslation();
+const AddTaskPopUp = ({ handleAdd ,cancelBtnCallBack}) => {
 
     const [taskname, setTaskname] = useState("");
 
@@ -23,6 +21,14 @@ const AddTaskPopUp = ({ handleAdd }) => {
         }
         await createTask(data);
         handleAdd();
+    };
+    const handleCancleButtonClick = () => {
+        if (handleAdd) {
+            handleAdd(); // Call handleAdd if defined
+        }
+        if (cancelBtnCallBack) {
+            cancelBtnCallBack(); // Call cancelBtnCallBack if defined
+        }
     };
 
     return (
@@ -43,7 +49,7 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                 {/* Forward */}
                             </h5>
                             <button
-                                onClick={() => handleAdd()}
+                                onClick={() => handleCancleButtonClick()}
                                 type="button"
                                 className="close px-3"
                                 style={{ marginLeft: "auto" }}
@@ -92,7 +98,7 @@ const AddTaskPopUp = ({ handleAdd }) => {
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={handleAdd}
+                                            onClick={handleCancleButtonClick}
                                             className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
                                         >
                                             Cancel
