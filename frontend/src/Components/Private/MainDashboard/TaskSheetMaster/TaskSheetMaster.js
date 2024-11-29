@@ -88,11 +88,16 @@ export const TaskSheetMaster = () => {
   const handleTaskSelection = (value) => {
     if (value === "AddNewTask") {
       setTaskAddPopUpShow(!taskAddPopUpShow);
+      
     } else {
       setTaskName(value); // Update task name for selected task
     }
-    setTaskAddPopUpShow(!taskAddPopUpShow);
+    // setTaskAddPopUpShow(!taskAddPopUpShow);
   };
+ const handleTaskCancel =()=>{
+
+  setTaskAddPopUpShow(!taskAddPopUpShow);
+ }
   const forActionShow = async (id) => {
 
     const actions = await getAllActions(id);
@@ -518,7 +523,7 @@ export const TaskSheetMaster = () => {
                           <AddTaskPopUp
                             handleAdd={handleTaskSelection}
                           // heading="Forward"
-                          // cancelBtnCallBack={handleAddDepartment}
+                          cancelBtnCallBack={handleTaskCancel}
                           />
                         ) : (
                           <></>
