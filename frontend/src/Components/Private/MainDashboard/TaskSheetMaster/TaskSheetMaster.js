@@ -17,23 +17,6 @@ import { getDepartment } from "../../../../hooks/useDepartment";
 import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
 import { getAllActions } from "../../../../hooks/useAction";
 import { formatDateforEditAction } from "../../../../utils/formatDate";
-import { set } from "mongoose";
-
-
-// const Option = (props) => {
-//   return (
-//     <div>
-//       <components.Option {...props}>
-//         <input
-//           type="checkbox"
-//           checked={props.isSelected}
-//           onChange={() => null}
-//         />{" "}
-//         <label>{props.label}</label>
-//       </components.Option>
-//     </div>
-//   );
-// };
 
 export const TaskSheetMaster = () => {
   /**
