@@ -1,4 +1,4 @@
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Header } from "../Header/Header";
@@ -9,12 +9,16 @@ import "gantt-task-react/dist/index.css";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
 import { default as ReactSelect } from "react-select";
 import { useParams } from "react-router-dom";
-import { getTaskSheet, createTaskSheet, deleteTaskSheet} from "../../../../hooks/useTaskSheet";
+import { getTaskSheet, createTaskSheet, deleteTaskSheet } from "../../../../hooks/useTaskSheet";
 import toast from "react-hot-toast";
 import { getTask } from "../../../../hooks/useTask";
 import { getEmployee } from "../../../../hooks/useEmployees";
 import { getDepartment } from "../../../../hooks/useDepartment";
 import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
+import { getAllActions } from "../../../../hooks/useAction";
+import { formatDateforEditAction } from "../../../../utils/formatDate";
+import { set } from "mongoose";
+
 
 // const Option = (props) => {
 //   return (
@@ -65,6 +69,8 @@ export const TaskSheetMaster = () => {
   const [projectName, setProjectName] = useState("");
   const [renderPage, setRenderPage] = useState(false);
   const [taskAddPopUpShow, setTaskAddPopUpShow] = useState(false);
+  const [forTask, setForTask] = useState();
+  const [showAction, setShowAction] = useState(false);
 
 
   let columnWidth = 90;
@@ -87,29 +93,17 @@ export const TaskSheetMaster = () => {
     }
     setTaskAddPopUpShow(!taskAddPopUpShow);
   };
-  // const handleTaskChange = (task) => {
-  //   // console.log("On date change Id:" + task.id);
-  //   let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
-  //   if (task.project) {
-  //     const [start, end] = getStartEndDateForProject(newTasks, task.project);
-  //     const project =
-  //       newTasks[newTasks.findIndex((t) => t.id === task.project)];
-  //     if (
-  //       project.start.getTime() !== start.getTime() ||
-  //       project.end.getTime() !== end.getTime()
-  //     ) {
-  //       const changedProject = { ...project, start, end };
-  //       newTasks = newTasks.map((t) =>
-  //         t.id === task.project ? changedProject : t
-  //       );
-  //     }
-  //   }
-  //   setTasks(newTasks);
-  // };
+  const forActionShow = async (id) => {
+
+    const actions = await getAllActions(id);
+    setForTask(actions);
+    setShowAction(true);
+  }
+
   const handleTaskDelete = (task) => {
     confirmAlert({
       title: 'Confirm to Delete',
-      message: `Are you sure to delete `+task.name+` ?`,
+      message: `Are you sure to delete ` + task.name + ` ?`,
       buttons: [
         {
           label: 'Yes',
@@ -132,8 +126,12 @@ export const TaskSheetMaster = () => {
     // console.log("On progress change Id:" + task.id);
   };
   const handleDblClick = (task) => {
-    alert("On Double Click event Id:" + task.id);
+    // alert("On Double Click event Id:" + task.id);
+    console.log(task.id);
+    forActionShow(task.id);
+
   };
+  
   const handleSelect = (task, isSelected) => {
     // console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
   };
@@ -542,13 +540,25 @@ export const TaskSheetMaster = () => {
                       </div>
                     </div>
 
-                    <div className="col-12 col-lg-12  mx-auto  rounded ">
+                    {showAction ? (<div className="col-12 col-lg-12  mx-auto  rounded ">
 
                       <div className="row  bg-white ms-1 rounded p-3">
-                        <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name</h6>
+                        <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name
+                        <button
+                  onClick={() => setShowAction(false)}
+                  type="button"
+                  className="close px-3"
+                  style={{ marginLeft: "1150px" }}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                        </h6>
+                      
                         <div className="col-12">
                           <div className="shadow_custom ">
                             <div className="table-responsive">
+
+                         
                               <table className="table align-items-center table-flush">
                                 <thead className="thead-light">
                                   <tr>
@@ -559,23 +569,31 @@ export const TaskSheetMaster = () => {
                                     <th className="text-center">Completion</th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr className="text-center" >
-                                    <td>jdghdv vcbdvdv ndhbvcdbv bvbvmv bvbbv bvxhvcbv  nmbvhzdjvb </td>
-                                    <td>vdcvdsbcvnv</td>
-                                    <td>vdcvdsbcvnv</td>
-                                    <td>vdcvdsbcvnv</td>
-                                    <td>vdcvdsbcvnv</td>
-                                  </tr>
-                                </tbody>
 
+                          {forTask && forTask.length !== 0 ? (
+                            
+                          
+                                <tbody>
+                                  {forTask && forTask.map((action) => (
+                                    <tr className="text-center" >
+                                      <td>{action.action}</td>
+                                      <td>{action.actionBy.name}</td>
+                                      <td>{formatDateforEditAction(action.startTime)}</td>
+                                      <td>{formatDateforEditAction(action.endTime)}</td>
+                                      <td>{action.complated}</td>
+                                    </tr>
+                                  ))}
+
+                                </tbody>
+):(<h3 style={{marginLeft:"450px"}}>No Action performed....</h3>)}
                               </table>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                    </div>
+                    </div>) : (<></>)}
+                    
 
                   </div>
                 </div>
