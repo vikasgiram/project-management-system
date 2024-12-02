@@ -40,6 +40,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
       subAmount,
       GST,
       Address,
+      logo
 
     };
     if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
@@ -51,6 +52,20 @@ const AddCompanyPopup = ({ handleAdd }) => {
     await createCompany(data);
     // console.log(data);
     handleAdd();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // The result is a Base64 string
+        setLogo(reader.result);
+        // console.log(logo);
+        
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -255,9 +270,16 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       </label>
                       <input type="file" className="form-control rounded-0" id="LOGO" aria-describedby="secemailHelp"
 
-                        onChange={(e) => setLogo(e.target.files[0])} files={logo}
+                        onChange={handleFileChange} files={logo}
                       />
+                            {/* {logo && (
+        <div>
+          <h3>Preview:</h3>
+          <img src={logo} alt="Uploaded Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />
+        </div>
+      )} */}
                     </div>
+                    
                   </div>
 
                   <div className="col-12  mt-2">

@@ -64,7 +64,7 @@ const AddProjectPopup = ({ handleAdd }) => {
       payfterCompletion,
       remark,
       address,
-      POCopy   // change in backend
+      POCopy   
 
 
 
@@ -85,11 +85,25 @@ const AddProjectPopup = ({ handleAdd }) => {
     }
 
     await createProject(data);
+    // console.log(data);
+    
     handleAdd();
   };
   // console.log(address,"address in popup");
 
-
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // The result is a Base64 string
+        setPOCopy(reader.result);
+        console.log(POCopy);
+        
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <>
@@ -371,7 +385,7 @@ const AddProjectPopup = ({ handleAdd }) => {
                       </label>
                       <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp"
 
-                        onChange={(e) => setPOCopy(e.target.files[0])} files={POCopy}
+                        onChange={handleFileChange} files={POCopy}
                       />
                     </div>
 

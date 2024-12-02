@@ -98,6 +98,13 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
             toast.error(error);
         }
     };
+    const viewFile = (POCopy) => {
+        // Ensure the base64 string is properly formatted
+        const pdfBase64 = `data:application/pdf;base64,${POCopy}`;
+       
+        // Open the PDF in a new tab
+        window.open(pdfBase64, '_blank');
+      };
 
 
 
@@ -417,6 +424,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             </label>
                                             <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp" />
                                         </div>
+                                    {/* <button type="button" onClick={viewFile}  >View</button> */}
                                     </div>
                                     <div className="col-12 col-lg-6 mt-2" >
 
