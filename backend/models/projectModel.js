@@ -112,7 +112,6 @@ const projectSchema = new mongoose.Schema({
     max: 100, // Maximum value of 100
   },
   POCopy: {
-    // Copy of the purchase order
     type: String,
   },
 }, {

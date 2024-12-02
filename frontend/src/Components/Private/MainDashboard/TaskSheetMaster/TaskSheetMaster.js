@@ -82,7 +82,6 @@ export const TaskSheetMaster = () => {
   setTaskAddPopUpShow(!taskAddPopUpShow);
  }
   const forActionShow = async (id) => {
-
     const actions = await getAllActions(id);
     setForTask(actions);
     setShowAction(true);
@@ -114,8 +113,8 @@ export const TaskSheetMaster = () => {
     // console.log("On progress change Id:" + task.id);
   };
   const handleDblClick = (task) => {
-    // alert("On Double Click event Id:" + task.id);
-    console.log(task.id);
+    // alert("On Double Click event Id:" + task.type);
+    if(task.type==='task')
     forActionShow(task.id);
 
   };

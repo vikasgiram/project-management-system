@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const projectController = require('../controllers/projectController');
 const {permissionMiddleware, } = require("../middlewares/auth");
+const upload = require('../middlewares/fileUpload');
 
 router.get('/', permissionMiddleware(['viewProject']), projectController.showAll);
 
@@ -12,7 +13,7 @@ router.get('/search',permissionMiddleware(['viewProject']), projectController.se
 
 router.get('/export-pdf', projectController.exportProjects);
 
-router.post('/', permissionMiddleware(['createProject']) ,projectController.create);
+router.post('/', permissionMiddleware(['createProject']),upload.single('POCopy') ,projectController.create);
 
 router.get('/:id', permissionMiddleware(['viewProject']), projectController.getProject);
 
