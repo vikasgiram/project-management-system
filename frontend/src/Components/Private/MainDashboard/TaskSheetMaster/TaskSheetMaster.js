@@ -17,23 +17,6 @@ import { getDepartment } from "../../../../hooks/useDepartment";
 import AddTaskPopUp from "../TaskMaster/PopUp/AddTaskPopUp";
 import { getAllActions } from "../../../../hooks/useAction";
 import { formatDateforEditAction } from "../../../../utils/formatDate";
-import { set } from "mongoose";
-
-
-// const Option = (props) => {
-//   return (
-//     <div>
-//       <components.Option {...props}>
-//         <input
-//           type="checkbox"
-//           checked={props.isSelected}
-//           onChange={() => null}
-//         />{" "}
-//         <label>{props.label}</label>
-//       </components.Option>
-//     </div>
-//   );
-// };
 
 export const TaskSheetMaster = () => {
   /**
@@ -88,11 +71,16 @@ export const TaskSheetMaster = () => {
   const handleTaskSelection = (value) => {
     if (value === "AddNewTask") {
       setTaskAddPopUpShow(!taskAddPopUpShow);
+      
     } else {
       setTaskName(value); // Update task name for selected task
     }
-    setTaskAddPopUpShow(!taskAddPopUpShow);
+    // setTaskAddPopUpShow(!taskAddPopUpShow);
   };
+ const handleTaskCancel =()=>{
+
+  setTaskAddPopUpShow(!taskAddPopUpShow);
+ }
   const forActionShow = async (id) => {
 
     const actions = await getAllActions(id);
@@ -302,7 +290,7 @@ export const TaskSheetMaster = () => {
                     <div className="col-12 col-lg-6">
                       <h5 className="text-white py-2">
 
-                        Project Name: {projectName && projectName.name + " - " + projectName.custId.custName}
+                        <span className="fw-light">Project Name : </span> {projectName && projectName.name + " - " + projectName.custId.custName}
                       </h5>
                     </div>
                   </div>
@@ -518,7 +506,7 @@ export const TaskSheetMaster = () => {
                           <AddTaskPopUp
                             handleAdd={handleTaskSelection}
                           // heading="Forward"
-                          // cancelBtnCallBack={handleAddDepartment}
+                          cancelBtnCallBack={handleTaskCancel}
                           />
                         ) : (
                           <></>
@@ -542,30 +530,29 @@ export const TaskSheetMaster = () => {
 
                     {showAction ? (<div className="col-12 col-lg-12  mx-auto  rounded ">
 
-                      <div className="row  bg-white ms-1 rounded p-3">
+                      <div className="row  bg-white ms-lg-1 pt-5 rounded p-lg-3">
 
 
-
-
-                        <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name </h6>
                         <div className="col-12 col-lg-6">
-                        <button
-                            onClick={() => setShowAction(false)}
-                            type="button"
-                            className=" px-3"
-                            style={{ marginLeft: "1150px" }}
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
+                          <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name </h6>
                         </div>
 
-                      
+
+                        <div className="col-12 col-lg-6 text-end">
+                          <span
+                            onClick={() => setShowAction(false)}
+                            type="button"
+                            className="close  px-3"
+                          // style={{ marginLeft: "1150px" }}
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </span>
+                        </div>
+
 
                         <div className="col-12">
                           <div className="shadow_custom ">
                             <div className="table-responsive">
-
-
                               <table className="table align-items-center table-flush">
                                 <thead className="thead-light">
                                   <tr>
@@ -587,12 +574,33 @@ export const TaskSheetMaster = () => {
                                         <td>{action.actionBy.name}</td>
                                         <td>{formatDateforEditAction(action.startTime)}</td>
                                         <td>{formatDateforEditAction(action.endTime)}</td>
-                                        <td>{action.complated}</td>
+                                        <td className="text-center">
+                              <div className="d-flex align-items-center"
+                                style={{ justifyContent: "center" }}
+                              >
+                              {action.complated}%
+                                  <span className="progress"
+                                        style={{ marginLeft: "10px" }}
+                                  >
+                                    <div
+                                      className="progress-bar bg-warning"
+                                      role="progressbar"
+                                      aria-valuenow={action.complated}
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                      style={{
+                                        width: `${action.complated}%`,
+                                      }}
+                                    ></div>
+                                  </span>
+                                
+                              </div>
+                            </td>
                                       </tr>
                                     ))}
 
                                   </tbody>
-                                ) : (<h3 style={{ marginLeft: "450px" }}>No Action performed....</h3>)}
+                                ) : (<h6 style={{ marginLeft: "450px" }}>No Action performed....</h6>)}
                               </table>
                             </div>
                           </div>
