@@ -13,7 +13,7 @@ router.get('/search',permissionMiddleware(['viewProject']), projectController.se
 
 router.get('/export-pdf', projectController.exportProjects);
 
-router.post('/', permissionMiddleware(['createProject']),upload.single('POCopy') ,projectController.create);
+router.post('/', permissionMiddleware(['createProject']),upload.single('image') ,projectController.create);
 
 router.get('/:id', permissionMiddleware(['viewProject']), projectController.getProject);
 

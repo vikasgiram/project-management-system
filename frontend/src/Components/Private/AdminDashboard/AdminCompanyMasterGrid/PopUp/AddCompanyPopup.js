@@ -49,7 +49,20 @@ const AddCompanyPopup = ({ handleAdd }) => {
     if (password !== confirmPassword) {
       return toast.error("Password desen't match");
     }
-    await createCompany(data);
+
+    const formData = new FormData();
+    formData.append('name',name);
+    formData.append('admin',admin);
+    formData.append('mobileNo',mobileNo);
+    formData.append('email',email);
+    formData.append('password',password);
+    formData.append('confirmPassword',confirmPassword);
+    formData.append('subDate',subDate);
+    formData.append('subAmount',subAmount);
+    formData.append('GST',GST);
+    formData.append('Address',Address);
+    formData.append('logo',logo);
+    await createCompany(formData);
     // console.log(data);
     handleAdd();
   };
@@ -269,7 +282,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
 
                       </label>
                       <input type="file" className="form-control rounded-0" id="LOGO" aria-describedby="secemailHelp"
-
+                        accept="image/*" 
                         onChange={handleFileChange} files={logo}
                       />
                             {/* {logo && (

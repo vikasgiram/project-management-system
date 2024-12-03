@@ -98,14 +98,20 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
             toast.error(error);
         }
     };
-    const viewFile = (POCopy) => {
-        // Ensure the base64 string is properly formatted
-        const pdfBase64 = `data:application/pdf;base64,${POCopy}`;
-       
-        // Open the PDF in a new tab
-        window.open(pdfBase64, '_blank');
+    const base64ToBlob = (base64, type) => {
+        const byteCharacters = atob(base64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        return new Blob([byteArray], { type: type });
+    };
+    const viewFile = () => {
+        const blob = base64ToBlob(projects.POCopy, 'application/pdf'); 
+        const url = URL.createObjectURL(blob);
+        window.open(url);
       };
-
 
 
     //   const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
@@ -424,7 +430,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             </label>
                                             <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp" />
                                         </div>
-                                    {/* <button type="button" onClick={viewFile}  >View</button> */}
+                                    <button type="button" onClick={viewFile}  >View</button>
                                     </div>
                                     <div className="col-12 col-lg-6 mt-2" >
 

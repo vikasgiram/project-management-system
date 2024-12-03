@@ -212,7 +212,6 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label for="LOGO" className="form-label label_text">
-                        {" "}
                         Logo
                       </label>
                       <input
@@ -224,8 +223,24 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
 
                       //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
                       />
+
                     </div>
                   </div>
+
+                  <div className="col-12 col-lg-6 mt-2">
+                    <div className="mb-3">
+                      
+                      {company.logo&& 
+                      <img 
+                      src={company.logo} 
+                      alt="Company Logo" 
+                      className="img-fluid rounded" // Bootstrap classes for styling
+                      style={{ maxWidth: '200px', maxHeight: '100px' }} // Optional: restrict size
+                    />
+                      }
+                    </div>
+                  </div>
+
 
                   <div className="col-12  mt-2">
                     <div className="row border mt-4 bg-gray mx-auto">

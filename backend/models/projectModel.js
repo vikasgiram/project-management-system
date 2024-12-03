@@ -85,7 +85,7 @@ const projectSchema = new mongoose.Schema({
     min: 0, // Minimum value of 0
     max: 100, // Maximum value of 100
   },
-  payfterCompletion: {
+  payAfterCompletion: {
     // payment percentage after completion
     type: Number,
     required: true,

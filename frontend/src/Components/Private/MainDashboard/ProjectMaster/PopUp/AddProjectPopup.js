@@ -15,7 +15,7 @@ const AddProjectPopup = ({ handleAdd }) => {
   const [endDate, setEndDate] = useState("");
   const [advancePay, setAdvancePayment] = useState("");
   const [payAgainstDelivery, setPayAgainstDelivery] = useState("");
-  const [payfterCompletion, setPayfterCompletion] = useState("");
+  const [payAfterCompletion, setPayAfterCompletion] = useState("");
   const [remark, setRemark] = useState("");
   const [category, setCategory] = useState('');
   const [POCopy, setPOCopy] = useState("");
@@ -49,42 +49,42 @@ const AddProjectPopup = ({ handleAdd }) => {
 
   const handleProjectAdd = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append('POCopy', POCopy);
 
-    const data = {
-      custId,
-      name,
-      purchaseOrderDate,
-      purchaseOrderNo,
-      purchaseOrderValue,
-      category,
-      startDate,
-      endDate,
-      advancePay,
-      payAgainstDelivery,
-      payfterCompletion,
-      remark,
-      address,
-      POCopy   
-
-
-
-    };
-    if (!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category || !startDate || !endDate || !advancePay || !payAgainstDelivery || !payfterCompletion || !remark
+    if (!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category || !startDate || !endDate || !advancePay || !payAgainstDelivery || !payAfterCompletion || !remark
       || !address.pincode ||
       !address.state ||
       !address.city ||
       !address.add ||
-      !address.country
+      !address.country || !POCopy
     ) {
       return toast.error("Please fill all fields");
 
     }
 
-    else if (Number(advancePay) + Number(payAgainstDelivery) + Number(payfterCompletion) > 100) {
+    else if (Number(advancePay) + Number(payAgainstDelivery) + Number(payAfterCompletion) > 100) {
       return toast.error("Total percentage should be less than 100%");
     }
+    if(!POCopy)
+      return toast.error("Please upload POCopy");
 
-    await createProject(data);
+    formData.append('custId', custId);
+    formData.append('name', name);
+    formData.append('purchaseOrderDate', purchaseOrderDate);
+    formData.append('purchaseOrderNo', purchaseOrderNo);
+    formData.append('purchaseOrderValue', purchaseOrderValue);
+    formData.append('category', category);
+    formData.append('startDate', startDate);
+    formData.append('endDate', endDate);
+    formData.append('advancePay', advancePay);
+    formData.append('payAgainstDelivery', payAgainstDelivery);
+    formData.append('payAfterCompletion', payAfterCompletion);
+    formData.append('remark', remark);
+    formData.append('address', address);
+    formData.append('POCopy', POCopy); 
+
+    await createProject(formData);
     // console.log(data);
     
     handleAdd();
@@ -96,9 +96,7 @@ const AddProjectPopup = ({ handleAdd }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        // The result is a Base64 string
         setPOCopy(reader.result);
-        console.log(POCopy);
         
       };
       reader.readAsDataURL(file);
@@ -282,7 +280,7 @@ const AddProjectPopup = ({ handleAdd }) => {
                         <div className="mb-3">
                           <label for="PayAfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
                           </label>
-                          <input type="number" className="form-control rounded-0" id="PayAfterCompletion" onChange={(e) => setPayfterCompletion(e.target.value)} value={payfterCompletion} aria-describedby="secemailHelp" />
+                          <input type="number" className="form-control rounded-0" id="PayAfterCompletion" onChange={(e) => setPayAfterCompletion(e.target.value)} value={payAfterCompletion} aria-describedby="secemailHelp" />
                         </div>
                       </div>
                     </div>
@@ -384,7 +382,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                       </label>
                       <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp"
-
+                        accept=".pdf" 
                         onChange={handleFileChange} files={POCopy}
                       />
                     </div>

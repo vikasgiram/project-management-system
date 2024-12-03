@@ -71,7 +71,7 @@ exports.createCompany= async (req, res)=>{
         mobileNo:mobileNo,
         password:hashPassword,
         subDate:new Date(subDate),
-        logo,
+        logo
       });
 
       newComp.Address.add=Address.add;

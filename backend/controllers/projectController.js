@@ -123,7 +123,7 @@ exports.create = async (req, res) => {
       endDate,
       advancePay,
       payAgainstDelivery,
-      payfterCompletion,
+      payAfterCompletion,
       remark,
       POCopy,
     } = req.body;
@@ -131,7 +131,7 @@ exports.create = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     completeLevel = completeLevel === undefined ? 0 : completeLevel;
-    console.log("At Backend" + address);
+   
     const newProject = await Project({
       custId,
       name,
@@ -143,10 +143,10 @@ exports.create = async (req, res) => {
       endDate: new Date(endDate),
       advancePay,
       payAgainstDelivery,
-      payfterCompletion,
+      payAfterCompletion,
       remark,
       completeLevel: completeLevel,
-      POCopy,
+      POCopy:POCopy[0].split(',')[1],
       Address: address,
       projectStatus:
         startDate > new Date()
@@ -158,11 +158,12 @@ exports.create = async (req, res) => {
     });
 
     if (newProject) {
-      console.log("New Project Created");
       await newProject.save();
+      console.log("New Project Created");
       res.status(200).json(newProject);
     }
   } catch (error) {
+    console.error(error);
     res
       .status(500)
       .json({ error: "Error while creating Project: " + error.message });
