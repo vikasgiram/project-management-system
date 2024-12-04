@@ -23,6 +23,7 @@ function MainDashboard() {
         setLoading(true);
   
         const data = await getDashboardData();
+        console.log(data);
         
         if (data) {
           setCustCount(data.customerCount || []);

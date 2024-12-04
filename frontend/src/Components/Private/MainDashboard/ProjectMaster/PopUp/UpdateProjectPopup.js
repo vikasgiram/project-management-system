@@ -108,9 +108,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         return new Blob([byteArray], { type: type });
     };
     const viewFile = () => {
-        const blob = base64ToBlob(projects.POCopy, 'application/pdf'); 
-        const url = URL.createObjectURL(blob);
-        window.open(url);
+        window.open(projects.POCopy);
       };
 
 

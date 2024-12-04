@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({message: "Please enter both email and password"});
     }
     // Check if username exists in Employee model
-    user = await Employee.findOne({ email }).populate('company','subDate').populate('designation','name permissions').populate('department', 'name');
+    user = await Employee.findOne({ email }).populate('company','subDate logo').populate('designation','name permissions').populate('department', 'name');
     if (user) {
 
       if (!(await comparePassword(user,password))) {

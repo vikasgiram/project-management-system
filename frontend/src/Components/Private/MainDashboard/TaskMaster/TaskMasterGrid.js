@@ -66,8 +66,7 @@ export const TaskMasterGrid = () => {
                     setLoading(false); 
                 } 
             } catch (error) {
-                
-                toast.error(error.response.data.error);
+                console.log(error)
                 setLoading(false);
             }
             finally {
