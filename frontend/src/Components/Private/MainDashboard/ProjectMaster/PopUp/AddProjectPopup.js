@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { getCustomers } from "../../../../../hooks/useCustomer";
 import { createProject } from "../../../../../hooks/useProjects";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 const AddProjectPopup = ({ handleAdd }) => {
 
@@ -27,8 +28,26 @@ const AddProjectPopup = ({ handleAdd }) => {
     city: "",
     add: "",
     country: "",
-
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(address.pincode);
+
+      if (data !== "Error") {
+        console.log(data);
+        setAddress(prevAddress => ({
+          ...prevAddress, 
+          state: data.State, 
+          city: data.District,   
+          country: data.Country 
+        }));
+      }
+    };
+    if(address.pincode > 0)
+      fetchData();
+  }, [address.pincode]);
+
 
 
   const [customers, setCustomers] = useState([]);

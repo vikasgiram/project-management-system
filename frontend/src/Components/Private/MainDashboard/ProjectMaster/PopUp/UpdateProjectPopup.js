@@ -5,6 +5,7 @@ import { formatDateforupdate } from "../../../../../utils/formatDate";
 
 import toast from "react-hot-toast";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
@@ -31,7 +32,23 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
     //   console.log(selectedProject?.Address?.city,"address");
-
+    useEffect(() => {
+        const fetchData = async () => {
+          const data = await getAddress(address.pincode);
+    
+          if (data !== "Error") {
+            console.log(data);
+            setAddress(prevAddress => ({
+              ...prevAddress, 
+              state: data.State, 
+              city: data.District,   
+              country: data.Country 
+            }));
+          }
+        };
+        if(address.pincode > 0)
+          fetchData();
+      }, [address.pincode]);
 
 
     useEffect(() => {

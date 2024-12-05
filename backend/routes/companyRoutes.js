@@ -11,11 +11,11 @@ router.get('/',isAdmin, companyController.showAll);
 
 // router.get('/:id', isAdmin, companyController.getCompany);
 
-router.post('/',isAdmin,upload.single('image') ,companyController.createCompany);
+router.post('/',isAdmin, upload.single('logo'), companyController.createCompany);
 
 router.get('/dashboard', isCompany,comDashbordController.dashboard );
 
-router.put('/:id',isAdmin, companyController.updateCompany);
+router.put('/:id',isAdmin, upload.single('logo'), companyController.updateCompany);
 
 router.delete('/:id',isAdmin, companyController.deleteCompany);
 

@@ -1,8 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { createCompany } from "../../../../../hooks/useCompany";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 
 
@@ -26,23 +27,28 @@ const AddCompanyPopup = ({ handleAdd }) => {
     add: ""
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(Address.pincode);
+
+      if (data !== "Error") {
+        console.log(data);
+        setAddress(prevAddress => ({
+          ...prevAddress, 
+          state: data.State, 
+          city: data.District,   
+          country: data.Country 
+        }));
+      }
+    };
+    if(Address.pincode > 0)
+      fetchData();
+  }, [Address.pincode]);
+
 
   const handleCompanyAdd = async (event) => {
     event.preventDefault();
-    const data = {
-      name,
-      admin,
-      mobileNo,
-      email,
-      password,
-      confirmPassword,
-      subDate,
-      subAmount,
-      GST,
-      Address,
-      logo
-
-    };
+    const newLogo=(logo.split(',')[1]);
     if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
       return toast.error("Please fill all fields");
     }
@@ -61,7 +67,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
     formData.append('subAmount',subAmount);
     formData.append('GST',GST);
     formData.append('Address',Address);
-    formData.append('logo',logo);
+    formData.append('logo',newLogo);
     await createCompany(formData);
     // console.log(data);
     handleAdd();

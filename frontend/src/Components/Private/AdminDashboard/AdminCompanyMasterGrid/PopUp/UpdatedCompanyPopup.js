@@ -1,8 +1,9 @@
-import {  useState } from "react";
+import {  useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { updateCompany } from "../../../../../hooks/useCompany";
 import { formatDateforupdateSubcription } from "../../../../../utils/formatDate";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
   const [company, setCompany] = useState({
@@ -23,6 +24,24 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
     const { name, value } = e.target;
     setAddress({ ...Address, [name]: value });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(Address.pincode);
+
+      if (data !== "Error") {
+        console.log(data);
+        setAddress(prevAddress => ({
+          ...prevAddress, 
+          state: data.State, 
+          city: data.District,   
+          country: data.Country 
+        }));
+      }
+    };
+    if(Address.pincode > 0)
+      fetchData();
+  }, [Address.pincode]);
 
 
   const handleChange = (event) => {
