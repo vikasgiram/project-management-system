@@ -13,11 +13,11 @@ router.get('/search',permissionMiddleware(['viewProject']), projectController.se
 
 router.get('/export-pdf', projectController.exportProjects);
 
-router.post('/', permissionMiddleware(['createProject']),upload.single('image') ,projectController.create);
+router.post('/', permissionMiddleware(['createProject']),upload.single('file') ,projectController.create);
 
 router.get('/:id', permissionMiddleware(['viewProject']), projectController.getProject);
 
-router.put('/:id', permissionMiddleware(['updateProject']), projectController.updateProject);
+router.put('/:id', permissionMiddleware(['updateProject']), upload.single('file'), projectController.updateProject);
 
 router.delete('/:id', permissionMiddleware(['deleteProject']), projectController.delete);
 

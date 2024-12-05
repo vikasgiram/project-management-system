@@ -21,7 +21,15 @@ exports.generateTokenAndSendResponse = (user, res, loggedUser) => {
         designation: user.designation.name,
         permissions: user.designation.permissions,
         profilePic: user.profilePic,
+        logo: user.company.logo
       },
+    });
+  }
+  else if(loggedUser === 'company'){
+    return res.status(200).json({
+      success: true,
+      user: { user: loggedUser, name: user.name, logo:user.logo },
+      token: token,
     });
   }
   res.status(200).json({

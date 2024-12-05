@@ -21,7 +21,7 @@ export const DashboardGroupBtn = ({custCount}) => {
                         alt="logo"
                     />
                     <span className="Customer_fs ps-3 text-white">Customer |
-                         <span className="Customer_count ms-2">{custCount}</span></span>
+                    <span className="Customer_count ms-2">{custCount}</span></span>
                 </span>
                
                

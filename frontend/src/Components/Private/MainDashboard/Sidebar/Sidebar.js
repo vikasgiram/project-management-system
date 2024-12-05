@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../../../context/UserContext";
 
 
 
@@ -6,6 +8,7 @@ export const Sidebar = ({ isopen, active }) => {
     // const [toggleactive, settoggleactive] = useState("dashboard")
     // const [, set] = useState(false)
 
+	const { user } = useContext(UserContext);
 
 
     return (
@@ -21,7 +24,7 @@ export const Sidebar = ({ isopen, active }) => {
                 <span className="navbar-brand brand-logo">
                     <img
                         style={{ width: isopen ? "100%" : "100%" }}
-                        src="static/assets/img/nav/DACCESS.png"
+                        src={user.logo || "static/assets/img/nav/DACCESS.png"}
                         className="logo"
                         alt="logo"
                     />

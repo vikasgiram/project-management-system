@@ -6,6 +6,7 @@ const Project = require("../models/projectModel");
 const Tasksheet = require("../models/taskSheetModel");
 const ProjectHistory = require("../models/projectHistoryModel");
 const TaskSheet = require("../models/taskSheetModel");
+const {bucket} = require('../utils/firebase');
 
 exports.showAll = async (req, res) => {
   try {
@@ -131,6 +132,26 @@ exports.create = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     completeLevel = completeLevel === undefined ? 0 : completeLevel;
+
+
+    let POCopyUrl = null;
+    if (POCopy && POCopy.length > 0) {
+      const base64String = POCopy[0].split(',')[1]; 
+      const buffer = Buffer.from(base64String, 'base64'); 
+
+      const fileName = `POCopy/${name}_${Date.now()}.pdf`; 
+      const file = bucket.file(fileName);
+
+      // Upload the file to Firebase Storage
+      await file.save(buffer, {
+        metadata: { contentType: 'application/pdf' }, // Set the content type
+      });
+
+      await file.makePublic();
+
+      // Get the public URL of the uploaded file
+      POCopyUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+    }
    
     const newProject = await Project({
       custId,
@@ -146,7 +167,7 @@ exports.create = async (req, res) => {
       payAfterCompletion,
       remark,
       completeLevel: completeLevel,
-      POCopy:POCopy[0].split(',')[1],
+      POCopy:POCopyUrl,
       Address: address,
       projectStatus:
         startDate > new Date()
@@ -346,6 +367,12 @@ exports.updateProject = async (req, res) => {
     POCopy,
   } = req.body;
   const originalData = await Project.findById(id);
+  const file = bucket.file(POCopy);
+  await file.save(buffer, {
+    metadata: { contentType: 'application/pdf' }, // Set the content type
+  });
+  await file.makePublic();
+  const publicUrl = `https://storage.googleapis.com/${bucket.name}/${POCopy}`;
   const updateData = {
     name,
     custId,
@@ -362,7 +389,7 @@ exports.updateProject = async (req, res) => {
     payafterCompletion,
     purchaseOrderValue,
     remark,
-    POCopy,
+    POCopy:publicUrl,
   };
   try {
     let changes = [];
