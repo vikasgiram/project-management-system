@@ -7,6 +7,7 @@ import AddDesignationPopup from "./Popup/AddDesignationPopup";
 import UpdateDesignationPopup from "./Popup/UpdateDesignationPopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import { getAllDesignations, deleteDesignation } from "../../../../hooks/useDesignation";
+import { getDepartment } from "../../../../hooks/useDepartment";
 
 
 
@@ -24,6 +25,7 @@ export const DesignationMasterGird = () => {
 
     const [designations, setDesignation] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filteredData, setFilteredData] = useState([]);
 
 
     const toggle = () => {
@@ -60,7 +62,7 @@ export const DesignationMasterGird = () => {
                 const data = await getAllDesignations();
                 if (data) {
                     setDesignation(data.designations || []);
-                    // console.log(departments,"data from useState"); 
+                    setFilteredData(data.designations || []);
                 }
             }
             catch (error) {
@@ -70,11 +72,28 @@ export const DesignationMasterGird = () => {
                 setLoading(false);
             }
         };
-
         fetchData();
     }, [AddPopUpShow, deletePopUpShow, UpdatePopUpShow]);
 
-
+    // console.log(designations,"designations");
+    
+    const handleChange=(value)=>{
+        if(value){
+            const filtered = designations.filter((designation) => designation.department._id === value);
+            setFilteredData(filtered);
+        }else{
+            setFilteredData(designations);
+        }
+    }
+    const uniqueDepartments = designations.reduce((acc, designation) => {
+        const departmentId = designation.department._id;
+        // Check if the department ID is already in the accumulator
+        if (!acc.some(dept => dept._id === departmentId)) {
+            acc.push(designation.department);
+        }
+        return acc;
+    }, []);
+     
     return (
         <>
             {loading && (
@@ -98,8 +117,21 @@ export const DesignationMasterGird = () => {
                                         </h5>
                                     </div>
 
-                                    {/* <span class="loader"></span> */}
                                     <div className="col-12 col-lg-6  ms-auto text-end">
+                                    
+                                    <select
+                       
+                        onChange={(e) => handleChange(e.target.value)}
+                      >
+                        <option value="">Select Department</option>
+                        {uniqueDepartments.map((department) => (
+                          <option key={department._id} value={department._id}>
+                            {department.name}
+                          </option>
+                        ))}
+                      </select>
+                                    {/* <span class="loader"></span> */}
+                                    
                                         <button
                                             onClick={() => {
                                                 handleAdd()
@@ -122,7 +154,7 @@ export const DesignationMasterGird = () => {
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {designations && designations.map((designation, index) => (
+                                                    {filteredData && filteredData.map((designation, index) => (
 
                                                         <tr className="border my-4" key={designation._id}>
                                                             <td>{index + 1}</td>

@@ -21,6 +21,8 @@ export const CustomerMasterGrid = () => {
     const [selectedId, setSelecteId] = useState(null);
     const [customers, setCustomers] = useState([]);
     const [selectedCust, setSelectedCust] = useState(null);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -65,6 +67,7 @@ export const CustomerMasterGrid = () => {
                 const data = await getCustomers();
                 if (data) {
                     setCustomers(data.customers || []);
+                    setFilteredData(data.customers || []);
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
@@ -104,7 +107,24 @@ export const CustomerMasterGrid = () => {
                                             Customer Master
                                         </h5>
                                     </div>
+                                    <div className="search">
+                                    <input
+  type="text"
+  className="search-box"
+  value={searchText}
+  onChange={(e) => {
+    const newSearchText = e.target.value;
+    setSearchText(newSearchText);
 
+    // Filter customers as the search text changes
+    const filtered = customers.filter((cust) =>
+      cust.custName.toLowerCase().includes(newSearchText.toLowerCase())
+    );
+    setFilteredData(filtered);
+  }}
+/>
+                  
+                </div>
                                     <div className="col-12 col-lg-6  ms-auto text-end">
                                         <button
                                             onClick={() => {
@@ -133,7 +153,7 @@ export const CustomerMasterGrid = () => {
 
                                                 </tr>
                                                 <tbody>
-                                                    {customers && customers.map((customer, index) => (
+                                                    {filteredData && filteredData.map((customer, index) => (
                                                         <tr className="border my-4" key={customer.id}>
                                                             <td>{index + 1}</td>
                                                             <td>{customer.custName}</td>
@@ -155,6 +175,7 @@ export const CustomerMasterGrid = () => {
                                                             </td>
                                                         </tr>
                                                     ))}
+                                                    {filteredData.length === 0 && (<p>No data found</p>)}
                                                 </tbody>
 
 
