@@ -190,7 +190,7 @@ const handleChange = (value) => {
                       className="btn adbtn btn-dark mx-3"
                     >
                       {" "}
-                      <i class="fa-solid fa-download"></i> Download Report
+                      <i className="fa-solid fa-download"></i> Download Report
                     </button>
                   </div>
 
@@ -231,7 +231,7 @@ const handleChange = (value) => {
                                     onClick={() => {
                                       navigate(`/${project._id}`);
                                     }}
-                                    class="fa-solid fa-circle-info cursor-pointer"
+                                    className="fa-solid fa-circle-info cursor-pointer"
                                   ></i>
                                 </td>
                                 <td>

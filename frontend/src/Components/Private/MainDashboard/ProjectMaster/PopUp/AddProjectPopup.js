@@ -20,6 +20,7 @@ const AddProjectPopup = ({ handleAdd }) => {
   const [remark, setRemark] = useState("");
   const [category, setCategory] = useState('');
   const [POCopy, setPOCopy] = useState("");
+  const [loading, setLoading] = useState(false);
 
 
   const [address, setAddress] = useState({
@@ -68,6 +69,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
   const handleProjectAdd = async (event) => {
     event.preventDefault();
+    setLoading(!loading);
     const formData = new FormData();
     formData.append('POCopy', POCopy);
 
@@ -76,7 +78,7 @@ const AddProjectPopup = ({ handleAdd }) => {
       !address.state ||
       !address.city ||
       !address.add ||
-      !address.country || !POCopy
+      !address.country
     ) {
       return toast.error("Please fill all fields");
 
@@ -85,7 +87,7 @@ const AddProjectPopup = ({ handleAdd }) => {
     else if (Number(advancePay) + Number(payAgainstDelivery) + Number(payAfterCompletion) > 100) {
       return toast.error("Total percentage should be less than 100%");
     }
-    if(!POCopy)
+    if (!POCopy)
       return toast.error("Please upload POCopy");
 
     formData.append('custId', custId);
@@ -101,11 +103,12 @@ const AddProjectPopup = ({ handleAdd }) => {
     formData.append('payAfterCompletion', payAfterCompletion);
     formData.append('remark', remark);
     formData.append('address', address);
-    formData.append('POCopy', POCopy); 
+    formData.append('POCopy', POCopy);
 
     await createProject(formData);
     // console.log(data);
     
+
     handleAdd();
   };
   // console.log(address,"address in popup");
@@ -116,14 +119,16 @@ const AddProjectPopup = ({ handleAdd }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPOCopy(reader.result);
-        
+
       };
       reader.readAsDataURL(file);
     }
   };
+  // console.log(loading)
 
   return (
     <>
+     
       <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
@@ -135,7 +140,7 @@ const AddProjectPopup = ({ handleAdd }) => {
                   Create New Project
                   {/* Forward */}
                 </h5>
-                <button onClick={() => handleAdd()} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
+                <button onClick={() => { handleAdd() }} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -282,8 +287,8 @@ const AddProjectPopup = ({ handleAdd }) => {
                         <div className="mb-3">
                           <label for="AdvancePayment" className="form-label label_text">     Advance Payment <RequiredStar />
                           </label>
-                          <input type="number" className="form-control rounded-0" id="AdvancePayment" 
-                          onChange={(e) => setAdvancePayment(e.target.value)} value={advancePay} aria-describedby="mobileNoHelp" />
+                          <input type="number" className="form-control rounded-0" id="AdvancePayment"
+                            onChange={(e) => setAdvancePayment(e.target.value)} value={advancePay} aria-describedby="mobileNoHelp" />
                         </div>
                       </div>
                       <div className="col-12 col-lg-6 mt-2" >
@@ -401,7 +406,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
                       </label>
                       <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp"
-                        accept=".pdf" 
+                        accept=".pdf"
                         onChange={handleFileChange} files={POCopy}
                       />
                     </div>
@@ -413,7 +418,7 @@ const AddProjectPopup = ({ handleAdd }) => {
                   <div className="col-12 col-lg-6 mt-2" >
 
                     <div className="mb-3">
-                      <label for="remark" className="form-label label_text">     remark 
+                      <label for="remark" className="form-label label_text">     remark
                       </label>
                       <input type="text" className="form-control rounded-0" id="remark" onChange={(e) => setRemark(e.target.value)} value={remark} aria-describedby="secemailHelp" />
                     </div>
@@ -429,10 +434,13 @@ const AddProjectPopup = ({ handleAdd }) => {
                   <div className="row">
                     <div className="col-12 pt-3 mt-2">
                       <button
-                        type='submit'
+                        type="submit"
                         onClick={handleProjectAdd}
-                        className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                        Add
+                        disabled={loading}
+                        
+                        className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
+                      >
+                        {!loading ? "Add" : "Submitting..."}
                       </button>
                       <button
                         type="button"

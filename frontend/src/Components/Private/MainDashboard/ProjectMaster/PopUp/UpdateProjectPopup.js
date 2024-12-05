@@ -12,6 +12,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
     const [customers, setCustomers] = useState([]);
+    const [POCopy, setPOCopy] = useState(null);
 
     const [projects, setProjects] = useState({
         ...selectedProject,
@@ -64,9 +65,14 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         fetchData();
     }, []);
 
+
+
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value,type,files } = event.target;
         setProjects((prevProjects) => ({ ...prevProjects, [name]: value }));
+     
+      
+        
         if (name === 'custId') {
             setProjects((prevProjects) => ({
                 ...prevProjects,
@@ -101,33 +107,64 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
     };
     const handleProjectUpdate = async (event) => {
+        const formData = new FormData();
         event.preventDefault();
+       
         const updatedProject = {
             ...projects,
             Address: { // Ensure the address is nested under "Address"
                 ...address // Spread the address state
-            }
+            },POCopy
         }
+        formData.append('custId',projects.custId);
+        formData.append('name',projects.name);
+        formData.append('purchaseOrderDate',projects.purchaseOrderDate);
+        formData.append('purchaseOrderNo',projects.purchaseOrderNo);
+        formData.append('purchaseOrderValue',projects.purchaseOrderValue);
+        formData.append('category',projects.category);
+        formData.append('startDate',projects.startDate);
+        formData.append('endDate',projects.endDate);
+        formData.append('advancePay',projects.advancePay);
+        formData.append('payAgainstDelivery',projects.payAgainstDelivery);
+        formData.append('projectStatus',projects.projectStatus);
+        formData.append('payAfterCompletion',projects.payAfterCompletion);
+        formData.append('remark',projects.remark);
+        formData.append('completeLevel',projects.completeLevel);
+        formData.append('address',address);
+        if(selectedProject.POCopy !== projects.POCopy)
+            formData.append('POCopy',projects.POCopy);
+        
+
         try {
-            await updateProject(updatedProject);
+            // console.log(updatedProject,"updatedProject");
+            
+            await updateProject(formData);
             handleUpdate();
         } catch (error) {
             toast.error(error);
         }
     };
-    const base64ToBlob = (base64, type) => {
-        const byteCharacters = atob(base64);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        return new Blob([byteArray], { type: type });
-    };
     const viewFile = () => {
         window.open(projects.POCopy);
       };
 
+      const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPOCopy(reader.result);
+            
+          };
+          reader.readAsDataURL(file);
+        }
+        const formData =new FormData(); 
+        formData.append('POCopy',POCopy);
+        console.log(formData,"formData");
+        
+      };
+    //   console.log(POCopy,"POCopy");
+      
 
     //   const formatDate = (date) => date ? format(new Date(date), 'yyyy-MM-dd') : '';
 
@@ -440,10 +477,10 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                     <div className="col-12 col-lg-6 mt-2" >
 
                                         <div className="mb-3">
-                                            <label for="PurchaseOrderCopy" className="form-label label_text">     Purchase Order Copy  <RequiredStar />
+                                        <label for="PurchaseOrderCopy" className="form-label label_text">     Purchase Order Copy <RequiredStar />
 
-                                            </label>
-                                            <input type="file" className="form-control rounded-0" id="PurchaseOrderCopy" aria-describedby="secemailHelp" />
+</label>
+
                                         </div>
                                     <button type="button" onClick={viewFile}  >View</button>
                                     </div>

@@ -368,12 +368,7 @@ exports.updateProject = async (req, res) => {
     POCopy,
   } = req.body;
   const originalData = await Project.findById(id);
-  const file = bucket.file(POCopy);
-  await file.save(buffer, {
-    metadata: { contentType: 'application/pdf' }, // Set the content type
-  });
-  await file.makePublic();
-  const publicUrl = `https://storage.googleapis.com/${bucket.name}/${POCopy}`;
+  
   const updateData = {
     name,
     custId,
@@ -390,7 +385,6 @@ exports.updateProject = async (req, res) => {
     payafterCompletion,
     purchaseOrderValue,
     remark,
-    POCopy:publicUrl,
   };
   try {
     let changes = [];
