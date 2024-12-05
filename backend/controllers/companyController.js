@@ -8,6 +8,7 @@ const Department = require('../models/departmentModel');
 const TaskSheet = require('../models/taskSheetModel');
 const CompanyHistory = require('../models/companyHistoryModel');
 const Designation = require('../models/designationModel');
+const {bucket} = require('../utils/firebase');
 
 exports.showAll = async (req, res) => {
   try {
@@ -48,7 +49,7 @@ exports.getCompany = async (req, res)=>{
 
 exports.createCompany= async (req, res)=>{
     try {
-      const {name, email, GST, Address, admin, mobileNo,logo, password, subDate,subAmount, confirmPassword} = req.body;
+      const {name, email, GST, Address, admin, mobileNo, password, logo, subDate,subAmount, confirmPassword} = req.body;
   
       if(password !== confirmPassword){
         return res.status(400).json({error:`Password desen't match!!!`});
@@ -61,6 +62,26 @@ exports.createCompany= async (req, res)=>{
       }
       const salt=await bcrypt.genSalt(10);
       const hashPassword=await bcrypt.hash(password,salt);
+
+      let logoUrl=null;
+
+      if(logo && logo.length >0){
+        const fileName = `logos/${name}_${Date.now()}`; // Create a unique file name
+        const file = bucket.file(fileName);
+
+        const buffer = Buffer.from(logo, 'base64');
+
+        // Upload the file to Firebase Storage
+        await file.save(buffer, {
+            metadata: { contentType: 'image/png' },
+        });
+
+        // Make the file publicly accessible
+        await file.makePublic();
+
+        // Get the public URL of the uploaded logo
+        logoUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+      }
       
       const newComp=Company({
         name:name,
@@ -71,14 +92,10 @@ exports.createCompany= async (req, res)=>{
         mobileNo:mobileNo,
         password:hashPassword,
         subDate:new Date(subDate),
-        logo
+        logo:logoUrl,
+        Address
       });
 
-      newComp.Address.add=Address.add;
-      newComp.Address.city=Address.city;
-      newComp.Address.state=Address.state;
-      newComp.Address.pincode=Address.pincode;
-      newComp.Address.country=Address.country;
 
       if(newComp){
         console.log("Company Created:");
@@ -89,6 +106,7 @@ exports.createCompany= async (req, res)=>{
         res.status(400).json({error:"Invalid Company Data!!!"});
       }
     }catch(error){
+      console.log(error);
       res.status(400).json({error:"Error in company Controller: "+error.message});
     }
   };
@@ -126,11 +144,30 @@ exports.updateCompany = async (req, res) => {
       return res.status(404).json({ message: 'Company not found' });
     }
 
+    let logoUrl=null;
+
+    if(updatedData.logo && updatedData.logo.length >0){
+      const file = bucket.file(existingCompany.logo);
+
+      const buffer = Buffer.from(logo, 'base64');
+
+      // Upload the file to Firebase Storage
+      await file.save(buffer, {
+          metadata: { contentType: 'image/png' },
+      });
+
+      // Make the file publicly accessible
+      await file.makePublic();
+
+      // Get the public URL of the uploaded logo
+      logoUrl = `https://storage.googleapis.com/${bucket.name}/${existingCompany.logo}`;
+    }
+
     // Array to hold history records for changed fields
     const historyRecords = [];
 
     // Define fields to ignore during comparison
-    const ignoredFields = ['_id', 'createdAt', 'updatedAt'];
+    const ignoredFields = ['_id', 'createdAt', 'updatedAt', 'logo'];
 
     // Iterate over the fields and compare changes
     Object.keys(updatedData).forEach((key) => {
@@ -180,6 +217,7 @@ exports.updateCompany = async (req, res) => {
         }
       }
     });
+    updatedData.logo=logoUrl;
 
     // If there are changes, insert them into the CompanyHistory collection
     if (historyRecords.length > 0) {

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { createCustomer } from "../../../../../hooks/useCustomer";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 const AddCustomerPopUp = ({ handleAdd }) => {
   const [custName, setCustName] = useState("");
@@ -21,28 +22,25 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     add: "",
     country: "",
   });
-  // const [deliveryAddress, setDeliveryAddress] = useState({
-  //   pincode: "",
-  //   state: "",
-  //   city: "",
-  //   add: "",
-  //   country: "",
-  // });
 
-  const handleCheckboxChange = (e) => {
-    setSameAsAbove(e.target.checked);
-    // if (e.target.checked) {
-    //   setDeliveryAddress({ ...billingAddress });
-    // } else {
-    //   setDeliveryAddress({
-    //     pincode: "",
-    //     state: "",
-    //     city: "",
-    //     add: "",
-    //     country:""
-    //   });
-    // }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(billingAddress.pincode);
+
+      if (data !== "Error") {
+        console.log(data);
+        setBillingAddress(prevAddress => ({
+          ...prevAddress, 
+          state: data.State, 
+          city: data.District,   
+          country: data.Country 
+        }));
+      }
+    };
+    if(billingAddress.pincode > 0)
+      fetchData();
+  }, [billingAddress.pincode]);
+
 
   const handleCustomerAdd = async (event) => {
     event.preventDefault();
@@ -77,7 +75,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     ) {
       return toast.error("Please fill all fields");
     }
-    console.log(data);
+
 
     await createCustomer(data);
     //   console.log(data);

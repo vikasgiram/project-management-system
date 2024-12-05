@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { updateCustomer } from "../../../../../hooks/useCustomer";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
   const [customer, setCustomer] = useState(selectedCust);
@@ -13,15 +14,23 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     pincode: "",
   });
 
-  // const [deliveryAddress, setDeliveryAddress] = useState({
-  //   add: "",
-  //   city: "",
-  //   state: "",
-  //   country: "",
-  //   pincode: "",
-  // });
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(billingAddress.pincode);
 
-  // const [sameAsBilling, setSameAsBilling] = useState(false);
+      if (data !== "Error") {
+        console.log(data);
+        setBillingAddress(prevAddress => ({
+          ...prevAddress, 
+          state: data.State, 
+          city: data.District,   
+          country: data.Country 
+        }));
+      }
+    };
+    if(billingAddress.pincode > 0)
+      fetchData();
+  }, [billingAddress.pincode]);
 
   // Load existing customer data on component mount
   useEffect(() => {
