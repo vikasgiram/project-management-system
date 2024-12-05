@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import AddEmployeePopup from "./PopUp/AddEmployeePopup";
@@ -20,6 +20,8 @@ export const EmployeeMasterGrid = () => {
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
     const [selectedEmp, setSelectedEmp] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
 
 
     const [employees, setEmployees] = useState([])
@@ -48,35 +50,17 @@ export const EmployeeMasterGrid = () => {
         }
         toast.error(data.error);
     };
-
-
-    // useEffect(() => {
-
-    //     const fetchData = async () => {
-    //         const data = await getEmployees();
-    //         if (data) {
-
-    //             setEmployees(data.employees || []);
-    //             // console.log(employees,"data from useState");
-    //             setLoading(false);
-    //         }
-          
-    //     };
-
-    //     fetchData();
-    // }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                
+
                 const data = await getEmployees();
-    
+
                 if (data) {
                     setEmployees(data.employees || []);
-                    console.log(employees);
+                    setFilteredData(data.employees || []);
+                    // console.log(employees);
                 }
             } catch (error) {
                 console.error("Error fetching employees:", error);
@@ -85,10 +69,10 @@ export const EmployeeMasterGrid = () => {
                 setLoading(false);
             }
         };
-    
-        // Call the function to fetch the data
         fetchData();
     }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+
+    // console.log(employees);
 
 
     return (
@@ -112,6 +96,24 @@ export const EmployeeMasterGrid = () => {
                                         <h5 className="text-white py-2">
                                             Employee Master
                                         </h5>
+                                    </div>
+                                    <div className="search">
+                                        <input
+                                            type="text"
+                                            className="search-box"
+                                            value={searchText}
+                                            onChange={(e) => {
+                                                const newSearchText = e.target.value;
+                                                setSearchText(newSearchText);
+
+                                                // Filter employees as the search text changes
+                                                const filteredEmp = employees.filter((emp) =>
+                                                    emp.name.toLowerCase().includes(newSearchText.toLowerCase())
+                                                );
+                                                setFilteredData(filteredEmp);
+                                            }}
+                                        />
+
                                     </div>
 
                                     <div className="col-12 col-lg-6  ms-auto text-end">
@@ -143,13 +145,13 @@ export const EmployeeMasterGrid = () => {
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {employees && employees.map((employee, index) => (
+                                                    {filteredData && filteredData.map((employee, index) => (
                                                         <tr className="border my-4" key={employee._id}>
                                                             <td>{index + 1}</td>
                                                             <td>{employee.name}</td>
                                                             <td>{employee.email}</td>
-                                                            <td>{employee.department&&employee.department.name}</td>
-                                                            <td>{employee.designation&& employee.designation.name}</td>
+                                                            <td>{employee.department && employee.department.name}</td>
+                                                            <td>{employee.designation && employee.designation.name}</td>
                                                             <td>
                                                                 <span
                                                                     onClick={() => handleUpdate(employee)}
@@ -165,6 +167,8 @@ export const EmployeeMasterGrid = () => {
                                                             </td>
                                                         </tr>
                                                     ))}
+
+                                                    <p> {filteredData.length === 0 && <p>No results found</p>}</p>
                                                 </tbody>
                                             </table>
                                         </div>

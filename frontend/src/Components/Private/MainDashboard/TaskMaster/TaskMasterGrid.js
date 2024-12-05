@@ -27,6 +27,8 @@ export const TaskMasterGrid = () => {
     const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedTask, setSelectedTask]= useState(null);
+    const [searchText, setSearchText]= useState("");
+    const [filteredData, setFilteredData]= useState([]);
 
 
     const [tasks, setTasks] = useState([])
@@ -63,6 +65,7 @@ export const TaskMasterGrid = () => {
                 const allTasks = await getTask();
                 if (allTasks) {
                     setTasks(allTasks.task);
+                    setFilteredData(allTasks.task);
                     setLoading(false); 
                 } 
             } catch (error) {
@@ -112,11 +115,27 @@ export const TaskMasterGrid = () => {
                                             }}
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-
-
                                     </div>
-
                                 </div>
+
+                                <div className="search">
+                                <input
+  type="text"
+  className="search-box"
+  value={searchText}
+  onChange={(e) => {
+    const newSearchText = e.target.value;
+    setSearchText(newSearchText);
+
+    // Filter tasks as the search text changes
+    const filtered = tasks.filter((task) =>
+      task.name.toLowerCase().includes(newSearchText.toLowerCase())
+    );
+    setFilteredData(filtered);
+  }}
+/>
+                  
+                </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded" >
                                     <div className="col-12 py-2">
@@ -131,7 +150,7 @@ export const TaskMasterGrid = () => {
                                                     </tr>
                                              
                                                 <tbody className="broder my-4">
-                                                    {tasks && tasks.map((task, index) => (
+                                                    {filteredData && filteredData.map((task, index) => (
                                                     <tr className="border my-4" key={task._id}>
                                                         <td>{index + 1}</td>
                                                         <td>{task.name}</td>
@@ -152,6 +171,7 @@ export const TaskMasterGrid = () => {
                                                     </td>
                                                         </tr>
                                                     ))}
+                                                     {filteredData.length === 0 && (<p>No data found</p>)}
                                                 </tbody>
                                             </table>
                                         </div>

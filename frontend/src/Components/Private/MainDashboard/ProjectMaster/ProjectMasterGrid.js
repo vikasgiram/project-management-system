@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { toast } from "react-toastify";
@@ -28,6 +28,7 @@ export const ProjectMasterGrid = () => {
 
   const [selectedId, setSelecteId] = useState(null);
   const [project, setProject] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -88,6 +89,7 @@ export const ProjectMasterGrid = () => {
         const data = await getProjects();
         if (data) {
           setProject(data.projects || []);
+          setFilteredProjects(data.projects || []);
         }
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -99,6 +101,32 @@ export const ProjectMasterGrid = () => {
 
     fetchData();
   }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
+
+  // console.log(project);
+  
+
+//   const handleChange = (value) => {
+//     if (value === "upcoming") {
+//       const upcomingProjects = project.filter((project) => project.projectStatus === "upcoming");
+//         setProject(upcomingProjects);
+//     }
+//     if (value === "inprocess") {
+//       const inprocessProjects = project.filter((project) => project.projectStatus === "inprocess");
+//         setProject(inprocessProjects);
+//     }
+//     if (value === "completed") {
+//       const completedProjects = project.filter((project) => project.projectStatus === "completed");
+//         setProject(completedProjects);
+//   }
+// }
+const handleChange = (value) => {
+  if (value) {
+    const filtered = project.filter((project) => project.projectStatus === value);
+    setFilteredProjects(filtered);
+  } else {
+    setFilteredProjects(project);
+  }
+};
 
   return (
     <>
@@ -126,6 +154,20 @@ export const ProjectMasterGrid = () => {
                     <h5 className="text-white py-2">Project Master</h5>
                   </div>
 
+                  <div className="col-12 col-lg-6 mt-2">
+
+                    <select
+                      aria-label="Default select example"
+                      name="projectStatus"
+                      onChange={(e) => handleChange(e.target.value)} 
+                    >
+                      <option value="">Select Project Status</option>
+                      <option value="upcoming">Upcoming</option>
+                      <option value="inprocess">Inprocess</option>
+                      <option value="completed">Complete</option>
+                    </select>
+                  </div>
+
                   <div className="col-12 col-lg-6  ms-auto text-end">
                     <button
                       onClick={() => {
@@ -134,7 +176,7 @@ export const ProjectMasterGrid = () => {
                       type="button"
                       className="btn adbtn btn-dark"
 
-                      
+
                     >
                       {" "}
                       <i className="fa-solid fa-plus"></i> Add
@@ -173,8 +215,8 @@ export const ProjectMasterGrid = () => {
                         </tr>
 
                         <tbody className="broder my-4">
-                          {project &&
-                            project.map((project, index) => (
+                          {filteredProjects &&
+                            filteredProjects.map((project, index) => (
                               <tr className="border my-4" key={project._id}>
                                 <td>{index + 1}</td>
                                 <td>{project.name}</td>
