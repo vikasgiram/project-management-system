@@ -214,16 +214,6 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                       <label for="LOGO" className="form-label label_text">
                         Logo
                       </label>
-                      <input
-                        type="file"
-                        name="LOGO"
-                        className="form-control rounded-0"
-                        id="LOGO"
-                        aria-describedby="secemailHelp"
-
-                      //   onChange={(e) => setLogo(e.target.files[0])} files={logo}
-                      />
-
                     </div>
                   </div>
 
