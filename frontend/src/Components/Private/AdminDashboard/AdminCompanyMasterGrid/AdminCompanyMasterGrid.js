@@ -128,6 +128,7 @@ export const AdminCompanyMasterGrid = () => {
                                                     <th>Admin</th>
                                                     <th>Created Date</th>
                                                     <th>Subscription End Date</th>
+                                                    <th> Status </th>
                                                     <th>Subscription Amount</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -141,6 +142,7 @@ export const AdminCompanyMasterGrid = () => {
                                                             <td>{company.admin}</td>
                                                             <td>{formatDate(company.createdAt)}</td>
                                                             <td>{formatDate(company.subDate)}</td>
+                                                            <td>{new Date(company.subDate).getTime() >= Date.now() ? 'active' : 'inactive'}</td>
                                                             <td>{company.subAmount}</td>
                                                             <td>
                                                                 <span
