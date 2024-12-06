@@ -19,11 +19,15 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
     add: "",
   });
   const [subDate, setSubDate] = useState(formatDateforupdateSubcription(company.subDate));
+  const [loading, setLoading] = useState(false);
+
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setAddress({ ...Address, [name]: value });
   };
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,9 +56,11 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
       setSubDate(value);
     }
   };
+  
 
   const handleCompanyUpdate = async (event) => {
     event.preventDefault();
+    setLoading(!loading);
     const updatedCompany = {
       ...company,
       Address,
@@ -63,7 +69,8 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
 
 
     try {
-
+      // console.log(updatedCompany);
+      
       await updateCompany(updatedCompany);
       handleUpdate();
     } catch (error) {
@@ -347,9 +354,10 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                       <button
                         type="submit"
                         onClick={handleCompanyUpdate}
+                        disabled={loading}
                         className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                       >
-                        Update
+                         {!loading ? "Update" : "Submitting..."}
                       </button>
                       <button
                         type="button"

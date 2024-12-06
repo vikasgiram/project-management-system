@@ -23,7 +23,7 @@ const AddProjectPopup = ({ handleAdd }) => {
   const [loading, setLoading] = useState(false);
 
 
-  const [address, setAddress] = useState({
+  const [Address, setAddress] = useState({
     pincode: "",
     state: "",
     city: "",
@@ -33,7 +33,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getAddress(address.pincode);
+      const data = await getAddress(Address.pincode);
 
       if (data !== "Error") {
         console.log(data);
@@ -45,9 +45,9 @@ const AddProjectPopup = ({ handleAdd }) => {
         }));
       }
     };
-    if(address.pincode > 0)
+    if(Address.pincode > 0)
       fetchData();
-  }, [address.pincode]);
+  }, [Address.pincode]);
 
 
 
@@ -74,12 +74,13 @@ const AddProjectPopup = ({ handleAdd }) => {
     formData.append('POCopy', POCopy);
 
     if (!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category || !startDate || !endDate || !advancePay || !payAgainstDelivery || !payAfterCompletion || !remark
-      || !address.pincode ||
-      !address.state ||
-      !address.city ||
-      !address.add ||
-      !address.country
+      || !Address.pincode ||
+      !Address.state ||
+      !Address.city ||
+      !Address.add ||
+      !Address.country
     ) {
+      setLoading(false);
       return toast.error("Please fill all fields");
 
     }
@@ -102,7 +103,7 @@ const AddProjectPopup = ({ handleAdd }) => {
     formData.append('payAgainstDelivery', payAgainstDelivery);
     formData.append('payAfterCompletion', payAfterCompletion);
     formData.append('remark', remark);
-    formData.append('address', address);
+    formData.append('Address', JSON.stringify(Address));
     formData.append('POCopy', POCopy);
 
     await createProject(formData);
@@ -111,7 +112,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
     handleAdd();
   };
-  // console.log(address,"address in popup");
+  // console.log(Address,"Address in popup");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -325,11 +326,11 @@ const AddProjectPopup = ({ handleAdd }) => {
                             name="pincode"
                             onChange={(e) =>
                               setAddress({
-                                ...address,
+                                ...Address,
                                 pincode: e.target.value,
                               })
                             }
-                            value={address.pincode}
+                            value={Address.pincode}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -343,8 +344,8 @@ const AddProjectPopup = ({ handleAdd }) => {
                             placeholder="State"
                             id="exampleInputEmail1"
                             name="state"
-                            onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                            value={address.state}
+                            onChange={(e) => setAddress({ ...Address, state: e.target.value })}
+                            value={Address.state}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -358,8 +359,8 @@ const AddProjectPopup = ({ handleAdd }) => {
                             placeholder="City"
                             id="exampleInputEmail1"
                             name="city"
-                            onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                            value={address.city}
+                            onChange={(e) => setAddress({ ...Address, city: e.target.value })}
+                            value={Address.city}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -373,8 +374,8 @@ const AddProjectPopup = ({ handleAdd }) => {
                             placeholder="Country"
                             id="exampleInputEmail1"
                             name="country"
-                            onChange={(e) => setAddress({ ...address, country: e.target.value })}
-                            value={address.country}
+                            onChange={(e) => setAddress({ ...Address, country: e.target.value })}
+                            value={Address.country}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -387,8 +388,8 @@ const AddProjectPopup = ({ handleAdd }) => {
                             id=""
                             name="add"
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
-                            onChange={(e) => setAddress({ ...address, add: e.target.value })}
-                            value={address.add}
+                            onChange={(e) => setAddress({ ...Address, add: e.target.value })}
+                            value={Address.add}
                             rows="2"
                           ></textarea>
                         </div>

@@ -19,6 +19,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
   const [subAmount, setSubAmount] = useState("");
   const [logo, setLogo] = useState("");
   const [GST, setGST] = useState("");
+  const [loading, setLoading] = useState(false);
   const [Address, setAddress] = useState({
     pincode: "",
     state: "",
@@ -48,11 +49,15 @@ const AddCompanyPopup = ({ handleAdd }) => {
 
   const handleCompanyAdd = async (event) => {
     event.preventDefault();
+    setLoading(!loading);
     const newLogo=(logo.split(',')[1]);
     if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
+      setLoading(false);
       return toast.error("Please fill all fields");
+      
     }
     if (password !== confirmPassword) {
+      setLoading(false);
       return toast.error("Password desen't match");
     }
 
@@ -66,10 +71,10 @@ const AddCompanyPopup = ({ handleAdd }) => {
     formData.append('subDate',subDate);
     formData.append('subAmount',subAmount);
     formData.append('GST',GST);
-    formData.append('Address',Address);
+    formData.append('Address',JSON.stringify(Address));
     formData.append('logo',newLogo);
     await createCompany(formData);
-    // console.log(data);
+    // console.log(Address);
     handleAdd();
   };
 
@@ -429,9 +434,10 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       <button
                         type="submit"
                         onClick={handleCompanyAdd}
+                        disabled={loading}
                         className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                       >
-                        Add
+                          {!loading ? "Add" : "Submitting..."}
                       </button>
                       <button
                         type="button"

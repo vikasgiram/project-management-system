@@ -49,11 +49,17 @@ exports.getCompany = async (req, res)=>{
 
 exports.createCompany= async (req, res)=>{
     try {
-      const {name, email, GST, Address, admin, mobileNo, password, logo, subDate,subAmount, confirmPassword} = req.body;
+      const {name, email, GST, admin, mobileNo, Address, password, logo, subDate,subAmount, confirmPassword} = req.body;
   
       if(password !== confirmPassword){
         return res.status(400).json({error:`Password desen't match!!!`});
       }
+      
+      if(!Address){
+        return res.status(400).json({error:"Address Required..."});
+      }
+      const address=JSON.parse(Address);
+      
       const company = await Company.findOne({email});
       if(company){
         console.log("Company already exists");
@@ -93,7 +99,7 @@ exports.createCompany= async (req, res)=>{
         password:hashPassword,
         subDate:new Date(subDate),
         logo:logoUrl,
-        Address
+        Address:address
       });
 
 
@@ -139,29 +145,12 @@ exports.updateCompany = async (req, res) => {
 
     // Find the existing company record
     const existingCompany = await Company.findById(id);
-
+    console.log(updatedData);
+    console.log(existingCompany);
     if (!existingCompany) {
       return res.status(404).json({ message: 'Company not found' });
     }
 
-    let logoUrl=null;
-
-    if(updatedData.logo && updatedData.logo.length >0){
-      const file = bucket.file(existingCompany.logo);
-
-      const buffer = Buffer.from(logo, 'base64');
-
-      // Upload the file to Firebase Storage
-      await file.save(buffer, {
-          metadata: { contentType: 'image/png' },
-      });
-
-      // Make the file publicly accessible
-      await file.makePublic();
-
-      // Get the public URL of the uploaded logo
-      logoUrl = `https://storage.googleapis.com/${bucket.name}/${existingCompany.logo}`;
-    }
 
     // Array to hold history records for changed fields
     const historyRecords = [];
@@ -217,11 +206,10 @@ exports.updateCompany = async (req, res) => {
         }
       }
     });
-    updatedData.logo=logoUrl;
 
     // If there are changes, insert them into the CompanyHistory collection
     if (historyRecords.length > 0) {
-      // console.log('History Records:', historyRecords);
+      console.log('History Records:', historyRecords);
       await CompanyHistory.insertMany(historyRecords);
     }
 
