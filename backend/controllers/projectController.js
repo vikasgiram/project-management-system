@@ -114,7 +114,6 @@ exports.create = async (req, res) => {
     let {
       name,
       custId,
-      address,
       completeLevel,
       purchaseOrderNo,
       purchaseOrderDate,
@@ -132,6 +131,8 @@ exports.create = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     completeLevel = completeLevel === undefined ? 0 : completeLevel;
+
+    const Address = JSON.parse(req.body.Address)
 
 
     let POCopyUrl = null;
@@ -168,7 +169,7 @@ exports.create = async (req, res) => {
       remark,
       completeLevel: completeLevel,
       POCopy:POCopyUrl,
-      Address: address,
+      Address,
       projectStatus:
         startDate > new Date()
           ? "upcoming"

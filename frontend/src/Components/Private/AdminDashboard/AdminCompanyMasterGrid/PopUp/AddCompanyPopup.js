@@ -68,10 +68,10 @@ const AddCompanyPopup = ({ handleAdd }) => {
     formData.append('subDate',subDate);
     formData.append('subAmount',subAmount);
     formData.append('GST',GST);
-    formData.append('Address',Address);
+    formData.append('Address',JSON.stringify(Address));
     formData.append('logo',newLogo);
     await createCompany(formData);
-    // console.log(data);
+    // console.log(Address);
     handleAdd();
   };
 

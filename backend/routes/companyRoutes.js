@@ -15,7 +15,7 @@ router.post('/',isAdmin, upload.single('logo'), companyController.createCompany)
 
 router.get('/dashboard', isCompany,comDashbordController.dashboard );
 
-router.put('/:id',isAdmin, upload.single('logo'), companyController.updateCompany);
+router.put('/:id',isAdmin, companyController.updateCompany);
 
 router.delete('/:id',isAdmin, companyController.deleteCompany);
 
