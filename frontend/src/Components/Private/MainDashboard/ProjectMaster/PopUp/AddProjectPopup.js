@@ -102,7 +102,7 @@ const AddProjectPopup = ({ handleAdd }) => {
     formData.append('payAgainstDelivery', payAgainstDelivery);
     formData.append('payAfterCompletion', payAfterCompletion);
     formData.append('remark', remark);
-    formData.append('address', address);
+    formData.append('address', JSON.stringify(address));
     formData.append('POCopy', POCopy);
 
     await createProject(formData);

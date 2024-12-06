@@ -126,13 +126,17 @@ exports.create = async (req, res) => {
       payAfterCompletion,
       remark,
       POCopy,
+      Address
     } = req.body;
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     completeLevel = completeLevel === undefined ? 0 : completeLevel;
 
-    const Address = JSON.parse(req.body.Address)
+    if(!Address){
+      return res.status(400).json({error:"Address Required..."});
+    }
+    const address=JSON.parse(Address);
 
 
     let POCopyUrl = null;
@@ -169,7 +173,7 @@ exports.create = async (req, res) => {
       remark,
       completeLevel: completeLevel,
       POCopy:POCopyUrl,
-      Address,
+      Address:address,
       projectStatus:
         startDate > new Date()
           ? "upcoming"

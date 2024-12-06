@@ -49,12 +49,17 @@ exports.getCompany = async (req, res)=>{
 
 exports.createCompany= async (req, res)=>{
     try {
-      const {name, email, GST, admin, mobileNo, password, logo, subDate,subAmount, confirmPassword} = req.body;
+      const {name, email, GST, admin, mobileNo, Address, password, logo, subDate,subAmount, confirmPassword} = req.body;
   
       if(password !== confirmPassword){
         return res.status(400).json({error:`Password desen't match!!!`});
       }
-      const Address = JSON.parse(req.body.Address)
+      
+      if(!Address){
+        return res.status(400).json({error:"Address Required..."});
+      }
+      const address=JSON.parse(Address);
+      
       const company = await Company.findOne({email});
       if(company){
         console.log("Company already exists");
@@ -94,7 +99,7 @@ exports.createCompany= async (req, res)=>{
         password:hashPassword,
         subDate:new Date(subDate),
         logo:logoUrl,
-        Address
+        Address:address
       });
 
 
