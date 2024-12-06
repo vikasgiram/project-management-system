@@ -13,6 +13,8 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
     const [customers, setCustomers] = useState([]);
     const [POCopy, setPOCopy] = useState(null);
+    const [loading, setLoading] = useState(false);
+
 
     const [projects, setProjects] = useState({
         ...selectedProject,
@@ -104,39 +106,25 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
         setAddress({ ...address, [name]: value });
-
     };
+
+
+  
+
+
     const handleProjectUpdate = async (event) => {
         const formData = new FormData();
         event.preventDefault();
+        setLoading(!loading);
        
         const updatedProject = {
             ...projects,
-            Address: { // Ensure the address is nested under "Address"
-                ...address // Spread the address state
+            Address: { 
+                ...address 
             },POCopy
         }
-        formData.append('custId',projects.custId);
-        formData.append('name',projects.name);
-        formData.append('purchaseOrderDate',projects.purchaseOrderDate);
-        formData.append('purchaseOrderNo',projects.purchaseOrderNo);
-        formData.append('purchaseOrderValue',projects.purchaseOrderValue);
-        formData.append('category',projects.category);
-        formData.append('startDate',projects.startDate);
-        formData.append('endDate',projects.endDate);
-        formData.append('advancePay',projects.advancePay);
-        formData.append('payAgainstDelivery',projects.payAgainstDelivery);
-        formData.append('projectStatus',projects.projectStatus);
-        formData.append('payAfterCompletion',projects.payAfterCompletion);
-        formData.append('remark',projects.remark);
-        formData.append('completeLevel',projects.completeLevel);
-        formData.append('address',address);
-        if(selectedProject.POCopy !== projects.POCopy)
-            formData.append('POCopy',projects.POCopy);
-        
-
-        try {
-            // console.log(updatedProject,"updatedProject");
+       
+        try {     
             
             await updateProject(formData);
             handleUpdate();
@@ -503,8 +491,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <button
                                                 type='submit'
                                                 onClick={handleProjectUpdate}
+                                                disabled={loading}
                                                 className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                                                Update
+                                                {!loading ? "Update" : "Submitting..."}
                                             </button>
                                             <button
                                                 type="button"

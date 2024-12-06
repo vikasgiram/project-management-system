@@ -19,6 +19,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
   const [subAmount, setSubAmount] = useState("");
   const [logo, setLogo] = useState("");
   const [GST, setGST] = useState("");
+  const [loading, setLoading] = useState(false);
   const [Address, setAddress] = useState({
     pincode: "",
     state: "",
@@ -48,6 +49,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
 
   const handleCompanyAdd = async (event) => {
     event.preventDefault();
+    setLoading(!loading);
     const newLogo=(logo.split(',')[1]);
     if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
       return toast.error("Please fill all fields");
@@ -429,9 +431,10 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       <button
                         type="submit"
                         onClick={handleCompanyAdd}
+                        disabled={loading}
                         className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                       >
-                        Add
+                          {!loading ? "Add" : "Submitting..."}
                       </button>
                       <button
                         type="button"
