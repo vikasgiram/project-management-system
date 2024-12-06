@@ -9,10 +9,13 @@ import { getAddress } from "../../../../../hooks/usePincode";
 
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
+// console.log(selectedProject,"selectedProject");
 
 
     const [customers, setCustomers] = useState([]);
     const [POCopy, setPOCopy] = useState(null);
+    const [loading, setLoading] = useState(false);
+
 
     const [projects, setProjects] = useState({
         ...selectedProject,
@@ -104,41 +107,28 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
         setAddress({ ...address, [name]: value });
-
     };
+
+
+  
+
+
     const handleProjectUpdate = async (event) => {
-        const formData = new FormData();
+       
         event.preventDefault();
+        setLoading(!loading);
        
         const updatedProject = {
             ...projects,
-            Address: { // Ensure the address is nested under "Address"
-                ...address // Spread the address state
+            Address: { 
+                ...address 
             },POCopy
         }
-        formData.append('custId',projects.custId);
-        formData.append('name',projects.name);
-        formData.append('purchaseOrderDate',projects.purchaseOrderDate);
-        formData.append('purchaseOrderNo',projects.purchaseOrderNo);
-        formData.append('purchaseOrderValue',projects.purchaseOrderValue);
-        formData.append('category',projects.category);
-        formData.append('startDate',projects.startDate);
-        formData.append('endDate',projects.endDate);
-        formData.append('advancePay',projects.advancePay);
-        formData.append('payAgainstDelivery',projects.payAgainstDelivery);
-        formData.append('projectStatus',projects.projectStatus);
-        formData.append('payAfterCompletion',projects.payAfterCompletion);
-        formData.append('remark',projects.remark);
-        formData.append('completeLevel',projects.completeLevel);
-        formData.append('address',address);
-        if(selectedProject.POCopy !== projects.POCopy)
-            formData.append('POCopy',projects.POCopy);
-        
-
-        try {
+       
+        try {     
             // console.log(updatedProject,"updatedProject");
             
-            await updateProject(formData);
+            await updateProject(updatedProject);
             handleUpdate();
         } catch (error) {
             toast.error(error);
@@ -148,21 +138,18 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         window.open(projects.POCopy);
       };
 
-      const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPOCopy(reader.result);
+    //   const handleFileChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //       const reader = new FileReader();
+    //       reader.onloadend = () => {
+    //         setPOCopy(reader.result);
             
-          };
-          reader.readAsDataURL(file);
-        }
-        const formData =new FormData(); 
-        formData.append('POCopy',POCopy);
-        console.log(formData,"formData");
+    //       };
+    //       reader.readAsDataURL(file);
+    //     }
         
-      };
+    //   };
     //   console.log(POCopy,"POCopy");
       
 
@@ -375,11 +362,11 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
                                             <div className="col-12 col-lg-6 mt-2" >
                                                 <div className="mb-3">
-                                                    <label for="payfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
+                                                    <label for="payAfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
                                                     </label>
-                                                    <input type="text" className="form-control rounded-0" id="payfterCompletion"
-                                                        name="payfterCompletion"
-                                                        onChange={handleChange} value={projects.payfterCompletion} aria-describedby="secemailHelp" />
+                                                    <input type="text" className="form-control rounded-0" id="payAfterCompletion"
+                                                        name="payAfterCompletion"
+                                                        onChange={handleChange} value={projects.payAfterCompletion} aria-describedby="secemailHelp" />
                                                 </div>
                                             </div>
                                         </div>
@@ -503,8 +490,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <button
                                                 type='submit'
                                                 onClick={handleProjectUpdate}
+                                                disabled={loading}
                                                 className="w-80 btn addbtn rounded-0 add_button   m-2 px-4" >
-                                                Update
+                                                {!loading ? "Update" : "Submitting..."}
                                             </button>
                                             <button
                                                 type="button"
