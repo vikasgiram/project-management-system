@@ -27,11 +27,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
     setAddress({ ...Address, [name]: value });
   };
 
-  // const updAddress = { ...Address, [name]: value };
-  // const stringifiedAddress = JSON.stringify(updatedAddress);
 
-  // // Store the stringified address
-  // setAddress(stringifiedAddress);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,9 +56,6 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
       setSubDate(value);
     }
   };
-
-  const Add =JSON.stringify(Address);
-  console.log(Add);
   
 
   const handleCompanyUpdate = async (event) => {
@@ -76,9 +69,9 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
 
 
     try {
-      console.log(updatedCompany);
+      // console.log(updatedCompany);
       
-      // await updateCompany(updatedCompany);
+      await updateCompany(updatedCompany);
       handleUpdate();
     } catch (error) {
       toast.error(error.massage);

@@ -52,9 +52,12 @@ const AddCompanyPopup = ({ handleAdd }) => {
     setLoading(!loading);
     const newLogo=(logo.split(',')[1]);
     if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
+      setLoading(false);
       return toast.error("Please fill all fields");
+      
     }
     if (password !== confirmPassword) {
+      setLoading(false);
       return toast.error("Password desen't match");
     }
 

@@ -9,6 +9,7 @@ import { getAddress } from "../../../../../hooks/usePincode";
 
 const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
+// console.log(selectedProject,"selectedProject");
 
 
     const [customers, setCustomers] = useState([]);
@@ -113,7 +114,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
 
     const handleProjectUpdate = async (event) => {
-        const formData = new FormData();
+       
         event.preventDefault();
         setLoading(!loading);
        
@@ -125,8 +126,9 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         }
        
         try {     
+            // console.log(updatedProject,"updatedProject");
             
-            await updateProject(formData);
+            await updateProject(updatedProject);
             handleUpdate();
         } catch (error) {
             toast.error(error);
@@ -136,21 +138,18 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
         window.open(projects.POCopy);
       };
 
-      const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPOCopy(reader.result);
+    //   const handleFileChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //       const reader = new FileReader();
+    //       reader.onloadend = () => {
+    //         setPOCopy(reader.result);
             
-          };
-          reader.readAsDataURL(file);
-        }
-        const formData =new FormData(); 
-        formData.append('POCopy',POCopy);
-        console.log(formData,"formData");
+    //       };
+    //       reader.readAsDataURL(file);
+    //     }
         
-      };
+    //   };
     //   console.log(POCopy,"POCopy");
       
 
@@ -363,11 +362,11 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
                                             <div className="col-12 col-lg-6 mt-2" >
                                                 <div className="mb-3">
-                                                    <label for="payfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
+                                                    <label for="payAfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
                                                     </label>
-                                                    <input type="text" className="form-control rounded-0" id="payfterCompletion"
-                                                        name="payfterCompletion"
-                                                        onChange={handleChange} value={projects.payfterCompletion} aria-describedby="secemailHelp" />
+                                                    <input type="text" className="form-control rounded-0" id="payAfterCompletion"
+                                                        name="payAfterCompletion"
+                                                        onChange={handleChange} value={projects.payAfterCompletion} aria-describedby="secemailHelp" />
                                                 </div>
                                             </div>
                                         </div>
