@@ -75,6 +75,9 @@ export const ProjectDurationBar = ({duration}) => {
                     beginAtZero: true,
                     fontSize: '12',
                     fontColor: '#1b4b7b',
+                    callback: function(value) {
+                        return Number.isInteger(value) ? value : ''; // Show only integer values
+                    }
                 }
             }]
         }

@@ -82,17 +82,20 @@ const upcomingData=valueWise.map((data) => data.upcoming);
             }
         }],
         yAxes: [{
-            stacked: false,
-            gridLines: {
-                drawOnChartArea: false,
-                color: '#1b4b7b',
-            },
-            ticks: {
-                beginAtZero: true,
-                fontSize: '12',
-                fontColor: '#1b4b7b',
-            }
-        }]
+          stacked: false,
+          gridLines: {
+              drawOnChartArea: false,
+              color: '#1b4b7b',
+          },
+          ticks: {
+              beginAtZero: true,
+              fontSize: '12',
+              fontColor: '#1b4b7b',
+              callback: function(value) {
+                  return Number.isInteger(value) ? value : ''; // Show only integer values
+              }
+          }
+      }]
     }
 };
 

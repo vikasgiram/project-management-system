@@ -150,14 +150,14 @@ export const ProjectMasterGrid = () => {
             >
               <div className="content-wrapper ps-3 ps-md-0 pt-3">
                 <div className="row px-2 py-1   ">
-                  <div className="col-12 col-lg-6">
+                  <div className="col-12 col-lg-4">
                     <h5 className="text-white py-2">Project Master</h5>
                   </div>
 
-                  <div className="col-12 col-lg-4  ms-auto text-end">
+                  <div className="col-12 col-lg-6  ms-auto text-end">
 
                     <div className="row">
-                      <div className="col-4 col-lg-6 ms-auto">
+                      <div className="col-4 col-lg-4 ms-auto">
                         <select
                           className="form-select bg_edit"
                           aria-label="Default select example"
@@ -171,7 +171,7 @@ export const ProjectMasterGrid = () => {
                         </select>
                       </div>
 
-                      <div className="col-8 col-lg-6 ms-auto">
+                      <div className="col-2 col-lg-2 ms-auto">
 
                         <button
                           onClick={() => {
@@ -184,18 +184,20 @@ export const ProjectMasterGrid = () => {
                           <i className="fa-solid fa-plus"></i> Add
                         </button>
 
-
-                        <button
-                          onClick={() => {
-                            handleDownloads(project);
-                          }}
-                          type="button"
-                          className="btn adbtn btn-dark mx-3"
-                        >
-                          {" "}
-                          <i className="fa-solid fa-download"></i> Download Report
-                        </button>
                       </div>
+
+                      <div className="col-4 col-lg-3 ms-auto">
+                          <button
+                            onClick={() => {
+                              handleDownloads(project);
+                            }}
+                            type="button"
+                            className="btn adbtn btn-dark"
+                          >
+                            {" "}
+                            <i className="fa-solid fa-download"></i> Download Report
+                          </button>
+                        </div>
 
                     </div>
 
