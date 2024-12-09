@@ -21,7 +21,15 @@ export const EmployeeCustomerMasterGrid = () => {
 
     const [selectedId, setSelecteId] = useState(null);
     const [customers, setCustomers] = useState([]);
-    const [selectedCust, setSelectedCust] = useState(null);
+    const [selectedCust, setSelectedCust]= useState(null);
+    const [currentPage, setCurrentPage] = useState(1); 
+    const itemsPerPage = 10; 
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -78,6 +86,12 @@ export const EmployeeCustomerMasterGrid = () => {
         fetchData();
     }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = customers.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Total pages
+    const totalPages = Math.ceil(customers.length / itemsPerPage);
 
 
 
@@ -134,7 +148,7 @@ export const EmployeeCustomerMasterGrid = () => {
 
                                                 </tr>
                                                 <tbody>
-                                                    {customers && customers.map((customer, index) => (
+                                                    {currentData && currentData.map((customer, index) => (
                                                         <tr className="border my-4" key={customer.id}>
                                                             <td>{index + 1}</td>
                                                             <td>{customer.custName}</td>
@@ -168,6 +182,31 @@ export const EmployeeCustomerMasterGrid = () => {
 
                                     </div>
 
+                                </div>
+                                <div className="pagination-container text-center my-3 sm">
+                                    <button
+                                        disabled={currentPage <= 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className="btn btn-dark me-2 btn-sm me-2"
+                                    >
+                                        Previous
+                                    </button>
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handlePageChange(index + 1)}
+                                            className={`btn btn-dark btn-sm me-2 ${currentPage === index + 1 ? 'active' : ''}`}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                    <button
+                                        disabled={currentPage >= totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className="btn btn-dark btn-sm me-2"
+                                    >
+                                        Next
+                                    </button>
                                 </div>
                             </div>
                         </div>

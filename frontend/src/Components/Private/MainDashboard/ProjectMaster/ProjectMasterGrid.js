@@ -32,6 +32,13 @@ export const ProjectMasterGrid = () => {
 
   const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const itemsPerPage = 10; 
+
+  const handlePageChange = (page) => {
+      setCurrentPage(page);
+  };
+
 
   const handleAdd = () => {
     setAddPopUpShow(!AddPopUpShow);
@@ -127,6 +134,14 @@ export const ProjectMasterGrid = () => {
       setFilteredProjects(project);
     }
   };
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentData = filteredProjects.slice(indexOfFirstItem, indexOfLastItem);
+
+// Total pages
+const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+
 
   return (
     <>
@@ -224,8 +239,8 @@ export const ProjectMasterGrid = () => {
                         </tr>
 
                         <tbody className="broder my-4">
-                          {filteredProjects &&
-                            filteredProjects.map((project, index) => (
+                          {currentData &&
+                            currentData.map((project, index) => (
                               <tr className="border my-4" key={project._id}>
                                 <td>{index + 1}</td>
                                 <td>{project.name}</td>
@@ -267,6 +282,31 @@ export const ProjectMasterGrid = () => {
                     </div>
                   </div>
                 </div>
+                <div className="pagination-container text-center my-3 sm">
+                                    <button
+                                        disabled={currentPage <= 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className="btn btn-dark me-2 btn-sm me-2"
+                                    >
+                                        Previous
+                                    </button>
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handlePageChange(index + 1)}
+                                            className={`btn btn-dark btn-sm me-2 ${currentPage === index + 1 ? 'active' : ''}`}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                    <button
+                                        disabled={currentPage >= totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className="btn btn-dark btn-sm me-2"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
               </div>
             </div>
           </div>
