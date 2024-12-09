@@ -29,6 +29,9 @@ export const TaskMasterGrid = () => {
     const [selectedTask, setSelectedTask] = useState(null);
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState([]);
+
+
+    const [tasks, setTasks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); 
     const itemsPerPage = 10; 
 
@@ -36,9 +39,7 @@ export const TaskMasterGrid = () => {
         setCurrentPage(page);
     };
 
-
-
-    const [tasks, setTasks] = useState([])
+    
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -88,13 +89,13 @@ export const TaskMasterGrid = () => {
     }, [AddPopUpShow, deletePopUpShow, updatePopUpShow]);
 
     // console.log(tasks,"tasks");
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     // Total pages
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
 
 
     return (
@@ -114,40 +115,51 @@ export const TaskMasterGrid = () => {
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
                                 <div className="row px-2 py-1   ">
-                                    <div className="col-12 col-lg-6">
+
+                                    <div className="col-12 col-lg-4">
                                         <h5 className="text-white py-2">
                                             Task Master
                                         </h5>
                                     </div>
 
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+
+                                    <div className="col-12 col-lg-4 ms-auto  ">
+                                        <div className="row">
+
+                                            <div className="col-8 col-lg-6 ms-auto text-end">
+                                                <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter tasks as the search text changes
+                                                            const filtered = tasks.filter((task) =>
+                                                                task.name.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filtered);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
+                                            </div>
+
+
+                                            <div className="col- col-lg-2 ms-auto text-end">
+                                                <button
+                                                    onClick={() => {
+                                                        handleAdd()
+                                                    }}
+                                                    type="button"
+                                                    className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="search">
-                                    <input
-                                        type="text"
-                                        className="search-box"
-                                        value={searchText}
-                                        onChange={(e) => {
-                                            const newSearchText = e.target.value;
-                                            setSearchText(newSearchText);
 
-                                            // Filter tasks as the search text changes
-                                            const filtered = tasks.filter((task) =>
-                                                task.name.toLowerCase().includes(newSearchText.toLowerCase())
-                                            );
-                                            setFilteredData(filtered);
-                                        }}
-                                    />
-
-                                </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded" >
                                     <div className="col-12 py-2">

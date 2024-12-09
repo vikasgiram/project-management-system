@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { toast } from "react-toastify";
@@ -82,12 +82,12 @@ export const DesignationMasterGird = () => {
     }, [AddPopUpShow, deletePopUpShow, UpdatePopUpShow]);
 
     // console.log(designations,"designations");
-    
-    const handleChange=(value)=>{
-        if(value){
+
+    const handleChange = (value) => {
+        if (value) {
             const filtered = designations.filter((designation) => designation.department._id === value);
             setFilteredData(filtered);
-        }else{
+        } else {
             setFilteredData(designations);
         }
     }
@@ -125,33 +125,45 @@ export const DesignationMasterGird = () => {
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
                                 <div className="row px-2 py-1   ">
+
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
                                             Designation Master
                                         </h5>
                                     </div>
 
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
-                                    
-                                    <select
-                       
-                        onChange={(e) => handleChange(e.target.value)}
-                      >
-                        <option value="">Select Department</option>
-                        {uniqueDepartments.map((department) => (
-                          <option key={department._id} value={department._id}>
-                            {department.name}
-                          </option>
-                        ))}
-                      </select>
-                                    {/* <span class="loader"></span> */}
-                                    
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                    <div className="col-12 col-lg-4  ms-auto text-end">
+
+                                        <div className="row">
+                                            <div className="col-4 col-lg-6 ms-auto">
+                                                <select
+                                                    className="form-select bg_edit"
+
+                                                    onChange={(e) => handleChange(e.target.value)}
+                                                >
+                                                    <option value="">Select Department</option>
+                                                    {uniqueDepartments.map((department) => (
+                                                        <option key={department._id} value={department._id}>
+                                                            {department.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {/* <span class="loader"></span> */}
+                                            </div>
+
+                                            <div className="col-8 col-lg-2 ms-auto">
+
+                                                <button
+                                                    onClick={() => {
+                                                        handleAdd()
+                                                    }}
+                                                    type="button"
+                                                    className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                            </div>
+                                        </div>
+
+
+
                                     </div>
                                 </div>
                                 <div className="row  bg-white p-2 m-1 border rounded" >

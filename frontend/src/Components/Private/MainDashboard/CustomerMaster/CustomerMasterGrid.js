@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
@@ -120,31 +120,39 @@ export const CustomerMasterGrid = () => {
                                             Customer Master
                                         </h5>
                                     </div>
-                                    <div className="search">
-                                    <input
-  type="text"
-  className="search-box"
-  value={searchText}
-  onChange={(e) => {
-    const newSearchText = e.target.value;
-    setSearchText(newSearchText);
+                                    <div className="col-12 col-lg-4  ms-auto ">
 
-    // Filter customers as the search text changes
-    const filtered = customers.filter((cust) =>
-      cust.custName.toLowerCase().includes(newSearchText.toLowerCase())
-    );
-    setFilteredData(filtered);
-  }}
-/>
-                  
-                </div>
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                        <div className="row">
+
+                                            <div className="col-8 col-lg-6 ms-auto text-end">
+                                                <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter customers as the search text changes
+                                                            const filtered = customers.filter((cust) =>
+                                                                cust.custName.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filtered);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
+                                            </div>
+                                            <div className="col- col-lg-2 ms-auto text-end">
+                                                <button
+                                                    onClick={() => {
+                                                        handleAdd()
+                                                    }}
+                                                    type="button"
+                                                    className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                            </div>
+                                        </div>
+
 
 
                                     </div>

@@ -106,37 +106,50 @@ export const EmployeeMasterGrid = () => {
 
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
-                                        <h5 className="text-white py-2">
-                                            Employee Master
-                                        </h5>
-                                    </div>
-                                    <div className="search">
-                                        <input
-                                            type="text"
-                                            className="search-box"
-                                            value={searchText}
-                                            onChange={(e) => {
-                                                const newSearchText = e.target.value;
-                                                setSearchText(newSearchText);
-
-                                                // Filter employees as the search text changes
-                                                const filteredEmp = employees.filter((emp) =>
-                                                    emp.name.toLowerCase().includes(newSearchText.toLowerCase())
-                                                );
-                                                setFilteredData(filteredEmp);
-                                            }}
-                                        />
+                                        <div className="row">
+                                            <div className="col-12 col-lg-4">
+                                                <h5 className="text-white py-2">
+                                                    Employee Master
+                                                </h5>
+                                            </div>
+                                        </div>
 
                                     </div>
 
-                                    <div className="col-12 col-lg-6  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
 
+                                    <div className="col-12 col-lg-4 ms-auto  ">
+                                        
+                                        <div className="row">
+                                            <div className="col-8 col-lg-6 ms-auto text-end">
+                                                <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter employees as the search text changes
+                                                            const filteredEmp = employees.filter((emp) =>
+                                                                emp.name.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filteredEmp);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
+                                            </div>
+
+                                            <div className="col- col-lg-2 ms-auto text-end">
+                                                <button
+                                                    onClick={() => {
+                                                        handleAdd()
+                                                    }}
+                                                    type="button"
+                                                    className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                            </div>
+
+                                        </div>
 
                                     </div>
 

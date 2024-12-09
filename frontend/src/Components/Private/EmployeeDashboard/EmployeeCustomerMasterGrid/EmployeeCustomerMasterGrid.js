@@ -13,8 +13,8 @@ export const EmployeeCustomerMasterGrid = () => {
     const toggle = () => {
         setIsOpen(!isopen);
     };
-    
-    const {user} = useContext(UserContext);
+
+    const { user } = useContext(UserContext);
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false)
@@ -28,6 +28,7 @@ export const EmployeeCustomerMasterGrid = () => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+
 
 
     const handleAdd = () => {
@@ -81,10 +82,9 @@ export const EmployeeCustomerMasterGrid = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchData();
     }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
-    
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -95,14 +95,15 @@ export const EmployeeCustomerMasterGrid = () => {
 
 
 
+
     return (
         <>
-              {loading && (
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
             )}
-           
+
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <EmployeeHeader
@@ -112,21 +113,23 @@ export const EmployeeCustomerMasterGrid = () => {
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
-                                <div className="row px-2 py-1   ">
+                                <div className="row px-2 py-1  ">
+
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
                                             Customer Master
                                         </h5>
                                     </div>
 
-                                    {user.permissions.includes('createCustomer')?(<div className="col-12 col-lg-6  ms-auto text-end">
+                                    {user.permissions.includes('createCustomer') ? 
+                                    (<div className="col-12 col-lg-2  ms-auto text-end">
                                         <button
                                             onClick={() => {
                                                 handleAdd()
                                             }}
                                             type="button"
                                             className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-                                    </div>):('')}
+                                    </div>) : ('')}
 
                                 </div>
 
@@ -142,7 +145,7 @@ export const EmployeeCustomerMasterGrid = () => {
                                                     <th>Phone</th>
                                                     <th>GST No</th>
                                                     <th>Action</th>
-                                                    
+
                                                 </tr>
                                                 <tbody>
                                                     {currentData && currentData.map((customer, index) => (
@@ -153,17 +156,17 @@ export const EmployeeCustomerMasterGrid = () => {
                                                             <td>{customer.phoneNumber1}</td>
                                                             <td>{customer.GSTNo}</td>
                                                             <td>
-                                                                {user.permissions.includes('updateCustomer')?(<span
-                                                                    onClick={()=>handleUpdate(customer)}
+                                                                {user.permissions.includes('updateCustomer') ? (<span
+                                                                    onClick={() => handleUpdate(customer)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
-                                                                </span>):('')}
+                                                                </span>) : ('')}
 
-                                                                {user.permissions.includes('deleteCustomer')?(<span
+                                                                {user.permissions.includes('deleteCustomer') ? (<span
                                                                     onClick={() => handelDeleteClosePopUpClick(customer._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                                </span>):('')}
+                                                                </span>) : ('')}
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -207,11 +210,11 @@ export const EmployeeCustomerMasterGrid = () => {
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
-         
+
             {deletePopUpShow ?
                 <DeletePopUP
                     message={"Are you sure! Do you want to Delete ?"}

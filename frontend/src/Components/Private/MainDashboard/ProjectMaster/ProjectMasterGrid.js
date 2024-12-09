@@ -110,30 +110,30 @@ export const ProjectMasterGrid = () => {
   }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
   // console.log(project);
-  
 
-//   const handleChange = (value) => {
-//     if (value === "upcoming") {
-//       const upcomingProjects = project.filter((project) => project.projectStatus === "upcoming");
-//         setProject(upcomingProjects);
-//     }
-//     if (value === "inprocess") {
-//       const inprocessProjects = project.filter((project) => project.projectStatus === "inprocess");
-//         setProject(inprocessProjects);
-//     }
-//     if (value === "completed") {
-//       const completedProjects = project.filter((project) => project.projectStatus === "completed");
-//         setProject(completedProjects);
-//   }
-// }
-const handleChange = (value) => {
-  if (value) {
-    const filtered = project.filter((project) => project.projectStatus === value);
-    setFilteredProjects(filtered);
-  } else {
-    setFilteredProjects(project);
-  }
-};
+
+  //   const handleChange = (value) => {
+  //     if (value === "upcoming") {
+  //       const upcomingProjects = project.filter((project) => project.projectStatus === "upcoming");
+  //         setProject(upcomingProjects);
+  //     }
+  //     if (value === "inprocess") {
+  //       const inprocessProjects = project.filter((project) => project.projectStatus === "inprocess");
+  //         setProject(inprocessProjects);
+  //     }
+  //     if (value === "completed") {
+  //       const completedProjects = project.filter((project) => project.projectStatus === "completed");
+  //         setProject(completedProjects);
+  //   }
+  // }
+  const handleChange = (value) => {
+    if (value) {
+      const filtered = project.filter((project) => project.projectStatus === value);
+      setFilteredProjects(filtered);
+    } else {
+      setFilteredProjects(project);
+    }
+  };
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -169,44 +169,51 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                     <h5 className="text-white py-2">Project Master</h5>
                   </div>
 
-                  <div className="col-12 col-lg-6 mt-2">
+                  <div className="col-12 col-lg-4  ms-auto text-end">
 
-                    <select
-                      aria-label="Default select example"
-                      name="projectStatus"
-                      onChange={(e) => handleChange(e.target.value)} 
-                    >
-                      <option value="">Select Project Status</option>
-                      <option value="upcoming">Upcoming</option>
-                      <option value="inprocess">Inprocess</option>
-                      <option value="completed">Complete</option>
-                    </select>
-                  </div>
+                    <div className="row">
+                      <div className="col-4 col-lg-6 ms-auto">
+                        <select
+                          className="form-select bg_edit"
+                          aria-label="Default select example"
+                          name="projectStatus"
+                          onChange={(e) => handleChange(e.target.value)}
+                        >
+                          <option  value="">Select Project Status</option>
+                          <option value="upcoming">Upcoming</option>
+                          <option value="inprocess">Inprocess</option>
+                          <option value="completed">Complete</option>
+                        </select>
+                      </div>
 
-                  <div className="col-12 col-lg-6  ms-auto text-end">
-                    <button
-                      onClick={() => {
-                        handleAdd();
-                      }}
-                      type="button"
-                      className="btn adbtn btn-dark"
+                      <div className="col-8 col-lg-6 ms-auto">
+
+                        <button
+                          onClick={() => {
+                            handleAdd();
+                          }}
+                          type="button"
+                          className="btn adbtn btn-dark"
+                        >
+                          {" "}
+                          <i className="fa-solid fa-plus"></i> Add
+                        </button>
 
 
-                    >
-                      {" "}
-                      <i className="fa-solid fa-plus"></i> Add
-                    </button>
+                        <button
+                          onClick={() => {
+                            handleDownloads(project);
+                          }}
+                          type="button"
+                          className="btn adbtn btn-dark mx-3"
+                        >
+                          {" "}
+                          <i className="fa-solid fa-download"></i> Download Report
+                        </button>
+                      </div>
 
-                    <button
-                      onClick={() => {
-                        handleDownloads(project);
-                      }}
-                      type="button"
-                      className="btn adbtn btn-dark mx-3"
-                    >
-                      {" "}
-                      <i className="fa-solid fa-download"></i> Download Report
-                    </button>
+                    </div>
+
                   </div>
 
                 </div>
