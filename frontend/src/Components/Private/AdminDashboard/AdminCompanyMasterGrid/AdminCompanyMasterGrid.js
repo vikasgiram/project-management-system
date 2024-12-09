@@ -8,6 +8,7 @@ import { getCompany,deleteCompany } from "../../../../hooks/useCompany";
 import { formatDate } from "../../../../utils/formatDate";
 
 
+
 export const AdminCompanyMasterGrid = () => {
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
@@ -21,6 +22,12 @@ export const AdminCompanyMasterGrid = () => {
     const [selectedId, setSelecteId] = useState(null);
 
     const [companyData, setCompanyData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); 
+    const itemsPerPage = 10; 
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
 
 
@@ -73,9 +80,17 @@ export const AdminCompanyMasterGrid = () => {
             }
         };
 
-        // Call the function to fetch the data
+
         fetchData();
     }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = companyData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Total pages
+    const totalPages = Math.ceil(companyData.length / itemsPerPage);
+
 
 
     return (
@@ -134,9 +149,9 @@ export const AdminCompanyMasterGrid = () => {
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {companyData && companyData.map((company, index) => (
+                                                    {currentData && currentData.map((company, index) => (
                                                         <tr className="border my-4" key={company.id}>
-                                                            <td>{index + 1}</td>
+                                                            <td>{indexOfFirstItem +index + 1}</td>
                                                             <td>{company.name}</td>
                                                             <td>{company.email}</td>
                                                             <td>{company.admin}</td>
@@ -165,15 +180,40 @@ export const AdminCompanyMasterGrid = () => {
 
 
 
-
                                     </div>
 
+                                </div>
+                                <div className="pagination-container text-center my-3 sm">
+                                    <button
+                                        disabled={currentPage <= 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className="btn btn-dark me-2 btn-sm me-2"
+                                    >
+                                        Previous
+                                    </button>
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handlePageChange(index + 1)}
+                                            className={`btn btn-dark btn-sm me-2 ${currentPage === index + 1 ? 'active' : ''}`}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                    <button
+                                        disabled={currentPage >= totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className="btn btn-dark btn-sm me-2"
+                                    >
+                                        Next
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+           
 
             {
                 deletePopUpShow ?

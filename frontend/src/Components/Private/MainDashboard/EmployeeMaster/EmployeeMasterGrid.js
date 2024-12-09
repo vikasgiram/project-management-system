@@ -25,6 +25,13 @@ export const EmployeeMasterGrid = () => {
 
 
     const [employees, setEmployees] = useState([])
+    const [currentPage, setCurrentPage] = useState(1); 
+    const itemsPerPage = 10; 
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -73,6 +80,12 @@ export const EmployeeMasterGrid = () => {
     }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 
     // console.log(employees);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Total pages
+    const totalPages = Math.ceil(   filteredData.length / itemsPerPage);
 
 
     return (
@@ -145,7 +158,7 @@ export const EmployeeMasterGrid = () => {
                                                 </tr>
 
                                                 <tbody className="broder my-4">
-                                                    {filteredData && filteredData.map((employee, index) => (
+                                                    {currentData && currentData.map((employee, index) => (
                                                         <tr className="border my-4" key={employee._id}>
                                                             <td>{index + 1}</td>
                                                             <td>{employee.name}</td>
@@ -178,6 +191,31 @@ export const EmployeeMasterGrid = () => {
 
                                     </div>
 
+                                </div>
+                                <div className="pagination-container text-center my-3 sm">
+                                    <button
+                                        disabled={currentPage <= 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className="btn btn-dark me-2 btn-sm me-2"
+                                    >
+                                        Previous
+                                    </button>
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handlePageChange(index + 1)}
+                                            className={`btn btn-dark btn-sm me-2 ${currentPage === index + 1 ? 'active' : ''}`}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                    <button
+                                        disabled={currentPage >= totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className="btn btn-dark btn-sm me-2"
+                                    >
+                                        Next
+                                    </button>
                                 </div>
                             </div>
                         </div>

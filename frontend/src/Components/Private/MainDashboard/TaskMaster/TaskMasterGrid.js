@@ -13,7 +13,7 @@ import { getTask, deleteTask } from "../../../../hooks/useTask";
 
 export const TaskMasterGrid = () => {
 
-   
+
 
     const [isopen, setIsOpen] = useState(false);
     const toggle = () => {
@@ -23,12 +23,19 @@ export const TaskMasterGrid = () => {
 
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [selectedId, setSelecteId]= useState(null);
-    const [updatePopUpShow, setUpdatePopUpShow]= useState(false);
+    const [selectedId, setSelecteId] = useState(null);
+    const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [selectedTask, setSelectedTask]= useState(null);
-    const [searchText, setSearchText]= useState("");
-    const [filteredData, setFilteredData]= useState([]);
+    const [selectedTask, setSelectedTask] = useState(null);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); 
+    const itemsPerPage = 10; 
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
 
 
     const [tasks, setTasks] = useState([])
@@ -40,8 +47,8 @@ export const TaskMasterGrid = () => {
     const handleUpdate = (task = null) => {
         setSelectedTask(task);
         setUpdatePopUpShow((prevState) => !prevState);  // Toggle based on previous state
-      };
-      
+    };
+
 
 
     const handelDeleteClosePopUpClick = (id) => {
@@ -54,7 +61,7 @@ export const TaskMasterGrid = () => {
         if (data) {
             handelDeleteClosePopUpClick();
         }
-       
+
     };
 
 
@@ -66,8 +73,8 @@ export const TaskMasterGrid = () => {
                 if (allTasks) {
                     setTasks(allTasks.task);
                     setFilteredData(allTasks.task);
-                    setLoading(false); 
-                } 
+                    setLoading(false);
+                }
             } catch (error) {
                 console.log(error)
                 setLoading(false);
@@ -76,17 +83,23 @@ export const TaskMasterGrid = () => {
                 setLoading(false);
             }
         };
-        
+
         fetchData();
     }, [AddPopUpShow, deletePopUpShow, updatePopUpShow]);
 
     // console.log(tasks,"tasks");
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Total pages
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
 
 
     return (
-        <>  
-             {loading && (
+        <>
+            {loading && (
                 <div className="overlay">
                     <span className="loader"></span>
                 </div>
@@ -118,59 +131,59 @@ export const TaskMasterGrid = () => {
                                 </div>
 
                                 <div className="search">
-                                <input
-  type="text"
-  className="search-box"
-  value={searchText}
-  onChange={(e) => {
-    const newSearchText = e.target.value;
-    setSearchText(newSearchText);
+                                    <input
+                                        type="text"
+                                        className="search-box"
+                                        value={searchText}
+                                        onChange={(e) => {
+                                            const newSearchText = e.target.value;
+                                            setSearchText(newSearchText);
 
-    // Filter tasks as the search text changes
-    const filtered = tasks.filter((task) =>
-      task.name.toLowerCase().includes(newSearchText.toLowerCase())
-    );
-    setFilteredData(filtered);
-  }}
-/>
-                  
-                </div>
+                                            // Filter tasks as the search text changes
+                                            const filtered = tasks.filter((task) =>
+                                                task.name.toLowerCase().includes(newSearchText.toLowerCase())
+                                            );
+                                            setFilteredData(filtered);
+                                        }}
+                                    />
+
+                                </div>
 
                                 <div className="row  bg-white p-2 m-1 border rounded" >
                                     <div className="col-12 py-2">
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
-                                       
-                                                <tr className="th_border">
-                                                        <th>Sr. No</th>
-                                                        <th>Task Name</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                             
-                                                <tbody className="broder my-4">
-                                                    {filteredData && filteredData.map((task, index) => (
-                                                    <tr className="border my-4" key={task._id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{task.name}</td>
-                                                       
-                                                        <td>
-                                                        <span
-                                                            onClick={() =>handleUpdate(task)}
-                                                            
-                                                            className="update">
-                                                            <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
-                                                        </span>
 
-                                                        <span
-                                                            onClick={() => handelDeleteClosePopUpClick(task._id)}
-                                                            className="delete">
-                                                            <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                        </span>
-                                                    </td>
+                                                <tr className="th_border">
+                                                    <th>Sr. No</th>
+                                                    <th>Task Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+
+                                                <tbody className="broder my-4">
+                                                    {currentData && currentData.map((task, index) => (
+                                                        <tr className="border my-4" key={task._id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{task.name}</td>
+
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleUpdate(task)}
+
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
+                                                                </span>
+
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(task._id)}
+                                                                    className="delete">
+                                                                    <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
                                                         </tr>
                                                     ))}
-                                                     {filteredData.length === 0 && (<p>No data found</p>)}
+                                                    {filteredData.length === 0 && (<p>No data found</p>)}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -181,28 +194,53 @@ export const TaskMasterGrid = () => {
                                     </div>
 
                                 </div>
+                                <div className="pagination-container text-center my-3 sm">
+                                    <button
+                                        disabled={currentPage <= 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className="btn btn-dark me-2 btn-sm me-2"
+                                    >
+                                        Previous
+                                    </button>
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handlePageChange(index + 1)}
+                                            className={`btn btn-dark btn-sm me-2 ${currentPage === index + 1 ? 'active' : ''}`}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                    <button
+                                        disabled={currentPage >= totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className="btn btn-dark btn-sm me-2"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-         {/* )} */}
+            {/* )} */}
 
 
             {
-            deletePopUpShow ?
-                <DeletePopUP
-                    message={"Are you sure! Do you want to Delete ?"}
-                    cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    confirmBtnCallBack={handelDeleteClick}
-                    heading="Delete"
-                /> : <></>
+                deletePopUpShow ?
+                    <DeletePopUP
+                        message={"Are you sure! Do you want to Delete ?"}
+                        cancelBtnCallBack={handelDeleteClosePopUpClick}
+                        confirmBtnCallBack={handelDeleteClick}
+                        heading="Delete"
+                    /> : <></>
             }
 
-            
+
             {AddPopUpShow ?
                 <AddTaskPopUp
-                 
+
                     handleAdd={handleAdd}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
@@ -219,7 +257,7 @@ export const TaskMasterGrid = () => {
                 /> : <></>
             }
 
-            
+
         </>
     )
 }
