@@ -116,7 +116,6 @@ export const TaskSheetMaster = () => {
     // alert("On Double Click event Id:" + task.type);
     if(task.type==='task')
     forActionShow(task.id);
-
   };
 
   const handleSelect = (task, isSelected) => {

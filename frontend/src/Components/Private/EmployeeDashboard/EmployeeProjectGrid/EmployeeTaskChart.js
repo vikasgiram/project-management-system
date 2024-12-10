@@ -4,8 +4,9 @@ import "gantt-task-react/dist/index.css";
 import { default as ReactSelect, components } from "react-select";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { confirmAlert } from 'react-confirm-alert'; 
 import { getStartEndDateForProject, initTasks } from "../../../Helper/GanttChartHelper";
-import { createTaskSheet, getTaskSheet } from "../../../../hooks/useTaskSheet";
+import { createTaskSheet, deleteTaskSheet, getTaskSheet } from "../../../../hooks/useTaskSheet";
 import { getTask } from "../../../../hooks/useTask";
 import { getDepartment } from "../../../../hooks/useDepartment";
 import { getEmployee } from "../../../../hooks/useEmployees";
@@ -95,11 +96,27 @@ export const EmployeeTaskChart = () => {
         setTasks(newTasks);
     };
     const handleTaskDelete = (task) => {
-        const conf = window.confirm("Are you sure about " + task.name + " ?");
-        if (conf) {
-            setTasks(tasks.filter((t) => t.id !== task.id));
+        if(task.type==='task'){
+            confirmAlert({
+                title: 'Confirm to Delete',
+                message: `Are you sure to delete ` + task.name + ` ?`,
+                buttons: [
+                  {
+                    label: 'Yes',
+                    onClick: async () => {
+                      await deleteTaskSheet(task.id);
+                      setTasks(tasks.filter((t) => t.id !== task.id));
+                    }
+                  },
+                  {
+                    label: 'No',
+                    onClick: () => {
+                      return
+                    }
+                  }
+                ]
+              });
         }
-        return conf;
     };
     const handleProgressChange = async (task) => {
         setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
