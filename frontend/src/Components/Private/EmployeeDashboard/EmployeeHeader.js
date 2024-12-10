@@ -21,12 +21,22 @@ export const EmployeeHeader = (props) => {
 
 	
 
-	function toggleuser() {
-		let side = document.getElementById("userdata")
-		side.classList.toggle("hidden1")
-		side.classList.toggle("visible")
+function toggleuser(event) {
+	event.stopPropagation();
+	let side = document.getElementById("userdata")
+	side.classList.toggle("hidden1")
+	side.classList.toggle("visible")
+}
 
-	}
+document.addEventListener("click", function(event) {
+const side = document.getElementById("userdata");
+const toggleButton = document.getElementById("profileDropdown");
+
+if (toggleButton?.contains(event.target) === false && side?.contains(event.target) === false) {
+	side?.classList.add("visible");
+	side?.classList.remove("hidden1");
+}
+});
 
 	window.addEventListener("scroll", change)
 

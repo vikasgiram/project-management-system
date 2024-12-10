@@ -1,3 +1,4 @@
+
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../../context/UserContext";
@@ -19,13 +20,39 @@ export const Header = (props) => {
 	}
 
 
-	function toggleuser() {
-		
+	function toggleuser(event) {
+		event.stopPropagation();
 		let side = document.getElementById("userdata")
 		side.classList.toggle("hidden1")
 		side.classList.toggle("visible")
-
 	}
+
+	document.addEventListener("click", function(event) {
+    const side = document.getElementById("userdata");
+    const toggleButton = document.getElementById("profileDropdown");
+
+    if (toggleButton?.contains(event.target) === false && side?.contains(event.target) === false) {
+        side?.classList.add("visible");
+        side?.classList.remove("hidden1");
+    }
+});
+	// function toggleuser(event) {
+		// 	// 	event.stopPropagation(); // Prevent click from propagating to document
+		// 	// 	const side = document.getElementById("userdata");
+		// 	// 	side.classList.toggle("hidden1");
+		// 	// 	side.classList.toggle("visible");
+		// 	// }
+			
+		// 	// document.addEventListener("click", function (event) {
+		// 	// 	const side = document.getElementById("userdata");
+		// 	// 	const toggleButton = document.getElementById("profileDropdown");
+			
+		// 	// 	// If the click is outside the dropdown and the toggle button, hide the dropdown
+		// 	// 	if (!toggleButton.contains(event.target) && !side.contains(event.target)) {
+		// 	// 		side.classList.add("visible");
+		// 	// 		side.classList.remove("hidden1");
+		// 	// 	}
+		// 	// });
 
 	window.addEventListener("scroll", change)
 
