@@ -13,6 +13,8 @@ import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import { ViewSwitcher } from "../../../Helper/ViewSwitcher";
 import { UserContext } from "../../../../context/UserContext";
+import { formatDateforEditAction } from "../../../../utils/formatDate";
+import { getAllActions } from "../../../../hooks/useAction";
 
 
 // const Option = (props) => {
@@ -47,6 +49,8 @@ export const EmployeeTaskChart = () => {
     const [view, setView] = React.useState(ViewMode.Day);
     const [tasks, setTasks] = React.useState(initTasks());
     const [isChecked, setIsChecked] = React.useState(true);
+    const [showAction, setShowAction] = useState(false);
+    const [forTask, setForTask] = useState([]);
 
 
 
@@ -75,6 +79,11 @@ export const EmployeeTaskChart = () => {
         setRenderPage(!renderPage)
         handleTaskAdd();
     }
+    const forActionShow = async (id) => {
+        const actions = await getAllActions(id);
+        setForTask(actions);
+        setShowAction(true);
+      }
     const handleTaskChange = (task) => {
         // console.log("On date change Id:" + task.id);
         let newTasks = tasks.map((t) => (t.id === task.id ? task : t));
@@ -106,8 +115,11 @@ export const EmployeeTaskChart = () => {
         console.log("On progress change Id:" + task.id);
     };
     const handleDblClick = (task) => {
-        alert("On Double Click event Id:" + task.id);
-    };
+        // alert("On Double Click event Id:" + task.type);
+        if(task.type==='task')
+        forActionShow(task.id);
+    
+      };
     const handleSelect = (task, isSelected) => {
         console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
     };
@@ -441,6 +453,88 @@ export const EmployeeTaskChart = () => {
                                       
                                         </div>
                                     </div>
+                                    {showAction ? (<div className="col-12 col-lg-12  mx-auto  rounded ">
+
+<div className="row  bg-white ms-lg-1 pt-5 rounded p-lg-3">
+
+
+  <div className="col-12 col-lg-6">
+    <h6 className="mb-0 fw-bold mb-3 text-warning-dark">Task Name </h6>
+  </div>
+
+
+  <div className="col-12 col-lg-6 text-end">
+    <span
+      onClick={() => setShowAction(false)}
+      type="button"
+      className="close  px-3"
+    // style={{ marginLeft: "1150px" }}
+    >
+      <span aria-hidden="true">&times;</span>
+    </span>
+  </div>
+
+
+  <div className="col-12">
+    <div className="shadow_custom ">
+      <div className="table-responsive">
+        <table className="table align-items-center table-flush">
+          <thead className="thead-light">
+            <tr>
+              <th className="text-center">Action</th>
+              <th className="text-center">Action By</th>
+              <th className="text-center">Start Time </th>
+              <th className="text-center">End Time</th>
+              <th className="text-center">Completion</th>
+            </tr>
+          </thead>
+
+          {forTask && forTask.length !== 0 ? (
+
+
+            <tbody>
+              {forTask && forTask.map((action) => (
+                <tr className="text-center" >
+                  <td>{action.action}</td>
+                  <td>{action.actionBy.name}</td>
+                  <td>{formatDateforEditAction(action.startTime)}</td>
+                  <td>{formatDateforEditAction(action.endTime)}</td>
+                  <td className="text-center">
+        <div className="d-flex align-items-center"
+          style={{ justifyContent: "center" }}
+        >
+        {action.complated}%
+            <span className="progress"
+                  style={{ marginLeft: "10px" }}
+            >
+              <div
+                className="progress-bar bg-warning"
+                role="progressbar"
+                aria-valuenow={action.complated}
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style={{
+                  width: `${action.complated}%`,
+                }}
+              ></div>
+            </span>
+          
+        </div>
+      </td>
+                </tr>
+              ))}
+
+            </tbody>
+          ) : (<h6 style={{ marginLeft: "450px" }}>No Action performed....</h6>)}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>) : (<></>)}
+
+
                                 </div>
                             </div>
                         </div>
