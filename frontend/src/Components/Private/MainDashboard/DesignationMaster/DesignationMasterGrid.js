@@ -6,22 +6,20 @@ import { toast } from "react-toastify";
 import AddDesignationPopup from "./Popup/AddDesignationPopup";
 import UpdateDesignationPopup from "./Popup/UpdateDesignationPopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-import { getAllDesignations, deleteDesignation } from "../../../../hooks/useDesignation";
+import {
+  getAllDesignations,
+  deleteDesignation,
+} from "../../../../hooks/useDesignation";
 import { getDepartment } from "../../../../hooks/useDepartment";
 
-
-
-
 export const DesignationMasterGird = () => {
+  const [AddPopUpShow, setAddPopUpShow] = useState(false);
+  const [deletePopUpShow, setdeletePopUpShow] = useState(false);
+  const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
+  const [isopen, setIsOpen] = useState(false);
 
-    const [AddPopUpShow, setAddPopUpShow] = useState(false);
-    const [deletePopUpShow, setdeletePopUpShow] = useState(false);
-    const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
-    const [isopen, setIsOpen] = useState(false);
-
-
-    const [selectedId, setSelecteId] = useState(null);
-    const [selectedDes, setSelectedDes] = useState(null);
+  const [selectedId, setSelecteId] = useState(null);
+  const [selectedDes, setSelectedDes] = useState(null);
 
     const [designations, setDesignation] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -42,46 +40,43 @@ export const DesignationMasterGird = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handelDeleteClosePopUpClick = (id) => {
-        setSelecteId(id);
-        setdeletePopUpShow(!deletePopUpShow);
-    }
+  const handelDeleteClosePopUpClick = (id) => {
+    setSelecteId(id);
+    setdeletePopUpShow(!deletePopUpShow);
+  };
 
-    const handleUpdate = (designation = null) => {
-        setSelectedDes(designation);
-        // console.log("HandleUpdate CAlled");
-        setUpdatePopUpShow(!UpdatePopUpShow);
-    }
+  const handleUpdate = (designation = null) => {
+    setSelectedDes(designation);
+    // console.log("HandleUpdate CAlled");
+    setUpdatePopUpShow(!UpdatePopUpShow);
+  };
 
-    const handelDeleteClick = async () => {
-        const data = await deleteDesignation(selectedId);
+  const handelDeleteClick = async () => {
+    const data = await deleteDesignation(selectedId);
+    if (data) {
+      handelDeleteClosePopUpClick();
+      return toast.success("Designation Deleted sucessfully...");
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await getAllDesignations();
         if (data) {
-            handelDeleteClosePopUpClick();
-            return toast.success("Designation Deleted sucessfully...");
+          setDesignation(data.designations || []);
+          setFilteredData(data.designations || []);
         }
-
+      } catch (error) {
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
     };
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const data = await getAllDesignations();
-                if (data) {
-                    setDesignation(data.designations || []);
-                    setFilteredData(data.designations || []);
-                }
-            }
-            catch (error) {
-                setLoading(false);
-            }
-            finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [AddPopUpShow, deletePopUpShow, UpdatePopUpShow]);
+    fetchData();
+  }, [AddPopUpShow, deletePopUpShow, UpdatePopUpShow]);
 
-    // console.log(designations,"designations");
+  // console.log(designations,"designations");
 
     const handleChange = (value) => {
         if (value) {
@@ -239,36 +234,37 @@ export const DesignationMasterGird = () => {
                 </div>
             </div>
 
+      {deletePopUpShow ? (
+        <DeletePopUP
+          message={"Are you sure! Do you want to Delete ?"}
+          cancelBtnCallBack={handelDeleteClosePopUpClick}
+          confirmBtnCallBack={handelDeleteClick}
+          heading="Delete"
+        />
+      ) : (
+        <></>
+      )}
 
-            {deletePopUpShow ?
-                <DeletePopUP
-                    message={"Are you sure! Do you want to Delete ?"}
-                    cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    confirmBtnCallBack={handelDeleteClick}
-                    heading="Delete"
-                /> : <></>
-            }
+      {AddPopUpShow ? (
+        <AddDesignationPopup
+          handleAdd={handleAdd}
+          // heading="Forward"
+          // cancelBtnCallBack={handleAddDepartment}
+        />
+      ) : (
+        <></>
+      )}
 
-
-            {AddPopUpShow ?
-                <AddDesignationPopup
-                    handleAdd={handleAdd}
-                // heading="Forward"
-                // cancelBtnCallBack={handleAddDepartment}
-                /> : <></>
-            }
-
-            {UpdatePopUpShow ?
-                <UpdateDesignationPopup
-                    selectedDes={selectedDes}
-                    handleUpdate={handleUpdate}
-                // heading="Forward"
-                // cancelBtnCallBack={handleAddDepartment}
-                /> : <></>
-            }
-
-
-
-        </>
-    )
-}
+      {UpdatePopUpShow ? (
+        <UpdateDesignationPopup
+          selectedDes={selectedDes}
+          handleUpdate={handleUpdate}
+          // heading="Forward"
+          // cancelBtnCallBack={handleAddDepartment}
+        />
+      ) : (
+        <></>
+      )}
+    </>
+  );
+};

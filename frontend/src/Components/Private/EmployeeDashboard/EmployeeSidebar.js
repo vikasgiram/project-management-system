@@ -21,7 +21,6 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
     //     body.toggleClass('sidebar-icon-only');
     // }
 
-
     return (
         <div
             className={
@@ -35,7 +34,7 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                 <span className="navbar-brand brand-logo">
                     <img
                         style={{ width: isopen ? "100%" : "100%" }}
-                        src="static/assets/img/nav/DACCESS.png"
+                        src={user.logo || "static/assets/img/nav/DACCESS.png"}
                         className="logo"
                         alt="logo"
                     />

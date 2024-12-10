@@ -126,7 +126,7 @@ export const TaskMasterGrid = () => {
                                     <div className="col-12 col-lg-4 ms-auto  ">
                                         <div className="row">
 
-                                            <div className="col-8 col-lg-6 ms-auto text-end">
+                                            <div className="col-4 col--md-6 col-lg-8">
                                                 <div className="form">
                                                     <i className="fa fa-search"></i>
                                                     <input type="text"
@@ -147,7 +147,7 @@ export const TaskMasterGrid = () => {
                                             </div>
 
 
-                                            <div className="col- col-lg-2 ms-auto text-end">
+                                            <div className="col-4 col-lg-4 ms-auto text-end">
                                                 <button
                                                     onClick={() => {
                                                         handleAdd()
