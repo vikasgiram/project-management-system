@@ -4,6 +4,38 @@ export const AssignInproccessSection = ({
   assignedTasks,
   inprocessTasks,
 }) => {
+
+
+  function getTaskColorIndicator(startDate, endDate, completionPercentage){
+    
+
+    // Calculate the total number of days assigned to the task
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1; // +1 to include the end date
+
+    // Calculate the expected completion percentage per day
+    const expectedCompletionPerDay = 100 / totalDays;
+
+    // Calculate the number of days overdue
+    const today = new Date();
+    const daysPassed = Math.ceil((today - start) / (1000 * 60 * 60 * 24));
+
+    // Determine the color indicator
+    let indicator;
+    // console.log(completionPercentage, expectedCompletionPerDay, daysPassed);
+    if (completionPercentage >= expectedCompletionPerDay * daysPassed) {
+        indicator = 'bg-success'; // Task is on track
+    } else if (daysPassed > totalDays) {
+        indicator = 'bg-danger'; // Task is overdue
+    } else if (completionPercentage < expectedCompletionPerDay * daysPassed) {
+        indicator = 'bg-warning'; // Task is behind schedule
+    } else {
+        indicator = 'bg-success'; // Default to success if no other conditions are met
+    }
+
+    return indicator;
+}
   return (
     <>
       <div className="row   p-lg-2 m-1 ">
@@ -33,7 +65,7 @@ export const AssignInproccessSection = ({
                         </tr>
                       ) : (
                         assignedTasks.map((task) => (
-                          <tr className="text-center" key={task.id}>
+                          <tr className="text-center" key={task._id}>
                             <th className="text-center">
                               <div className="media align-items-center">
                                 <div className="media-body">
@@ -47,8 +79,9 @@ export const AssignInproccessSection = ({
                             <td>{formatDate(task.endDate)}</td>
                             <td>
                               <span className="badge badge-dot mr-4 text-dark">
-                                <i className="bg-success"></i> Assigned
+                                <i className="bg-primary"></i> 
                               </span>
+                              Assigned
                             </td>
                           </tr>
                         ))
@@ -87,7 +120,7 @@ export const AssignInproccessSection = ({
                         </tr>
                       ) : (
                         inprocessTasks.map((task) => (
-                          <tr className="text-center" key={task.id}>
+                          <tr className="text-center" key={task._id}>
                             <th className="text-center">
                               <div className="media align-items-center">
                                 <div className="media-body">
@@ -100,10 +133,10 @@ export const AssignInproccessSection = ({
                             <td>{formatDate(task.startDate)}</td>
                             <td>{formatDate(task.endDate)}</td>
                             <td>
-                              <span className="badge badge-dot mr-4 text-dark">
-                                <i className="bg-warning"></i>
-                                {task.taskStatus}
+                              <span className="badge badge-dot mr-4 text-dark" >
+                                <i className={getTaskColorIndicator(task.startDate, task.endDate, task.taskLevel)}></i>
                               </span>
+                                {task.taskStatus}
                             </td>
                             <td className="text-center">
                               <div className="d-flex align-items-center">
