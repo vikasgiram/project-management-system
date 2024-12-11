@@ -1,7 +1,7 @@
 
 const TaskSheet = require("../models/taskSheetModel");
 const jwt = require("jsonwebtoken");
-const Employee = require("../models/employeeModel");
+const Action= require("../models/actionModel");
 const Project = require('../models/projectModel');
 
 
@@ -149,15 +149,22 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const task = await TaskSheet.findByIdAndDelete(req.params.id);
+    const taskSheetId = req.params.id;
+
+    // Find and delete the TaskSheet
+    const task = await TaskSheet.findByIdAndDelete(taskSheetId);
 
     if (!task) {
-      return res.status(400).json({ error: "TaskSheet not found " });
+      return res.status(400).json({ error: "TaskSheet not found" });
     }
-    res.status(200).json({ message: "TaskSheet Deleted " });
+
+    // Delete all associated actions
+    await Action.deleteMany({ task: taskSheetId });
+
+    res.status(200).json({ message: "TaskSheet and associated actions deleted" });
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Error while Deleting tasksheet: " + error.message });
+      .json({ error: "Error while deleting TaskSheet: " + error.message });
   }
 };

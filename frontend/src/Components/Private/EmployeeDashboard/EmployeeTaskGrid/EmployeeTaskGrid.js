@@ -130,7 +130,7 @@ export const EmployeeTaskGrid = () => {
                                                     <tr className="border my-4" key={project.id}>
                                                         <td>{index + 1}</td>
                                                         <td>{project.name}</td>
-                                                        <td>{project.custId.custName}</td>
+                                                        <td>{project.custId?.custName || "N/A"}</td>
                                                         <td>{project.projectStatus}</td>
                                                         <td>{formatDate(project.endDate)}</td>
                                                         <td>

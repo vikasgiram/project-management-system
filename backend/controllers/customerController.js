@@ -1,6 +1,7 @@
 const Customer = require("../models/customerModel");
 const jwt = require("jsonwebtoken");
 const CustomerHistory = require("../models/customerHistoryModel");
+const Project = require("../models/projectModel");
 
 exports.getCustomer = async (req, res) => {
   try {
@@ -128,19 +129,31 @@ exports.createCustomer = async (req, res) => {
 // delete customer
 exports.deleteCustomer = async (req, res) => {
   try {
-    const customer = await Customer.findByIdAndDelete(req.params.id);
+    const customerId = req.params.id;
+
+    // Check if there are any projects associated with the customer
+    const projects = await Project.find({ custId: customerId });
+
+    if (projects.length > 0) {
+      return res.status(400).json({
+        error: "Customer cannot be deleted as they have associated projects."
+      });
+    }
+
+    // Proceed to delete the customer if no projects are found
+    const customer = await Customer.findByIdAndDelete(customerId);
 
     if (!customer) {
-      res.status(400).json({ error: "Customer Not found !!" });
+      return res.status(404).json({ error: "Customer Not Found!!" });
     }
+
     res.status(200).json({ message: "Customer deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error while deleting customer: " + error.message });
+    res.status(500).json({
+      error: "Error while deleting customer: " + error.message
+    });
   }
 };
-
 // update customer
 exports.updateCustomer = async (req, res) => {
   try {
