@@ -1,6 +1,7 @@
 const Admin = require('../models/adminModel');
 const bcrypt = require('bcrypt');
 const Company = require('../models/companyModel');
+const Employee = require('../models/employeeModel');
 
 
 exports.getAdmin = async (req, res)=>{
@@ -99,6 +100,12 @@ exports.dashboard = async (req, res)=>{
 exports.admin = async (req, res)=>{
     try {
       const {name, email, password, confirmPassword}= req.body;
+
+      const company= await Company.findOne({email});
+      const emp = await Employee.findOne({email});
+      if(company || emp){
+        return res.status(400).json({error:"Email allready exists!!!"});
+      }
       if(password !== confirmPassword){
         return res.status(400).json({error:"Password doesn't match!!!"});
       }

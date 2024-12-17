@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const ticketSchema = new Schema({
+
     company:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
@@ -12,16 +13,16 @@ const ticketSchema = new Schema({
         required: true,
         default: Date.now(),
     },
-    clientName:{
+    client:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
     },
     Address:{
-        add:stringAt,
-        city:string,
-        state:string,
-        country: string,
-        pincode:number,
+        add: String,
+        city: String,
+        state: String,
+        country: String,
+        pincode: Number,
     },
     details:{
         type: String,

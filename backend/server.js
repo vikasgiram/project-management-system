@@ -19,6 +19,8 @@ const taskRoutes = require('./routes/taskRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const designationRoutes = require('./routes/designationRoutes');
 const actionRoutes = require('./routes/actionRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
+const serviceRoutes = require('./routes/serviceRoutes')
 
 dotenv.config();
 connectDB();
@@ -61,6 +63,10 @@ app.use('/api/designation',designationRoutes);
 app.use('/api/department',departmentRoutes);
 
 app.use('/api/action', actionRoutes);
+
+app.use('/api/ticket', ticketRoutes);
+
+app.use('/api/service', serviceRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err);

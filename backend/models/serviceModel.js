@@ -1,5 +1,4 @@
 const mongoose= require('mongoose');
-const Ticket = require('./ticketModel');
 const Schema = mongoose.Schema;
 
 
@@ -77,7 +76,7 @@ const serviceSchema = new Schema({
     remarks:[{
         type: String,
     }],
-    complateSubmitDate:{
+    actualCompletionDate:{
         type: Date,
     },
     feedback:{

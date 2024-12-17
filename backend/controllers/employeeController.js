@@ -147,6 +147,11 @@ exports.create=async (req, res) => {
     }
 
     const emp= await Employee.findOne({email});
+    const company= await Company.findOne({email});
+    const admin= await Admin.findOne({email});
+    if(company || admin){
+      return res.status(400).json({error:"Email allready exists!!!"});
+    }
 
     if(emp){
       console.log(emp);

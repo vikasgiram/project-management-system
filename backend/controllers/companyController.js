@@ -7,6 +7,7 @@ const Employee = require('../models/employeeModel');
 const Department = require('../models/departmentModel');
 const TaskSheet = require('../models/taskSheetModel');
 const CompanyHistory = require('../models/companyHistoryModel');
+const Admin = require('../models/adminModel');
 const Designation = require('../models/designationModel');
 const {bucket} = require('../utils/firebase');
 
@@ -50,7 +51,12 @@ exports.getCompany = async (req, res)=>{
 exports.createCompany= async (req, res)=>{
     try {
       const {name, email, GST, admin, mobileNo, Address, password, logo, subDate,subAmount, confirmPassword} = req.body;
-  
+      
+      const existAdmin = await Admin.findOne({email});
+      const emp= await Employee.findOne({email});
+      if(existAdmin || emp){
+        return res.status(400).json({error:"Email already exists"});
+      }
       if(password !== confirmPassword){
         return res.status(400).json({error:`Password desen't match!!!`});
       }
