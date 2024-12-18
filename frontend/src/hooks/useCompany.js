@@ -66,6 +66,8 @@ const createCompany = async (companyData) => {
 
 
 const updateCompany = async (updatedData) => {
+  // console.log(updatedData);
+  
   try {
     const response = await axios.put(`${url}/${updatedData._id}`, updatedData, {
       headers: {

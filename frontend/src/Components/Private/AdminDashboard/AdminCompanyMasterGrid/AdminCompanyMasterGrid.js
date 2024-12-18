@@ -20,6 +20,8 @@ export const AdminCompanyMasterGrid = () => {
     const [selectedCompany, setSelectedCompany] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedId, setSelecteId] = useState(null);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
 
     const [companyData, setCompanyData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); 
@@ -70,6 +72,7 @@ export const AdminCompanyMasterGrid = () => {
                 const data = await getCompany();
                 if (data) {
                     setCompanyData(data.companies || []);
+                    setFilteredData(data.companies || []);
 
                 }
             } catch (error) {
@@ -86,10 +89,11 @@ export const AdminCompanyMasterGrid = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentData = companyData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     // Total pages
-    const totalPages = Math.ceil(companyData.length / itemsPerPage);
+    const totalPages = Math.ceil(   filteredData.length / itemsPerPage);
+
 
 
 
@@ -108,7 +112,6 @@ export const AdminCompanyMasterGrid = () => {
                         <AdminSidebar isopen={isopen} active="AdminCompanyMasterGrid" />
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
-
                                 <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
                                         <h5 className="text-white py-2">
@@ -117,6 +120,23 @@ export const AdminCompanyMasterGrid = () => {
                                     </div>
 
                                     <div className="col-12 col-lg-6  ms-auto text-end">
+                                    <div className="form">
+                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter employees as the search text changes
+                                                            const filteredEmp = companyData.filter((company) =>
+                                                                company.name.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filteredEmp);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                        </div>
                                         <button
                                             onClick={() => {
                                                 handleAdd()
@@ -157,7 +177,7 @@ export const AdminCompanyMasterGrid = () => {
                                                             <td>{company.admin}</td>
                                                             <td>{formatDate(company.createdAt)}</td>
                                                             <td>{formatDate(company.subDate)}</td>
-                                                            <td>{new Date(company.subDate).getTime() >= Date.now() ? 'active' : 'inactive'}</td>
+                                                            <td>{new Date(company.subDate).getTime() >= Date.now() ? 'Active' : 'Inactive'}</td>
                                                             <td>{company.subAmount}</td>
                                                             <td>
                                                                 <span

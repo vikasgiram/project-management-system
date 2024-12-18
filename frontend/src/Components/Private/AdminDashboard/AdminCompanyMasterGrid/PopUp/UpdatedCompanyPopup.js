@@ -21,7 +21,6 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
   const [subDate, setSubDate] = useState(formatDateforupdateSubcription(company.subDate));
   const [loading, setLoading] = useState(false);
 
-
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setAddress({ ...Address, [name]: value });
@@ -66,11 +65,8 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
       Address,
       subDate
     }
-
-
     try {
       // console.log(updatedCompany);
-      
       await updateCompany(updatedCompany);
       handleUpdate();
     } catch (error) {
@@ -125,22 +121,6 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                     </div>
                   </div>
 
-                  <div className="col-12 col-lg-6 mt-2">
-                    <div className="mb-3">
-                      <label htmlFor="name" className="form-label label_text">
-                        Full Name <RequiredStar />
-                      </label>
-                      <input
-                        name="name"
-                        type="text"
-                        value={company.name}
-                        onChange={handleChange}
-                        className="form-control rounded-0"
-                        id="name"
-                        required
-                      />
-                    </div>
-                  </div>
 
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
@@ -183,6 +163,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                         className="form-control rounded-0"
                         id="subDate"
                         aria-describedby="dateHelp"
+                        min={new Date().toISOString().split("T")[0]}
                         required
                       />
                     </div>
@@ -201,7 +182,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                           <span>&#8377;</span>
                         </span>
                         <input
-                          type="text"
+                          type="number"
                           id="subAmount"
                           name="subAmount"
                           value={company.subAmount}
@@ -209,6 +190,7 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
                           className="form-control rounded-0 border-0"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
+                          min={0}
                           required
                         />
                       </div>{" "}

@@ -56,6 +56,38 @@ export const Sidebar = ({ isopen, active }) => {
                     </li>
 
                     <li
+                        title="Ticket Master"
+                        className={  active === "TicketMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/TicketMasterGrid' className="nav-link ">
+                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            {/* <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-ticket ps-3 side_icon_fs"></i>
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Task Master
+                            </span>
+                        </Link>
+                    </li>
+
+                    <li
+                        title="Service Master"
+                        className={  active === "ServiceMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/ServiceMasterGrid' className="nav-link ">
+                         
+                            <i class="fa fa-address-card ps-3 side_icon_fs"></i>
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Service Master
+                            </span>
+                        </Link>
+                    </li>
+
+                    <li
                         title="Employee Master"
                         className={  active === "EmployeeMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeMasterGrid' className="nav-link ">
@@ -151,22 +183,7 @@ export const Sidebar = ({ isopen, active }) => {
                         </Link>
                     </li>
 
-                    <li
-                        title="Ticket Master"
-                        className={  active === "TicketMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='/TicketMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-circle dic_style  "></i>   */}
-                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
-                            {/* <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i> */}
-                            <i class="fa-solid fa-ticket ps-3 side_icon_fs"></i>
-                            <span
-                                className="menu-title_m"
-                                style={{ display: isopen ? "" : "none" }}
-                            >
-                                Task Master
-                            </span>
-                        </Link>
-                    </li>
+              
 
 
 

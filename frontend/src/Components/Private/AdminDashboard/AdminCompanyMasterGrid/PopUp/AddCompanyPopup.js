@@ -59,7 +59,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9.-]+\.)?$/;
     if (!emailRegex.test(email)) {
       setLoading(false);
-        return toast.error("Enter valid Email");
+      return toast.error("Enter valid Email");
     }
     if (password !== confirmPassword) {
       setLoading(false);
@@ -222,8 +222,10 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         className="form-control rounded-0"
                         id="Subscription"
                         aria-describedby="dateHelp"
+                        min={new Date().toISOString().split("T")[0]}
                         required
                       />
+
                     </div>
                   </div>
 

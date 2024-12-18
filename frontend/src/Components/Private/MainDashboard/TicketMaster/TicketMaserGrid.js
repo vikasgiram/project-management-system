@@ -114,7 +114,7 @@ export const TicketMasterGrid = () => {
                                             <div className="col-12 col-lg-4">
                                                 <h5 className="text-white py-2">
                                                     Ticket Master
-                                                    <button onClick={() => navigate("/feedback")}>aaaa</button>
+                                                    {/* <button onClick={() => navigate("/feedback")}>aaaa</button> */}
                                                 
                                                 </h5>
                                             </div>

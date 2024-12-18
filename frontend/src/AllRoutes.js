@@ -35,6 +35,7 @@ import NotFound from "./Components/NotFound";
 import { TicketMasterGrid } from "./Components/Private/MainDashboard/TicketMaster/TicketMaserGrid";
 import { EmployeeTicketMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeTicketMasterGrid/EmployeeTicketGrid";
 import { Feedback } from "./Components/Private/MainDashboard/TicketMaster/Feedback";
+import { ServiceMasterGrid } from "./Components/Private/MainDashboard/ServiceMaster/ServiceMasterGrid";
 
 const AllRoutes = () => {
 
@@ -50,7 +51,7 @@ const {user} = useContext(UserContext);
                     <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
                     <Route exact path="/api/reset-password/:id/:token" element={<ForgotPasswordConfirm />} />
                     <Route exact path="UserProfile" element={<UserProfile />} />
-                    <Route exact path="/feedback" element={<Feedback />} />
+                    {/* <Route exact path="/feedback" element={<Feedback />} /> */}
                     
 
 
@@ -68,6 +69,8 @@ const {user} = useContext(UserContext);
                         <Route exact path="/:id" element={<TaskSheetMaster />} />
                         <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
                         <Route exact path="/TicketMasterGrid" element={<TicketMasterGrid />} />
+                        <Route exact path="/ServiceMasterGrid" element={<ServiceMasterGrid />} />
+
                     </>
                 ):null}
 

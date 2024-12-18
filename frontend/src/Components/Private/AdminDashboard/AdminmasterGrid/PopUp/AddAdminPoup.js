@@ -22,6 +22,10 @@ const AddAdminPoup = ({ handleAdd }) => {
     if(!name  || !email || !password || !confirmPassword){
       return toast.error("Please fill all fields");
     }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9.-]+\.)?$/;
+    if (!emailRegex.test(email)) {
+      return toast.error("Enter valid Email");
+    }
     if(password!==confirmPassword){
       return toast.error("Password desen't match");
     }
