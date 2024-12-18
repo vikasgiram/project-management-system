@@ -8,6 +8,9 @@ const { sendConfirmationMail } = require('../utils/sendTicketConfirmationMail');
 exports.showAll = async (req,res)=>{
     try {
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+          return res.status(403).json({ error: 'Unauthorized you need to login first' });
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const tickets = await Ticket.find({company:decoded.user.company}).populate('registerBy','name');   
         console.log(tickets);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -53,7 +56,9 @@ exports.update = async (req,res)=>{
 exports.create= async(req, res)=>{
     try {
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+        if(!token){
+          return res.status(403).json({ error: 'Unauthorized you need to login first' });
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const {client, Address, details, product, contactPerson, contactNumber, source} = req.body;

@@ -11,7 +11,9 @@ const {bucket} = require('../utils/firebase');
 exports.showAll = async (req, res) => {
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const page = parseInt(req.query.page) || 1;
@@ -63,7 +65,9 @@ exports.getProject = async (req, res) => {
 exports.myProjects = async (req, res) => {
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Get unique project IDs from tasks for the specific company
@@ -88,7 +92,9 @@ exports.myProjects = async (req, res) => {
 exports.search = async (req, res) => {
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const query = req.query.search;
 
@@ -129,7 +135,9 @@ exports.create = async (req, res) => {
       Address
     } = req.body;
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     completeLevel = completeLevel === undefined ? 0 : completeLevel;
 
@@ -199,7 +207,9 @@ exports.create = async (req, res) => {
 exports.exportProjects = async (req, res) => {
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { startDate, endDate, status } = req.params;
 

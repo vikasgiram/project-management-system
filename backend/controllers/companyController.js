@@ -151,8 +151,7 @@ exports.updateCompany = async (req, res) => {
 
     // Find the existing company record
     const existingCompany = await Company.findById(id);
-    console.log(updatedData);
-    console.log(existingCompany);
+
     if (!existingCompany) {
       return res.status(404).json({ message: 'Company not found' });
     }

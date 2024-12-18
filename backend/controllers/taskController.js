@@ -6,6 +6,9 @@ exports.create = async (req, res) => {
   try {
     const { name } = req.body;
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const task = await Task.create({
@@ -25,6 +28,9 @@ exports.create = async (req, res) => {
 exports.showAll = async (req, res) => {
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const task = await Task.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id });

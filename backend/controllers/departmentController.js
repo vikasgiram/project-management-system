@@ -8,7 +8,9 @@ const Employee = require('../models/employeeModel');
 exports.showAll = async (req, res)=>{
     try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const page=parseInt(req.query.page)|| 1;
@@ -38,7 +40,9 @@ exports.showAll = async (req, res)=>{
 exports.create = async ( req, res)=>{
     try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const {name}=req.body;
         const dep= await Department({

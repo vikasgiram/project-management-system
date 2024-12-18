@@ -75,6 +75,9 @@ exports.changePassword = async (req, res)=>{
   try {
     const {oldPass, newPass} = req.body;
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const [employee, company, admin] = await Promise.all([
       Employee.findById(decoded.user._id),

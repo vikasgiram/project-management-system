@@ -82,7 +82,7 @@ const serviceSchema = new Schema({
     feedback:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Feedback',
-        default: 'None',
+        default: null,
     }
 
 });
