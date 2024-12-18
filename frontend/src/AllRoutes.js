@@ -32,6 +32,9 @@ import { AdminmasterGrid } from "./Components/Private/AdminDashboard/Adminmaster
 import { AdminCompanyMasterGrid } from "./Components/Private/AdminDashboard/AdminCompanyMasterGrid/AdminCompanyMasterGrid";
 import { UserProfile } from "./Components/Private/MainDashboard/UserProfile";
 import NotFound from "./Components/NotFound";
+import { TicketMasterGrid } from "./Components/Private/MainDashboard/TicketMaster/TicketMaserGrid";
+import { EmployeeTicketMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeTicketMasterGrid/EmployeeTicketGrid";
+import { Feedback } from "./Components/Private/MainDashboard/TicketMaster/Feedback";
 
 const AllRoutes = () => {
 
@@ -47,6 +50,8 @@ const {user} = useContext(UserContext);
                     <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
                     <Route exact path="/api/reset-password/:id/:token" element={<ForgotPasswordConfirm />} />
                     <Route exact path="UserProfile" element={<UserProfile />} />
+                    <Route exact path="/feedback" element={<Feedback />} />
+                    
 
 
                  {/* Company */}
@@ -62,6 +67,7 @@ const {user} = useContext(UserContext);
                         <Route exact path="/TaskMasterGrid" element={<TaskMasterGrid />} />
                         <Route exact path="/:id" element={<TaskSheetMaster />} />
                         <Route exact path="/UploadComplaintGrid" element={<UploadComplaintGrid />} />
+                        <Route exact path="/TicketMasterGrid" element={<TicketMasterGrid />} />
                     </>
                 ):null}
 
@@ -85,6 +91,7 @@ const {user} = useContext(UserContext);
                             <Route exact path="/:id" element={<EmployeeTaskChart />} />
                             <Route exact path="/EmployeeCustomerMasterGrid" element={<EmployeeCustomerMasterGrid />} />
                             <Route exact path="/EmployeeDashboardEpmloyeeGrid" element={<EmployeeDashboardEpmloyeeGrid />} />
+                            <Route exact path="/EmployeeTicketMasterGrid" element={<EmployeeTicketMasterGrid />} />
                         </>
                     ):null}
 

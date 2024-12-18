@@ -35,14 +35,14 @@ const AddCompanyPopup = ({ handleAdd }) => {
       if (data !== "Error") {
         console.log(data);
         setAddress(prevAddress => ({
-          ...prevAddress, 
-          state: data.State, 
-          city: data.District,   
-          country: data.Country 
+          ...prevAddress,
+          state: data.State,
+          city: data.District,
+          country: data.Country
         }));
       }
     };
-    if(Address.pincode > 0)
+    if (Address.pincode > 0)
       fetchData();
   }, [Address.pincode]);
 
@@ -50,11 +50,16 @@ const AddCompanyPopup = ({ handleAdd }) => {
   const handleCompanyAdd = async (event) => {
     event.preventDefault();
     setLoading(!loading);
-    const newLogo=(logo.split(',')[1]);
-    if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin) {
+    const newLogo = (logo.split(',')[1]);
+    if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin || !GST || !Address) {
       setLoading(false);
       return toast.error("Please fill all fields");
-      
+
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9.-]+\.)?$/;
+    if (!emailRegex.test(email)) {
+      setLoading(false);
+        return toast.error("Enter valid Email");
     }
     if (password !== confirmPassword) {
       setLoading(false);
@@ -62,17 +67,17 @@ const AddCompanyPopup = ({ handleAdd }) => {
     }
 
     const formData = new FormData();
-    formData.append('name',name);
-    formData.append('admin',admin);
-    formData.append('mobileNo',mobileNo);
-    formData.append('email',email);
-    formData.append('password',password);
-    formData.append('confirmPassword',confirmPassword);
-    formData.append('subDate',subDate);
-    formData.append('subAmount',subAmount);
-    formData.append('GST',GST);
-    formData.append('Address',JSON.stringify(Address));
-    formData.append('logo',newLogo);
+    formData.append('name', name);
+    formData.append('admin', admin);
+    formData.append('mobileNo', mobileNo);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('confirmPassword', confirmPassword);
+    formData.append('subDate', subDate);
+    formData.append('subAmount', subAmount);
+    formData.append('GST', GST);
+    formData.append('Address', JSON.stringify(Address));
+    formData.append('logo', newLogo);
     await createCompany(formData);
     // console.log(Address);
     handleAdd();
@@ -86,7 +91,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
         // The result is a Base64 string
         setLogo(reader.result);
         // console.log(logo);
-        
+
       };
       reader.readAsDataURL(file);
     }
@@ -169,13 +174,19 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         Mobile Number <RequiredStar />
                       </label>
                       <input
-                        type="text"
+                        type="number"
+                        min={0}
+                        max={9999999999}
                         value={mobileNo}
-                        onChange={(e) => setMobileNo(e.target.value)}
+                        onChange={(e) => {
+                          const value = Number(e.target.value);
+                          if (value <= 9999999999) {
+                            setMobileNo(value);
+                          }
+                        }}
                         className="form-control rounded-0"
                         id="MobileNumber"
                         aria-describedby="emailHelp"
-                        required
                       />
                     </div>
                   </div>
@@ -247,10 +258,17 @@ const AddCompanyPopup = ({ handleAdd }) => {
                           <span>&#8377;</span>
                         </span>
                         <input
-                          type="text"
+                          type="number"
                           id="SubscriptionAmount"
+                          min="0"
                           value={subAmount}
-                          onChange={(e) => setSubAmount(e.target.value)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Reject negative values
+                            if (value >= 0 || value === '') {
+                              setSubAmount(value);
+                            }
+                          }}
                           className="form-control rounded-0 border-0"
                           aria-label="Username"
                           aria-describedby="basic-addon1"
@@ -293,17 +311,17 @@ const AddCompanyPopup = ({ handleAdd }) => {
 
                       </label>
                       <input type="file" className="form-control rounded-0" id="LOGO" aria-describedby="secemailHelp"
-                        accept="image/*" 
+                        accept="image/*"
                         onChange={handleFileChange} files={logo}
                       />
-                            {/* {logo && (
+                      {/* {logo && (
         <div>
           <h3>Preview:</h3>
           <img src={logo} alt="Uploaded Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />
         </div>
       )} */}
                     </div>
-                    
+
                   </div>
 
                   <div className="col-12  mt-2">
@@ -346,7 +364,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                       </div>
 
                       <div className="col-12 col-lg-6 mt-2">
-                        <div className="mb-3">  
+                        <div className="mb-3">
                           <input
                             type="text"
                             className="form-control rounded-0"
@@ -437,7 +455,7 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         disabled={loading}
                         className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                       >
-                          {!loading ? "Add" : "Submitting..."}
+                        {!loading ? "Add" : "Submitting..."}
                       </button>
                       <button
                         type="button"
