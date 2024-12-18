@@ -52,7 +52,9 @@ exports.update = async (req,res)=>{
 exports.create= async(req, res)=>{
     try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const {task, action, startTime, endTime, taskStatus, taskLevel, remark} = req.body;

@@ -6,7 +6,9 @@ const Employee = require('../models/employeeModel');
 exports.showAll = async (req, res) => {
     try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
      
   
@@ -23,7 +25,9 @@ exports.showAll = async (req, res) => {
   exports.getDesignation = async (req, res) => {
     try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const departmentId = req.query.department; // Get departmentId from query params
   
@@ -49,7 +53,9 @@ exports.showAll = async (req, res) => {
 exports.create = async (req, res)=>{
     try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const {name, department, permissions}= req.body;
         const newDesignation = await Designation({

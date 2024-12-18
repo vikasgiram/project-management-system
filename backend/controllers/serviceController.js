@@ -6,8 +6,11 @@ const Ticket = require('../models/ticketModel');
 exports.showAll = async (req,res)=>{
     try{
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+            return res.status(403).json({ error: 'Unauthorized you need to login first' });
+          }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const services = await Service.find({company:decoded.user._id}).populate('allotTo','name');
+        const services = await Service.find({company:decoded.user._id}).populate('allotTo','name').populate('ticket','details product date client');
         if(services.length<=0){
             return res.status(400).json({message:"No Services Available"});
         }
@@ -21,6 +24,9 @@ exports.showAll = async (req,res)=>{
 exports.update = async (req,res)=>{
     try{
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+            return res.status(403).json({ error: 'Unauthorized you need to login first' });
+          }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const {id}= req.params;
         const {serviceType, priority, zone, allotmentDate, allotTo, workMode, status, completionDate, remarks } = req.body;
@@ -30,7 +36,7 @@ exports.update = async (req,res)=>{
             zone,
             allotmentDate,
             allotTo,
-            workMode,
+            workMode, 
             status,
             completionDate,
         
@@ -42,7 +48,7 @@ exports.update = async (req,res)=>{
         if(status==="Completed"){
             service.days=moment(completionDate).diff(allotmentDate, 'days');
             // send feedback to link through email
-            sendMail(id);
+            // sendMail(id);
         }
         await service.save();   
 
@@ -59,21 +65,24 @@ exports.update = async (req,res)=>{
 exports.create= async(req, res)=>{
     try{
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+            return res.status(403).json({ error: 'Unauthorized you need to login first' });
+          }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const {serviceType, ticket, priority, zone, allotmentDate, allotTo, workMode, status} = req.body;
         const service = new Service({
-            company: decoded.user.company,
+            company: decoded.user.company ? decoded.user.company : decoded.user._id,
             serviceType,
             ticket,
-            priority,
+            priority, 
             zone,
             allotmentDate,
             allotTo,
             workMode,
             status,
-
         });
         await service.save();
+        // send ticket allotment mail here 
         res.status(200).json({message:"Service Created..."});
     }
     catch(error){

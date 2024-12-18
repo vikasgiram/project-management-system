@@ -17,6 +17,9 @@ module.exports.isCompany = async (req, res, next) => {
 
   try {
     const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+    if(!token){
+      return res.status(403).json({ error: 'Unauthorized you need to login first' });
+    }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // This is the company ID of the logged in user
@@ -35,6 +38,9 @@ module.exports.isAdmin = async (req, res, next) => {
 
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // This is the employee ID of the logged in user
     const user=await Admin.findById(decoded.user._id);
@@ -52,6 +58,9 @@ module.exports.isAdmin = async (req, res, next) => {
 module.exports.permissionMiddleware = (permissions) => {
   return async (req, res, next) => {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await Company.findById(decoded.user._id);
 

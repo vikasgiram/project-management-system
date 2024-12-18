@@ -21,8 +21,12 @@ exports.getCustomer = async (req, res) => {
 // end point /customers?page=1&limit=10
 exports.showAll = async (req, res) => {
   try {
+    const token = req.headers["authorization"] && req.headers["authorization"].split(" ")[1];
+    if(!token){
+      return res.status(403).json({ error: 'Unauthorized you need to login first' });
+    }
     const decoded = jwt.verify(
-      req.headers["authorization"].split(" ")[1],
+      token,
       process.env.JWT_SECRET
     );
     const page = parseInt(req.query.page) || 1;
@@ -62,6 +66,9 @@ exports.createCustomer = async (req, res) => {
     const token =
       req.headers["authorization"] &&
       req.headers["authorization"].split(" ")[1];
+      if(!token){
+        return res.status(403).json({ error: 'Unauthorized you need to login first' });
+      }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const {
       custName,

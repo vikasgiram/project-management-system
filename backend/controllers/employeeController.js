@@ -100,7 +100,9 @@ exports.dashboard = async (req, res) => {
   try {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
 
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Get unique project IDs from tasks for the specific company
@@ -162,7 +164,9 @@ exports.create=async (req, res) => {
     const hashPassword=await bcrypt.hash(password,salt);
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
 
-
+  if(!token){
+    return res.status(403).json({ error: 'Unauthorized you need to login first' });
+  }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${email}`;
 		const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${email}`;
