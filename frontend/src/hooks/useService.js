@@ -2,9 +2,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const baseUrl= process.env.REACT_APP_API_URL;
-const url=baseUrl+"/api/ticket";
+const url=baseUrl+"/api/service";
 
-const getAllTickets = async () => {
+const getAllService = async () => {
   try {
     const response = await axios.get(`${url}`, {
       headers: {
@@ -21,10 +21,10 @@ const getAllTickets = async () => {
 
 
 
-const createTicket = async (ticketData) => {
+const createService = async (serviceData) => {
   try {
     // console.log("new action data",actionData);
-    const response = await axios.post(`${url}`, ticketData, {
+    const response = await axios.post(`${url}`, serviceData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -35,15 +35,15 @@ const createTicket = async (ticketData) => {
       console.error(data.error);
       return toast.error(data.error);
     }
-    toast.success("Ticket submitted..");
+    toast.success("Service submitted..");
     return data;
   } catch (error) {
     console.error(error);
     toast.error(error.response.data.error);  }
 };
 
-const updateTicket = async (id, updatedData) => {
-  // console.log(id,updatedData);
+const updateService = async (id, updatedData) => {
+//   console.log(id,updatedData);
   
   try {
     // console.log(updatedData);
@@ -58,14 +58,14 @@ const updateTicket = async (id, updatedData) => {
       console.error(data.error);
       return alert(data.error);
     }
-    toast.success("Ticket Updated Successfuly");
+    toast.success("Action Updated Successfuly");
     return data;
   } catch (error) {
     console.error(error);
     toast.error(error.response.data.error);  }
 };
 
-const deleteTicket = async (Id) => {
+const deleteService = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`, {
       headers: {
@@ -85,4 +85,4 @@ const deleteTicket = async (Id) => {
     toast.error(error.response.data.error);}
 };
 
-export { getAllTickets, createTicket, updateTicket, deleteTicket };
+export { getAllService, createService, updateService, deleteService };

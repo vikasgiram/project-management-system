@@ -12,8 +12,8 @@ exports.showAll = async (req,res)=>{
           return res.status(403).json({ error: 'Unauthorized you need to login first' });
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const tickets = await Ticket.find({company:decoded.user.company}).populate('registerBy','name');   
-        console.log(tickets);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        const tickets = await Ticket.find({company:decoded.user.company}).populate('registerBy','name').populate('client','custName');   
+        // console.log(tickets);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         if(tickets.length<=0){
           return res.status(400).json({message:"No Tickets Avaliavle"});
         }
@@ -77,7 +77,7 @@ exports.create= async(req, res)=>{
         });
         await ticket.save();
         console.log(ticket);
-        sendConfirmationMail(ticket._id);
+        // sendConfirmationMail(ticket._id);
         res.status(201).json({message:"Ticket Created Successfully..."});
     } catch (error) {
         res

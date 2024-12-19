@@ -5,13 +5,13 @@ import { toast } from "react-toastify";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import AddServicePopup from "./PopUp/AddServicePopUp";
 import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
-import { getProjects, deleteProject } from "../../../../hooks/useProjects";
+import { getAllService, deleteService } from "../../../../hooks/useService";
 import { formatDate } from "../../../../utils/formatDate";
-import { useNavigate } from "react-router-dom";
+
 
 
 export const ServiceMasterGrid = () => {
-  const navigate = useNavigate();
+
 
   const [isopen, setIsOpen] = useState(false);
   const toggle = () => {
@@ -21,11 +21,10 @@ export const ServiceMasterGrid = () => {
   const [AddPopUpShow, setAddPopUpShow] = useState(false);
   const [deletePopUpShow, setdeletePopUpShow] = useState(false);
   const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
-  const [DetailsPopUpShow, setDetailsPopUpShow] = useState(false);
-  const [DownloadPopUpShow, setDownloadPopUpShow] = useState(false);
+
 
   const [selectedId, setSelecteId] = useState(null);
-  const [project, setProject] = useState([]);
+  const [service, setService] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
 
   const [selectedProject, setSelectedProject] = useState(null);
@@ -38,6 +37,7 @@ export const ServiceMasterGrid = () => {
   };
 
 
+
   const handleAdd = () => {
     setAddPopUpShow(!AddPopUpShow);
   };
@@ -47,54 +47,30 @@ export const ServiceMasterGrid = () => {
     setUpdatePopUpShow(!UpdatePopUpShow);
   };
 
-  const handleDetails = (project) => {
-    setSelectedProject(project);
-    setDetailsPopUpShow(!DetailsPopUpShow);
-  };
-
   const handelDeleteClosePopUpClick = (id) => {
     setSelecteId(id);
     setdeletePopUpShow(!deletePopUpShow);
   };
 
-  const handleDownloads = () => {
-    // setSelectedProject(project);
-    setDownloadPopUpShow(!DownloadPopUpShow);
-  };
-
   const handelDeleteClick = async () => {
-    const data = await deleteProject(selectedId);
+    const data = await deleteService(selectedId);
     if (data) {
       handelDeleteClosePopUpClick();
-      return toast.success("Project Deleted sucessfully...");
+      return toast.success("service Deleted sucessfully...");
     }
     toast.error(data.error);
   };
-
-
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await getProjects();
-  //     if (data) {
-  //       setProject(data.projects || []);
-  //       // console.log(employees,"data from useState");
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await getProjects();
+        const data = await getAllService();
         if (data) {
-          setProject(data.projects || []);
-          setFilteredProjects(data.projects || []);
+          // console.log(data);
+          setService(data);
+          setFilteredProjects(data);
+          
         }
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -107,29 +83,12 @@ export const ServiceMasterGrid = () => {
     fetchData();
   }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
-  // console.log(project);
-
-
-  //   const handleChange = (value) => {
-  //     if (value === "upcoming") {
-  //       const upcomingProjects = project.filter((project) => project.projectStatus === "upcoming");
-  //         setProject(upcomingProjects);
-  //     }
-  //     if (value === "inprocess") {
-  //       const inprocessProjects = project.filter((project) => project.projectStatus === "inprocess");
-  //         setProject(inprocessProjects);
-  //     }
-  //     if (value === "completed") {
-  //       const completedProjects = project.filter((project) => project.projectStatus === "completed");
-  //         setProject(completedProjects);
-  //   }
-  // }
   const handleChange = (value) => {
     if (value) {
-      const filtered = project.filter((project) => project.projectStatus === value);
+      const filtered = service.filter((service) => service.projectStatus === value);
       setFilteredProjects(filtered);
     } else {
-      setFilteredProjects(project);
+      setFilteredProjects(service);
     }
   };
 
@@ -177,7 +136,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                           name="projectStatus"
                           onChange={(e) => handleChange(e.target.value)}
                         >
-                          <option  value="">Select Project Status</option>
+                          <option  value="">Select service Status</option>
                           <option value="upcoming">Upcoming</option>
                           <option value="inprocess">Inprocess</option>
                           <option value="completed">Complete</option>
@@ -220,28 +179,22 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                           <th>Action</th>
                         </tr>
 
-                        {/* <tbody className="broder my-4">
-                          {currentData &&
-                            currentData.map((project, index) => (
-                              <tr className="border my-4" key={project._id}>
+                        <tbody className="broder my-4">
+                          {service &&
+                            service.map((service, index) => (
+                              <tr className="border my-4" key={service._id}>
                                 <td>{index + 1}</td>
-                                <td>{project.name}</td>
-                                <td>{project.custId?.custName || "N/A"}</td>
-                                <td>{formatDate(project.startDate)}</td>
-                                <td>{formatDate(project.endDate)}</td>
-                                <td>{project.projectStatus}</td>
-                                <td>
-
-                                  <i
-                                    onClick={() => {
-                                      navigate(`/${project._id}`);
-                                    }}
-                                    className="fa-solid fa-circle-info cursor-pointer"
-                                  ></i>
-                                </td>
+                                <td>{service.serviceType}</td>
+                                <td>{service.priority}</td>
+                                <td>{service.zone}</td>
+                                <td>{formatDate(service.allotmentDate)}</td>
+                                {service.allotTo && service.allotTo.map((allotTo) => (
+                                  <td >{allotTo.name}</td>
+                                ))}
+                                <td>{service.workMode}</td>
                                 <td>
                                   <span
-                                    onClick={() => handleUpdate(project)}
+                                    onClick={() => handleUpdate(service)}
                                     className="update"
                                   >
                                     <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
@@ -249,7 +202,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
 
                                   <span
                                     onClick={() =>
-                                      handelDeleteClosePopUpClick(project._id)
+                                      handelDeleteClosePopUpClick(service._id)
                                     }
                                     className="delete"
                                   >
@@ -258,7 +211,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                 </td>
                               </tr>
                             ))}
-                        </tbody> */}
+                        </tbody>
                       </table>
                     </div>
                   </div>

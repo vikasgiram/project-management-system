@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
-import AddEmployeePopup from "./PopUp/AddTicketPopup";
+import AddTicketPopup from "./PopUp/AddTicketPopup";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import UpdateEmployeePopUp from "./PopUp/UpdateTicketPopUp";
 import toast from "react-hot-toast";
-import { getEmployees, deleteEmployee } from "../../../../hooks/useEmployees"
-import {Feedback} from "./Feedback";
 import { useNavigate } from "react-router-dom";
+import { getAllTickets, deleteTicket } from "../../../../hooks/useTicket";
 
 export const TicketMasterGrid = () => {
     const [isopen, setIsOpen] = useState(false);
@@ -22,13 +21,13 @@ export const TicketMasterGrid = () => {
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId] = useState(null);
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
-    const [selectedEmp, setSelectedEmp] = useState(null);
+    const [selectedTicket, setSelectedTicket] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState([]);
 
 
-    const [employees, setEmployees] = useState([])
+    const [tickets, setTickets] = useState([])
     const [currentPage, setCurrentPage] = useState(1); 
     const itemsPerPage = 10; 
 
@@ -41,8 +40,8 @@ export const TicketMasterGrid = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = (employee = null) => {
-        setSelectedEmp(employee);
+    const handleUpdate = (ticket = null) => {
+        setSelectedTicket(ticket);
         // console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
     }
@@ -54,10 +53,10 @@ export const TicketMasterGrid = () => {
     }
 
     const handelDeleteClick = async () => {
-        const data = await deleteEmployee(selectedId);
+        const data = await deleteTicket(selectedId);
         if (data) {
             handelDeleteClosePopUpClick();
-            return toast.success("Employee Deleted sucessfully...");
+            return toast.success("Ticket Deleted sucessfully...");
         }
         toast.error(data.error);
     };
@@ -65,16 +64,13 @@ export const TicketMasterGrid = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-
-                const data = await getEmployees();
-
+                const data = await getAllTickets();
                 if (data) {
-                    setEmployees(data.employees || []);
-                    setFilteredData(data.employees || []);
-                    // console.log(employees);
+                    setTickets(data|| []);
+                    setFilteredData(data || []);
                 }
             } catch (error) {
-                console.error("Error fetching employees:", error);
+                console.error("Error fetching tickets:", error);
                 setLoading(false);
             } finally {
                 setLoading(false);
@@ -83,7 +79,7 @@ export const TicketMasterGrid = () => {
         fetchData();
     }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 
-    // console.log(employees);
+    // console.log(tickets);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -91,6 +87,7 @@ export const TicketMasterGrid = () => {
     // Total pages
     const totalPages = Math.ceil(   filteredData.length / itemsPerPage);
 
+// console.log(currentData);
 
     return (
         <>
@@ -135,9 +132,9 @@ export const TicketMasterGrid = () => {
                                                             const newSearchText = e.target.value;
                                                             setSearchText(newSearchText);
 
-                                                            // Filter employees as the search text changes
-                                                            const filteredEmp = employees.filter((emp) =>
-                                                                emp.name.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            // Filter tickets as the search text changes
+                                                            const filteredEmp = tickets.filter((ticket) =>
+                                                                ticket.client.custName.toLowerCase().includes(newSearchText.toLowerCase())
                                                             );
                                                             setFilteredData(filteredEmp);
                                                         }}
@@ -176,23 +173,24 @@ export const TicketMasterGrid = () => {
                                                     <th>Action</th>
                                                 </tr>
 
-                                                {/* <tbody className="broder my-4">
-                                                    {currentData && currentData.map((employee, index) => (
-                                                        <tr className="border my-4" key={employee._id}>
+                                                <tbody className="broder my-4">
+                                                    {currentData && currentData.map((ticket, index) => (
+                                                        <tr className="border my-4" key={ticket._id}>
                                                             <td>{index + 1}</td>
-                                                            <td>{employee.name}</td>
-                                                            <td>{employee.email}</td>
-                                                            <td>{employee.department && employee.department.name}</td>
-                                                            <td>{employee.designation && employee.designation.name}</td>
+                                                            <td>{ticket?.client?.custName}</td>
+                                                            <td>{ticket.details}</td>
+                                                            <td>{ticket.product}</td>
+                                                            <td>{ticket.registerBy}</td>
+                                                        
                                                             <td>
                                                                 <span
-                                                                    onClick={() => handleUpdate(employee)}
+                                                                    onClick={() => handleUpdate(ticket)}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                                                 </span>
 
                                                                 <span
-                                                                    onClick={() => handelDeleteClosePopUpClick(employee._id)}
+                                                                    onClick={() => handelDeleteClosePopUpClick(ticket._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
                                                                 </span>
@@ -201,7 +199,7 @@ export const TicketMasterGrid = () => {
                                                     ))}
 
                                                     <p> {filteredData.length === 0 && <p>No results found</p>}</p>
-                                                </tbody> */}
+                                                </tbody>
                                             </table>
                                         </div>
 
@@ -254,7 +252,7 @@ export const TicketMasterGrid = () => {
 
 
             {AddPopUpShow ?
-                <AddEmployeePopup
+                <AddTicketPopup
                     message="Create New Employee"
                     handleAdd={handleAdd}
                 // heading="Forward"
@@ -264,7 +262,7 @@ export const TicketMasterGrid = () => {
 
             {updatePopUpShow ?
                 <UpdateEmployeePopUp
-                    selectedEmp={selectedEmp}
+                    selectedTicket={selectedTicket}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}

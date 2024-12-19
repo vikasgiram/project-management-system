@@ -51,15 +51,18 @@ const AddCompanyPopup = ({ handleAdd }) => {
     event.preventDefault();
     setLoading(!loading);
     const newLogo = (logo.split(',')[1]);
-    if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin || !GST || !Address) {
+    if (!name || !mobileNo || !email || !password || !confirmPassword || !subDate || !subAmount || !admin || !GST || !Address || !newLogo) {
       setLoading(false);
       return toast.error("Please fill all fields");
 
     }
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9.-]+\.)?$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
       setLoading(false);
       return toast.error("Enter valid Email");
+    }
+    if(subAmount < 0){
+      return toast.error("Amount can't be negative");
     }
     if (password !== confirmPassword) {
       setLoading(false);
