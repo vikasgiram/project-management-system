@@ -3,7 +3,6 @@ import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { toast } from "react-toastify";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-import AddServicePopup from "./PopUp/AddServicePopUp";
 import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
 import { getAllService, deleteService } from "../../../../hooks/useService";
 import { formatDate } from "../../../../utils/formatDate";
@@ -38,9 +37,6 @@ export const ServiceMasterGrid = () => {
 
 
 
-  const handleAdd = () => {
-    setAddPopUpShow(!AddPopUpShow);
-  };
 
   const handleUpdate = (projects = null) => {
     setSelectedProject(projects);
@@ -145,16 +141,16 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
 
                       <div className="col-2 col-lg-2 ms-auto">
 
-                        <button
+                        {/* <button
                           onClick={() => {
-                            handleAdd();
+                            
                           }}
                           type="button"
                           className="btn adbtn btn-dark"
                         >
                           {" "}
                           <i className="fa-solid fa-plus"></i> Add
-                        </button>
+                        </button> */}
 
                       </div>
                     </div>
@@ -170,12 +166,17 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                       >
                         <tr className="th_border">
                           <th>Sr. No</th>
+                          <th>Complaint</th>
+                          <th>Client</th>
+                          <th>Product</th>
+
                           <th>Service Type</th>
                           <th>Priority</th>
                           <th>Zone</th>
                           <th>Allotment Date</th>
                           <th>Allocated to</th>
-                          <th>workmode</th>
+                          <th>Workmode</th>
+                          <th>Status</th>
                           <th>Action</th>
                         </tr>
 
@@ -184,6 +185,9 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                             service.map((service, index) => (
                               <tr className="border my-4" key={service._id}>
                                 <td>{index + 1}</td>
+                                <td>{service.ticket.details}</td>
+                                <td>{service.ticket.client.custName}</td>
+                                <td>{service.ticket.product}</td>
                                 <td>{service.serviceType}</td>
                                 <td>{service.priority}</td>
                                 <td>{service.zone}</td>
@@ -192,6 +196,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                   <td >{allotTo.name}</td>
                                 ))}
                                 <td>{service.workMode}</td>
+                                <td>{service.status}</td>
                                 <td>
                                   <span
                                     onClick={() => handleUpdate(service)}
@@ -200,6 +205,8 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                     <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                   </span>
 
+                                  
+
                                   <span
                                     onClick={() =>
                                       handelDeleteClosePopUpClick(service._id)
@@ -207,6 +214,10 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                     className="delete"
                                   >
                                     <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
+                                  </span>
+
+                                  <span>
+                                    <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
                                   </span>
                                 </td>
                               </tr>
@@ -257,7 +268,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       ) : (
         <></>
       )}
-      {AddPopUpShow ? (
+      {/* {AddPopUpShow ? (
         <AddServicePopup
           message="Create New Employee"
           handleAdd={handleAdd}
@@ -266,7 +277,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
         />
       ) : (
         <></>
-      )}
+      )} */}
       {UpdatePopUpShow ? (
         <UpdateServicePopup
           handleUpdate={handleUpdate}

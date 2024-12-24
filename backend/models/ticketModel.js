@@ -68,6 +68,11 @@ const ticketSchema = new Schema({
         ],
         required: true,
     },
+    service:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service',
+        default: null,
+    },
     registerBy:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',

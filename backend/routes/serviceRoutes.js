@@ -5,6 +5,8 @@ const serviceController = require('../controllers/serviceController');
 
 router.get('/',serviceController.showAll);
 
+router.get('/myService',serviceController.myServices);
+
 router.post('/',serviceController.create);
 
 router.put('/:id',serviceController.update);

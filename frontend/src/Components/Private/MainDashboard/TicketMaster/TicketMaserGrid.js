@@ -7,6 +7,7 @@ import UpdateEmployeePopUp from "./PopUp/UpdateTicketPopUp";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { getAllTickets, deleteTicket } from "../../../../hooks/useTicket";
+import AddServicePopup from "./PopUp/AddServicePopUp";
 
 export const TicketMasterGrid = () => {
     const [isopen, setIsOpen] = useState(false);
@@ -16,7 +17,7 @@ export const TicketMasterGrid = () => {
 
     const navigate = useNavigate();
 
-
+    const [addServicePopUpShow, setAddServicePopUpShow] = useState(false);
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
     const [selectedId, setSelecteId] = useState(null);
@@ -25,6 +26,7 @@ export const TicketMasterGrid = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState([]);
+    const [selectedTicketId, setSelectedTicketId] = useState(null);
 
 
     const [tickets, setTickets] = useState([])
@@ -35,6 +37,10 @@ export const TicketMasterGrid = () => {
         setCurrentPage(page);
     };
 
+    const handleAddService = (id) => {
+        setSelectedTicketId(id);
+        setAddServicePopUpShow(!addServicePopUpShow);
+    }
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
@@ -170,6 +176,7 @@ export const TicketMasterGrid = () => {
                                                     <th>Complaint Details</th>
                                                     <th>Product</th>
                                                     <th>Registered by</th>
+                                                    <th>Assign</th>
                                                     <th>Action</th>
                                                 </tr>
 
@@ -180,8 +187,15 @@ export const TicketMasterGrid = () => {
                                                             <td>{ticket?.client?.custName}</td>
                                                             <td>{ticket.details}</td>
                                                             <td>{ticket.product}</td>
-                                                            <td>{ticket.registerBy}</td>
+                                                            <td>{ticket.registerBy.name}</td>
                                                         
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleAddService(ticket._id)}
+                                                                   >
+                                                                    <i class="fa-solid fa-forward-step cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
                                                             <td>
                                                                 <span
                                                                     onClick={() => handleUpdate(ticket)}
@@ -255,6 +269,15 @@ export const TicketMasterGrid = () => {
                 <AddTicketPopup
                     message="Create New Employee"
                     handleAdd={handleAdd}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
+            {addServicePopUpShow ?
+                <AddServicePopup
+                selectedTicket={selectedTicketId}
+                    message="Create New Service"
+                    handleAddService={handleAddService}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>

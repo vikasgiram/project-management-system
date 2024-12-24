@@ -5,7 +5,7 @@ import { createProject } from "../../../../../hooks/useProjects";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 import { getAddress } from "../../../../../hooks/usePincode";
 
-const AddServicePopup = ({ handleAdd }) => {
+const AddServicePopup = ({ handleAddService }) => {
 
   const [custId, setCustId] = useState('');
   const [name, setName] = useState("");
@@ -67,7 +67,7 @@ const AddServicePopup = ({ handleAdd }) => {
   }, []);
 
 
-  const handleProjectAdd = async (event) => {
+  const handleServiceAdd = async (event) => {
     event.preventDefault();
   };
   // console.log(Address,"Address in popup");
@@ -91,7 +91,7 @@ const AddServicePopup = ({ handleAdd }) => {
       <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
-            <form onSubmit={handleProjectAdd}>
+            <form onSubmit={handleServiceAdd}>
               <div className="modal-header pt-0">
 
                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
@@ -99,9 +99,7 @@ const AddServicePopup = ({ handleAdd }) => {
                   Create New Service
                   {/* Forward */}
                 </h5>
-                <button onClick={() => { handleAdd() }} type="button" className="close px-3" style={{ marginLeft: "auto" }}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
+             
               </div>
               <div className="modal-body">
                 <div className="row modal_body_height">
@@ -240,7 +238,7 @@ const AddServicePopup = ({ handleAdd }) => {
                     <div className="col-12 pt-3 mt-2">
                       <button
                         type="submit"
-                        onClick={handleProjectAdd}
+                        onClick={handleServiceAdd}
                         disabled={loading}
                         
                         className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
@@ -249,7 +247,7 @@ const AddServicePopup = ({ handleAdd }) => {
                       </button>
                       <button
                         type="button"
-                        onClick={handleAdd}
+                        onClick={handleAddService}
                         className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4" >
                         Cancel
 

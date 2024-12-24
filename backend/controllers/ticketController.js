@@ -12,10 +12,10 @@ exports.showAll = async (req,res)=>{
           return res.status(403).json({ error: 'Unauthorized you need to login first' });
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const tickets = await Ticket.find({company:decoded.user.company}).populate('registerBy','name').populate('client','custName');   
+        const tickets = await Ticket.find({company:decoded.user.company? decoded.user.company: decoded.user._id, service:null}).populate('registerBy','name').populate('client','custName');   
         // console.log(tickets);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         if(tickets.length<=0){
-          return res.status(400).json({message:"No Tickets Avaliavle"});
+          return res.status(400).json({message:" There is No New Tickets Avaliavle yet..."});
         }
         res.json(tickets);
     } catch (error) {
