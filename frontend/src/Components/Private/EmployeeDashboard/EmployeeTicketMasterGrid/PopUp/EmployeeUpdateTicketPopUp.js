@@ -1,78 +1,52 @@
-import { useState, useEffect } from "react";
-import { updateCustomer } from "../../../../../hooks/useCustomer";
+import { useState } from "react";
+import { updateTicket } from "../../../../../hooks/useTicket";
+import { getCustomers } from "../../../../../hooks/useCustomer";
 
+import toast from "react-hot-toast";
 
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
-const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
-  const [customer, setCustomer] = useState(selectedCust);
-
-  const [billingAddress, setBillingAddress] = useState({
-    add: "",
-    city: "",
-    state: "",
-    country: "",
-    pincode: "",
-  });
-
-  // const [deliveryAddress, setDeliveryAddress] = useState({
-  //   add: "",
-  //   city: "",
-  //   state: "",
-  //   country: "",
-  //   pincode: "",
-  // });
-
-  // const [sameAsBilling, setSameAsBilling] = useState(false);
-
-  // Load existing customer data on component mount
-  useEffect(() => {
-    if (customer) {
-      setBillingAddress(customer.billingAddress);
-      // setDeliveryAddress(customer.deliveryAddress);
-    }
-  }, [customer]);
-
-  // Function to handle the checkbox toggle
-  // const handleCheckboxChange = (e) => {
-  //   setSameAsBilling(e.target.checked);
-  //   if (e.target.checked) {
-  //     setDeliveryAddress(billingAddress); // Copy billing to delivery
-  //   }
-  // };
-
-  // Function to handle changes in billing address fields
-  const handleBillingChange = (e) => {
-    const { name, value } = e.target;
-    setBillingAddress({ ...billingAddress, [name]: value });
-    // if (sameAsBilling) {
-    //   setDeliveryAddress({ ...billingAddress, [name]: value });
-    // }
-  };
-
-  // Function to handle changes in delivery address fields
-  // const handleDeliveryChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setDeliveryAddress({ ...deliveryAddress, [name]: value });
-  // };
+const UpdateEmployeePopUp = ({ handleUpdate, selectedTicket }) => {
+  const [ticket, setTicket] = useState(selectedTicket);
+  const [customers,setCustomer]=useState();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setCustomer((prevCustomer) => ({
-      ...prevCustomer,
-      [name]: value,
 
-    }))
-  };
+    setTicket((prevTicket) => ({
+      ...prevTicket,
+      [name]:value,
+      client: {
+        ...prevTicket.client,
+        [name]: value,
+      },
+      Address:{
+        ...prevTicket.Address,
+        [name]:value
+      }
+      
+    }));
+  }
 
-  const handleCustUpdate = async () => {
-    const updatedCustomer = {
-      ...customer,
-      billingAddress,
-      // deliveryAddress
+  // console.log(ticket,"ds");
+
+
+  const handleEmpUpdate = async (event) => {
+
+    event.preventDefault();
+    try {
+      await updateTicket(ticket._id,ticket);
+      handleUpdate();
+    } catch (error) {
+      toast.error(error);
     }
-    await updateCustomer(updatedCustomer);
-    handleUpdate();
   };
+
+  const fetchCusetomer=async ()=>{
+    const data=await getCustomers();
+    setCustomer(data.customers);
+  }
+
 
   return (
     <>
@@ -86,11 +60,10 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
-            <form onSubmit={handleCustUpdate}>
+            <form onSubmit={handleEmpUpdate}>
               <div className="modal-header pt-0">
                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                  Update Customer
-                  {/* Forward */}
+                  Update ticket
                 </h5>
                 <button
                   onClick={() => handleUpdate()}
@@ -103,23 +76,50 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
               </div>
               <div className="modal-body">
                 <div className="row modal_body_height">
-                  <div className="col-12">
+                  {/* <div className="col-12">
                     <div className="mb-3">
-                      <label
-                        for="clientName"
-                        className="form-label label_text"
-                      >
-                        Client Name <RequiredStar />
+                      <label htmlFor="name" className="form-label label_text">
+                        Full Name <RequiredStar />
                       </label>
                       <input
+                        name="name"
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={ticket.name}
+                        onChange={handleChange}
                         className="form-control rounded-0"
                         id="name"
-                        aria-describedby="emailHelp"
                         required
                       />
+                    </div>
+                  </div> */}
+
+                  <div className="col-12">
+                    <div className="mb-3">
+                      <label htmlFor="custName" className="form-label label_text">
+                        Client Name <RequiredStar />
+                      </label>
+                      {/* <input
+                        type="text"
+                        name="custName"
+                        value={ticket.client.custName}
+                        onChange={handleChange}
+                        className="form-control rounded-0"
+                        id="custName"
+                        required
+                      /> */}
+                      <select
+                        className="form-select rounded-0"
+                        id="custName"
+                        name="custName"
+                        aria-label="Default select example"
+                        onChange={handleChange}
+                        onClick={fetchCusetomer}
+                        required
+                      ><option hidden>{ticket.client.custName}</option>
+                        {customers && customers.map((cust)=>
+                          <option value={cust._id}>{cust.custName}</option>
+                        )}
+                      </select>
                     </div>
                   </div>
                   <div className="col-12  mt-2">
@@ -134,14 +134,10 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                             type="number"
                             className="form-control rounded-0"
                             placeholder="Pincode"
-                            id="exampleInputEmail1"
-                            // onChange={(e) =>
-                            //   setBillingAddress({
-                            //     ...billingAddress,
-                            //     pincode: e.target.value,
-                            //   })
-                            // }
-                            // value={billingAddress.pincode}
+                            id="pincode"
+                            name="pincode"
+                            onChange={handleChange}
+                            value={ticket.Address.pincode}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -153,9 +149,10 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="State"
-                            id="exampleInputEmail1"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
-                            // value={billingAddress.state}
+                            name="state"
+                            id="state"
+                            onChange={handleChange}
+                            value={ticket.Address.state}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -167,9 +164,10 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="City"
-                            id="exampleInputEmail1"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
-                            // value={billingAddress.city}
+                            name="city"
+                            id="city"
+                            onChange={handleChange}
+                            value={ticket.Address.city}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -181,9 +179,10 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                             type="text"
                             className="form-control rounded-0"
                             placeholder="Country"
-                            id="exampleInputEmail1"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, country: e.target.value })}
-                            // value={billingAddress.country}
+                            id="country"
+                            name="country"
+                            onChange={handleChange}
+                            value={ticket.Address.country}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -193,11 +192,11 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                         <div className="mb-3">
                           <textarea
                             className="textarea_edit col-12"
-                            id=""
-                            name=""
+                            id="add"
+                            name="add"
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, add: e.target.value })}
-                            // value={billingAddress.add}
+                            onChange={handleChange}
+                            value={ticket.Address.add}
                             rows="2"
                           ></textarea>
                         </div>
@@ -208,17 +207,18 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                   <div className="col-12">
                     <div className="mb-3">
                       <label
-                        for="clientName"
+                        for="details"
                         className="form-label label_text"
                       >
                         Complaint Details <RequiredStar />
                       </label>
                       <input
                         type="text"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                        name="details"
+                        value={ticket.details}
+                        onChange={handleChange}
                         className="form-control rounded-0"
-                        id="name"
+                        id="details"
                         aria-describedby="emailHelp"
                         required
                       />
@@ -228,18 +228,19 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                   <div className="col-12">
                     <div className="mb-3">
                       <label
-                        for="clientName"
+                        for="product"
                         className="form-label label_text"
                       >
                         Product <RequiredStar />
                       </label>
                       <select
                         className="form-select rounded-0"
-                        id=""
+                        id="product"
+                        name="product"
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={handleChange}
                         required
-                      ><option >Select Product</option>
+                      ><option hidden>{ticket.product}</option>
                         <option value={"Surveillance System"}>Surveillance System</option>
                         <option value={"Access Control System"}>Access Control System</option>
                         <option value={"Turnkey Project"}>Turnkey Project</option>
@@ -263,17 +264,18 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label
-                        for="Department"
+                        for="contactPerson"
                         className="form-label label_text"
                       >
                         Contact Person name <RequiredStar />
                       </label>
                       <input
                         type="text"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                        value={ticket.contactPerson}
+                        onChange={handleChange}
                         className="form-control rounded-0"
-                        id="name"
+                        id="contactPerson"
+                        name="contactPerson"
                         aria-describedby="emailHelp"
                         required
                       />
@@ -283,17 +285,18 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label
-                        for="Designation"
+                        for="contactNumber"
                         className="form-label label_text"
                       >
                         Contact Person no <RequiredStar />
                       </label>
                       <input
                         type="number"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                        value={ticket.contactNumber}
+                        onChange={handleChange}
                         className="form-control rounded-0"
-                        id="name"
+                        id="contactNumber"
+                        name="contactNumber"
                         aria-describedby="emailHelp"
                         required
                       />
@@ -303,18 +306,19 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label
-                        for="Department"
+                        for="source"
                         className="form-label label_text"
                       >
                         Complaint Source <RequiredStar />
                       </label>
                       <select
                         className="form-select rounded-0"
-                        id=""
+                        id="source"
+                        name="source"
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={handleChange}
                         required
-                      ><option >Select Source</option>
+                      ><option hidden>{ticket.source}</option>
                         <option value={"Email"}>Email</option>
                         <option value={"Call"}>Call</option>
                         <option value={"WhatsApp"}>WhatsApp</option>
@@ -329,15 +333,15 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
                     <div className="col-12 pt-3 mt-2">
                       <button
                         type="submit"
-                        onClick={handleCustUpdate}
-                        className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
+                        onClick={handleEmpUpdate}
+                        className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                       >
                         Update
                       </button>
                       <button
                         type="button"
                         onClick={handleUpdate}
-                        className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
+                        className="w-80 btn addbtn rounded-0 Cancel_button m-2 px-4"
                       >
                         Cancel
                       </button>
@@ -353,4 +357,4 @@ const EmployeeUpdateTicketPopUp = ({ handleUpdate, selectedCust }) => {
   );
 };
 
-export default EmployeeUpdateCustomerPopUp;
+export default UpdateEmployeePopUp;

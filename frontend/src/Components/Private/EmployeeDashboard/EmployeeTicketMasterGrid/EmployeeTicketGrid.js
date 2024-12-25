@@ -1,27 +1,36 @@
-import { useState, useContext, useEffect } from "react";
-import { deleteCustomer, getCustomers } from "../../../../hooks/useCustomer";
+import { useState, useEffect } from "react";
 import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
-// import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-// import EmployeeAddCustomerPopUp from "./PopUp/EmployeeAddCustomerPopUp";
-// import EmployeeUpdateCustomerPopUp from "./PopUp/EmployeeUpdateCustomerPopUp";
-import { UserContext } from "../../../../context/UserContext";
+import AddTicketPopup from "./PopUp/EmployeeAddTicketPopUp";
+import DeletePopUP from "../../CommonPopUp/DeletePopUp";
+import UpdateEmployeePopUp from "./PopUp/EmployeeUpdateTicketPopUp";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { getAllTickets, deleteTicket } from "../../../../hooks/useTicket";
+import AddServicePopup from "./PopUp/AddServicePopUp";
+import { RequiredStar } from "../../RequiredStar/RequiredStar";
 
 export const EmployeeTicketMasterGrid = () => {
     const [isopen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
     const toggle = () => {
         setIsOpen(!isopen);
     };
 
-    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    const [addServicePopUpShow, setAddServicePopUpShow] = useState(false);
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
-    const [updatePopUpShow, setUpdatePopUpShow] = useState(false)
-
     const [selectedId, setSelecteId] = useState(null);
-    const [customers, setCustomers] = useState([]);
-    const [selectedCust, setSelectedCust]= useState(null);
+    const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
+    const [selectedTicket, setSelectedTicket] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
+    const [selectedTicketId, setSelectedTicketId] = useState(null);
+
+
+    const [tickets, setTickets] = useState([])
     const [currentPage, setCurrentPage] = useState(1); 
     const itemsPerPage = 10; 
 
@@ -29,16 +38,21 @@ export const EmployeeTicketMasterGrid = () => {
         setCurrentPage(page);
     };
 
-
+    const handleAddService = (id) => {
+        setSelectedTicketId(id);
+        setAddServicePopUpShow(!addServicePopUpShow);
+    }
 
     const handleAdd = () => {
         setAddPopUpShow(!AddPopUpShow)
     }
 
-    const handleUpdate = (customer) => {
-        setSelectedCust(customer);
+    const handleUpdate = (ticket = null) => {
+        setSelectedTicket(ticket);
+        // console.log("HandleUpdate CAlled");
         setUpdatePopUpShow(!updatePopUpShow);
     }
+
 
     const handelDeleteClosePopUpClick = (id) => {
         setSelecteId(id);
@@ -46,55 +60,41 @@ export const EmployeeTicketMasterGrid = () => {
     }
 
     const handelDeleteClick = async () => {
-        await deleteCustomer(selectedId);
-        setdeletePopUpShow(false);
+        const data = await deleteTicket(selectedId);
+        if (data) {
+            handelDeleteClosePopUpClick();
+            return toast.success("Ticket Deleted sucessfully...");
+        }
+        toast.error(data.error);
     };
-
-
-    // useEffect(() => {
-
-    //     const fetchData = async () => {
-    //         const data = await getCustomers();
-    //         if (data) {
-
-    //             setCustomers(data.customers || []);
-    //             // console.log(employees,"data from useState");
-    //             setLoading(false);
-
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const data = await getCustomers();
+                const data = await getAllTickets();
                 if (data) {
-                    setCustomers(data.customers || []);
+                    setTickets(data|| []);
+                    setFilteredData(data || []);
                 }
             } catch (error) {
-                console.error("Error fetching customers:", error);
+                console.error("Error fetching tickets:", error);
                 setLoading(false);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchData();
-    }, [deletePopUpShow, AddPopUpShow, updatePopUpShow]);
+    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
 
-    // const indexOfLastItem = currentPage * itemsPerPage;
-    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // const currentData = customers.slice(indexOfFirstItem, indexOfLastItem);
+    // console.log(tickets);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-    // // Total pages
-    const totalPages = Math.ceil(customers.length / itemsPerPage);
+    // Total pages
+    const totalPages = Math.ceil(   filteredData.length / itemsPerPage);
 
-
-
+// console.log(currentData);
 
     return (
         <>
@@ -103,7 +103,6 @@ export const EmployeeTicketMasterGrid = () => {
                     <span className="loader"></span>
                 </div>
             )}
-
             <div className="container-scroller">
                 <div className="row background_main_all">
                     <EmployeeHeader
@@ -113,23 +112,56 @@ export const EmployeeTicketMasterGrid = () => {
                         <div className="main-panel" style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }}>
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
-                                <div className="row px-2 py-1  ">
-
+                                <div className="row px-2 py-1   ">
                                     <div className="col-12 col-lg-6">
-                                        <h5 className="text-white py-2">
-                                            Ticket Master
-                                        </h5>
+                                        <div className="row">
+                                            <div className="col-12 col-lg-4">
+                                                <h5 className="text-white py-2">
+                                                    Ticket Master
+                                                    {/* <button onClick={() => navigate("/feedback")}>aaaa</button> */}
+                                                
+                                                </h5>
+                                            </div>
+                                        </div>
+
                                     </div>
 
-                                    {user.permissions.includes('createCustomer') ? 
-                                    (<div className="col-12 col-lg-2  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-                                    </div>) : ('')}
+
+                                    <div className="col-12 col-lg-4 ms-auto  ">
+                                        
+                                        <div className="row">
+                                            <div className="col-8 col-lg-6 ms-auto text-end">
+                                                <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter tickets as the search text changes
+                                                            const filteredEmp = tickets.filter((ticket) =>
+                                                                ticket.client.custName.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filteredEmp);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
+                                            </div>
+
+                                            <div className="col- col-lg-2 ms-auto text-end">
+                                                <button
+                                                    onClick={() => {
+                                                        handleAdd()
+                                                    }}
+                                                    type="button"
+                                                    className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
@@ -138,42 +170,51 @@ export const EmployeeTicketMasterGrid = () => {
 
                                         <div className="table-responsive">
                                             <table className="table table-striped table-class" id="table-id">
+
                                                 <tr className="th_border" >
                                                     <th>Sr. No</th>
                                                     <th>Client Name</th>
                                                     <th>Complaint Details</th>
                                                     <th>Product</th>
                                                     <th>Registered by</th>
+                                                    <th>Assign</th>
                                                     <th>Action</th>
-
                                                 </tr>
-                                                {/* <tbody>
-                                                    {currentData && currentData.map((customer, index) => (
-                                                        <tr className="border my-4" key={customer.id}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{customer.custName}</td>
-                                                            <td>{customer.email}</td>
-                                                            <td>{customer.phoneNumber1}</td>
-                                                            <td>{customer.GSTNo}</td>
-                                                            <td>
-                                                                {user.permissions.includes('updateCustomer') ? (<span
-                                                                    onClick={() => handleUpdate(customer)}
-                                                                    className="update">
-                                                                    <i className="fa-solid fa-pen text-success me-3 cursor-pointer"></i>
-                                                                </span>) : ('')}
 
-                                                                {user.permissions.includes('deleteCustomer') ? (<span
-                                                                    onClick={() => handelDeleteClosePopUpClick(customer._id)}
+                                                <tbody className="broder my-4">
+                                                    {currentData && currentData.map((ticket, index) => (
+                                                        <tr className="border my-4" key={ticket._id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{ticket?.client?.custName}</td>
+                                                            <td>{ticket.details}</td>
+                                                            <td>{ticket.product}</td>
+                                                            <td>{ticket.registerBy.name}</td>
+                                                        
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleAddService(ticket._id)}
+                                                                   >
+                                                                    <i class="fa-solid fa-forward-step cursor-pointer"></i>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span
+                                                                    onClick={() => handleUpdate(ticket)}
+                                                                    className="update">
+                                                                    <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
+                                                                </span>
+
+                                                                <span
+                                                                    onClick={() => handelDeleteClosePopUpClick(ticket._id)}
                                                                     className="delete">
                                                                     <i className="fa-solid fa-trash text-danger cursor-pointer"></i>
-                                                                </span>) : ('')}
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     ))}
-                                                </tbody> */}
 
-
-
+                                                    <p> {filteredData.length === 0 && <p>No results found</p>}</p>
+                                                </tbody>
                                             </table>
                                         </div>
 
@@ -210,38 +251,47 @@ export const EmployeeTicketMasterGrid = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-{/* 
-            {deletePopUpShow ?
-                <DeletePopUP
-                    message={"Are you sure! Do you want to Delete ?"}
-                    cancelBtnCallBack={handelDeleteClosePopUpClick}
-                    confirmBtnCallBack={handelDeleteClick}
-                    heading="Delete"
-                /> : <></>
-            } */}
+
+            {
+                deletePopUpShow ?
+                    <DeletePopUP
+                        message={"Are you sure! Do you want to Delete ?"}
+                        cancelBtnCallBack={handelDeleteClosePopUpClick}
+                        confirmBtnCallBack={handelDeleteClick}
+                        heading="Delete"
+                    /> : <></>
+            }
 
 
-            {/* {AddPopUpShow ?
-                <EmployeeAddCustomerPopUp
+            {AddPopUpShow ?
+                <AddTicketPopup
+                    message="Create New Employee"
                     handleAdd={handleAdd}
+                // heading="Forward"
+                // cancelBtnCallBack={handleAddDepartment}
+                /> : <></>
+            }
+            {addServicePopUpShow ?
+                <AddServicePopup
+                selectedTicket={selectedTicketId}
+                    message="Create New Service"
+                    handleAddService={handleAddService}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
             }
 
             {updatePopUpShow ?
-                <EmployeeUpdateCustomerPopUp
-                    selectedCust={selectedCust}
+                <UpdateEmployeePopUp
+                    selectedTicket={selectedTicket}
                     handleUpdate={handleUpdate}
                 // heading="Forward"
                 // cancelBtnCallBack={handleAddDepartment}
                 /> : <></>
-            } */}
-
+            }
         </>
     )
 }

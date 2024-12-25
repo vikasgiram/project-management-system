@@ -12,7 +12,7 @@ const getAllService = async () => {
       }
     });
     const data = response.data;
-    // console.log("api actions",data);
+    // console.log("api actions",response);
     return data;
   } catch (error) {
     console.error(error);

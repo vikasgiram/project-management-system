@@ -34,8 +34,9 @@ import { UserProfile } from "./Components/Private/MainDashboard/UserProfile";
 import NotFound from "./Components/NotFound";
 import { TicketMasterGrid } from "./Components/Private/MainDashboard/TicketMaster/TicketMaserGrid";
 import { EmployeeTicketMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeTicketMasterGrid/EmployeeTicketGrid";
-import { Feedback } from "./Components/Private/MainDashboard/TicketMaster/Feedback";
+// import { Feedback } from "./Components/Private/MainDashboard/TicketMaster/Feedback";
 import { ServiceMasterGrid } from "./Components/Private/MainDashboard/ServiceMaster/ServiceMasterGrid";
+import { EmployeeServiceMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeServiceGrid/EmployeeServiceMasterGrid";
 
 const AllRoutes = () => {
 
@@ -95,6 +96,7 @@ const {user} = useContext(UserContext);
                             <Route exact path="/EmployeeCustomerMasterGrid" element={<EmployeeCustomerMasterGrid />} />
                             <Route exact path="/EmployeeDashboardEpmloyeeGrid" element={<EmployeeDashboardEpmloyeeGrid />} />
                             <Route exact path="/EmployeeTicketMasterGrid" element={<EmployeeTicketMasterGrid />} />
+                            <Route exact path="/EmployeeServiceMasterGrid" element={<EmployeeServiceMasterGrid />} />
                         </>
                     ):null}
 

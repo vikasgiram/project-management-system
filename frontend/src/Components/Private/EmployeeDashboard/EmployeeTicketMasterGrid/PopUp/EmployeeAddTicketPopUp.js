@@ -1,44 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createEmployee } from "../../../../../hooks/useEmployees";
 import toast from "react-hot-toast";
-import { createCustomer } from "../../../../../hooks/useCustomer";
+import {createTicket} from "../../../../../hooks/useTicket"
+import {getCustomers} from "../../../../../hooks/useCustomer";
+import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
-const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
-  console.log("EmployeeAddCustomerPopUp");
 
 
-  // const [deliveryAddress, setDeliveryAddress] = useState({
-  //   pincode: "",
-  //   state: "",
-  //   city: "",
-  //   add: "",
-  //   country: "",
-  // });
+const AddTicketPopup = ({ handleAdd }) => {
+  const [client, setClient] = useState("");
+  const [details,setDetails]=useState("");
+  const [product,setProduct]=useState("");
+  const [contactPerson,setContactPerson]=useState("");
+  const [contactNumber,setContactNumber]=useState("");
+  const [source,setSource]=useState("");
+  const [customers,setCustomer]=useState();
+  const [loading,setLoading]=useState(false);
+  const [Address, setAddress] = useState({
+    add:"",
+    city:"",
+    country:"",
+    pincode:"",
+    state:""
+  })
 
-  // const handleCustomerAdd = async (event) => {
-  // event.preventDefault();
+  const handleEmployeeAdd = async (event) => {
+    event.preventDefault();
+    const data = {
+      client,
+      details,
+      product,
+      contactPerson,
+      contactNumber,
+      source,
+      Address,
+    };
+    if (!client || !details || !product || !contactPerson || !contactNumber || !source || !Address) {
+      return toast.error("Please fill all fields");
+    }
+    await createTicket(data);
+    handleAdd();
+    console.log(data);
+  };
+  
+  
+  const fetchCusetomer=async ()=>{
+    const data=await getCustomers();
+    setCustomer(data.customers);
+  }
 
-  // const data = {
 
-  // };
-
-  // if (
-  //   !custName ||
-  //   !phoneNumber1 ||
-
-  //   // !deliveryAddress.pincode ||
-  //   // !deliveryAddress.state ||
-  //   // !deliveryAddress.city ||
-  //   // !deliveryAddress.add ||
-  //   !GSTNo
-  // ) {
-  //   return toast.error("Please fill all fields");
-  // }
-  // console.log(data);
-
-  // await createCustomer(data);
-  // //   console.log(data);
-  // handleAdd();
-  // };
+  
 
   return (
     <>
@@ -52,10 +64,10 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
-            <form onSubmit={handleCustomerAdd}>
+            <form onSubmit={handleEmployeeAdd}>
               <div className="modal-header pt-0">
                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                  Create New Customer
+                  Create New Ticket
                   {/* Forward */}
                 </h5>
                 <button
@@ -77,15 +89,27 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                       >
                         Client Name <RequiredStar />
                       </label>
-                      <input
+                      {/* <input
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={clientName}
+                        onChange={(e) => setClientName(e.target.value)}
                         className="form-control rounded-0"
-                        id="name"
+                        id="clientName"
                         aria-describedby="emailHelp"
                         required
-                      />
+                      /> */}
+                      <select
+                        className="form-select rounded-0"
+                        id=""
+                        aria-label="Default select example"
+                        onChange={(e) => setClient(e.target.value)}
+                        onClick={fetchCusetomer}
+                        required
+                      ><option >Select Client</option>
+                        {customers && customers.map((cust)=>
+                          <option value={cust._id}>{cust.custName}</option>
+                        )}
+                      </select>
                     </div>
                   </div>
                   <div className="col-12  mt-2">
@@ -101,13 +125,13 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             className="form-control rounded-0"
                             placeholder="Pincode"
                             id="exampleInputEmail1"
-                            // onChange={(e) =>
-                            //   setBillingAddress({
-                            //     ...billingAddress,
-                            //     pincode: e.target.value,
-                            //   })
-                            // }
-                            // value={billingAddress.pincode}
+                            onChange={(e) =>
+                              setAddress({
+                                ...Address,
+                                pincode: e.target.value,
+                              })
+                            }
+                            value={Address.pincode}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -120,8 +144,8 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             className="form-control rounded-0"
                             placeholder="State"
                             id="exampleInputEmail1"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
-                            // value={billingAddress.state}
+                            onChange={(e) => setAddress({ ...Address, state: e.target.value })}
+                            value={Address.state}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -134,8 +158,8 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             className="form-control rounded-0"
                             placeholder="City"
                             id="exampleInputEmail1"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
-                            // value={billingAddress.city}
+                            onChange={(e) => setAddress({ ...Address, city: e.target.value })}
+                            value={Address.city}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -148,8 +172,8 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             className="form-control rounded-0"
                             placeholder="Country"
                             id="exampleInputEmail1"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, country: e.target.value })}
-                            // value={billingAddress.country}
+                            onChange={(e) => setAddress({ ...Address, country: e.target.value })}
+                            value={Address.country}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -162,8 +186,8 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             id=""
                             name=""
                             placeholder="House NO., Building Name, Road Name, Area, Colony"
-                            // onChange={(e) => setBillingAddress({ ...billingAddress, add: e.target.value })}
-                            // value={billingAddress.add}
+                            onChange={(e) => setAddress({ ...Address, add: e.target.value })}
+                            value={Address.add}
                             rows="2"
                           ></textarea>
                         </div>
@@ -179,15 +203,14 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                       >
                         Complaint Details <RequiredStar />
                       </label>
-                      <input
-                        type="text"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                      <textarea
+                        value={details}
+                        onChange={(e) => setDetails(e.target.value)}
                         className="form-control rounded-0"
                         id="name"
                         aria-describedby="emailHelp"
                         required
-                      />
+                        ></textarea>
                     </div>
                   </div>
 
@@ -203,7 +226,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setProduct(e.target.value)}
                         required
                       ><option >Select Product</option>
                         <option value={"Surveillance System"}>Surveillance System</option>
@@ -236,8 +259,8 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                       </label>
                       <input
                         type="text"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                        value={contactPerson}
+                        onChange={(e) => setContactPerson(e.target.value)}
                         className="form-control rounded-0"
                         id="name"
                         aria-describedby="emailHelp"
@@ -256,8 +279,8 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                       </label>
                       <input
                         type="number"
-                        // value={name}
-                        // onChange={(e) => setName(e.target.value)}
+                        value={contactNumber}
+                        onChange={(e) => setContactNumber(e.target.value)}
                         className="form-control rounded-0"
                         id="name"
                         aria-describedby="emailHelp"
@@ -278,7 +301,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setSource(e.target.value)}
                         required
                       ><option >Select Source</option>
                         <option value={"Email"}>Email</option>
@@ -291,11 +314,12 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                   </div>
 
 
+
                   <div className="row">
                     <div className="col-12 pt-3 mt-2">
                       <button
                         type="submit"
-                        onClick={handleCustomerAdd}
+                        onClick={handleEmployeeAdd}
                         className="w-80 btn addbtn rounded-0 add_button   m-2 px-4"
                       >
                         Add
@@ -319,4 +343,4 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
   );
 };
 
-export default EmployeeAddCustomerPopUp;
+export default AddTicketPopup;

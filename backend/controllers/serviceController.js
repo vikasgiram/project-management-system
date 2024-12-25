@@ -14,7 +14,7 @@ exports.showAll = async (req, res) => {
         .json({ error: "Unauthorized you need to login first" });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const services = await Service.find({ company: decoded.user._id })
+    const services = await Service.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id })
       .populate("allotTo", "name")
       .populate({
         path: "ticket",

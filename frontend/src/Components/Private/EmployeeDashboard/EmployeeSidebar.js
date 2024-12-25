@@ -62,6 +62,38 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
+                        title="Ticket"
+                        className={Open || active === "EmployeeTicketMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeTicketMasterGrid' className="nav-link ">
+                            {/* <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-ticket ps-3 side_icon_fs"></i>
+
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Ticket
+                            </span>
+                        </Link>
+                    </li>
+
+                    <li
+                        title="Service"
+                        className={Open || active === "EmployeeServiceMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeServiceMasterGrid' className="nav-link ">
+                            {/* <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i> */}
+                            <i class="fa fa-address-card ps-3 side_icon_fs"></i>
+
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Ticket
+                            </span>
+                        </Link>
+                    </li>
+
+                    <li
                     title="My Projects"
                         className={Open || active === "EmployeeTaskGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeTaskGrid' className="nav-link ">
@@ -129,21 +161,7 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>):('')}
 
 
-                    <li
-                        title="Ticket"
-                        className={Open || active === "EmployeeTicketMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='/EmployeeTicketMasterGrid' className="nav-link ">
-                            {/* <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i> */}
-                            <i class="fa-solid fa-ticket ps-3 side_icon_fs"></i>
-
-                            <span
-                                className="menu-title_m"
-                                style={{ display: isopen ? "" : "none" }}
-                            >
-                                Ticket
-                            </span>
-                        </Link>
-                    </li>
+               
 
 
                     {/* <li

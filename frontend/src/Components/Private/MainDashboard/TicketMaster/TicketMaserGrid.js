@@ -149,14 +149,14 @@ export const TicketMasterGrid = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="col- col-lg-2 ms-auto text-end">
+                                            {/* <div className="col- col-lg-2 ms-auto text-end">
                                                 <button
                                                     onClick={() => {
                                                         handleAdd()
                                                     }}
                                                     type="button"
                                                     className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-                                            </div>
+                                            </div> */}
 
                                         </div>
 
