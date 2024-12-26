@@ -173,7 +173,7 @@ export const EmployeeMasterGrid = () => {
                                                 <tbody className="broder my-4">
                                                     {currentData && currentData.map((employee, index) => (
                                                         <tr className="border my-4" key={employee._id}>
-                                                            <td>{index + 1}</td>
+                                                            <td>{ index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                                             <td>{employee.name}</td>
                                                             <td>{employee.email}</td>
                                                             <td>{employee.department && employee.department.name}</td>

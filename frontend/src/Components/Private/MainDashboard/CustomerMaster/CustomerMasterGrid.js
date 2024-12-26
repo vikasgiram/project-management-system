@@ -174,9 +174,9 @@ export const CustomerMasterGrid = () => {
 
                                                 </tr>
                                                 <tbody>
-                                                    {filteredData && filteredData.map((customer, index) => (
+                                                    {currentData && currentData.map((customer, index) => (
                                                         <tr className="border my-4" key={customer.id}>
-                                                            <td>{index + 1}</td>
+                                                            <td>{ index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                                             <td>{customer.custName}</td>
                                                             <td>{customer.email}</td>
                                                             <td>{customer.phoneNumber1}</td>

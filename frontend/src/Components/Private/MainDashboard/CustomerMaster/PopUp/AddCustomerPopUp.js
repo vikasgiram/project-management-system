@@ -75,6 +75,19 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     ) {
       return toast.error("Please fill all fields");
     }
+    if(!email.includes('@') || !email.includes('.')){
+      return toast.error("Enter valid Email");
+    }
+    if (GSTNo<0) {
+      return toast.error("GST should be greater than 0");
+    }
+    if(phoneNumber1.length !== 10 || phoneNumber2.length !== 10){
+      return toast.error("Phone number should be 10 digits");
+    }
+    if(phoneNumber1<0 || phoneNumber2<0){
+      return toast.error("Phone number should be Positive");
+    }
+   
 
 
     await createCustomer(data);
@@ -201,10 +214,11 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             for="MobileNumber"
                             className="form-label label_text"
                           >
-                            Mobile Number <RequiredStar />
+                            Mobile Number 1 <RequiredStar />
                           </label>
                           <input
                             type="tel"
+                            pattern="[0-9]{10}"
                             className="form-control rounded-0"
                             id="MobileNumber"
                             value={phoneNumber1}
@@ -222,10 +236,12 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             for="mobileNo"
                             className="form-label label_text"
                           >
-                            Mobile No <RequiredStar />
+                             Mobile Number 2 <RequiredStar />
                           </label>
                           <input
-                            type="number"
+                            type="tel"
+                            pattern="[0-9]{10}"
+                            maxLength={10}
                             className="form-control rounded-0"
                             id="mobileNo"
                             value={phoneNumber2}
@@ -434,7 +450,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                         GST Number <RequiredStar />
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         className="form-control rounded-0"
                         id="GSTNumber"
                         onChange={(e) => setGSTNo(e.target.value)}

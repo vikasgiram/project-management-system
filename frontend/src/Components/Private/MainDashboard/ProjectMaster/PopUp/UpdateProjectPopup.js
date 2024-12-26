@@ -69,6 +69,7 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
     }, []);
 
 
+console.log(projects,"projects");
 
     const handleChange = (event) => {
         const { name, value,type,files } = event.target;
@@ -123,6 +124,18 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
             Address: { 
                 ...address 
             },POCopy
+        }
+        if(!updatedProject.name || !updatedProject.custId || !updatedProject.purchaseOrderDate || !updatedProject.purchaseOrderNo || !updatedProject.purchaseOrderValue || !updatedProject.category || !updatedProject.startDate || !updatedProject.endDate || !updatedProject.advancePay || !updatedProject.payAgainstDelivery || !updatedProject.payAfterCompletion || !updatedProject.remark){
+            setLoading(false);
+            return toast.error("Please fill all fields");
+        }
+        if(Number(updatedProject.advancePay) + Number(updatedProject.payAgainstDelivery) + Number(updatedProject.payAfterCompletion) > 100){
+            setLoading(false);
+            return toast.error("Sum of advancePay, payAgainstDelivery, and payAfterCompletion cannot exceed 100%");
+        }
+        if(updatedProject.purchaseOrderValue <= 0 || updatedProject.advancePay <= 0 || updatedProject.payAgainstDelivery <= 0 || updatedProject.payAfterCompletion <= 0){
+            setLoading(false);
+            return toast.error("Value must be greater than 0");
         }
        
         try {     
@@ -362,11 +375,11 @@ const UpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
 
                                             <div className="col-12 col-lg-6 mt-2" >
                                                 <div className="mb-3">
-                                                    <label for="payAfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
+                                                    <label for="payfterCompletion" className="form-label label_text">     Pay After Completion <RequiredStar />
                                                     </label>
-                                                    <input type="text" className="form-control rounded-0" id="payAfterCompletion"
-                                                        name="payAfterCompletion"
-                                                        onChange={handleChange} value={projects.payAfterCompletion} aria-describedby="secemailHelp" />
+                                                    <input type="text" className="form-control rounded-0" id="payfterCompletion"
+                                                        name="payfterCompletion"
+                                                        onChange={handleChange} value={projects.payfterCompletion} aria-describedby="secemailHelp" />
                                                 </div>
                                             </div>
                                         </div>

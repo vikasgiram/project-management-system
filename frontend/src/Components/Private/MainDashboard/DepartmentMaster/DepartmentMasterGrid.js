@@ -80,12 +80,13 @@ export const DepartmentMasterGrid = () => {
       fetchData();
    }, [AddPopUpShow, deletePopUpShow, updatePopUpShow]);
 
-   const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = departments.slice(indexOfFirstItem, indexOfLastItem);
 
     // Total pages
     const totalPages = Math.ceil(departments.length / itemsPerPage);
+// console.log(departments);
 
 
    return (
@@ -138,7 +139,7 @@ export const DepartmentMasterGrid = () => {
                                     <tbody className="broder my-4">
                                        {currentData.map((department, index) => (
                                           <tr className="border my-4" key={department._id}>
-                                             <td>{index + 1}</td>
+                                             <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                              <td>{department.name}</td>
                                              <td>
                                                 <span

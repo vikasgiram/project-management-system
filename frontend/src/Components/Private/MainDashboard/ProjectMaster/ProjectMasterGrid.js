@@ -242,7 +242,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                           {currentData &&
                             currentData.map((project, index) => (
                               <tr className="border my-4" key={project._id}>
-                                <td>{index + 1}</td>
+                                <td>{ index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                 <td>{project.name}</td>
                                 <td>{project.custId?.custName || "N/A"}</td>
                                 <td>{formatDate(project.startDate)}</td>
