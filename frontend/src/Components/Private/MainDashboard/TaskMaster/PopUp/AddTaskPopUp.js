@@ -21,6 +21,7 @@ const AddTaskPopUp = ({ handleAdd ,cancelBtnCallBack}) => {
         }
         await createTask(data);
         handleAdd();
+        cancelBtnCallBack();
     };
     const handleCancleButtonClick = () => {
         if (handleAdd) {

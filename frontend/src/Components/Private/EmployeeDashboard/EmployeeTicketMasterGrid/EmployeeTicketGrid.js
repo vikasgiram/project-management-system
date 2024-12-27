@@ -16,8 +16,6 @@ export const EmployeeTicketMasterGrid = () => {
         setIsOpen(!isopen);
     };
 
-    const navigate = useNavigate();
-
     const [addServicePopUpShow, setAddServicePopUpShow] = useState(false);
     const [AddPopUpShow, setAddPopUpShow] = useState(false)
     const [deletePopUpShow, setdeletePopUpShow] = useState(false)
@@ -84,7 +82,7 @@ export const EmployeeTicketMasterGrid = () => {
             }
         };
         fetchData();
-    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+    }, [deletePopUpShow, updatePopUpShow, addServicePopUpShow, AddPopUpShow]);
 
     // console.log(tickets);
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -213,7 +211,7 @@ export const EmployeeTicketMasterGrid = () => {
                                                         </tr>
                                                     ))}
 
-                                                    <p> {filteredData.length === 0 && <p>No results found</p>}</p>
+                                                    <p> {filteredData.length === 0 && <p>No Ticket Generated</p>}</p>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -276,7 +274,7 @@ export const EmployeeTicketMasterGrid = () => {
             }
             {addServicePopUpShow ?
                 <AddServicePopup
-                selectedTicket={selectedTicketId}
+                selectedTicketId={selectedTicketId}
                     message="Create New Service"
                     handleAddService={handleAddService}
                 // heading="Forward"

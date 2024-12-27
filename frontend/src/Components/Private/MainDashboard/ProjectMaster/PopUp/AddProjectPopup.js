@@ -82,14 +82,24 @@ const AddProjectPopup = ({ handleAdd }) => {
     ) {
       setLoading(false);
       return toast.error("Please fill all fields");
-
     }
 
     else if (Number(advancePay) + Number(payAgainstDelivery) + Number(payAfterCompletion) > 100) {
+      setLoading(false);
       return toast.error("Total percentage should be less than 100%");
     }
-    if (!POCopy)
+    if(purchaseOrderValue <= 0){
+      setLoading(false);
+      return toast.error("Purchase order value should be greater than 0");
+    }
+    if (!POCopy){
+      setLoading(false);
       return toast.error("Please upload POCopy");
+    }
+    if(startDate>endDate){
+      setLoading(false);
+      return toast.error("Start date should be less than end date");
+    }
 
     formData.append('custId', custId);
     formData.append('name', name);
@@ -112,7 +122,7 @@ const AddProjectPopup = ({ handleAdd }) => {
 
     handleAdd();
   };
-  // console.log(Address,"Address in popup");
+
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

@@ -1,29 +1,59 @@
 import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import { getCustomers } from "../../../../../hooks/useCustomer";
-import { createProject } from "../../../../../hooks/useProjects";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
-import { getAddress } from "../../../../../hooks/usePincode";
+import { createService } from "../../../../../hooks/useService";
+import { getEmployees } from "../../../../../hooks/useEmployees";
+import toast from "react-hot-toast";
+const AddServicePopup = ({ handleAddService, selectedTicketId }) => {
 
-const AddServicePopup = ({ handleAddService }) => {
 
-  
   const [loading, setLoading] = useState(false);
+  const [serviceType, setServiceType] = useState();
+  const [priority, setPriority] = useState();
+  const [zone, setZone] = useState();
+  const [allotmentDate, setAllotmentDate] = useState();
+  const [allotTo, setAllotTo] = useState();
+  const [workMode, setWorkMode] = useState();
+  const [ticket, setTicket] = useState(selectedTicketId);
+
+
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    getEmployees().then((res) => {
+      setEmployees(res.employees || []);
+    });
+  }, []);
 
 
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      serviceType,
+      ticket,
+      priority,
+      zone,
+      allotmentDate,
+      allotTo,
+      workMode,
+      ticket,
+      // completionDate
+    };
+    if (!serviceType || !ticket || !priority || !zone || !allotmentDate || !allotTo || !workMode) {
+      return toast.error("Please fill all the fields");
+    }
 
-  
+    await createService(data);
+    handleAddService();
 
+  }
 
-  
   return (
     <>
-     
+
       <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
-            <form >
+            <form onSubmit={handleSubmit}>
               <div className="modal-header pt-0">
 
                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
@@ -31,12 +61,12 @@ const AddServicePopup = ({ handleAddService }) => {
                   Create New Service
                   {/* Forward */}
                 </h5>
-             
+
               </div>
               <div className="modal-body">
                 <div className="row modal_body_height">
 
-                <div className="col-12 col-lg-6 mt-2">
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label
                         for="Department"
@@ -48,18 +78,18 @@ const AddServicePopup = ({ handleAddService }) => {
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setServiceType(e.target.value)}
                         required
                       ><option >Select Type</option>
                         <option value={"AMC"}>AMC</option>
-                        <option value={"One time"}>One time</option>
-                        <option value={"warranty"}>Warranty</option>
+                        <option value={"One Time"}>One time</option>
+                        <option value={"Warranty"}>Warranty</option>
                       </select>
                     </div>
                   </div>
 
-                  
-                <div className="col-12 col-lg-6 mt-2">
+
+                  <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label
                         for="Department"
@@ -71,12 +101,12 @@ const AddServicePopup = ({ handleAddService }) => {
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setPriority(e.target.value)}
                         required
                       ><option >Select Priority</option>
-                        <option value={"high"}>High</option>
-                        <option value={"mid"}>Mid</option>
-                        <option value={"low"}>Low</option>
+                        <option value={"High"}>High</option>
+                        <option value={"Medium"}>Mid</option>
+                        <option value={"Low"}>Low</option>
                       </select>
                     </div>
                   </div>
@@ -93,7 +123,7 @@ const AddServicePopup = ({ handleAddService }) => {
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setZone(e.target.value)}
                         required
                       ><option >Select Zone</option>
                         <option value={"South"}>South</option>
@@ -107,15 +137,16 @@ const AddServicePopup = ({ handleAddService }) => {
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="mb-3">
                       <label htmlFor="purchaseOrderDate" className="form-label label_text">
-                      Allotment Date <RequiredStar />
+                        Allotment Date <RequiredStar />
                       </label>
                       <input
-                        // onChange={(e) => setPurchaseOrderDate(e.target.value)} // Handles date input change
-                        // value={purchaseOrderDate} // Prepopulate value from state
+                        onChange={(e) => setAllotmentDate(e.target.value)} // Handles date input change
+                        value={allotmentDate} // Prepopulate value from state
                         type="date"
                         className="form-control rounded-0"
                         id="purchaseOrderDate"
                         aria-describedby="dateHelp"
+                        min={new Date().toISOString().split("T")[0]}
                       />
                     </div>
                   </div>
@@ -132,11 +163,13 @@ const AddServicePopup = ({ handleAddService }) => {
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setAllotTo(e.target.value)}
                         required
                       ><option >Select Employee</option>
-                        <option value={"South"}>South</option>
-                      
+                        {employees.map((emp) => (
+                          <option value={emp._id}>{emp.name}</option>
+                        ))}
+
                       </select>
                     </div>
                   </div>
@@ -147,18 +180,18 @@ const AddServicePopup = ({ handleAddService }) => {
                         for="Department"
                         className="form-label label_text"
                       >
-                       Workmode <RequiredStar />
+                        Workmode <RequiredStar />
                       </label>
                       <select
                         className="form-select rounded-0"
                         id=""
                         aria-label="Default select example"
-                        // onChange={(e) => setGender(e.target.value)}
+                        onChange={(e) => setWorkMode(e.target.value)}
                         required
                       ><option >Select Workmode</option>
-                        <option value={"Online"}>Online</option>
-                        <option value={"Offline"}>Offline</option>
-                      
+                        <option value={"Onsite"}>Onsite</option>
+                        <option value={"Remote"}>Remote</option>
+
                       </select>
                     </div>
                   </div>
@@ -172,7 +205,7 @@ const AddServicePopup = ({ handleAddService }) => {
                         type="submit"
                         // onClick={handleServiceAdd}
                         disabled={loading}
-                        
+
                         className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                       >
                         {!loading ? "Add" : "Submitting..."}

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { updateCustomer } from "../../../../../hooks/useCustomer";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 import { getAddress } from "../../../../../hooks/usePincode";
+import { toast } from "react-hot-toast";
 
 const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
   const [customer, setCustomer] = useState(selectedCust);
@@ -72,14 +73,29 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     }))
   };
 
-  const handleCustUpdate = async () => {
+  const handleCustUpdate = async (e) => {
+    e.preventDefault();
     const updatedCustomer = {
       ...customer,
       billingAddress,
       // deliveryAddress
+    };
+    if(!updatedCustomer.custName || !updatedCustomer.phoneNumber1 || !updatedCustomer.email || !updatedCustomer.customerContactPersonName2 || !updatedCustomer.phoneNumber2 || !updatedCustomer.billingAddress.pincode || !updatedCustomer.billingAddress.state || !updatedCustomer.billingAddress.city || !updatedCustomer.billingAddress.add || !updatedCustomer.GSTNo){
+      toast.error("All fields are required");
+      return
     }
+    if (!updatedCustomer.email.includes('@') || !updatedCustomer.email.includes('.')) {
+      return toast.error("Enter a valid Email");
+  }
+  if(updatedCustomer.phoneNumber1.length !== 10 || updatedCustomer.phoneNumber2.length !== 10){
+    return toast.error("Enter a valid phone number");
+  }
+    try{
     await updateCustomer(updatedCustomer);
     handleUpdate();
+    }catch(error){
+      toast.error("Error updating customer");
+    }
   };
 
   return (
@@ -180,14 +196,18 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             for="phoneNumber1"
                             className="form-label label_text"
                           >
-                            Contact no <RequiredStar />
+                            Contact Number 1 <RequiredStar />
                           </label>
                           <input
-                            type="number"
+                             type="tel"
+                             pattern="[0-9]{10}"
+                             max={9999999999}
+                             maxLength={10}
                             className="form-control rounded-0"
                             id="phoneNumber1"
                             name="phoneNumber1"
                             onChange={handleChange}
+                            
                             value={customer.phoneNumber1}
                             aria-describedby="secemailHelp"
                             required
@@ -223,10 +243,13 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             for="phoneNumber2"
                             className="form-label label_text"
                           >
-                            Contact no 2 <RequiredStar />
+                            Contact Number 2 <RequiredStar />
                           </label>
                           <input
-                            type="number"
+                            type="tel"
+                            pattern="[0-9]{10}"
+                            max={9999999999}
+                            maxLength={10}
                             className="form-control rounded-0"
                             id="phoneNumber2"
                             onChange={handleChange}

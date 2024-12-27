@@ -71,6 +71,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
     if (password !== confirmPassword) {
       return toast.error("Password desen't match");
     }
+    if(!email.includes('@') || !email.includes('.')){
+      return toast.error("Enter valid Email");
+    }
     await createEmployee(data);
     handleAdd();
   };

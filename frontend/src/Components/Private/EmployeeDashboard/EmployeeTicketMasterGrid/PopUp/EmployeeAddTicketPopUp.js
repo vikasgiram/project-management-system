@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import {createTicket} from "../../../../../hooks/useTicket"
 import {getCustomers} from "../../../../../hooks/useCustomer";
 import { RequiredStar } from "../../../RequiredStar/RequiredStar";
+import {getAddress} from "../../../../../hooks/usePincode";
+
 
 
 
@@ -23,6 +25,8 @@ const AddTicketPopup = ({ handleAdd }) => {
     pincode:"",
     state:""
   })
+  const [pincode, setPincode] = useState();
+
 
   const handleEmployeeAdd = async (event) => {
     event.preventDefault();
@@ -38,6 +42,8 @@ const AddTicketPopup = ({ handleAdd }) => {
     if (!client || !details || !product || !contactPerson || !contactNumber || !source || !Address) {
       return toast.error("Please fill all fields");
     }
+    if(contactNumber.length !== 10){
+       return toast.error("Please Enter Valid Contact Number");}
     await createTicket(data);
     handleAdd();
     console.log(data);
@@ -48,6 +54,24 @@ const AddTicketPopup = ({ handleAdd }) => {
     const data=await getCustomers();
     setCustomer(data.customers);
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(Address.pincode);
+
+      if (data !== "Error") {
+        console.log(data);
+        setAddress(prevAddress => ({
+          ...prevAddress, 
+          state: data.State, 
+          city: data.District,   
+          country: data.Country 
+        }));
+      }
+    };
+    if(Address.pincode > 0)
+      fetchData();
+  }, [Address.pincode]);
 
 
   
@@ -125,11 +149,8 @@ const AddTicketPopup = ({ handleAdd }) => {
                             className="form-control rounded-0"
                             placeholder="Pincode"
                             id="exampleInputEmail1"
-                            onChange={(e) =>
-                              setAddress({
-                                ...Address,
-                                pincode: e.target.value,
-                              })
+                            onChange={(e) => {
+                              setAddress({ ...Address, pincode: e.target.value });}
                             }
                             value={Address.pincode}
                             aria-describedby="emailHelp"
@@ -275,10 +296,12 @@ const AddTicketPopup = ({ handleAdd }) => {
                         for="Designation"
                         className="form-label label_text"
                       >
-                        Contact Person no <RequiredStar />
+                        Contact Person Number <RequiredStar />
                       </label>
                       <input
-                        type="number"
+                        type="text"
+                         inputMode="numeric"
+                        max={9999999999}
                         value={contactNumber}
                         onChange={(e) => setContactNumber(e.target.value)}
                         className="form-control rounded-0"

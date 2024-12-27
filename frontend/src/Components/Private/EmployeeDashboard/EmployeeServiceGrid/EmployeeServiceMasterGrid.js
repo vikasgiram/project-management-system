@@ -26,7 +26,7 @@ export const EmployeeServiceMasterGrid = () => {
   const [service, setService] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
 
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedService, setSelectedService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 10; 
@@ -43,7 +43,7 @@ export const EmployeeServiceMasterGrid = () => {
 
 
   const handleUpdate = (projects = null) => {
-    setSelectedProject(projects);
+    setSelectedService(projects);
     setUpdatePopUpShow(!UpdatePopUpShow);
   };
 
@@ -284,7 +284,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       {UpdatePopUpShow ? (
         <UpdateServicePopup
           handleUpdate={handleUpdate}
-          selectedProject={selectedProject}
+          selectedService={selectedService}
         // heading="Forward"
         // cancelBtnCallBack={handleAddDepartment}
         />
@@ -294,7 +294,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       {/* {DetailsPopUpShow ? (
         <GaintchartPoup
           handleDetails={handleDetails}
-          selectedProject={selectedProject}
+          selectedService={selectedService}
         // heading="Forward"
         // cancelBtnCallBack={handleAddDepartment}
         />

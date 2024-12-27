@@ -32,8 +32,12 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
 
 
   const handleEmpUpdate = async (event) => {
-
     event.preventDefault();
+    if(!employee.name || !employee.department || !employee.designation || !employee.email || !employee.mobileNo || !employee.hourlyRate) 
+      return toast.error("All fields are required");
+    if(!employee.email.includes('@') || !employee.email.includes('.')){
+      return toast.error("Enter valid Email");
+    }
     try {
       await updateEmployee(employee);
       handleUpdate();
