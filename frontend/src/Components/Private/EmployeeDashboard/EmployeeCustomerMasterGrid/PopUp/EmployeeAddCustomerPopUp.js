@@ -414,7 +414,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                         GST Number
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         className="form-control rounded-0"
                         id="GSTNumber"
                         onChange={(e) => setGSTNo(e.target.value)}

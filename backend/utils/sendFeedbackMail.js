@@ -1,19 +1,8 @@
-const { sendEmail } = require('./email');
+
+const transporter = require('./emailTransporter');
 
 function sendFeedbackMail(clientEmail, ticketDetails) {
     const { ticketId, raisedDate, resolvedDate, resolutionDetails, feedbackLink } = ticketDetails;
-
-   
-
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // Use a secure connection
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_APP_PASSWORD,
-    },
-  });
 
   let mailOptions = {
     from: `DAccess <${process.env.EMAIL}>`,

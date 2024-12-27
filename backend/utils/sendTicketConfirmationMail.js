@@ -1,19 +1,11 @@
-const nodemailer = require('nodemailer');
+const moment = require('moment');
 const Ticket = require('../models/ticketModel');
+const transporter = require('./emailTransporter');
 
 exports.sendConfirmationMail = async(id) => {
     const ticket = await Ticket.findById(id).populate('registerBy', 'name').populate('client', 'custName email');
-    console.log(ticket);
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true, // Use a secure connection
-        auth: {
-          user: process.env.EMAIL,
-          pass: process.env.EMAIL_APP_PASSWORD,
-        },
-      });
-  
+    // console.log(ticket);
+
       let mailOptions = {
         from: `DAccess <${process.env.EMAIL}>`,
         to: ticket.client.email,
@@ -100,17 +92,18 @@ exports.sendConfirmationMail = async(id) => {
                       <p><strong>Product Name:</strong> <span class="highlight">${ticket.product}</span></p>
                       <p><strong>Issue Description:</strong> <span class="highlight">${ticket.details}</span></p>
                       <p><strong>Registered By:</strong> <span class="highlight">${ticket.registerBy.name}</span></p>
+                      <P><strong>Registered On:</strong> <span class="highlight">${moment(ticket.createdAt).format('DD MMMM YYYY hh:mm A')}</span></P>
                   </div>
   
                   <p>Our dedicated support team is already on it and will review your ticket shortly. We aim to resolve your issue as quickly as possible.</p>
-                  <p>If you have any additional information to share or further questions, please don’t hesitate to reply to this email.</p>
+                  <p>If you have any questions or need further assistance, please feel free to reach us at our toll-free number: 1800-209-7799.</p>
                   
                   <p>Thank you for choosing DAccess!</p>
                   
-                  <p>Warm regards,<br>The DAccess Support Team</p>
+                  <p>Warm regards,<br>The DAccess Service Team</p>
               </div>
               <div class="footer">
-                  <p>This email was sent to you by DAccess. For any inquiries, please don’t hesitate to contact us.</p>
+                  <p>This email was sent to you by DAccess. Please note that this is an auto-generated message, and replies to this email will not be monitored.</p>
               </div>
           </body>
           </html>

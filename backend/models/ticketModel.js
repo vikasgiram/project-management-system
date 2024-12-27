@@ -77,7 +77,11 @@ const ticketSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
     },
-});
+},
+{
+    timestamps: true,
+}
+);
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
 
