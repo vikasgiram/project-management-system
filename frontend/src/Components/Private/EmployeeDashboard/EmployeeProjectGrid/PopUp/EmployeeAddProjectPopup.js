@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { getCustomers } from "../../../../../hooks/useCustomer";
 import { createProject } from "../../../../../hooks/useProjects";
+import {getAddress} from "../../../../../hooks/usePincode";
 
 const EmployeeAddProjectPopup = ({ handleAdd }) => {
 
@@ -44,6 +45,19 @@ const EmployeeAddProjectPopup = ({ handleAdd }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddress(address.pincode);
+      // console.log(data);
+      if (data) {
+        setAddress(data);
+        // console.log(employees,"data from useState");
+      }
+    };
+
+    fetchData();
+  }, [address.pincode]);
+
 
   const handleProjectAdd = async (event) => {
     event.preventDefault();
@@ -63,23 +77,20 @@ const EmployeeAddProjectPopup = ({ handleAdd }) => {
       remark,
       address,
       POCopy   // change in backend
-
-
-
     };
-    if (!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category || !startDate || !endDate || !advancePay || !payAgainstDelivery || !payfterCompletion || !remark
-      || !address.pincode ||
-      !address.state ||
-      !address.city ||
-      !address.add ||
-      !address.country
-    ) {
+    if (!custId || !name || !purchaseOrderDate || !purchaseOrderNo || !purchaseOrderValue || !category || !startDate || !endDate || !advancePay || !payAgainstDelivery || !payfterCompletion || !remark) {
       return toast.error("Please fill all fields");
 
     }
 
     else if(Number(advancePay) + Number(payAgainstDelivery) + Number(payfterCompletion)>100){
       return toast.error("Total percentage should be less than 100%");
+    }
+    if(purchaseOrderValue <= 0 || advancePay <= 0 || payAgainstDelivery <= 0 || payfterCompletion <= 0 || purchaseOrderNo <= 0){
+      return toast.error("Value must be greater than 0");
+    }
+    if(startDate > endDate){
+      return toast.error("Start date must be less than end date");
     }
 
     await createProject(data);
@@ -156,7 +167,7 @@ const EmployeeAddProjectPopup = ({ handleAdd }) => {
 
                     <div className="mb-3">
                       <label for="purchaseOrderNo" className="form-label label_text">Purchase Order Number</label>
-                      <input type="number" className="form-control rounded-0" id="purchaseOrderNo" onChange={(e) => setPurchaseOrderNo(e.target.value)} value={purchaseOrderNo} aria-describedby="emailHelp" />
+                      <input type="text" className="form-control rounded-0" id="purchaseOrderNo" onChange={(e) => setPurchaseOrderNo(e.target.value)} value={purchaseOrderNo} aria-describedby="emailHelp" />
                     </div>
 
                 </div>
@@ -301,7 +312,7 @@ const EmployeeAddProjectPopup = ({ handleAdd }) => {
                             id="exampleInputEmail1"
                             name="state"
                             onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                            value={address.state}
+                            value={address.Circle}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -316,7 +327,7 @@ const EmployeeAddProjectPopup = ({ handleAdd }) => {
                             id="exampleInputEmail1"
                             name="city"
                             onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                            value={address.city}
+                            value={address.Division}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -331,7 +342,7 @@ const EmployeeAddProjectPopup = ({ handleAdd }) => {
                             id="exampleInputEmail1"
                             name="country"
                             onChange={(e) => setAddress({ ...address, country: e.target.value })}
-                            value={address.country}
+                            value={address.Country}
                             aria-describedby="emailHelp"
                           />
                         </div>

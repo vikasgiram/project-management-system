@@ -71,6 +71,15 @@ const EmployeeUpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                 ...address // Spread the address state
             }
           }
+          if(Number(updatedProject.advancePay) + Number(updatedProject.payAgainstDelivery) + Number(updatedProject.payfterCompletion)>100){
+            return toast.error("Total percentage should be less than 100%");
+          }
+          if(updatedProject.purchaseOrderValue <= 0 || updatedProject.advancePay <= 0 || updatedProject.payAgainstDelivery <= 0 || updatedProject.payfterCompletion <= 0 || updatedProject.purchaseOrderNo <= 0){
+            return toast.error("Value must be greater than 0");
+          }
+          if(updatedProject.startDate > updatedProject.endDate){
+            return toast.error("Start date must be less than end date");
+          }
         try {
             await updateProject(updatedProject);
             handleUpdate();
@@ -166,7 +175,7 @@ const EmployeeUpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                                             <label for="PurchaseOrderNumber" 
                                             name="purchaseOrderNo"
                                             className="form-label label_text">Purchase Order Number</label>
-                                            <input type="number" className="form-control rounded-0" id="PurchaseOrderNumber" 
+                                            <input type="text" className="form-control rounded-0" id="PurchaseOrderNumber" 
                                             name="purchaseOrderNo"
                                             value={projects.purchaseOrderNo} onChange={handleChange}  aria-describedby="emailHelp" />
                                         </div>

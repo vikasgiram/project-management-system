@@ -16,6 +16,9 @@ const UpdateDepartmentPopup = ({ handleUpdate, selectedDep }) => {
 
     const handleProjectUpdate = async (event) => {
         event.preventDefault();
+        if(!department.name ){
+            return toast.error("Please fill all fields");
+        }
         try {
             await updateDepartment(department);
             handleUpdate();

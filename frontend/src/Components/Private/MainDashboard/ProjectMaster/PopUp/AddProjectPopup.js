@@ -92,6 +92,10 @@ const AddProjectPopup = ({ handleAdd }) => {
       setLoading(false);
       return toast.error("Purchase order value should be greater than 0");
     }
+    if(advancePay <= 0 || payAgainstDelivery <= 0 || payAfterCompletion <= 0){
+      setLoading(false);
+      return toast.error("Percentage should be greater than 0");
+    }
     if (!POCopy){
       setLoading(false);
       return toast.error("Please upload POCopy");

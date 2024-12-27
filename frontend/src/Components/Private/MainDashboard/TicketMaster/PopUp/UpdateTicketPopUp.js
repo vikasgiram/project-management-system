@@ -32,8 +32,16 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedTicket }) => {
 
 
   const handleEmpUpdate = async (event) => {
-
     event.preventDefault();
+    if(!ticket.details || !ticket.product || !ticket.client || !ticket.contactPerson || !ticket.contactNumber || !ticket.source){
+      return toast.error("Please fill all fields");
+    }
+    if(ticket.contactNumber.length !== 10){
+      return toast.error("Please Enter Valid Contact Number");
+     }
+   if(/[a-zA-Z]/.test(ticket.contactNumber)){
+     return toast.error("Phone number should not contain alphabets");
+   }
     try {
       await updateTicket(ticket._id,ticket);
       handleUpdate();
@@ -291,7 +299,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedTicket }) => {
                         Contact Person no <RequiredStar />
                       </label>
                       <input
-                        type="number"
+                        type="tel"
+                        pattern="[0-9]{10}"
+                         maxLength="10"
                         value={ticket.contactNumber}
                         onChange={handleChange}
                         className="form-control rounded-0"

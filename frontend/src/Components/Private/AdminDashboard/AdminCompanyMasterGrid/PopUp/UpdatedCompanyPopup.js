@@ -65,6 +65,10 @@ const UpdatedCompanyPopup = ({ handleUpdate, selectedCompany }) => {
       Address,
       subDate
     }
+    if(updatedCompany.subAmount < 0){
+      setLoading(false);
+      return toast.error("Subscription Amount can't be negative");
+    }
     try {
       // console.log(updatedCompany);
       await updateCompany(updatedCompany);

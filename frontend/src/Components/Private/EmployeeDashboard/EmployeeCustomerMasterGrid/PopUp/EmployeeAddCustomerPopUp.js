@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { createCustomer } from "../../../../../hooks/useCustomer";
+import { getAddress } from "../../../../../hooks/usePincode";
 
 const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
   const [custName, setCustName] = useState("");
@@ -49,24 +50,45 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
       !email ||
       !customerContactPersonName2 ||
       !phoneNumber2 ||
-      !billingAddress.pincode ||
-      !billingAddress.state ||
-      !billingAddress.city ||
-      !billingAddress.add ||
-      // !deliveryAddress.pincode ||
-      // !deliveryAddress.state ||
-      // !deliveryAddress.city ||
-      // !deliveryAddress.add ||
       !GSTNo
     ) {
       return toast.error("Please fill all fields");
     }
-    console.log(data);
+    if(phoneNumber1.length !== 10 || phoneNumber2.length !== 10){
+      return toast.error("Enter a valid phone number");
+    }
+    if(/[a-zA-Z]/.test(phoneNumber1) || /[a-zA-Z]/.test(phoneNumber2)){
+      return toast.error("Phone number should not contain alphabets");
+    }
+    if(phoneNumber1<=0 || phoneNumber2<=0){
+      return toast.error("Phone number should be greater than 0");
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return toast.error("Please enter a valid email address");
+    }
+    if(GSTNo.includes("-") ){
+      return toast.error("GST number should be greater than 0");
+    }
 
     await createCustomer(data);
     //   console.log(data);
     handleAdd();
   };
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      const address = await getAddress(billingAddress.pincode);
+      setBillingAddress(address);
+      console.log(address);
+      
+    };
+    fetchAddress();
+  }, [billingAddress.pincode]);
+
+  
+
 
   return (
     <>
@@ -187,7 +209,10 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             Contact Person Mobile No 1
                           </label>
                           <input
-                            type="number"
+                            type="tel"
+                            pattern="[0-9]{10}"
+                            inputMode="numeric"
+                            maxLength="10"
                             className="form-control rounded-0"
                             id="MobileNumber"
                             value={phoneNumber1}
@@ -206,7 +231,10 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                           Contact Person Mobile No 2
                           </label>
                           <input
-                            type="number"
+                            type="tel"
+                            pattern="[0-9]{10}"
+                            inputMode="numeric"
+                            maxLength="10"
                             className="form-control rounded-0"
                             id="mobileNo"
                             value={phoneNumber2}
@@ -251,7 +279,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             placeholder="State"
                             id="exampleInputEmail1"
                             onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
-                            value={billingAddress.state}
+                            value={billingAddress.Circle}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -265,7 +293,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             placeholder="City"
                             id="exampleInputEmail1"
                             onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
-                            value={billingAddress.city}
+                            value={billingAddress.Division}
                             aria-describedby="emailHelp"
                           />
                         </div>
@@ -279,7 +307,7 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
                             placeholder="Country"
                             id="exampleInputEmail1"
                             onChange={(e) => setBillingAddress({ ...billingAddress, country: e.target.value })}
-                            value={billingAddress.country}
+                            value={billingAddress.Country}
                             aria-describedby="emailHelp"
                           />
                         </div>

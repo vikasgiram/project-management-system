@@ -177,7 +177,8 @@ const AddCompanyPopup = ({ handleAdd }) => {
                         Mobile Number <RequiredStar />
                       </label>
                       <input
-                        type="number"
+                        type="tel"
+                        pattern="[0-9]{10}"
                         min={0}
                         max={9999999999}
                         value={mobileNo}

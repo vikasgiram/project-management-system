@@ -13,7 +13,12 @@ const[task,setTask]=useState(selectedTask);
     const { name, value } = event.target;
     setTask((prevTask)=>({...prevTask,[name]:value}))
   };
-  const handleTaskUpdate = async () => {
+  const handleTaskUpdate = async (e) => {
+    e.preventDefault();
+    if(!task.name){
+      toast.error("Task Name is required");
+      return
+    }
     try {
       await updateTask(task._id,task);
       handleUpdate();

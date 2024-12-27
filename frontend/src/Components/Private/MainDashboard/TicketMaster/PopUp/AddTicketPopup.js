@@ -38,6 +38,12 @@ const AddTicketPopup = ({ handleAdd }) => {
     if (!client || !details || !product || !contactPerson || !contactNumber || !source || !Address) {
       return toast.error("Please fill all fields");
     }
+    if(contactNumber.length !== 10){
+       return toast.error("Please Enter Valid Contact Number");
+      }
+    if(/[a-zA-Z]/.test(contactNumber)){
+      return toast.error("Phone number should not contain alphabets");
+    }
     await createTicket(data);
     handleAdd();
     console.log(data);
@@ -48,9 +54,6 @@ const AddTicketPopup = ({ handleAdd }) => {
     const data=await getCustomers();
     setCustomer(data.customers);
   }
-
-
-  
 
   return (
     <>

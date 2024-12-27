@@ -35,8 +35,21 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
     event.preventDefault();
     if(!employee.name || !employee.department || !employee.designation || !employee.email || !employee.mobileNo || !employee.hourlyRate) 
       return toast.error("All fields are required");
-    if(!employee.email.includes('@') || !employee.email.includes('.')){
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(employee.email)) {
       return toast.error("Enter valid Email");
+    }
+    if (/[a-zA-Z]/.test(employee.mobileNo)) {
+      return toast.error("Phone number should not contain alphabets");
+    }
+    if(employee.hourlyRate <= 0){
+      return toast.error("Hourly rate should be greater than 0");
+    }
+    if(employee.mobileNo.length !== 10){
+      return toast.error("Phone number should be 10 digits");
+    }
+    if(/[a-zA-Z]/.test(employee.mobileNo)){
+      return toast.error("Phone number should not contain alphabets");
     }
     try {
       await updateEmployee(employee);
@@ -123,6 +136,8 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                       <input
                         type="tel"
                         name="mobileNo"
+                        pattern="[0-9]{10}"
+                        maxLength={10}
                         value={employee.mobileNo}
                         onChange={handleChange}
                         className="form-control rounded-0"
