@@ -71,8 +71,15 @@ const AddEmployeePopup = ({ handleAdd }) => {
     if (password !== confirmPassword) {
       return toast.error("Password desen't match");
     }
-    if(!email.includes('@') || !email.includes('.')){
+    if (/[a-zA-Z]/.test(mobileNo)) {
+      return toast.error("Phone number should not contain alphabets");
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
       return toast.error("Enter valid Email");
+    }
+    if(hourlyRate <= 0){
+      return toast.error("Hourly rate should be greater than 0");
     }
     await createEmployee(data);
     handleAdd();
@@ -137,6 +144,7 @@ const AddEmployeePopup = ({ handleAdd }) => {
                       </label>
                       <input
                         type="tel"
+                        pattern="[0-9]{10}"
                         value={mobileNo}
                         onChange={(e) => setMobileNo(e.target.value)}
                         className="form-control rounded-0"

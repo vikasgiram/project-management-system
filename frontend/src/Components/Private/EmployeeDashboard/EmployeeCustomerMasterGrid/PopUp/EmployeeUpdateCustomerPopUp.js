@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateCustomer } from "../../../../../hooks/useCustomer";
+import {toast} from "react-hot-toast";
 
 
 
@@ -60,16 +61,35 @@ const EmployeeUpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
       setCustomer((prevCustomer) => ({
         ...prevCustomer,
         [name]: value,
-      
     }))
   };
 
-  const handleCustUpdate = async () => {
+  const handleCustUpdate = async (e) => {
+    e.preventDefault();
     const updatedCustomer={
       ...customer,
       billingAddress,
       // deliveryAddress
     }
+
+    if(updatedCustomer.phoneNumber1.length !== 10 || updatedCustomer.phoneNumber2.length !== 10){
+      return toast.error("Enter a valid phone number");
+    }
+    if(/[a-zA-Z]/.test(updatedCustomer.phoneNumber1) || /[a-zA-Z]/.test(updatedCustomer.phoneNumber2)){
+      return toast.error("Phone number should not contain alphabets");
+    }
+    if(updatedCustomer.phoneNumber1<=0 || updatedCustomer.phoneNumber2<=0){
+      return toast.error("Phone number should be greater than 0");
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(updatedCustomer.email)) {
+      return toast.error("Please enter a valid email address");
+    }
+    if(updatedCustomer.GSTNo.includes("-") ){
+      return toast.error("GST number should be greater than 0");
+    }
+    
     await updateCustomer(updatedCustomer);
     handleUpdate();
   };
@@ -169,10 +189,12 @@ const EmployeeUpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             for="phoneNumber1"
                             className="form-label label_text"
                           >
-                            Contact no
+                            Contact Number 1
                           </label>
                           <input
-                            type="number"
+                            type="tel"
+                            pattern="[0-9]{10}"
+                            maxLength={10}
                             className="form-control rounded-0"
                             id="phoneNumber1"
                             name="phoneNumber1"
@@ -212,7 +234,9 @@ const EmployeeUpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             Contact no 2
                           </label>
                           <input
-                            type="number"
+                            type="tel"
+                            pattern="[0-9]{10}"
+                            maxLength={10}
                             className="form-control rounded-0"
                             id="phoneNumber2"
                             onChange={handleChange}

@@ -75,7 +75,8 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     ) {
       return toast.error("Please fill all fields");
     }
-    if(!email.includes('@') || !email.includes('.')){
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
       return toast.error("Enter valid Email");
     }
     if (GSTNo<0) {
@@ -84,6 +85,10 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     if(phoneNumber1.length !== 10 || phoneNumber2.length !== 10){
       return toast.error("Phone number should be 10 digits");
     }
+    if (/[a-zA-Z]/.test(phoneNumber1) || /[a-zA-Z]/.test(phoneNumber2)) {
+      return toast.error("Phone number should not contain alphabets");
+    }
+
     if(phoneNumber1<0 || phoneNumber2<0){
       return toast.error("Phone number should be Positive");
     }

@@ -84,9 +84,13 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
       toast.error("All fields are required");
       return
     }
-    if (!updatedCustomer.email.includes('@') || !updatedCustomer.email.includes('.')) {
-      return toast.error("Enter a valid Email");
-  }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(updatedCustomer.email)) {
+      return toast.error("Enter valid Email");
+    }
+    if (/[a-zA-Z]/.test(updatedCustomer.phoneNumber1) || /[a-zA-Z]/.test(updatedCustomer.phoneNumber2)) {
+      return toast.error("Phone number should not contain alphabets");
+    }
   if(updatedCustomer.phoneNumber1.length !== 10 || updatedCustomer.phoneNumber2.length !== 10){
     return toast.error("Enter a valid phone number");
   }

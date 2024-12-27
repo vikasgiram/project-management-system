@@ -149,7 +149,8 @@ export const DesignationMasterGird = () => {
                                             <div className="col-8 col-lg-2 ms-auto">
 
                                                 <button
-                                                    onClick={() => {
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
                                                         handleAdd()
                                                     }}
                                                     type="button"
@@ -185,7 +186,10 @@ export const DesignationMasterGird = () => {
                                                             </td>
                                                             <td>
                                                                 <span
-                                                                    onClick={() => handleUpdate(designation)}
+                                                                     onClick={(e) => {
+                                                                        e.preventDefault(); 
+                                                                        handleUpdate(designation);
+                                                                      }}
                                                                     className="update">
                                                                     <i className="fa-solid fa-pen text-success cursor-pointer me-3"></i>
                                                                 </span>

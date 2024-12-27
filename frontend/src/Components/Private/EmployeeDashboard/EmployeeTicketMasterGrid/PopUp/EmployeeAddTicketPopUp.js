@@ -42,6 +42,9 @@ const AddTicketPopup = ({ handleAdd }) => {
     if (!client || !details || !product || !contactPerson || !contactNumber || !source || !Address) {
       return toast.error("Please fill all fields");
     }
+    if(/[a-zA-Z]/.test(contactNumber)){
+      return toast.error("Phone number should not contain alphabets");
+    }
     if(contactNumber.length !== 10){
        return toast.error("Please Enter Valid Contact Number");}
     await createTicket(data);
@@ -299,9 +302,11 @@ const AddTicketPopup = ({ handleAdd }) => {
                         Contact Person Number <RequiredStar />
                       </label>
                       <input
-                        type="text"
+                        type="tel"
+                        pattern="[0-9]{10}"
+                        maxLength={10}
                          inputMode="numeric"
-                        max={9999999999}
+               
                         value={contactNumber}
                         onChange={(e) => setContactNumber(e.target.value)}
                         className="form-control rounded-0"

@@ -111,8 +111,6 @@ console.log(projects,"projects");
     };
 
 
-  
-
 
     const handleProjectUpdate = async (event) => {
        
@@ -125,17 +123,21 @@ console.log(projects,"projects");
                 ...address 
             },POCopy
         }
-        if(!updatedProject.name || !updatedProject.custId || !updatedProject.purchaseOrderDate || !updatedProject.purchaseOrderNo || !updatedProject.purchaseOrderValue || !updatedProject.category || !updatedProject.startDate || !updatedProject.endDate || !updatedProject.advancePay || !updatedProject.payAgainstDelivery || !updatedProject.payAfterCompletion || !updatedProject.remark){
+        if(!updatedProject.name || !updatedProject.custId || !updatedProject.purchaseOrderDate || !updatedProject.purchaseOrderNo || !updatedProject.purchaseOrderValue || !updatedProject.category || !updatedProject.startDate || !updatedProject.endDate || !updatedProject.advancePay || !updatedProject.payAgainstDelivery || !updatedProject.payfterCompletion || !updatedProject.remark){
             setLoading(false);
             return toast.error("Please fill all fields");
         }
-        if(Number(updatedProject.advancePay) + Number(updatedProject.payAgainstDelivery) + Number(updatedProject.payAfterCompletion) > 100){
+        if(Number(updatedProject.advancePay) + Number(updatedProject.payAgainstDelivery) + Number(updatedProject.payfterCompletion) > 100){
             setLoading(false);
-            return toast.error("Sum of advancePay, payAgainstDelivery, and payAfterCompletion cannot exceed 100%");
+            return toast.error("Sum of  Advance Payment,Pay Against Delivery,and Pay After Completion cannot exceed 100%");
         }
-        if(updatedProject.purchaseOrderValue <= 0 || updatedProject.advancePay <= 0 || updatedProject.payAgainstDelivery <= 0 || updatedProject.payAfterCompletion <= 0){
+        if(updatedProject.purchaseOrderValue <= 0 || updatedProject.advancePay <= 0 || updatedProject.payAgainstDelivery <= 0 || updatedProject.payfterCompletion <= 0 || updatedProject.purchaseOrderNo <= 0){
             setLoading(false);
             return toast.error("Value must be greater than 0");
+        }
+        if(updatedProject.startDate > updatedProject.endDate){
+            setLoading(false);
+            return toast.error("Start Date cannot be greater than End Date");
         }
        
         try {     

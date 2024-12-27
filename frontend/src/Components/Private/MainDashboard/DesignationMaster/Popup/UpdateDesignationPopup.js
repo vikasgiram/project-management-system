@@ -131,6 +131,7 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
   // };
   
   const handleInputChange = (event) => {
+    event.preventDefault();
     const { name, value,type, checked } = event.target;
     setDesignation((prevDesignation) => ({
         ...prevDesignation,
@@ -143,7 +144,14 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
   
 
   // Handle role addition
-  const handleUpdateDesignation = async () => {
+  const handleUpdateDesignation = async (e) => {
+    e.preventDefault();
+    if(!designation.name || !designation.department){
+      return toast.error("Please fill all fields");
+    }
+    if(designation.permissions.length === 0){
+      return toast.error("Please select at least one permission");
+    }
    try{
     await updateDesignation(designation);
     handleUpdate();
@@ -158,13 +166,13 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
       <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         <div className="modal-dialog modal-lg">
           <div className="modal-content p-3">
-            <form>
+            <form onSubmit={handleUpdateDesignation}>
             <div className="modal-header pt-0">
               <h5 className="card-title fw-bold" id="exampleModalLongTitle">
                 Update Designation
               </h5>
               <button
-                onClick={() => handleUpdate()}
+                onClick={handleUpdate}
                 type="button"
                 className="close px-3"
                 style={{ marginLeft: "auto" }}
@@ -692,7 +700,6 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
                 <div className="col-12 pt-3 mt-2">
                   <button
                     type="submit"
-                    onClick={handleUpdateDesignation}
                     className="w-80 btn addbtn rounded-0 add_button m-2 px-4"
                   >
                     Update

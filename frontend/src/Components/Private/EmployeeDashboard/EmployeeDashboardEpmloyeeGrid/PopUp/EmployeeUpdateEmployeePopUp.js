@@ -27,8 +27,25 @@ const EmployeeUpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
     };
 
     const handleEmpUpdate = async (event) => {
-
         event.preventDefault();
+
+        if (!employee.name || !employee.department || !employee.designation || !employee.email || !employee.mobileNo || !employee.hourlyRate) {
+            toast.error("All fields are required");
+            return;
+        }
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(employee.email)) {
+            toast.error("Enter valid Email");
+            return;
+        }
+        if (employee.mobileNo.length !== 10) {
+            toast.error("Enter a valid phone number");
+            return;
+        }
+        if (employee.hourlyRate < 0) {
+            toast.error("Hourly Rate cannot be negative");
+            return;
+        }
         try {
             await updateEmployee(employee);
             handleUpdate();
@@ -111,7 +128,9 @@ const EmployeeUpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
                                                 Mobile Number
                                             </label>
                                             <input
-                                                type="number"
+                                                type="tel"
+                                                pattern="[0-9]{10}"
+                                                maxLength="10"
                                                 name="mobileNo"
                                                 value={employee.mobileNo}
                                                 onChange={handleChange}
