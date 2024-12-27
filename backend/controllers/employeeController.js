@@ -16,13 +16,9 @@ exports.showAll = async (req, res) => {
   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+
   
     const employees = await Employee.find({company:decoded.user.company?decoded.user.company:decoded.user._id},{ password: 0 })
-    .skip(skip)
-    .limit(limit)
     .populate('department', 'name') 
     .populate('designation', 'name');
 
@@ -34,10 +30,7 @@ exports.showAll = async (req, res) => {
     const totalRecords = await Employee.countDocuments({company:decoded.user.company? decoded.user.company: decoded.user._id});
 
     res.status(200).json({
-      employees,
-      currentPage:page,
-      totalPages:Math.ceil(totalRecords / limit),
-      totalRecords
+      employees
     });
   } catch (error) {
     res.status(500).json({ error: "Error while fetching employees: " + error.message });

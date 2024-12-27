@@ -4,7 +4,7 @@ import { formatDateforupdate } from "../../../../../utils/formatDate";
 
 const ViewServicePopUp = ({ closePopUp, selectedService }) => {
   const [service, setService] = useState(selectedService);
-
+    console.log("service", service);
 
   // const formattedPurchaseOrderDate = formatDateforupdate(projects?.purchaseOrderDate);
   // const formattedStartDate = formatDateforupdate(projects?.startDate);
@@ -30,7 +30,19 @@ const ViewServicePopUp = ({ closePopUp, selectedService }) => {
                       </div>
                       <div className="modal-body">
                         <div className="row modal_body_height">
-        
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm- col-md col-lg">
+                                    <h6> Complaint: {service.ticket.details}</h6>
+                                    <h6> Client: {service.ticket.client.custName}</h6>
+                                    <h6> Product: {service.ticket.product}</h6>
+                                </div>
+                                <div class="col-sm- col-md col-lg">
+                                    <p> Allotment Date: {service.allotmentDate}</p>
+                                </div>
+                               
+                            </div>
+                        </div>
                           
         
                         </div>

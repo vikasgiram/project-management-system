@@ -16,30 +16,19 @@ exports.showAll = async (req, res) => {
   }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
 
     const projects = await Project.find({
       company: decoded.user.company ? decoded.user.company : decoded.user._id,
     })
-      .skip(skip)
-      .limit(limit)
       .populate("custId", "custName");
 
     if (projects.length <= 0) {
       return res.status(400).json({ error: "No Projects Found" });
     }
 
-    const totalRecords = await Project.countDocuments({
-      company: decoded.user.company ? decoded.user.company : decoded.user._id,
-    });
-
     res.status(200).json({
       projects,
-      currentPage: page,
-      totalPages: Math.ceil(totalRecords / limit),
-      totalRecords,
+
     });
   } catch (error) {
     res

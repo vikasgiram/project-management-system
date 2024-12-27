@@ -29,15 +29,11 @@ exports.showAll = async (req, res) => {
       token,
       process.env.JWT_SECRET
     );
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+   
 
     const customer = await Customer.find({
       company: decoded.user.company ? decoded.user.company : decoded.user._id,
-    })
-      .skip(skip)
-      .limit(limit);
+    });
 
     if (customer.length <= 0) {
       return res.status(400).json({ error: "No Customer Found" });
@@ -48,10 +44,7 @@ exports.showAll = async (req, res) => {
     });
 
     res.status(200).json({
-      customers: customer,
-      currentPage: page,
-      totalPages: Math.ceil(count / limit),
-      totalRecords: count,
+      customers: customer
     });
   } catch (error) {
     res

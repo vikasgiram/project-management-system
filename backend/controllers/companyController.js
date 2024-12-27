@@ -13,23 +13,15 @@ const {bucket} = require('../utils/firebase');
 
 exports.showAll = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
 
-    const companies = await Company.find({}, { password: 0 }).skip(skip).limit(limit);
+    const companies = await Company.find({}, { password: 0 });
 
     if (companies.length <= 0) {
-      console.log(companies);
       return res.status(400).json({ error: "No company found" });
     }
 
-    const totalRecords = await Company.countDocuments();
     res.status(200).json({
-      companies,
-      currentPage: page,
-      totalPages: Math.ceil(totalRecords / limit),
-      totalRecords,
+      companies
     });
   } catch (error) {
     res.status(500).json({ error: "Error while fetching companies: " + error.message });

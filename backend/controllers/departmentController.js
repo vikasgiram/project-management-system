@@ -13,13 +13,8 @@ exports.showAll = async (req, res)=>{
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const page=parseInt(req.query.page)|| 1;
-        const limit= parseInt(req.query.limit) || 10;
-        const skip = (page - 1)*limit;
 
-        const department= await Department.find({company:decoded.user.company? decoded.user.company: decoded.user._id})
-        .skip(skip)
-        .limit(limit);
+        const department= await Department.find({company:decoded.user.company? decoded.user.company: decoded.user._id});
 
         const totalRecords = await Department.countDocuments({company:decoded.user.company? decoded.user.company: decoded.user._id});
 
@@ -27,10 +22,7 @@ exports.showAll = async (req, res)=>{
             return res.status(400).json({error:"Department not found"});
         }
         res.status(200).json({
-            department,
-            currentPage:page,
-            totalPages:Math.ceil(totalRecords/limit),
-            totalRecords
+            department
         });
     } catch (error) {
         res.status(500).json({error:"Error while Getting the Departments: "+error.message});
