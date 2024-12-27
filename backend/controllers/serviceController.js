@@ -2,6 +2,7 @@ const Service = require("../models/serviceModel");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const Ticket = require("../models/ticketModel");
+const {ticketProcessMail} = require('../utils/ticketProcessMail');
 
 exports.showAll = async (req, res) => {
   try {
@@ -125,6 +126,8 @@ exports.create = async (req, res) => {
     ticketData.service = service._id;
     await ticketData.save();
     // send ticket allotment mail here
+    console.log("Service Created sending Mail...");
+    ticketProcessMail(service._id);
     res.status(200).json({ message: "Service Created..." });
   } catch (error) {
     res

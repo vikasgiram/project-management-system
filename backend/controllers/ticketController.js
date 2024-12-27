@@ -62,7 +62,7 @@ exports.create= async(req, res)=>{
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const {client, Address, details, product, contactPerson, contactNumber, source} = req.body;
-        console.log(decoded);
+        // console.log(decoded);
         const ticket = new Ticket({
             company: decoded.user.company,
             client,
@@ -76,8 +76,9 @@ exports.create= async(req, res)=>{
 
         });
         await ticket.save();
-        console.log(ticket);
-        // sendConfirmationMail(ticket._id);
+        // console.log(ticket);
+        // console.log("Ticket Generated Sending Confirmation Mail...");
+        sendConfirmationMail(ticket._id);
         res.status(201).json({message:"Ticket Created Successfully..."});
     } catch (error) {
         res
