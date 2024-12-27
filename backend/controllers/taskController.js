@@ -5,10 +5,14 @@ const TaskSheet = require('../models/taskSheetModel');
 exports.create = async (req, res) => {
   try {
     const { name } = req.body;
-  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-  if(!token){
-    return res.status(403).json({ error: 'Unauthorized you need to login first' });
-  }
+    const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+    if(!token){
+      return res.status(403).json({ error: 'Unauthorized you need to login first' });
+    }
+    const existingTask = await Task.findOne({ name });
+    if(existingTask){
+      return res.status(400).json({ error: 'Task with this name already exists' });
+    }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const task = await Task.create({
@@ -63,6 +67,7 @@ exports.delete = async (req, res) => {
   try {
 
     const id = req.params.id;
+    
     const task = await Task.findByIdAndDelete(id);
     await TaskSheet.deleteMany({ taskName: id });
 

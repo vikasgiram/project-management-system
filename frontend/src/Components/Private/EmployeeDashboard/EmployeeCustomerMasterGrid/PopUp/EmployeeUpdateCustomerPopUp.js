@@ -169,7 +169,7 @@ const EmployeeUpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
                             for="phoneNumber1"
                             className="form-label label_text"
                           >
-                            Contact no
+                            Contact no 1
                           </label>
                           <input
                             type="number"

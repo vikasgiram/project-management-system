@@ -5,10 +5,10 @@ const Employee = require('../models/employeeModel');
 
 exports.showAll = async (req, res) => {
     try {
-  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-  if(!token){
-    return res.status(403).json({ error: 'Unauthorized you need to login first' });
-  }
+      const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+      if(!token){
+        return res.status(403).json({ error: 'Unauthorized you need to login first' });
+      }
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
      
   
@@ -23,11 +23,11 @@ exports.showAll = async (req, res) => {
   };
 
   exports.getDesignation = async (req, res) => {
-    try {
-  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-  if(!token){
-    return res.status(403).json({ error: 'Unauthorized you need to login first' });
-  }
+        try {
+      const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+      if(!token){
+        return res.status(403).json({ error: 'Unauthorized you need to login first' });
+      }
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const departmentId = req.query.department; // Get departmentId from query params
   
@@ -51,28 +51,32 @@ exports.showAll = async (req, res) => {
   };
 
 exports.create = async (req, res)=>{
-    try {
-  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-  if(!token){
-    return res.status(403).json({ error: 'Unauthorized you need to login first' });
-  }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const {name, department, permissions}= req.body;
-        const newDesignation = await Designation({
-            name,
-            department,
-            company:decoded.user._id,
-            permissions,
-        });
-
-        if(newDesignation){
-            await newDesignation.save();
-            return res.status(200).json({newDesignation});
-        }
-        res.status(400).json({error:"Designation not created "});
-    } catch (error) {
-        res.status(500).json({error:"Error while Creating Designation: "+ error.message});
+  try {
+    const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+    if(!token){
+      return res.status(403).json({ error: 'Unauthorized you need to login first' });
     }
+    const {name, department, permissions}= req.body;
+    const existingdesignation = await Designation.findOne({name, department});
+    if(existingdesignation){
+      return res.status(400).json({ error: 'Designation with this name already exists' });
+    }
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const newDesignation = await Designation({
+          name,
+          department,
+          company:decoded.user._id,
+          permissions,
+      });
+
+      if(newDesignation){
+          await newDesignation.save();
+          return res.status(200).json({newDesignation});
+      }
+      res.status(400).json({error:"Designation not created "});
+  } catch (error) {
+      res.status(500).json({error:"Error while Creating Designation: "+ error.message});
+  }
 };
 
 exports.update = async ( req, res)=>{

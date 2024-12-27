@@ -35,7 +35,7 @@ const createService = async (serviceData) => {
       console.error(data.error);
       return toast.error(data.error);
     }
-    toast.success("Service submitted..");
+    toast.success("Service Assigned..");
     return data;
   } catch (error) {
     console.error(error);
@@ -58,7 +58,7 @@ const updateService = async (id, updatedData) => {
       console.error(data.error);
       return alert(data.error);
     }
-    toast.success("Action Updated Successfuly");
+    toast.success("Service Updated Successfuly");
     return data;
   } catch (error) {
     console.error(error);

@@ -1,5 +1,5 @@
 
-const DeletePopUP = ({ cancelBtnCallBack,confirmBtnCallBack}) => {
+const DeletePopUP = ({ cancelBtnCallBack,confirmBtnCallBack,message}) => {
 
 
     return (<>
@@ -8,7 +8,7 @@ const DeletePopUP = ({ cancelBtnCallBack,confirmBtnCallBack}) => {
                 <div className="modal-content p-3">
                     <div className="modal-header pt-0">
 
-                        <h5 className="card-title fw-bold" id="exampleModalLongTitle">abcd</h5>
+                        <h5 className="card-title fw-bold" id="exampleModalLongTitle">Delete</h5>
                         <button onClick={() => cancelBtnCallBack()} type="button" className="close" style={{ marginLeft: "auto" }}>
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -18,8 +18,9 @@ const DeletePopUP = ({ cancelBtnCallBack,confirmBtnCallBack}) => {
 
                         <div className="row">
 
-                            <div className="col-12 d-flex justify-content-center my-4">
-                                <h6 className="fw-bold">Are you sure! Do you want to Delete?</h6>
+                            <div className="col-12 justify-content-center my-4">
+                                <h6 className="fw-bold">Are you sure! Do you want to Delete ?</h6>
+                                <p>{message}</p>
                             </div>
                             <div className="col-12  d-flex justify-content-center">
                                 <div className="form-group w-80 d-flex justify-content-between">

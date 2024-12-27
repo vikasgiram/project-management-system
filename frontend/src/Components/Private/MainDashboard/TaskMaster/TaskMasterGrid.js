@@ -242,7 +242,7 @@ export const TaskMasterGrid = () => {
             {
                 deletePopUpShow ?
                     <DeletePopUP
-                        message={"Are you sure! Do you want to Delete ?"}
+                        message={'if you delete this task then all the related Tasksheet will be deleted.'}
                         cancelBtnCallBack={handelDeleteClosePopUpClick}
                         confirmBtnCallBack={handelDeleteClick}
                         heading="Delete"

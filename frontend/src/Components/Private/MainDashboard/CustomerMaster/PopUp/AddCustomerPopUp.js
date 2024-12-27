@@ -170,7 +170,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             for="SecondaryPersonName"
                             className="form-label label_text"
                           >
-                            Customer Contact Person Name 1 <RequiredStar />
+                            Contact Person Name 1 <RequiredStar />
                           </label>
                           <input
                             type="text"
@@ -192,7 +192,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             for="SecondaryPersonName2"
                             className="form-label label_text"
                           >
-                            Customer Contact Person Name 2 <RequiredStar />
+                            Contact Person Name 2 <RequiredStar />
                           </label>
                           <input
                             type="text"
@@ -214,7 +214,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             for="MobileNumber"
                             className="form-label label_text"
                           >
-                            Mobile Number 1 <RequiredStar />
+                            Contact Person No 1 <RequiredStar />
                           </label>
                           <input
                             type="tel"
@@ -236,7 +236,7 @@ const AddCustomerPopUp = ({ handleAdd }) => {
                             for="mobileNo"
                             className="form-label label_text"
                           >
-                             Mobile Number 2 <RequiredStar />
+                            Contact Person No. 2 <RequiredStar />
                           </label>
                           <input
                             type="tel"

@@ -148,7 +148,6 @@ const AddDesignationPopup = ({ handleAdd }) => {
       return toast.error("Please fill all fields");
     }
     await createDesignation(data);
-    toast.success("Designation created successfully");
     handleAdd();
   };
 

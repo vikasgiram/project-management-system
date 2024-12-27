@@ -4,7 +4,7 @@ import { EmployeeSidebar } from "../EmployeeSidebar";
 import { toast } from "react-toastify";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
 import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
-// import AddServicePopup from "./PopUp/AddServicePopUp"
+import ViewServicePopUp from "./PopUp/ViewServicePopUp";
 import { getAllService, deleteService } from "../../../../hooks/useService";
 import { formatDate } from "../../../../utils/formatDate";
 
@@ -20,6 +20,7 @@ export const EmployeeServiceMasterGrid = () => {
   const [AddPopUpShow, setAddPopUpShow] = useState(false);
   const [deletePopUpShow, setdeletePopUpShow] = useState(false);
   const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
+  const [detailsServicePopUp, setDetailsServicePopUp] = useState(false);
 
 
   const [selectedId, setSelecteId] = useState(null);
@@ -45,6 +46,11 @@ export const EmployeeServiceMasterGrid = () => {
   const handleUpdate = (projects = null) => {
     setSelectedService(projects);
     setUpdatePopUpShow(!UpdatePopUpShow);
+  };
+
+  const handelDetailsPopUpClick = (service) => {
+    setSelectedService(service);
+    setDetailsServicePopUp(!detailsServicePopUp);
   };
 
   const handelDeleteClosePopUpClick = (id) => {
@@ -172,13 +178,9 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                           <th>Complaint</th>
                           <th>Client</th>
                           <th>Product</th>
-
-                          <th>Service Type</th>
                           <th>Priority</th>
-                          <th>Zone</th>
                           <th>Allotment Date</th>
                           <th>Allocated to</th>
-                          <th>Workmode</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -191,14 +193,11 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                 <td>{service.ticket.details}</td>
                                 <td>{service.ticket.client.custName}</td>
                                 <td>{service.ticket.product}</td>
-                                <td>{service.serviceType}</td>
                                 <td>{service.priority}</td>
-                                <td>{service.zone}</td>
                                 <td>{formatDate(service.allotmentDate)}</td>
                                 {service.allotTo && service.allotTo.map((allotTo) => (
                                   <td >{allotTo.name}</td>
                                 ))}
-                                <td>{service.workMode}</td>
                                 <td>{service.status}</td>
                                 <td>
                                   <span
@@ -219,7 +218,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                     <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
                                   </span>
 
-                                  <span>
+                                  <span onClick={() => handelDetailsPopUpClick(service)}>
                                     <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
                                   </span>
                                 </td>
@@ -291,16 +290,14 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       ) : (
         <></>
       )}
-      {/* {DetailsPopUpShow ? (
-        <GaintchartPoup
-          handleDetails={handleDetails}
+      {detailsServicePopUp ? (
+        <ViewServicePopUp
+          closePopUp={handelDetailsPopUpClick}
           selectedService={selectedService}
-        // heading="Forward"
-        // cancelBtnCallBack={handleAddDepartment}
         />
       ) : (
         <></>
-      )} */}
+      )}
     </>
   );
 };

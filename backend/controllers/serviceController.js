@@ -46,7 +46,6 @@ exports.update = async (req, res) => {
         .status(403)
         .json({ error: "Unauthorized you need to login first" });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { id } = req.params;
     const {
       serviceType,
@@ -70,12 +69,7 @@ exports.update = async (req, res) => {
       new: true,
     });
 
-    service.remarks.push(remarks);
-    if (status === "Completed") {
-      service.days = moment(completionDate).diff(allotmentDate, "days");
-      // send feedback to link through email
-      // sendMail(id);
-    }
+
     await service.save();
 
     if (!service) {
@@ -99,6 +93,7 @@ exports.create = async (req, res) => {
         .status(403)
         .json({ error: "Unauthorized you need to login first" });
     }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const {
       serviceType,
@@ -208,21 +203,3 @@ exports.submitWork= async(req,res)=>{
     res.status(500).json({error:"Error while submitting the work : "+error.message});
   }
 }
-
-const sendMail = (id) => {
-  // Add your email sending logic here
-  const service = Service.findById(id);
-  const ticket = Ticket.findById(service.ticket).populate(
-    "clientName",
-    "email"
-  );
-
-  const ticketDetails = {
-    ticketId: ticket._id,
-    raisedDate: ticket.date,
-    resolvedDate: service.completionDate,
-    resolutionDetails: service.remarks[service.remarks.length - 1],
-    feedbackLink: "https://your-feedback-link.com", // need to create feedback link
-  };
-  sendFeedbackMail(ticket.clientName.email, ticketDetails);
-};

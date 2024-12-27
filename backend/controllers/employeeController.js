@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const { ObjectId } = require("mongodb");
 const Employee = require('../models/employeeModel');
 const Project = require('../models/projectModel');
+const Company = require('../models/companyModel');
+const Admin = require('../models/adminModel');
 const EmployeeHistory = require('../models/employeeHistoryModel');
 const TaskSheet = require('../models/taskSheetModel');
 

@@ -7,10 +7,10 @@ const Employee = require('../models/employeeModel');
 
 exports.showAll = async (req, res)=>{
     try {
-  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-  if(!token){
-    return res.status(403).json({ error: 'Unauthorized you need to login first' });
-  }
+        const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+            return res.status(403).json({ error: 'Unauthorized you need to login first' });
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const page=parseInt(req.query.page)|| 1;
@@ -38,13 +38,19 @@ exports.showAll = async (req, res)=>{
 }
 
 exports.create = async ( req, res)=>{
-    try {
-  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-  if(!token){
-    return res.status(403).json({ error: 'Unauthorized you need to login first' });
-  }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            try {
+        const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+            return res.status(403).json({ error: 'Unauthorized you need to login first' });
+        }
         const {name}=req.body;
+
+        const existingDepartment = await Department.findOne({name});
+
+        if(existingDepartment){
+            return res.status(400).json({error:"Department with this name already exists"});
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const dep= await Department({
             name,
             company:decoded.user.company?decoded.user.company:decoded.user._id

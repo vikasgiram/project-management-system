@@ -6,7 +6,7 @@ import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 
 
-const AddTaskPopUp = ({ handleAdd ,cancelBtnCallBack}) => {
+const AddTaskPopUp = ({ handleAdd }) => {
 
     const [taskname, setTaskname] = useState("");
 
@@ -21,16 +21,8 @@ const AddTaskPopUp = ({ handleAdd ,cancelBtnCallBack}) => {
         }
         await createTask(data);
         handleAdd();
-        cancelBtnCallBack();
     };
-    const handleCancleButtonClick = () => {
-        if (handleAdd) {
-            handleAdd(); // Call handleAdd if defined
-        }
-        if (cancelBtnCallBack) {
-            cancelBtnCallBack(); // Call cancelBtnCallBack if defined
-        }
-    };
+
 
     return (
         <>
@@ -50,7 +42,7 @@ const AddTaskPopUp = ({ handleAdd ,cancelBtnCallBack}) => {
                                 {/* Forward */}
                             </h5>
                             <button
-                                onClick={() => handleCancleButtonClick()}
+                                onClick={() => handleAdd()}
                                 type="button"
                                 className="close px-3"
                                 style={{ marginLeft: "auto" }}
@@ -99,7 +91,7 @@ const AddTaskPopUp = ({ handleAdd ,cancelBtnCallBack}) => {
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={handleCancleButtonClick}
+                                            onClick={handleAdd}
                                             className="w-80  btn addbtn rounded-0 Cancel_button m-2 px-4"
                                         >
                                             Cancel
