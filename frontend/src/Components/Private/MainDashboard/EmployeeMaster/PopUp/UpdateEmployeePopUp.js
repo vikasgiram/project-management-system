@@ -42,6 +42,9 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
     if (/[a-zA-Z]/.test(employee.mobileNo)) {
       return toast.error("Phone number should not contain alphabets");
     }
+    if (/[^0-9]/.test(employee.mobileNo)) {
+      return toast.error("Phone number should not contain special characters");
+    }
     if(employee.hourlyRate <= 0){
       return toast.error("Hourly rate should be greater than 0");
     }

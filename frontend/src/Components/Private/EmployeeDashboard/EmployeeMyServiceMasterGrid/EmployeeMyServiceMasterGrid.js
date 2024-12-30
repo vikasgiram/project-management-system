@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { Header } from "../Header/Header";
-import { Sidebar } from "../Sidebar/Sidebar";
+import { EmployeeHeader } from "../EmployeeHeader";
+import { EmployeeSidebar } from "../EmployeeSidebar";
 import { toast } from "react-toastify";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
-import { getAllService, deleteService } from "../../../../hooks/useService";
-import { formatDate } from "../../../../utils/formatDate";
+// import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
 import ViewServicePopUp from "./PopUp/ViewServicePopUp";
+import {  deleteService ,getMyService} from "../../../../hooks/useService";
+import { formatDate } from "../../../../utils/formatDate";
 
-export const ServiceMasterGrid = () => {
 
+
+export const EmployeeMyServiceMasterGrid = () => {
 
   const [isopen, setIsOpen] = useState(false);
   const toggle = () => {
@@ -19,12 +20,12 @@ export const ServiceMasterGrid = () => {
   const [AddPopUpShow, setAddPopUpShow] = useState(false);
   const [deletePopUpShow, setdeletePopUpShow] = useState(false);
   const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
+  const [detailsServicePopUp, setDetailsServicePopUp] = useState(false);
 
 
   const [selectedId, setSelecteId] = useState(null);
   const [service, setService] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const [detailsServicePopUp, setDetailsServicePopUp] = useState(false);
 
   const [selectedService, setSelectedService] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,12 +36,21 @@ export const ServiceMasterGrid = () => {
       setCurrentPage(page);
   };
 
+  const handleAdd = () => {
+    setAddPopUpShow(!AddPopUpShow);
+  };
+
 
 
 
   const handleUpdate = (projects = null) => {
     setSelectedService(projects);
     setUpdatePopUpShow(!UpdatePopUpShow);
+  };
+
+  const handelDetailsPopUpClick = (service) => {
+    setSelectedService(service);
+    setDetailsServicePopUp(!detailsServicePopUp);
   };
 
   const handelDeleteClosePopUpClick = (id) => {
@@ -61,9 +71,9 @@ export const ServiceMasterGrid = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await getAllService();
+        const data = await getMyService();
+        console.log(data,"nsdhgh");
         if (data) {
-          // console.log(data);
           setService(data);
           setFilteredProjects(data);
           
@@ -87,10 +97,9 @@ export const ServiceMasterGrid = () => {
       setFilteredProjects(service);
     }
   };
-  const handelDetailsPopUpClick = (service) => {
-    setSelectedService(service);
-    setDetailsServicePopUp(!detailsServicePopUp);
-  };
+
+
+  
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -98,7 +107,6 @@ const currentData = filteredProjects.slice(indexOfFirstItem, indexOfLastItem);
 
 // Total pages
 const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
-
 
   return (
     <>
@@ -110,9 +118,9 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
 
       <div className="container-scroller">
         <div className="row background_main_all">
-          <Header toggle={toggle} isopen={isopen} />
+          <EmployeeHeader toggle={toggle} isopen={isopen} />
           <div className="container-fluid page-body-wrapper">
-            <Sidebar isopen={isopen} active="ServiceMasterGrid" />
+            <EmployeeSidebar isopen={isopen} active="EmployeeMyServiceMasterGrid" />
             <div
               className="main-panel"
               style={{
@@ -123,7 +131,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
               <div className="content-wrapper ps-3 ps-md-0 pt-3">
                 <div className="row px-2 py-1   ">
                   <div className="col-12 col-lg-4">
-                    <h5 className="text-white py-2">Service Master</h5>
+                    <h5 className="text-white py-2">My Service Master</h5>
                   </div>
 
                   <div className="col-12 col-lg-6  ms-auto text-end">
@@ -143,9 +151,9 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                         </select> */}
                       </div>
 
-                      <div className="col-2 col-lg-2 ms-auto">
+                      {/* <div className="col-2 col-lg-2 ms-auto">
 
-                        {/* <button
+                        <button
                           onClick={() => {
                             
                           }}
@@ -154,9 +162,9 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                         >
                           {" "}
                           <i className="fa-solid fa-plus"></i> Add
-                        </button> */}
+                        </button>
 
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -173,7 +181,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                           <th>Complaint</th>
                           <th>Client</th>
                           <th>Product</th>
-                          <th>Priority</th>      
+                          <th>Priority</th>
                           <th>Allotment Date</th>
                           <th>Allocated to</th>
                           <th>Status</th>
@@ -202,16 +210,6 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                     <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                   </span>
 
-                                  
-
-                                  <span
-                                    onClick={() =>
-                                      handelDeleteClosePopUpClick(service._id)
-                                    }
-                                    className="delete"
-                                  >
-                                    <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
-                                  </span>
 
                                   <span onClick={() => handelDetailsPopUpClick(service)}>
                                     <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
@@ -267,7 +265,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       )}
       {/* {AddPopUpShow ? (
         <AddServicePopup
-          message="Create New Employee"
+          message="Create New Service"
           handleAdd={handleAdd}
         // heading="Forward"
         // cancelBtnCallBack={handleAddDepartment}
@@ -275,7 +273,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       ) : (
         <></>
       )} */}
-      {UpdatePopUpShow ? (
+      {/* {UpdatePopUpShow ? (
         <UpdateServicePopup
           handleUpdate={handleUpdate}
           selectedService={selectedService}
@@ -284,8 +282,8 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
         />
       ) : (
         <></>
-      )}
-        {detailsServicePopUp ? (
+      )} */}
+      {detailsServicePopUp ? (
         <ViewServicePopUp
           closePopUp={handelDetailsPopUpClick}
           selectedService={selectedService}

@@ -88,6 +88,9 @@ const AddCustomerPopUp = ({ handleAdd }) => {
     if (/[a-zA-Z]/.test(phoneNumber1) || /[a-zA-Z]/.test(phoneNumber2)) {
       return toast.error("Phone number should not contain alphabets");
     }
+    if (/[^0-9]/.test(phoneNumber1) || /[^0-9]/.test(phoneNumber2)) {
+      return toast.error("Phone number should not contain special characters");
+    }
 
     if(phoneNumber1<0 || phoneNumber2<0){
       return toast.error("Phone number should be Positive");

@@ -20,6 +20,21 @@ const getAllService = async () => {
 };
 
 
+const getMyService = async () => {
+  try {
+    const response = await axios.get(`${url}/myService`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    const data = response.data;
+    // console.log("api actions",response);
+    return data;
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response.data.message);  }
+};
+
 
 const createService = async (serviceData) => {
   try {
@@ -85,4 +100,4 @@ const deleteService = async (Id) => {
     toast.error(error.response.data.error);}
 };
 
-export { getAllService, createService, updateService, deleteService };
+export { getAllService, createService, updateService, deleteService ,getMyService};

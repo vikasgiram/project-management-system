@@ -62,6 +62,37 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>
 
                     <li
+                    title="My Projects"
+                        className={Open || active === "EmployeeTaskGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeTaskGrid' className="nav-link ">
+                            <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i>
+
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                My Projects
+                            </span>
+                        </Link>
+                    </li>
+
+                    <li
+                        title="My Service"
+                        className={Open || active === "EmployeeMyServiceMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeMyServiceMasterGrid' className="nav-link ">
+                            {/* <i class="fa-solid fa-people-line ps-3 side_icon_fs"></i> */}
+                            <i class="fa fa-address-card ps-3 side_icon_fs"></i>
+
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                               My Service
+                            </span>
+                        </Link>
+                    </li>
+
+                    <li
                         title="Ticket"
                         className={Open || active === "EmployeeTicketMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
                         <Link to='/EmployeeTicketMasterGrid' className="nav-link ">
@@ -88,25 +119,12 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                                 className="menu-title_m"
                                 style={{ display: isopen ? "" : "none" }}
                             >
-                                Ticket
+                                Service
                             </span>
                         </Link>
                     </li>
 
-                    <li
-                    title="My Projects"
-                        className={Open || active === "EmployeeTaskGrid" ? " nav-item active" : "nav-item sidebar_item"}>
-                        <Link to='/EmployeeTaskGrid' className="nav-link ">
-                            <i class="fa-solid fa-bars-progress ps-3 side_icon_fs"></i>
-
-                            <span
-                                className="menu-title_m"
-                                style={{ display: isopen ? "" : "none" }}
-                            >
-                                My Projects
-                            </span>
-                        </Link>
-                    </li>
+                   
 
                     {user.permissions.includes('viewProject')?(
                         <li

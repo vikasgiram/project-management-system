@@ -91,6 +91,9 @@ const UpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     if (/[a-zA-Z]/.test(updatedCustomer.phoneNumber1) || /[a-zA-Z]/.test(updatedCustomer.phoneNumber2)) {
       return toast.error("Phone number should not contain alphabets");
     }
+    if (/[^0-9]/.test(updatedCustomer.phoneNumber1) || /[^0-9]/.test(updatedCustomer.phoneNumber2)) {
+      return toast.error("Phone number should not contain special characters");
+    }
   if(updatedCustomer.phoneNumber1.length !== 10 || updatedCustomer.phoneNumber2.length !== 10){
     return toast.error("Enter a valid phone number");
   }

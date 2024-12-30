@@ -74,6 +74,9 @@ const AddEmployeePopup = ({ handleAdd }) => {
     if (/[a-zA-Z]/.test(mobileNo)) {
       return toast.error("Phone number should not contain alphabets");
     }
+    if (/[^0-9]/.test(mobileNo)) {
+      return toast.error("Phone number should not contain special characters");
+    }
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
       return toast.error("Enter valid Email");
