@@ -76,7 +76,7 @@ export const EmployeeTaskChart = () => {
     }
 
     const handleAdd=(event)=>{
-        // event.preventDefault();
+        event.preventDefault();
         setRenderPage(!renderPage)
         handleTaskAdd();
     }
@@ -288,6 +288,9 @@ export const EmployeeTaskChart = () => {
         ) {
             return toast.error("Please fill all fields");
         }
+        if(startDate>endDate){
+            return toast.error("Start date should be less than end date");
+        }
 
 
         await createTaskSheet(data);
@@ -314,7 +317,7 @@ export const EmployeeTaskChart = () => {
             )}
             <div className="container-scroller">
                 <div className="row background_main_all">
-                    <form>
+                    <form onSubmit={handleAdd}>
                     <EmployeeHeader
                         toggle={toggle} isopen={isopen} />
                     <div className="container-fluid page-body-wrapper">
@@ -427,9 +430,6 @@ export const EmployeeTaskChart = () => {
 
                                         <div className="col-12 col-lg-3  pt-3 mt-3 ">
                                             <button
-                                                onClick={() => {
-                                                    handleAdd();
-                                                }}
                                                 type="submit"
                                                 className="btn adbtn btn-success px-4 me-lg-4 mx-auto"> <i className="fa-solid fa-plus"></i> Add</button>
                                             <button

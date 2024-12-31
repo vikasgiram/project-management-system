@@ -71,7 +71,17 @@ const EmployeeUpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
       billingAddress,
       // deliveryAddress
     }
-
+    if (
+      !updatedCustomer.custName ||
+      !updatedCustomer.phoneNumber1 ||
+      !updatedCustomer.email ||
+      !updatedCustomer.customerContactPersonName2 ||
+      !updatedCustomer.customerContactPersonName1 ||
+      !updatedCustomer.phoneNumber2 ||
+      !updatedCustomer.GSTNo
+    ) {
+      return toast.error("Please fill all fields");
+    }
     if(updatedCustomer.phoneNumber1.length !== 10 || updatedCustomer.phoneNumber2.length !== 10){
       return toast.error("Enter a valid phone number");
     }
@@ -80,6 +90,10 @@ const EmployeeUpdateCustomerPopUp = ({ handleUpdate, selectedCust }) => {
     }
     if(updatedCustomer.phoneNumber1<=0 || updatedCustomer.phoneNumber2<=0){
       return toast.error("Phone number should be greater than 0");
+    }
+    const phoneRegex = /^\d+$/;
+    if (!phoneRegex.test(updatedCustomer.phoneNumber1) || !phoneRegex.test(updatedCustomer.phoneNumber2)) {
+        return toast.error("Phone number must only contain digits (0-9).");
     }
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

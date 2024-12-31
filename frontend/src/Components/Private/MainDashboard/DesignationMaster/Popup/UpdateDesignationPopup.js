@@ -691,6 +691,135 @@ const UpdateDesignationPopup = ({ handleUpdate, selectedDes }) => {
 
 
 
+<tr>
+  <td>Service</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="createService"
+          checked={designation.permissions.includes('createService')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="viewService"
+          checked={designation.permissions.includes('viewService')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="updateService"
+          checked={designation.permissions.includes('updateService')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="deleteService"
+          checked={designation.permissions.includes('deleteService')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>Ticket</td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="createTicket"
+          checked={designation.permissions.includes('createTicket')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="viewTicket"
+          checked={designation.permissions.includes('viewTicket')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        id="permissions"
+        name="updateTicket"
+        checked={designation.permissions.includes('updateTicket')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+  <td>
+    <div>
+      <label className="toggler-wrapper style-22">
+        <input type="checkbox"
+        name="deleteTicket"
+        id="permissions"
+          checked={designation.permissions.includes('deleteTicket')}
+          onChange={handleInputChange}
+        />
+        <div className="toggler-slider">
+          <div className="toggler-knob"></div>
+        </div>
+      </label>
+    </div>
+  </td>
+</tr>
+
+
+
                       </tbody>
                     </table>
                   </div>
