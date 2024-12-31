@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 export default function FeedbackForm() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    // name: "",
+    // email: "",
     rating: 0,
     message: "",
   });
@@ -132,6 +132,8 @@ export default function FeedbackForm() {
     cursor: "pointer",
     transition: "all 0.3s",
   };
+  console.log(formData,"formdata");
+  
 
   return (
     <div style={containerStyle}>
@@ -141,7 +143,7 @@ export default function FeedbackForm() {
       </p>
 
       <form style={formStyle} onSubmit={handleSubmit}>
-        <div style={formGroupStyle}>
+        {/* <div style={formGroupStyle}>
           <label style={labelStyle} htmlFor="name">
             Name
           </label>
@@ -169,7 +171,7 @@ export default function FeedbackForm() {
             onChange={handleInputChange}
             required
           />
-        </div>
+        </div> */}
 
         <div style={formGroupStyle}>
           <label style={labelStyle}>Rating</label>
