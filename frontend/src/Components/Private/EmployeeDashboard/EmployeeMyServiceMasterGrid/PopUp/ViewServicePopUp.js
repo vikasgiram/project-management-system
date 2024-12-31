@@ -15,7 +15,7 @@ const ViewServicePopUp = ({ closePopUp, selectedService }) => {
         
         <div className="modal fade show" style={{ display: "flex", alignItems: 'center', backgroundColor: "#00000090" }}>
         
-                  <div className="modal-dialog modal-lg">
+                  <div className="modal-dialog modal_widthhh_details modal-xl">
                     <div className="modal-content p-3">
                       <div className="modal-header pt-0">
         
@@ -29,8 +29,8 @@ const ViewServicePopUp = ({ closePopUp, selectedService }) => {
                         </button>
                       </div>
                       <div className="modal-body">
-                        <div className="row modal_body_height">
-                        <div class="container">
+                        <div className="row modal_body_height_details">
+                       
                             <div class="row">
                                 <div class="col-sm- col-md col-lg">
                                     <h6> <p className="fw-bold ">Complaint:</p> {service.ticket.details}</h6>
@@ -51,7 +51,7 @@ const ViewServicePopUp = ({ closePopUp, selectedService }) => {
                                 </div>
                                
                             </div>
-                        </div>
+                 
                           
         
                         </div>

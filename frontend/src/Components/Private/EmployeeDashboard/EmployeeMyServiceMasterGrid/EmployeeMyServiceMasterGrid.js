@@ -183,7 +183,6 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                           <th>Product</th>
                           <th>Priority</th>
                           <th>Allotment Date</th>
-                          <th>Allocated to</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -198,9 +197,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                 <td>{service.ticket.product}</td>
                                 <td>{service.priority}</td>
                                 <td>{formatDate(service.allotmentDate)}</td>
-                                {service.allotTo && service.allotTo.map((allotTo) => (
-                                  <td >{allotTo.name}</td>
-                                ))}
+                                
                                 <td>{service.status}</td>
                                 <td>
                                   <span

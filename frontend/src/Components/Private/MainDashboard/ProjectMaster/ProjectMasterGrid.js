@@ -186,22 +186,19 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                         </select>
                       </div>
 
-                      <div className="col-2 col-lg-2 ms-auto">
 
-                        <button
+                      <div className="col-4 col-lg-4 ms-auto">
+                      <button
                           onClick={() => {
                             handleAdd();
                           }}
                           type="button"
-                          className="btn adbtn btn-dark"
+                          className="btn adbtn btn-dark me-4"
                         >
                           {" "}
                           <i className="fa-solid fa-plus"></i> Add
                         </button>
 
-                      </div>
-
-                      <div className="col-4 col-lg-3 ms-auto">
                           <button
                             onClick={() => {
                               handleDownloads(project);
@@ -210,7 +207,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                             className="btn adbtn btn-dark"
                           >
                             {" "}
-                            <i className="fa-solid fa-download"></i> Download Report
+                            <i className="fa-solid fa-download"></i>  Report
                           </button>
                         </div>
 

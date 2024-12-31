@@ -9,6 +9,8 @@ router.get('/myService',serviceController.myServices);
 
 router.post('/',serviceController.create);
 
+router.put('/submitWork/:id', serviceController.submitWork);
+
 router.put('/:id',serviceController.update);
 
 router.delete('/:id', serviceController.delete);

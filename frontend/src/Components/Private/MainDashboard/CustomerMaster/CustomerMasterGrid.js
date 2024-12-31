@@ -120,7 +120,7 @@ export const CustomerMasterGrid = () => {
                                             Customer Master
                                         </h5>
                                     </div>
-                                    <div className="col-12 col-lg-4  ms-auto ">
+                                    <div className="col-12 col-lg-5  ms-auto ">
 
                                         <div className="row">
 

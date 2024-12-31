@@ -105,6 +105,7 @@ export const EmployeeMasterGrid = () => {
                             <div className="content-wrapper ps-3 ps-md-0 pt-3">
 
                                 <div className="row px-2 py-1   ">
+
                                     <div className="col-12 col-lg-6">
                                         <div className="row">
                                             <div className="col-12 col-lg-4">
@@ -113,11 +114,10 @@ export const EmployeeMasterGrid = () => {
                                                 </h5>
                                             </div>
                                         </div>
-
                                     </div>
 
 
-                                    <div className="col-12 col-lg-4 ms-auto  ">
+                                    <div className="col-12 col-lg-5 ms-auto  ">
                                         
                                         <div className="row">
                                             <div className="col-8 col-lg-6 ms-auto text-end">
