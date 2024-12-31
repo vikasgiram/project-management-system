@@ -3,7 +3,7 @@ import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import { toast } from "react-toastify";
 import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-// import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
+import EmployeeEditMyservicePopUp from "./PopUp/EmployeeEditMyservicePopUp";
 import ViewServicePopUp from "./PopUp/ViewServicePopUp";
 import {  deleteService ,getMyService} from "../../../../hooks/useService";
 import { formatDate } from "../../../../utils/formatDate";
@@ -270,8 +270,8 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
       ) : (
         <></>
       )} */}
-      {/* {UpdatePopUpShow ? (
-        <UpdateServicePopup
+      {UpdatePopUpShow ? (
+        <EmployeeEditMyservicePopUp
           handleUpdate={handleUpdate}
           selectedService={selectedService}
         // heading="Forward"
@@ -279,7 +279,7 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
         />
       ) : (
         <></>
-      )} */}
+      )}
       {detailsServicePopUp ? (
         <ViewServicePopUp
           closePopUp={handelDetailsPopUpClick}
