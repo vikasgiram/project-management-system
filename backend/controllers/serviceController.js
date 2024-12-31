@@ -181,7 +181,7 @@ exports.myServices = async (req, res) => {
 exports.submitWork= async(req,res)=>{
   try{
     const {id}=req.params;
-    const {status, completionDate, remarks, }=req.body;
+    const {status, completionDate, remarks }=req.body;
     const service=await Service.findById(id);
     if(!service){
       return res.status(400).json({error:"Service not found..."});

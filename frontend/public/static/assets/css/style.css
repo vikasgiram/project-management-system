@@ -2177,6 +2177,11 @@ table td {
   overflow-y: auto;
 }
 
+.modal_body_height_details {
+  height: 40vh !important;
+  overflow: auto !important;
+}
+
 .SecondaryInfo{
   border: 1px solid gray;
   padding: 3px 16px !important;
@@ -2731,6 +2736,16 @@ width: 65% !important;
 
 @media  screen and (max-width: 600px) {
   .modal_widthhh{
+    width: 95% !important;
+  }
+}
+
+.modal_widthhh_details{
+  width: 45% !important;
+}
+
+@media  screen and (max-width: 600px) {
+  .modal_widthhh_details{
     width: 95% !important;
   }
 }

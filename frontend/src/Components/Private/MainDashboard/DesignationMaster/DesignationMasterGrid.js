@@ -127,7 +127,7 @@ export const DesignationMasterGird = () => {
                                         </h5>
                                     </div>
 
-                                    <div className="col-12 col-lg-4  ms-auto text-end">
+                                    <div className="col-12 col-lg-5  ms-auto text-end">
 
                                         <div className="row">
                                             <div className="col-4 col-lg-6 ms-auto">
