@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useParams } from 'react-router-dom';
+import { createFeedback } from "../../hooks/useFeedback";
 
 export default function FeedbackForm() {
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     // name: "",
     // email: "",
     rating: 0,
     message: "",
+    service: id,
   });
 
   const messages = ["Terrible", "Bad", "Ok", "Good", "Amazing"];
@@ -25,24 +30,13 @@ export default function FeedbackForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault(); // Prevent the form from refreshing the page
-    if (!formData.name || !formData.email || !formData.rating) {
-      alert("Please fill all required fields, including rating.");
+    if ( !formData.rating) {
+      toast.error("Please fill rating.");
       return;
     }
-    console.log("Form submitted:", formData);
-
-    // Example: You can send the form data to a backend here
-    // fetch("/api/submit-feedback", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // }).then((response) => console.log(response));
-
-    alert("Thank you for your feedback!");
+    await createFeedback(formData);
   };
 
   const containerStyle = {
@@ -132,7 +126,7 @@ export default function FeedbackForm() {
     cursor: "pointer",
     transition: "all 0.3s",
   };
-  console.log(formData,"formdata");
+  // console.log(formData,"formdata");
   
 
   return (

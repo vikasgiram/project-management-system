@@ -3,6 +3,7 @@ const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const Ticket = require("../models/ticketModel");
 const {ticketProcessMail} = require('../utils/ticketProcessMail');
+const { sendFeedbackMail } = require("../utils/sendFeedbackMail");
 
 exports.showAll = async (req, res) => {
   try {
@@ -195,8 +196,10 @@ exports.submitWork= async(req,res)=>{
 
       // send feedback to link through email
     }
-
+    
     await service.save();
+    if(status==="Completed")
+    sendFeedbackMail(service._id);
     res.status(200).json({message:"Work Submitted..."});
   }
   catch(error){

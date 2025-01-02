@@ -2,27 +2,40 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { createCustomer } from "../../../../../hooks/useCustomer";
 import { getAddress } from "../../../../../hooks/usePincode";
+import { submitWork } from "../../../../../hooks/useService";
 
-const EmployeeEditMyservicePopUp = ({ handleUpdate }) => {
+const EmployeeEditMyservicePopUp = ({ selectedService, handleUpdate }) => {
   const [status, setStatus] = useState("");
   const [completionDate, setCompletionDate] = useState();
   const [remarks, setRemarks] = useState("");
 
+  const hasRemarks =
+    selectedService &&
+    selectedService.remarks &&
+    selectedService.remarks.length > 0;
+
   const handleMyService = async (event) => {
     event.preventDefault();
 
+    if (status === "") {
+      return toast.error("Please select status");
+    }
+    if (status === "Completed" && !completionDate) {
+      return toast.error("Please select completion date");
+    }
+    if (!remarks) {
+      return toast.error("Please enter remarks");
+    }
     const data = {
-
+      status: status,
+      completionDate: completionDate,
+      remarks: remarks,
     };
 
-    // await createCustomer(data);
-    //   console.log(data);
+    await submitWork(selectedService._id, data);
+    // console.log(selectedService._id,data);
     handleUpdate();
   };
-
-
-
-
 
   return (
     <>
@@ -39,7 +52,7 @@ const EmployeeEditMyservicePopUp = ({ handleUpdate }) => {
             <form onSubmit={handleMyService}>
               <div className="modal-header pt-0">
                 <h5 className="card-title fw-bold" id="exampleModalLongTitle">
-                  Update Service Status
+                  Work Submit
                   {/* Forward */}
                 </h5>
                 <button
@@ -53,9 +66,7 @@ const EmployeeEditMyservicePopUp = ({ handleUpdate }) => {
               </div>
               <div className="modal-body">
                 <div className="row modal_body_height">
-
-
-
+                  
                   <div className="col-12 col-lg-6 mt-2">
                     <div className="">
                       <label for="GSTNumber" className="form-label label_text">
@@ -73,30 +84,31 @@ const EmployeeEditMyservicePopUp = ({ handleUpdate }) => {
                         <option value="Completed">Completed</option>
                         <option value="Inprogress">Inprogress</option>
                       </select>
-
                     </div>
                   </div>
 
-                 {status === "Completed" && (
-
-                  <div className="col-12 col-lg-6 mt-2">
-                    <div className="">
-                      <label for="completionDate" className="form-label label_text">
-                      Completion Date
-                      </label>
-                      <input
-                        type="date"
-                        className="form-control rounded-0"
-                        id="completionDate"
-                        onChange={(e) => setCompletionDate(e.target.value)}
-                        value={completionDate}
-                        aria-describedby="emailHelp"
-                      />
+                  {status === "Completed" && (
+                    <div className="col-12 col-lg-6 mt-2">
+                      <div className="">
+                        <label
+                          for="completionDate"
+                          className="form-label label_text"
+                        >
+                          Completion Date
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control rounded-0"
+                          id="completionDate"
+                          onChange={(e) => setCompletionDate(e.target.value)}
+                          value={completionDate}
+                          aria-describedby="emailHelp"
+                        />
+                      </div>
                     </div>
-                </div>
                   )}
 
-                <div className="col-12">
+                  <div className="col-12">
                     <div className="">
                       <label for="FullName" className="form-label label_text">
                         Remarks
@@ -108,12 +120,10 @@ const EmployeeEditMyservicePopUp = ({ handleUpdate }) => {
                         value={remarks}
                         onChange={(e) => setRemarks(e.target.value)}
                         aria-describedby="nameHelp"
-                        required 
+                        required
                       />
                     </div>
-                </div>
-
-
+                  </div>
 
                   <div className="row">
                     <div className="col-12 pt-3 mt-2">
@@ -133,6 +143,32 @@ const EmployeeEditMyservicePopUp = ({ handleUpdate }) => {
                       </button>
                     </div>
                   </div>
+
+                  {hasRemarks ? (<>
+                    <h6 className="mt-3"> Past Actions</h6>
+                    <table className="table table-bordered">
+                      <thead className="thead-light">
+                        <tr>
+                          <th scope="col">Sr. No</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedService.remarks.map((remark, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{remark}</td>{" "}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    </>
+                  ) : (
+                    <div className="alert alert-warning" role="alert">
+                      No remarks available.
+                    </div>
+                  ) }
+
                 </div>
               </div>
             </form>

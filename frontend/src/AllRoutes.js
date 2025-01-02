@@ -34,7 +34,7 @@ import { UserProfile } from "./Components/Private/MainDashboard/UserProfile";
 import NotFound from "./Components/NotFound";
 import { TicketMasterGrid } from "./Components/Private/MainDashboard/TicketMaster/TicketMaserGrid";
 import { EmployeeTicketMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeTicketMasterGrid/EmployeeTicketGrid";
-import Feedback  from "./Components/Private/MainDashboard/TicketMaster/Feedback";
+import Feedback  from "./Components/Public/Feedback";
 import { ServiceMasterGrid } from "./Components/Private/MainDashboard/ServiceMaster/ServiceMasterGrid";
 import { EmployeeServiceMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeServiceGrid/EmployeeServiceMasterGrid";
 import { EmployeeMyServiceMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeMyServiceMasterGrid/EmployeeMyServiceMasterGrid";
@@ -53,7 +53,7 @@ const {user} = useContext(UserContext);
                     <Route exact path="/Mailsentsuccessfully" element={<Mailsentsuccessfully />} />
                     <Route exact path="/api/reset-password/:id/:token" element={<ForgotPasswordConfirm />} />
                     <Route exact path="UserProfile" element={<UserProfile />} />
-                    <Route exact path="/feedback" element={<Feedback />} />
+                    <Route exact path="/feedback/:id" element={<Feedback />} />
                     
 
 
