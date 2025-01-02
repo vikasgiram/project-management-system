@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 // import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
 // import ViewServicePopUp from "./PopUp/ViewServicePopUp";
 // import { getAllService, deleteService } from "../../../../hooks/useService";
+import {getFeedback} from "../../../../hooks/useFeedback"
 import { formatDate } from "../../../../utils/formatDate";
 
 
@@ -17,6 +18,7 @@ export const EmployeeFeedbackMasterGrid = () => {
     setIsOpen(!isopen);
   };
 
+  const [feedback, setFeedback] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); 
@@ -25,6 +27,23 @@ export const EmployeeFeedbackMasterGrid = () => {
   const handlePageChange = (page) => {
       setCurrentPage(page);
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await getFeedback();
+        setFeedback(response);
+        setFilteredProjects(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetch();
+  }, []);
+  console.log(feedback,"feedback");
+  
 
  
   // const handleChange = (value) => {

@@ -83,7 +83,7 @@ export const TicketMasterGrid = () => {
             }
         };
         fetchData();
-    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow]);
+    }, [deletePopUpShow, updatePopUpShow, AddPopUpShow, addServicePopUpShow]);
 
     // console.log(tickets);
     const indexOfLastItem = currentPage * itemsPerPage;

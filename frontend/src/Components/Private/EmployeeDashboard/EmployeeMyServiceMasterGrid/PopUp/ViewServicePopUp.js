@@ -46,12 +46,12 @@ const ViewServicePopUp = ({ closePopUp, selectedService }) => {
                     <h6>
                       {" "}
                       <p className="fw-bold ">Complaint:</p>{" "}
-                      {service.ticket.details}
+                      {/* {service?.ticket?.details || "-" } */}
                     </h6>
                     <h6>
                       {" "}
                       <p className="fw-bold mt-3 ">Client:</p>{" "}
-                      {service.ticket.client.custName}
+                      {service?.ticket?.client?.custName}
                     </h6>
                     <h6>
                       {" "}
