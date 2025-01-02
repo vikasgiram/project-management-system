@@ -42,6 +42,11 @@ const UpdateEmployeePopUp = ({ handleUpdate, selectedTicket }) => {
     if(/[a-zA-Z]/.test(ticket.contactNumber)){
       return toast.error("Phone number should not contain alphabets");
     }
+    const phoneRegex = /^\d+$/;
+
+    if (!phoneRegex.test(ticket.contactNumber)) {
+        return toast.error("Phone number must only contain digits (0-9).");
+    }
     try {
       await updateTicket(ticket._id,ticket);
       handleUpdate();

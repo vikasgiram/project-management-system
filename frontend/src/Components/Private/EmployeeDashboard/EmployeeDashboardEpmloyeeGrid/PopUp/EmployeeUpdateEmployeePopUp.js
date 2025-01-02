@@ -46,6 +46,10 @@ const EmployeeUpdateEmployeePopUp = ({ handleUpdate, selectedEmp }) => {
             toast.error("Hourly Rate cannot be negative");
             return;
         }
+        const phoneRegex = /^\d+$/;
+        if (!phoneRegex.test(employee.mobileNo)) {
+            return toast.error("Phone number must only contain digits (0-9).");
+        }
         try {
             await updateEmployee(employee);
             handleUpdate();

@@ -63,6 +63,11 @@ const EmployeeAddCustomerPopUp = ({ handleAdd }) => {
     if(phoneNumber1<=0 || phoneNumber2<=0){
       return toast.error("Phone number should be greater than 0");
     }
+    const phoneRegex = /^\d+$/;
+    if (!phoneRegex.test(phoneNumber1) || !phoneRegex.test(phoneNumber2)) {
+        return toast.error("Phone number must only contain digits (0-9).");
+    }
+
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {

@@ -64,7 +64,7 @@ export const TaskSheetMaster = () => {
   }
 
   const handleAdd = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
     setRenderPage(!renderPage);
     handleTaskAdd();
   };
@@ -235,7 +235,8 @@ export const TaskSheetMaster = () => {
     return [projectTask, ...taskList];
   };
 
-  const handleTaskAdd = async () => {
+  const handleTaskAdd = async (event) => {
+    // event.preventDefault();
     const data = {
       project: id,
       employees,
@@ -246,6 +247,9 @@ export const TaskSheetMaster = () => {
     };
     if (!employees || !taskName || !startDate || !endDate || !remark) {
       return toast.error("Please fill all fields");
+    }
+    if(startDate>endDate){
+      return toast.error("Start date should be less than end date");
     }
 
     await createTaskSheet(data);
@@ -271,7 +275,7 @@ export const TaskSheetMaster = () => {
       )}
       <div className="container-scroller">
         <div className="row background_main_all">
-          <form>
+          <form onSubmit={handleAdd}>
             <Header toggle={toggle} isopen={isopen} />
             <div className="container-fluid page-body-wrapper">
               <Sidebar isopen={isopen} active="TaskSheetMaster" id={id} style={{ width: isopen ? "" : "calc(100%  - 120px )", marginLeft: isopen ? "" : "125px" }} />
@@ -457,9 +461,7 @@ export const TaskSheetMaster = () => {
 
                     <div className="col-12 col-lg-3  pt-3 mt-3 ">
                       <button
-                        onClick={() => {
-                          handleAdd();
-                        }}
+                        
                         type="submit"
                         className="btn adbtn btn-success px-4 me-lg-4 mx-auto"
                       >

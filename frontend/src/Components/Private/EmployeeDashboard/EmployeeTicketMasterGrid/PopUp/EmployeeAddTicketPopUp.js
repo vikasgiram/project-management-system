@@ -45,6 +45,11 @@ const AddTicketPopup = ({ handleAdd }) => {
     if(/[a-zA-Z]/.test(contactNumber)){
       return toast.error("Phone number should not contain alphabets");
     }
+    const phoneRegex = /^\d+$/;
+
+    if (!phoneRegex.test(contactNumber)) {
+        return toast.error("Phone number must only contain digits (0-9).");
+    }
     if(contactNumber.length !== 10){
        return toast.error("Please Enter Valid Contact Number");}
     await createTicket(data);

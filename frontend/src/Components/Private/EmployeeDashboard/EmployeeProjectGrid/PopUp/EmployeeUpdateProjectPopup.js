@@ -71,6 +71,9 @@ const EmployeeUpdateProjectPopup = ({ handleUpdate, selectedProject }) => {
                 ...address // Spread the address state
             }
           }
+          if (!updatedProject.custId || !updatedProject.name || !updatedProject.purchaseOrderDate || !updatedProject.purchaseOrderNo || !updatedProject.purchaseOrderValue || !updatedProject.category || !updatedProject.startDate || !updatedProject.endDate || !updatedProject.advancePay || !updatedProject.payAgainstDelivery || !updatedProject.payfterCompletion || !updatedProject.remark) {
+            return toast.error("Please fill all fields");
+          }
           if(Number(updatedProject.advancePay) + Number(updatedProject.payAgainstDelivery) + Number(updatedProject.payfterCompletion)>100){
             return toast.error("Total percentage should be less than 100%");
           }
