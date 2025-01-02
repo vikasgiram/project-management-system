@@ -80,6 +80,27 @@ const updateService = async (id, updatedData) => {
     toast.error(error.response.data.error);  }
 };
 
+const submitWork = async (id, workData) => {
+    
+    try {
+      const response = await axios.put(`${url}/submitWork/${id}`, workData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = response.data;
+  
+      if (data.error) {
+        console.error(data.error);
+        return alert(data.error);
+      }
+      toast.success("Work Submmited Successfuly...");
+      return data;
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.error);  }
+  };
+
 const deleteService = async (Id) => {
   try {
     const response = await axios.delete(`${url}/${Id}`, {
@@ -100,4 +121,4 @@ const deleteService = async (Id) => {
     toast.error(error.response.data.error);}
 };
 
-export { getAllService, createService, updateService, deleteService ,getMyService};
+export { getAllService, createService, updateService, deleteService ,getMyService, submitWork};
