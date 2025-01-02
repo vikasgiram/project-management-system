@@ -12,6 +12,8 @@ const getFeedback = async () => {
       }
     });
     const data = response.data;
+    console.log("api actions",data);
+    
 
     if (data.error) {
       console.error(data.error);

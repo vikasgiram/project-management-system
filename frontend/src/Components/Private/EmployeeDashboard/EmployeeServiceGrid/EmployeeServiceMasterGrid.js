@@ -190,9 +190,9 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                             service.map((service, index) => (
                               <tr className="border my-4" key={service._id}>
                                 <td>{index + 1}</td>
-                                <td>{service.ticket.details}</td>
-                                <td>{service.ticket.client.custName}</td>
-                                <td>{service.ticket.product}</td>
+                                <td>{service?.ticket?.details}</td>
+                                <td>{service?.ticket?.client?.custName}</td>
+                                <td>{service?.ticket?.product}</td>
                                 <td>{service.priority}</td>
                                 <td>{formatDate(service.allotmentDate)}</td>
                                 {service.allotTo && service.allotTo.map((allotTo) => (
