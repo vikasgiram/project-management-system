@@ -9,5 +9,7 @@ router.get('/', feddbackController.showAll);
 
 router.post('/',feddbackController.create);
 
+router.get('/remaningFeedbacks', feddbackController.feedback);
+
 
 module.exports= router;

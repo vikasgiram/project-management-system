@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 // import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
 // import ViewServicePopUp from "./PopUp/ViewServicePopUp";
 // import { getAllService, deleteService } from "../../../../hooks/useService";
-import {getFeedback} from "../../../../hooks/useFeedback"
+import {getFeedback, getRemaningFeedback} from "../../../../hooks/useFeedback"
 import { formatDate } from "../../../../utils/formatDate";
 
 
@@ -31,7 +31,7 @@ export const EmployeeFeedbackMasterGrid = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await getFeedback();
+        const response = await getRemaningFeedback();
         setFeedback(response);
         setFilteredProjects(response);
         setLoading(false);
@@ -132,10 +132,13 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                       >
                         <tr className="th_border">
                           <th>Sr. No</th>
-                          <th>Compony</th>
-                          <th>message</th>
-                          <th>Rating</th>
-                          <th>Created At</th>
+                          <th>Client</th>
+                          <th>Contact Person</th>
+                          <th>Contact No</th>
+                          <th>Product</th>
+                          <th>Allotment Date</th>
+                          <th>Completion Date</th>
+                          <th>Alloted to</th>
                           <th>Action</th>
                        
                         </tr>
@@ -145,10 +148,15 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                             currentData.map((feedback, index) => (
                               <tr className="border my-4" key={feedback._id}>
                                 <td>{index + 1}</td>
-                                <td>{feedback.company}</td>
-                                <td>{feedback.message}</td>
-                                <td>{feedback.rating}</td>
-                                <td>{formatDate(feedback.createdAt)}</td>
+                                <td>{feedback?.ticket?.client?.custName}</td>
+                                <td>{feedback?.ticket?.contactPerson}</td>
+                                <td>{feedback?.ticket?.contactNumber}</td>
+                                <td>{feedback?.ticket?.product}</td>
+                                <td>{formatDate(feedback?.allotmentDate)}</td>
+                                <td>{formatDate(feedback.completionDate)}</td>
+                                <td>
+                                  {feedback?.allotTo?.map(person => person.name).join(', ')}
+                                </td>
                                 <td>
                                   <span
                                     onClick={() => console.log(feedback._id)
@@ -156,6 +164,10 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                     className="update"
                                   >
                                     <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
+                                  </span>
+
+                                  <span >
+                                    <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
                                   </span>
 
                                   

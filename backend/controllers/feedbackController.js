@@ -61,3 +61,34 @@ exports.create= async(req, res)=>{
     }
 }
 
+exports.feedback= async(req, res)=>{
+    try {
+        const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        if(!token){
+            return res.status(403).json({ error: 'Unauthorized you need to login first' });
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const services = await Service.find({ company: decoded.user.company ? decoded.user.company : decoded.user._id, feedback:null, status: "Completed" })
+      .populate("allotTo", "name")
+      .populate({
+        path: "ticket",
+        select: "details product date client contactNumber contactPerson",
+        populate: {
+          path: "client",
+          select: "custName", 
+        },
+      });
+
+    if (services.length <= 0) {
+        return res.status(400).json({ message: "No Services Available" });
+    }
+    res.json(services);
+
+    } catch (error) {
+        res
+        .status(500).json({
+            error: "Error while getting feeback : " + error.message,
+            });
+    }
+}
+
