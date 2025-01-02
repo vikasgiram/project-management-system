@@ -179,6 +179,26 @@ export const EmployeeSidebar = ({ isopen, active, subMenu }) => {
                     </li>):('')}
 
 
+                    {/* {user.permissions.includes('viewFeedback')?( */}
+                        <li
+                        title="Feedback"
+                        className={Open || active === "EmployeeFeedbackMasterGrid" ? " nav-item active" : "nav-item sidebar_item"}>
+                        <Link to='/EmployeeFeedbackMasterGrid' className="nav-link ">
+                            {/* <i className="fa-brands fa-usps ps-3 side_icon_fs"></i> */}
+                            <i class="fa-solid fa-user-group ps-3 side_icon_fs"></i>
+
+                            <span
+                                className="menu-title_m"
+                                style={{ display: isopen ? "" : "none" }}
+                            >
+                                Feedback
+                            </span>
+                        </Link>
+                    </li>
+                    {/* ):('')} */}
+
+
+
                
 
 

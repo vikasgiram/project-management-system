@@ -38,6 +38,7 @@ import Feedback  from "./Components/Private/MainDashboard/TicketMaster/Feedback"
 import { ServiceMasterGrid } from "./Components/Private/MainDashboard/ServiceMaster/ServiceMasterGrid";
 import { EmployeeServiceMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeServiceGrid/EmployeeServiceMasterGrid";
 import { EmployeeMyServiceMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeeMyServiceMasterGrid/EmployeeMyServiceMasterGrid";
+import { EmployeeFeedbackMasterGrid } from "./Components/Private/EmployeeDashboard/EmployeesFeedbackMasterGrid/EmployeeFeedbackMasterGrid";
 
 const AllRoutes = () => {
 
@@ -99,6 +100,7 @@ const {user} = useContext(UserContext);
                             <Route exact path="/EmployeeTicketMasterGrid" element={<EmployeeTicketMasterGrid />} />
                             <Route exact path="/EmployeeServiceMasterGrid" element={<EmployeeServiceMasterGrid />} />
                             <Route exact path="/EmployeeMyServiceMasterGrid" element={<EmployeeMyServiceMasterGrid />} />
+                            <Route exact path="/EmployeeFeedbackMasterGrid" element={<EmployeeFeedbackMasterGrid />} />
                         </>
                     ):null}
 
