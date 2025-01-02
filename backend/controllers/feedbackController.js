@@ -31,25 +31,26 @@ exports.showAll = async (req,res)=>{
 
 exports.create= async(req, res)=>{
     try {
-        const {rating, comment, service} = req.body;
+        const {rating, message, service} = req.body;
         const exestingService = await Service.findById(service);
         if(!exestingService){
-            return res.status(400).json({message:"Invalid Ticket"});
+            return res.status(400).json({error:"Invalid Ticket"});
         }
         if(exestingService.feedback){
-            return res.status(400).json({message:"Feedback already given for this ticket"});
+            return res.status(400).json({error:"Feedback already given for this ticket"});
         }
+        // console.log(rating, message, service);
         const newFeedback = await Feedback({
             rating,
-            comment,
+            message,
             service,
             company: exestingService.company
         });
 
         exestingService.feedback = newFeedback._id;
 
-        await exestingService.save();        
         await newFeedback.save();
+        await exestingService.save();        
         res.status(200).json({message:"Thank you for your valueable feedback"});
     } catch (error) {
         console.log("Error while creating Feedback: "+error);

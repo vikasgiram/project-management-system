@@ -32,6 +32,7 @@ export default function FeedbackForm() {
 
   const handleSubmit = async(e) => {
     e.preventDefault(); // Prevent the form from refreshing the page
+    // console.log(formData);
     if ( !formData.rating) {
       toast.error("Please fill rating.");
       return;
