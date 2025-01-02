@@ -97,6 +97,7 @@ export const EmployeeServiceMasterGrid = () => {
       setFilteredProjects(service);
     }
   };
+  console.log(service);
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;

@@ -5,7 +5,7 @@ const feddbackController= require('../controllers/feedbackController');
 const { permissionMiddleware } = require('../middlewares/auth');
 
 
-router.get('/',permissionMiddleware(['viewFeedback']), feddbackController.showAll);
+router.get('/', feddbackController.showAll);
 
 router.post('/',feddbackController.create);
 
