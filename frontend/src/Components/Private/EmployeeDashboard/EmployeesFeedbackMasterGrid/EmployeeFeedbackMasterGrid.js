@@ -33,7 +33,7 @@ export const EmployeeFeedbackMasterGrid = () => {
       try {
         const response = await getFeedback();
         setFeedback(response);
-        setFilteredProjects(response.data);
+        setFilteredProjects(response);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -42,7 +42,7 @@ export const EmployeeFeedbackMasterGrid = () => {
 
     fetch();
   }, []);
-  console.log(feedback,"feedback");
+  // console.log(feedback,"feedback");
   
 
  
@@ -132,56 +132,37 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                       >
                         <tr className="th_border">
                           <th>Sr. No</th>
-                          <th>Complaint</th>
-                          <th>Client</th>
-                          <th>Product</th>
-                          <th>Priority</th>
-                          <th>Allotment Date</th>
-                          <th>Allocated to</th>
-                          <th>Status</th>
+                          <th>Compony</th>
+                          <th>message</th>
+                          <th>Rating</th>
+                          <th>Created At</th>
                           <th>Action</th>
+                       
                         </tr>
 
-                        {/* <tbody className="broder my-4">
-                          {service &&
-                            service.map((service, index) => (
-                              <tr className="border my-4" key={service._id}>
+                        <tbody className="broder my-4">
+                          {currentData &&
+                            currentData.map((feedback, index) => (
+                              <tr className="border my-4" key={feedback._id}>
                                 <td>{index + 1}</td>
-                                <td>{service.ticket.details}</td>
-                                <td>{service.ticket.client.custName}</td>
-                                <td>{service.ticket.product}</td>
-                                <td>{service.priority}</td>
-                                <td>{formatDate(service.allotmentDate)}</td>
-                                {service.allotTo && service.allotTo.map((allotTo) => (
-                                  <td >{allotTo.name}</td>
-                                ))}
-                                <td>{service.status}</td>
+                                <td>{feedback.company}</td>
+                                <td>{feedback.message}</td>
+                                <td>{feedback.rating}</td>
+                                <td>{formatDate(feedback.createdAt)}</td>
                                 <td>
                                   <span
-                                    onClick={() => handleUpdate(service)}
+                                    onClick={() => console.log(feedback._id)
+                                    }
                                     className="update"
                                   >
                                     <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                   </span>
 
                                   
-
-                                  <span
-                                    onClick={() =>
-                                      handelDeleteClosePopUpClick(service._id)
-                                    }
-                                    className="delete"
-                                  >
-                                    <i className="mx-1 fa-solid fa-trash text-danger cursor-pointer"></i>
-                                  </span>
-
-                                  <span onClick={() => handelDetailsPopUpClick(service)}>
-                                    <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
-                                  </span>
                                 </td>
                               </tr>
                             ))}
-                        </tbody> */}
+                        </tbody>
                       </table>
                     </div>
                   </div>

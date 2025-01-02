@@ -12,7 +12,7 @@ const getFeedback = async () => {
       }
     });
     const data = response.data;
-    console.log("api actions",data);
+    // console.log("api actions",data);
     
 
     if (data.error) {
