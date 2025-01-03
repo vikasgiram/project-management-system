@@ -26,6 +26,8 @@ export const EmployeeMyServiceMasterGrid = () => {
   const [selectedId, setSelecteId] = useState(null);
   const [service, setService] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [selectedPriority, setSelectedPriority] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
 
   const [selectedService, setSelectedService] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -89,19 +91,26 @@ export const EmployeeMyServiceMasterGrid = () => {
     fetchData();
   }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
-  const handleChange = (value) => {
-    
-    if (value) {
-      const filtered = service.filter((service) => service.priority === value || service.status === value);
-      setFilteredProjects(filtered);
-      console.log(filtered);
-      
-    } else {
-      setFilteredProjects(service);
+  const handleFilter = () => {
+    let filtered = service;
+
+    if (selectedStatus) {
+      filtered = filtered.filter((item) => item.status === selectedStatus);
     }
+
+    if (selectedPriority) {
+      filtered = filtered.filter((item) => item.priority === selectedPriority);
+    }
+    if (!selectedStatus && !selectedPriority) {
+      setFilteredProjects(service); // Reset to all records
+    }
+
+    setFilteredProjects(filtered);
   };
-  // console.log(filteredProjects,"service.serviceType");
-  
+ 
+  useEffect(() => {
+    handleFilter();
+  }, [selectedStatus, selectedPriority]);
 
 
   
@@ -147,27 +156,33 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                     <div className="row">
 
                     <div className="col-4 col-lg-4 ms-auto">
-                        <select
+                    <select
                           className="form-select bg_edit"
-                          aria-label="Default select example"
+                          aria-label="Select Status"
                           name="projectStatus"
-                          onChange={(e) => handleChange(e.target.value)}
+                          onChange={(e) => {
+                            setSelectedStatus(e.target.value);
+                            handleFilter();
+                          }}
                         >
-                          <option  value="">Select Status</option>
+                          <option value="">Select Status</option>
                           <option value="Completed">Completed</option>
                           <option value="Pending">Pending</option>
-                          <option value="InProgress">Inprogress</option>
+                          <option value="InProgress">In Progress</option>
                         </select>
                       </div>
                     
                       <div className="col-4 col-lg-4 ms-auto">
-                        <select
+                      <select
                           className="form-select bg_edit"
-                          aria-label="Default select example"
-                          name="projectStatus"
-                          onChange={(e) => handleChange(e.target.value)}
+                          aria-label="Select Priority"
+                          name="projectPriority"
+                          onChange={(e) => {
+                            setSelectedPriority(e.target.value);
+                            handleFilter();
+                          }}
                         >
-                          <option  value="">Select Priority</option>
+                          <option value="">Select Priority</option>
                           <option value="High">High Priority</option>
                           <option value="Medium">Medium Priority</option>
                           <option value="Low">Low Priority</option>

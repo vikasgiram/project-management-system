@@ -3,9 +3,8 @@ import { EmployeeHeader } from "../EmployeeHeader";
 import { EmployeeSidebar } from "../EmployeeSidebar";
 import { toast } from "react-toastify";
 // import DeletePopUP from "../../CommonPopUp/DeletePopUp";
-// import UpdateServicePopup from "./PopUp/UpdateServicePopUp";
-// import ViewServicePopUp from "./PopUp/ViewServicePopUp";
-// import { getAllService, deleteService } from "../../../../hooks/useService";
+import EmployeeUpdateFeedbackPopUp from "./PopUp/EmployeeUpdateFeedbackPopUp";
+import ViewFeedbackPopUp from "./PopUp/ViewFeedbackPopUp";
 import {getFeedback, getRemaningFeedback} from "../../../../hooks/useFeedback"
 import { formatDate } from "../../../../utils/formatDate";
 
@@ -23,13 +22,29 @@ export const EmployeeFeedbackMasterGrid = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); 
   const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [selectedFeedback, setSelectedFeedback] = useState();
   const [filteredData, setFilteredData] = useState([]);
+  const [detailsServicePopUp, setDetailsServicePopUp] = useState(false);
+  const [UpdatePopUpShow, setUpdatePopUpShow] = useState(false);
+
+
+
   const itemsPerPage = 10; 
 
   const handlePageChange = (page) => {
       setCurrentPage(page);
   };
+
+  const handleViewFeedback = (feedback) => {
+    setSelectedFeedback(feedback);
+    setDetailsServicePopUp(!detailsServicePopUp);
+  };
+  
+  const handleUpdate =(feedback)=>{
+    setSelectedFeedback(feedback);
+    setUpdatePopUpShow(!UpdatePopUpShow);
+
+  }
 
   useEffect(() => {
     const fetch = async () => {
@@ -173,14 +188,17 @@ const totalPages = Math.ceil(filteredData.length / itemsPerPage);
                                 </td>
                                 <td>
                                   <span
-                                    onClick={() => console.log(feedback._id)
+                                    onClick={() => handleUpdate(feedback)
                                     }
                                     className="update"
                                   >
                                     <i className="mx-1 fa-solid fa-pen text-success cursor-pointer"></i>
                                   </span>
 
-                                  <span >
+                                  <span 
+                                    onClick={() => handleViewFeedback(feedback)
+                                    } 
+                                   >
                                     <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
                                   </span>
                                 </td>  
@@ -243,24 +261,24 @@ const totalPages = Math.ceil(filteredData.length / itemsPerPage);
       ) : (
         <></>
       )} */}
-      {/* {UpdatePopUpShow ? (
-        <UpdateServicePopup
+      {UpdatePopUpShow ? (
+        <EmployeeUpdateFeedbackPopUp
           handleUpdate={handleUpdate}
-          selectedService={selectedService}
+          selectedFeedback={selectedFeedback}
         // heading="Forward"
         // cancelBtnCallBack={handleAddDepartment}
         />
       ) : (
         <></>
-      )} */}
-      {/* {detailsServicePopUp ? (
-        <ViewServicePopUp
-          closePopUp={handelDetailsPopUpClick}
-          selectedService={selectedService}
+      )}
+      {detailsServicePopUp ? (
+        <ViewFeedbackPopUp
+          closePopUp={handleViewFeedback}
+          selectedFeedback={selectedFeedback}
         />
       ) : (
         <></>
-      )} */}
+      )}
     </>
   );
 };
