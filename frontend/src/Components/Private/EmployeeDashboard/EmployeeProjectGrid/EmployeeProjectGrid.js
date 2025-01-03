@@ -26,6 +26,7 @@ export const EmployeeProjectGrid = () => {
 
   const [selectedId, setSelecteId] = useState(null);
   const [project, setProject] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -86,6 +87,7 @@ export const EmployeeProjectGrid = () => {
             const data = await getProjects();
             if (data) {
                 setProject(data.projects || []);
+                setFilteredProjects(data.projects || []);
             }
         } catch (error) {
             console.error("Error fetching projects:", error);
@@ -98,9 +100,24 @@ export const EmployeeProjectGrid = () => {
     fetchData();
 }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
+console.log(filteredProjects);
+
+
+const handleChange = (value) => {
+    
+  if (value) {
+    const filtered = project.filter((project) =>project.projectStatus === value);
+    setFilteredProjects(filtered);
+    console.log(filtered);
+    
+  } else {
+    setFilteredProjects(project);
+  }
+};
+
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentData = project.slice(indexOfFirstItem, indexOfLastItem);
+const currentData = filteredProjects.slice(indexOfFirstItem, indexOfLastItem);
 
 // Total pages
 const totalPages = Math.ceil(project.length / itemsPerPage);
@@ -130,6 +147,23 @@ const totalPages = Math.ceil(project.length / itemsPerPage);
                     <div className="col-12 col-lg-6">
                       <h5 className="text-white py-2">Project Master</h5>
                     </div>
+
+                    <div className="row">
+                    <div className="col-4 col-lg-4 ms-auto">
+                        <select
+                          className="form-select bg_edit"
+                          aria-label="Default select example"
+                          name="projectStatus"
+                          onChange={(e) => handleChange(e.target.value)}
+                        >
+                          <option  value="">Select Status</option>
+                          <option value="inprocess">Inprocess</option>
+                          <option value="completed">Completed</option>
+                          {/* <option value="pending">Pending</option> */}
+                        </select>
+                      </div>
+                    </div>
+
 
                   {user.permissions.includes('createProject')?(<div className="col-12 col-lg-6  ms-auto text-end">
                       <button

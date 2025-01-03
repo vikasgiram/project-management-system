@@ -22,6 +22,8 @@ export const EmployeeCustomerMasterGrid = () => {
     const [selectedId, setSelecteId] = useState(null);
     const [customers, setCustomers] = useState([]);
     const [selectedCust, setSelectedCust]= useState(null);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); 
     const itemsPerPage = 10; 
 
@@ -74,6 +76,7 @@ export const EmployeeCustomerMasterGrid = () => {
                 const data = await getCustomers();
                 if (data) {
                     setCustomers(data.customers || []);
+                    setFilteredData(data.customers || []);
                 }
             } catch (error) {
                 console.error("Error fetching customers:", error);
@@ -88,7 +91,7 @@ export const EmployeeCustomerMasterGrid = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentData = customers.slice(indexOfFirstItem, indexOfLastItem);
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     // Total pages
     const totalPages = Math.ceil(customers.length / itemsPerPage);
@@ -120,6 +123,27 @@ export const EmployeeCustomerMasterGrid = () => {
                                             Customer Master
                                         </h5>
                                     </div>
+                                    
+                                    <div className="col-8 col-lg-6 ms-auto text-end">
+                                                <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter customers as the search text changes
+                                                            const filtered = customers.filter((cust) =>
+                                                                cust.custName.toLowerCase().includes(newSearchText.toLowerCase()) ||
+                                                                cust.email.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filtered);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
+                                            </div>
 
                                     {user.permissions.includes('createCustomer') ? 
                                     (<div className="col-12 col-lg-2  ms-auto text-end">
@@ -170,6 +194,7 @@ export const EmployeeCustomerMasterGrid = () => {
                                                             </td>
                                                         </tr>
                                                     ))}
+                                                    {filteredData.length === 0 && (<p>No data found</p>)}
                                                 </tbody>
 
 

@@ -72,7 +72,7 @@ export const EmployeeMyServiceMasterGrid = () => {
       try {
         setLoading(true);
         const data = await getMyService();
-        console.log(data,"nsdhgh");
+        // console.log(data,"nsdhgh");
         if (data) {
           setService(data);
           setFilteredProjects(data);
@@ -90,13 +90,18 @@ export const EmployeeMyServiceMasterGrid = () => {
   }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
   const handleChange = (value) => {
+    
     if (value) {
-      const filtered = service.filter((service) => service.projectStatus === value);
+      const filtered = service.filter((service) => service.priority === value || service.status === value);
       setFilteredProjects(filtered);
+      console.log(filtered);
+      
     } else {
       setFilteredProjects(service);
     }
   };
+  // console.log(filteredProjects,"service.serviceType");
+  
 
 
   
@@ -104,6 +109,9 @@ export const EmployeeMyServiceMasterGrid = () => {
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 const currentData = filteredProjects.slice(indexOfFirstItem, indexOfLastItem);
+
+console.log(currentData,"currentData");
+
 
 // Total pages
 const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
@@ -137,19 +145,35 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                   <div className="col-12 col-lg-6  ms-auto text-end">
 
                     <div className="row">
-                      <div className="col-4 col-lg-4 ms-auto">
-                        {/* <select
+
+                    <div className="col-4 col-lg-4 ms-auto">
+                        <select
                           className="form-select bg_edit"
                           aria-label="Default select example"
                           name="projectStatus"
                           onChange={(e) => handleChange(e.target.value)}
                         >
-                          <option  value="">Select service Status</option>
-                          <option value="upcoming">Upcoming</option>
-                          <option value="inprocess">Inprocess</option>
-                          <option value="completed">Complete</option>
-                        </select> */}
+                          <option  value="">Select Status</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Pending">Pending</option>
+                          <option value="InProgress">Inprogress</option>
+                        </select>
                       </div>
+                    
+                      <div className="col-4 col-lg-4 ms-auto">
+                        <select
+                          className="form-select bg_edit"
+                          aria-label="Default select example"
+                          name="projectStatus"
+                          onChange={(e) => handleChange(e.target.value)}
+                        >
+                          <option  value="">Select Priority</option>
+                          <option value="High">High Priority</option>
+                          <option value="Medium">Medium Priority</option>
+                          <option value="Low">Low Priority</option>
+                        </select>
+                      </div>
+                      
 
                       {/* <div className="col-2 col-lg-2 ms-auto">
 
@@ -188,10 +212,10 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                         </tr>
 
                         <tbody className="broder my-4">
-                          {service &&
-                            service.map((service, index) => (
+                          {currentData &&
+                            currentData.map((service, index) => (
                               <tr className="border my-4" key={service._id}>
-                                <td>{index + 1}</td>
+                                <td>{ index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                 <td>{service.ticket.details}</td>
                                 <td>{service.ticket.client.custName}</td>
                                 <td>{service.ticket.product}</td>

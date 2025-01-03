@@ -109,23 +109,7 @@ export const ProjectMasterGrid = () => {
     fetchData();
   }, [AddPopUpShow, UpdatePopUpShow, deletePopUpShow]);
 
-  // console.log(project);
-
-
-  //   const handleChange = (value) => {
-  //     if (value === "upcoming") {
-  //       const upcomingProjects = project.filter((project) => project.projectStatus === "upcoming");
-  //         setProject(upcomingProjects);
-  //     }
-  //     if (value === "inprocess") {
-  //       const inprocessProjects = project.filter((project) => project.projectStatus === "inprocess");
-  //         setProject(inprocessProjects);
-  //     }
-  //     if (value === "completed") {
-  //       const completedProjects = project.filter((project) => project.projectStatus === "completed");
-  //         setProject(completedProjects);
-  //   }
-  // }
+ 
   const handleChange = (value) => {
     if (value) {
       const filtered = project.filter((project) => project.projectStatus === value);

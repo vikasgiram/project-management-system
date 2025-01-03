@@ -25,6 +25,8 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
     const [updatePopUpShow, setUpdatePopUpShow] = useState(false);
     const [selectedEmp, setSelectedEmp] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [searchText, setSearchText] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
 
 
     const [employees, setEmployees] = useState([])
@@ -90,6 +92,7 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
 
                 if (data) {
                     setEmployees(data.employees || []);
+                    setFilteredData(data.employees || []);
                 }
             } catch (error) {
                 console.error("Error fetching employees:", error);
@@ -105,7 +108,7 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentData = employees.slice(indexOfFirstItem, indexOfLastItem);
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     // Total pages
     const totalPages = Math.ceil(employees.length / itemsPerPage);
@@ -134,6 +137,25 @@ export const EmployeeDashboardEpmloyeeGrid = () => {
                                             Employee Master
                                         </h5>
                                     </div>
+
+                                    <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter customers as the search text changes
+                                                            const filtered = employees.filter((emp) =>
+                                                                emp.name.toLowerCase().includes(newSearchText.toLowerCase()) ||
+                                                            emp.email.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filtered);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
 
                                     {user.permissions.includes('createEmployee')?(<div className="col-12 col-lg-6  ms-auto text-end">
                                         <button

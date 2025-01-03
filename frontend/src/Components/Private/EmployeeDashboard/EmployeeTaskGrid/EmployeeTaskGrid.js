@@ -22,6 +22,7 @@ export const EmployeeTaskGrid = () => {
     const [loading, setLoading] = useState(true);
 
     const [projects, setProjects] = useState([])
+    const [filteredProjects, setFilteredProjects] = useState([])
     const [currentPage, setCurrentPage] = useState(1); 
     const itemsPerPage = 10; 
 
@@ -63,6 +64,7 @@ export const EmployeeTaskGrid = () => {
             if (data) {
 
                 setProjects(data.projects || []);
+                setFilteredProjects(data.projects || []);
                 setLoading(false);
             }
         }catch(error){
@@ -75,9 +77,21 @@ export const EmployeeTaskGrid = () => {
         fetchData();
     }, []);
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentData = projects.slice(indexOfFirstItem, indexOfLastItem);
+    const handleChange = (value) => {
+    
+        if (value) {
+          const filtered = projects.filter((projects) => projects.projectStatus === value);
+          setFilteredProjects(filtered);
+          
+        } else {
+          setFilteredProjects(projects);
+        }
+      };
+      
+      
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      const currentData = filteredProjects.slice(indexOfFirstItem, indexOfLastItem);
 
     // Total pages
     const totalPages = Math.ceil(projects.length / itemsPerPage);
@@ -103,15 +117,22 @@ export const EmployeeTaskGrid = () => {
                                         <h5 className="text-white py-2">
                                             My Projects
                                         </h5>
+                                        <div className="col-4 col-lg-4 ms-auto">
+                        <select
+                          className="form-select bg_edit"
+                          aria-label="Default select example"
+                          name="projectStatus"
+                          onChange={(e) => handleChange(e.target.value)}
+                        >
+                          <option  value="">Select Status</option>
+                          <option value="inprocess">Inprocess</option>
+                          <option value="pending">Pending</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                      </div>
+
                                     </div>
-                                    {/* <div className="col-12 col-lg-6  ms-auto text-end">
-                                        <button
-                                            onClick={() => {
-                                                handleAdd()
-                                            }}
-                                            type="button"
-                                            className="btn adbtn btn-dark"> <i className="fa-solid fa-plus"></i> Add</button>
-                                    </div> */}
+                                  
                                 </div>
                                 <div className="row  bg-white p-2 m-1 border rounded" >
                                     <div className="col-12 py-2">
@@ -126,9 +147,9 @@ export const EmployeeTaskGrid = () => {
                                                     <th>Tasks</th>
                                                 </tr>
                                                 <tbody className="broder my-4">
-                                                    {currentData && currentData.length>0 ? ( projects.map((project, index) => (
+                                                    {currentData && currentData.length>0 ? ( currentData.map((project, index) => (
                                                     <tr className="border my-4" key={project.id}>
-                                                        <td>{index + 1}</td>
+                                                        <td>{ index + 1 + (currentPage - 1) * itemsPerPage}</td>
                                                         <td>{project.name}</td>
                                                         <td>{project.custId?.custName || "N/A"}</td>
                                                         <td>{project.projectStatus}</td>

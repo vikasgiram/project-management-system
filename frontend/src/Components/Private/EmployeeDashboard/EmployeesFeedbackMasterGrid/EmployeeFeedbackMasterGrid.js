@@ -22,6 +22,9 @@ export const EmployeeFeedbackMasterGrid = () => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); 
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const itemsPerPage = 10; 
 
   const handlePageChange = (page) => {
@@ -34,6 +37,7 @@ export const EmployeeFeedbackMasterGrid = () => {
         const response = await getRemaningFeedback();
         setFeedback(response);
         setFilteredProjects(response);
+        setFilteredData(response);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -57,10 +61,12 @@ export const EmployeeFeedbackMasterGrid = () => {
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentData = filteredProjects.slice(indexOfFirstItem, indexOfLastItem);
+const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+// console.log(currentData);
+
 
 // Total pages
-const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
     <>
@@ -91,19 +97,27 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                   <div className="col-12 col-lg-6  ms-auto text-end">
 
                     <div className="row">
-                      <div className="col-4 col-lg-4 ms-auto">
-                        {/* <select
-                          className="form-select bg_edit"
-                          aria-label="Default select example"
-                          name="projectStatus"
-                          onChange={(e) => handleChange(e.target.value)}
-                        >
-                          <option  value="">Select service Status</option>
-                          <option value="upcoming">Upcoming</option>
-                          <option value="inprocess">Inprocess</option>
-                          <option value="completed">Complete</option>
-                        </select> */}
-                      </div>
+                    <div className="col-8 col-lg-6 ms-auto text-end">
+                                                <div className="form">
+                                                    <i className="fa fa-search"></i>
+                                                    <input type="text"
+                                                        value={searchText}
+                                                        onChange={(e) => {
+                                                            const newSearchText = e.target.value;
+                                                            setSearchText(newSearchText);
+
+                                                            // Filter customers as the search text changes
+                                                            const filtered = feedback.filter((feedback) =>
+                                                            feedback.ticket.client.custName.toLowerCase().includes(newSearchText.toLowerCase())||
+                                                            feedback.ticket.contactPerson.toLowerCase().includes(newSearchText.toLowerCase()) ||
+                                                            feedback.ticket.product.toLowerCase().includes(newSearchText.toLowerCase())
+                                                            );
+                                                            setFilteredData(filtered);
+                                                        }}
+                                                        className="form-control form-input bg-transparant"
+                                                        placeholder="Search ..." />
+                                                </div>
+                                            </div>
 
                       {/* <div className="col-2 col-lg-2 ms-auto">
 
@@ -169,11 +183,10 @@ const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
                                   <span >
                                     <i class="fa-solid fa-eye cursor-pointer text-primary mx-1"></i>
                                   </span>
-
-                                  
-                                </td>
+                                </td>  
                               </tr>
                             ))}
+                            {filteredData.length === 0 && (<p>No data found</p>)}
                         </tbody>
                       </table>
                     </div>
