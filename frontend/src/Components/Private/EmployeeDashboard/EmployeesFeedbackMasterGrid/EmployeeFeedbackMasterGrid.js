@@ -50,9 +50,9 @@ export const EmployeeFeedbackMasterGrid = () => {
     const fetch = async () => {
       try {
         const response = await getRemaningFeedback();
-        setFeedback(response);
-        setFilteredProjects(response);
-        setFilteredData(response);
+        setFeedback(response || []);
+        setFilteredProjects(response || []);
+        setFilteredData(response || []);
         setLoading(false);
       } catch (error) {
         console.error(error);
