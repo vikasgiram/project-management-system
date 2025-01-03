@@ -1,20 +1,17 @@
 import { useState } from "react";
-import { updateTicket } from "../../../../../hooks/useTicket";
 
 import toast from "react-hot-toast";
+import { createFeedback } from "../../../../../hooks/useFeedback";
 
-import { RequiredStar } from "../../../RequiredStar/RequiredStar";
 
 const EmployeeUpdateFeedbackPopUp = ({ handleUpdate, selectedFeedback }) => {
-  const [feedback, setFeedback] = useState(selectedFeedback);
-  console.log(feedback);
   
     const [formData, setFormData] = useState({
       // name: "",
       // email: "",
       rating: 0,
       message: "",
-      // service: id,
+      service: selectedFeedback._id,
     });
   
     const messages = ["Terrible", "Bad", "Ok", "Good", "Amazing"];
@@ -30,9 +27,9 @@ const EmployeeUpdateFeedbackPopUp = ({ handleUpdate, selectedFeedback }) => {
   const handleFeedbackUpdate = async (event) => {
     event.preventDefault();
     try {
-      // console.log(formData);
+      console.log(formData);
       
-      // await updateTicket(ticket._id,ticket);
+      await createFeedback(formData);
       handleUpdate();
     } catch (error) {
       toast.error(error);
@@ -44,36 +41,6 @@ const EmployeeUpdateFeedbackPopUp = ({ handleUpdate, selectedFeedback }) => {
       ...prev,
       rating: newRating,
     }));
-  };
-
-
-  const containerStyle = {
-    maxWidth: "600px",
-    margin: "50px auto",
-    textAlign: "center",
-    padding: "20px",
-    backgroundColor: "#f0f4ff",
-    borderRadius: "8px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  };
-
-  const headingStyle = {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: "10px",
-  };
-
-  const textStyle = {
-    fontSize: "14px",
-    color: "#555",
-    marginBottom: "20px",
-  };
-
-  const formStyle = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px",
   };
 
   const formGroupStyle = {
@@ -121,18 +88,6 @@ const EmployeeUpdateFeedbackPopUp = ({ handleUpdate, selectedFeedback }) => {
     fontWeight: "bold",
     color: "#fcc419",
     marginTop: "10px",
-  };
-
-  const buttonStyle = {
-    padding: "10px 20px",
-    fontSize: "14px",
-    fontWeight: "bold",
-    color: "#5a5af2",
-    backgroundColor: "transparent",
-    border: "2px solid #5a5af2",
-    borderRadius: "5px",
-    cursor: "pointer",
-    transition: "all 0.3s",
   };
 
 
